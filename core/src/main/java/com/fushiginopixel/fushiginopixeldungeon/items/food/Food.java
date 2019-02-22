@@ -121,6 +121,7 @@ public class Food extends Item {
 		return 10 * quantity;
 	}
 
+	/*
 	public static class OnigiriSlicing extends Recipe {
 
 		@Override
@@ -157,7 +158,6 @@ public class Food extends Item {
 			return new Food().quantity(2);
 		}
 	}
-
 	public static class OnigiriProcess extends Recipe {
 
 		public static int foodNeed = 1;
@@ -232,5 +232,33 @@ public class Food extends Item {
 
 			return new SpecialOnigiri().quantity(3);
 		}
+	}
+	*/
+	public static class OnigiriSlicing extends Recipe.SimpleRecipe {
+
+		{
+			inputs =  new Class[]{BigOnigiri.class};
+			inQuantity = new int[]{1};
+
+			cost = 0;
+
+			output = Food.class;
+			outQuantity = 2;
+		}
+
+	}
+
+	public static class OnigiriProcess extends Recipe.SimpleRecipe {
+
+		{
+			inputs =  new Class[]{Food.class, ChargrilledMeat.class, PotionOfBeverage.class};
+			inQuantity = new int[]{1, 1, 1};
+
+			cost = 0;
+
+			output = SpecialOnigiri.class;
+			outQuantity = 3;
+		}
+
 	}
 }

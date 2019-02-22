@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
@@ -138,7 +139,7 @@ public class Tengu extends Mob {
 	@Override
 	public void die( Object cause, EffectType type ) {
 		
-		if (Dungeon.hero.subClass == HeroSubClass.NONE) {
+		if (Dungeon.hero.subClass == HeroSubClass.NONE && Dungeon.hero.heroClass != HeroClass.FUURAI) {
 			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
 		}
 		

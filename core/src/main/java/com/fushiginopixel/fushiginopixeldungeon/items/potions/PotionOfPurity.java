@@ -39,6 +39,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Honeypot;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.Recipe;
+import com.fushiginopixel.fushiginopixeldungeon.items.bombs.CannonBall;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
@@ -134,6 +135,7 @@ public class PotionOfPurity extends Potion {
 		return isKnown() ? 40 * quantity : super.price();
 	}
 
+	/*
 	public static class ExtractHoney extends Recipe {
 
 		@Override
@@ -196,5 +198,32 @@ public class PotionOfPurity extends Potion {
 				}
 			};
 		}
+	}
+	*/
+	public static class ExtractHoney extends Recipe.SimpleRecipe {
+
+		{
+			inputs =  new Class[]{Honeypot.ShatteredPot.class, PotionOfPurity.class};
+			inQuantity = new int[]{1, 1};
+
+			cost = 0;
+
+			output = PotionOfBeverage.class;
+			outQuantity = 1;
+		}
+		@Override
+		public Item sampleOutput(ArrayList<Item> ingredients) {
+			return new WndBag.Placeholder(ItemSpriteSheet.POTION_HOLDER){
+				{
+					name = Messages.get(ExtractHoney.class, "name");
+				}
+
+				@Override
+				public String info() {
+					return Messages.get(ExtractHoney.class, "desc");
+				}
+			};
+		}
+
 	}
 }

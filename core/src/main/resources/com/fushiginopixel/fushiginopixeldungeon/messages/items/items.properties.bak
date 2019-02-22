@@ -40,8 +40,8 @@ items.armor.glyphs.camouflage.desc=This glyph allows the wearer to blend into ta
 items.armor.glyphs.entanglement.name=%s of entanglement
 items.armor.glyphs.entanglement.desc=This glyph grows earthroot around the wearer to absorb damage, but roots them if allowed to take hold.
 
-items.armor.glyphs.balance.name=%s of balance-armor
-items.armor.glyphs.balance.desc=This glyph keeps the armor in a stable state, making your soft ribs take less damage.
+items.armor.glyphs.flow.name=%s of flow
+items.armor.glyphs.flow.desc=This glyph manipulates the flow of water around the wearer, making them much faster when moving through it.
 
 items.armor.glyphs.obfuscation.name=%s of obfuscation
 items.armor.glyphs.obfuscation.desc=This glyph obscures the wearer, making them more difficult to detect.
@@ -1088,7 +1088,7 @@ items.weapon.properties.assassination.desc=Assassination weapons can more effect
 items.weapon.properties.assault.name=assault %s
 items.weapon.properties.assault.desc=When you have an assault weapon, you can do more damage when you approach the enemy.
 
-items.weapon.properties.balanceattack.name=balance-weapon %s
+items.weapon.properties.balanceattack.name=balance %s
 items.weapon.properties.balanceattack.desc=Balanced weapons are able to cause damage steadily due to their weight balance.
 
 items.weapon.properties.critical.name=critical %s

@@ -59,6 +59,7 @@ public class Warden extends Mob {
 	}
 
 	private boolean jumpFlag = false;
+	public int progressState = 0;
 
 	@Override
 	protected void onAdd() {
@@ -239,10 +240,10 @@ public class Warden extends Mob {
 							pos = newPosFinal;
 							Dungeon.level.press(newPosFinal, warden, true);
 							((Warden)warden).spend( 1 / speed() );
+							next();
 
 						}
 					}),-1);
-					next();
 				}
 			}));
 		}
@@ -259,11 +260,13 @@ public class Warden extends Mob {
 	}
 
 	private static final String JUMPFLAG	= "jumpflag";
+	private final String PROGRESS = "progress";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( JUMPFLAG, jumpFlag );
+		bundle.put( PROGRESS, progressState );
 	}
 
 	@Override
@@ -271,6 +274,7 @@ public class Warden extends Mob {
 		super.restoreFromBundle(bundle);
 		BossHealthBar.assignBoss(this);
 		jumpFlag = bundle.getBoolean( JUMPFLAG );
+		progressState = bundle.getInt( PROGRESS );
 		if (HP <= HT/2) BossHealthBar.bleed(true);
 	}
 

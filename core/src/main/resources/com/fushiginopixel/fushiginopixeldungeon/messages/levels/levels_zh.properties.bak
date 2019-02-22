@@ -88,7 +88,7 @@ levels.traps.logtrap.name=圆木陷阱
 levels.traps.logtrap.desc=这个陷阱里隐藏着一个重型发射器，激活这个陷阱会导致它向最近的目标射出一根圆木，击退目标并且对目标造成沉重的打击。
 
 levels.traps.mucustrap.name=黏胶陷阱
-levels.traps.mucustrap.desc=这个陷阱将会爆发出大量腐蚀性的黏胶。黏胶会烧灼你的皮肤，并且会将你牢牢地粘在地上。
+levels.traps.mucustrap.desc=这个陷阱将会爆发出大量腐蚀性的黏胶，它将烧灼你的皮肤，并且会将你牢牢地粘在地上。
 
 levels.traps.multiplicationtrap.name=增殖陷阱
 levels.traps.multiplicationtrap.multiplication=脚下传出了机械运转的声音，附近似乎出现了一些隐藏的机关！

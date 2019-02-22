@@ -49,7 +49,7 @@ public class WandOfMagicMissile extends DamageWand {
 	}
 
 	public int max(int lvl){
-		return 30+2*lvl;
+		return 30+4*lvl;
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class WandOfMagicMissile extends DamageWand {
 	}
 	
 	public int initialCharges() {
-		return super.initialCharges() + 1;
+		return super.initialCharges() + 2;
 	}
 
 }

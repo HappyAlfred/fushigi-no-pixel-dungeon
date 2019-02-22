@@ -72,6 +72,7 @@ public class GoldenScorpio extends Scorpio {
 				if(amount > 0){
 					hero.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_2", amount));
 					hero.STRMAX -= amount;
+					hero.STR = Math.min(hero.STR, hero.STRMAX);
 				}
 			}else{
 				Buff.prolong(enemy, Weakness.class,poisonStr * 40, new EffectType(type.attachType,EffectType.POISON));

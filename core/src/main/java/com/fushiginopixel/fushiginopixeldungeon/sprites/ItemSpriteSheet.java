@@ -453,7 +453,7 @@ public class ItemSpriteSheet {
 
 	public static final int SCROLL_OF_ESCAPE    = SCROLLS+31;
 	static {
-		for (int i = SCROLLS; i < SCROLLS+18; i++)
+		for (int i = SCROLLS; i < SCROLLS+32; i++)
 			assignItemRect(i, 15, 14);
 	}
 	

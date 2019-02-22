@@ -72,6 +72,7 @@ public class SlimyGel extends Food {
 				if(item.getClass() == SlimyGel.class){
 					gelCount += item.quantity();
 					temp.add(item);
+					break;
 				}
 			}
 			if(temp.size() != 1) return false;
@@ -83,15 +84,17 @@ public class SlimyGel extends Food {
 					potionA = item;
 					potionCountA += item.quantity();
 					temp.add(item);
+					break;
 				}
 			}
 			if(temp.size() != 2) return false;
 
 			int potionCountB = 0;
 			for(Item item : ingredients){
-				if(item instanceof Potion && item.isSimilar(potionA)){
+				if(item instanceof Potion && !item.isSimilar(potionA)){
 					potionCountB += item.quantity();
 					temp.add(item);
+					break;
 				}
 			}
 			if(temp.size() != ingredients.size()) return false;

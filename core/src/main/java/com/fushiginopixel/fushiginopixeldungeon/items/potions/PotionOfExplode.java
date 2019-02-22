@@ -103,6 +103,7 @@ public class PotionOfExplode extends Potion {
 		return isKnown() ? 15 * quantity : super.price();
 	}
 
+	/*
 	public static class MakeCannonBall extends Recipe {
 
 		@Override
@@ -159,5 +160,20 @@ public class PotionOfExplode extends Potion {
 
 			return new CannonBall().quantity(3);
 		}
+	}
+	*/
+
+	public static class MakeCannonBall extends Recipe.SimpleRecipe {
+
+		{
+			inputs =  new Class[]{Honeypot.ShatteredPot.class, PotionOfExplode.class};
+			inQuantity = new int[]{1, 1};
+
+			cost = 0;
+
+			output = CannonBall.class;
+			outQuantity = 3;
+		}
+
 	}
 }

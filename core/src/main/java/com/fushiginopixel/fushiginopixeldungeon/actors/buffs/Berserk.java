@@ -128,7 +128,7 @@ public class Berserk extends Buff {
 	
 	public void damage(int damage){
 		if (state == State.RECOVERING) return;
-		power = Math.min(1.1f, power + (damage/(float)target.HT)/3f );
+		power = Math.min(1.1f, power + (damage/(float)target.HT) );
 		BuffIndicator.refreshHero();
 	}
 

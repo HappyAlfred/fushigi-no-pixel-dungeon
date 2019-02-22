@@ -1049,7 +1049,7 @@ items.weapon.enchantments.dazzling.desc=受该附魔成功影响的敌人会被�
 
 items.weapon.enchantments.energy.name=蓄能%s
 items.weapon.enchantments.energy.desc=这个附魔会让你在没有命中敌人时蓄积能量。当能量充满时，你的下一次攻击将势不可挡。
-items.weapon.enchantments.energy.charged=%s的武器从仇恨中获取了足够的能量！
+items.weapon.enchantments.energy.charged=你的武器从仇恨中获取了足够的能量！
 
 items.weapon.enchantments.eldritch.name=恐惧%s
 items.weapon.enchantments.eldritch.desc=恐惧附魔的武器会将畏惧感注入敌人心中，使其尽一切可能逃离攻击者。

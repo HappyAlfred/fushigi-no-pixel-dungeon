@@ -162,6 +162,7 @@ public enum HeroClass {
 		MagesStaff staff;
 		
 		staff = new MagesStaff(((Wand)new WandOfMagicMissile().identify()));
+		staff.wand.curCharges = 15;
 
 		(hero.belongings.weapon = staff).identify();
 		hero.belongings.weapon.activate(hero);

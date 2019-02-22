@@ -59,7 +59,7 @@ public class WandOfLightning extends DamageWand {
 	}
 
 	public int max(int lvl){
-		return 40+6*lvl;
+		return 40+7*lvl;
 	}
 	
 	@Override

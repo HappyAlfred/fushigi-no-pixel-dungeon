@@ -135,9 +135,46 @@ public class ChangesScene extends PixelScene {
 
 
 		//**********************
+		//       v1.2.3
+		//**********************
+		ChangeInfo changes = new ChangeInfo("v1.2.3", true, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes = new ChangeInfo(Messages.get(this, "changes"), false, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes.addButton( new ChangeButton(new Image(Assets.SPINNER,  144, 0, 16, 16), Messages.get(this, "bugfixes"),
+				"修复了bug\n"+
+						"_-_修复了无法制造炸药的bug\n"+
+						"_-_修复了讯息显示不正确的bug\n"+
+						"_-_修复了金蝎无法扣减力量最大值的bug\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.MAGE,  0, 0, 12, 15), "法师",
+				"法师使用法杖时可以直接鉴定。并且法师相关的道具伤害有所调整"+
+						"_-_法师魔杖的伤害成长:2→3\n"+
+						"_-_雷霆法杖的伤害成长:6→7\n"+
+						"_-_魔弹法杖的伤害成长:2→4\n"+
+						"_-_酸蚀法杖的伤害成长:1→2，初始伤害:1→5\n"+
+						"_-_焰浪法杖的伤害成长:3→4\n"+
+						"_-_棱光法杖的伤害成长:3→4\n"+
+						"_-_解离法杖的伤害成长:4→5\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.WARRIOR,  0, 0, 12, 15), "狂战士",
+				"现在狂战士的怒气值增加不再与怪物攻击力有关，而是与受到的伤害有关。"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.WRAITH,  0, 0, 14, 15), "怨灵",
+				"现在怨灵不会再掉落随机物品了。"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ARMOR_HOLDER, null), "刻印",
+				"电势刻印改动:\n"+
+						"_-_电势刻印不再回复魔杖充能，而是释放一道闪电，伤害到攻击者以及攻击者身边的敌人。"));
+
+		//**********************
 		//       v1.2.2
 		//**********************
-		ChangeInfo changes = new ChangeInfo("v1.2.2", true, "");
+		changes = new ChangeInfo("v1.2.2", true, "");
 		changes.hardlight( Window.TITLE_COLOR );
 		infos.add(changes);
 

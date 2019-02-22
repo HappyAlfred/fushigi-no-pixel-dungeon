@@ -339,15 +339,18 @@ public class PrisonMidBossLevel extends Level {
 
 			//halfway through, move to the maze
 			case FIGHT_START:
+				if(warden.progressState == 0) {
+					warden.progressState = 1;
+				}else break;
 
-				changeMap(MAP_ARENA);
-				clearEntities((Room) new EmptyRoom().set(14, 1, 18, 12)); //clear the entrance
+					changeMap(MAP_ARENA);
+					clearEntities((Room) new EmptyRoom().set(14, 1, 18, 12)); //clear the entrance
 
-				GameScene.flash(0xFFFFFF);
-				Sample.INSTANCE.play(Assets.SND_BLAST);
+					GameScene.flash(0xFFFFFF);
+					Sample.INSTANCE.play(Assets.SND_BLAST);
 
-				state = State.FIGHT_ARENA;
-				break;
+					state = State.FIGHT_ARENA;
+					break;
 
 			//arena ended, fight over.
 			case FIGHT_ARENA:

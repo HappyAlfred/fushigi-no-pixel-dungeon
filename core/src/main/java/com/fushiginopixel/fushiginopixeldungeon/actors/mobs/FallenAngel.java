@@ -153,7 +153,7 @@ public class FallenAngel extends Mob {
 			//We are an ally, and current enemy is another ally.
 		else if ((alignment == Alignment.ALLY && cureTarget.alignment == Alignment.ENEMY) || (alignment == Alignment.ENEMY && cureTarget.alignment == Alignment.ALLY))
 			newTarget = true;
-		else if (alignment == Alignment.ENEMY && cureTarget == Dungeon.hero)
+		else if ((alignment == Alignment.ENEMY && cureTarget == Dungeon.hero) || (cureTarget instanceof Mob && ((Mob)cureTarget).enemy == this))
 			newTarget = true;
 		else if (buff( Charm.class ) != null && !isCharmedBy(cureTarget))
 			newTarget = true;
@@ -179,7 +179,8 @@ public class FallenAngel extends Mob {
 					if (mob.alignment == Alignment.ALLY
 							&& mob != this
 							&& fieldOfView[mob.pos]
-							&& mob.HP < mob.HT)
+							&& mob.HP < mob.HT
+							&& mob.enemy == this)
 						cureTargets.add(mob);
 
 				//and look for the hero
@@ -191,7 +192,7 @@ public class FallenAngel extends Mob {
 			} else if (alignment == Alignment.ENEMY) {
 				//look for ally mobs to attack
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob.alignment == Alignment.ENEMY && mob != this && fieldOfView[mob.pos] && mob.HP < mob.HT)
+					if (mob.alignment == Alignment.ENEMY && mob != this && fieldOfView[mob.pos] && mob.HP < mob.HT && mob.enemy == this)
 						cureTargets.add(mob);
 
 			}

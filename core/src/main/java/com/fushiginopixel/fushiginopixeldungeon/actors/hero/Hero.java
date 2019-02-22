@@ -1031,12 +1031,13 @@ public class Hero extends Char {
 	
 	@Override
 	public int defenseProc( Char enemy, int damage, EffectType type  ) {
-		
+
+		/*
 		if (damage > 0 && subClass == HeroSubClass.BERSERKER){
 			Berserk berserk = Buff.affect(this, Berserk.class, new EffectType(0,EffectType.SPIRIT));
 			berserk.damage(damage);
 		}
-		
+		*/
 		if (belongings.armor != null) {
 			damage = belongings.armor.proc( enemy, this, damage, type );
 		}
@@ -1087,6 +1088,20 @@ public class Hero extends Char {
 		if (belongings.armor != null && belongings.armor.hasGlyph(AntiMagic.class)
 				&& EffectType.isExistType(type,AntiMagic.RESISTSTYPE)){
 			dmg -= Random.NormalIntRange(belongings.armor.min(), belongings.armor.max())/3;
+		}
+
+		if (subClass == HeroSubClass.BERSERKER){
+			int realDamage = dmg;
+			Class<?> srcClass = src.getClass();
+			if (isImmune( srcClass,type )) {
+				realDamage = 0;
+			} else {
+				realDamage = Math.round( dmg * resist( srcClass,type ));
+			}
+			if(realDamage > 0) {
+				Berserk berserk = Buff.affect(this, Berserk.class, new EffectType(0, EffectType.SPIRIT));
+				berserk.damage(realDamage);
+			}
 		}
 
 		super.damage( dmg, src ,type);

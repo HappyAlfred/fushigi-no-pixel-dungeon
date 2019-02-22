@@ -171,7 +171,7 @@ public class Pickaxe extends MeleeWeapon {
 			public void call() {
 
 				boolean terrainAffected = false;
-				for(int cell :chainDig.subPath(1 ,1 + reachFactor(user))) {
+				for(int cell :chainDig.subPath(1 ,2 + reachFactor(user))) {
 
 					if(level() < 0){
 						break;

@@ -48,6 +48,8 @@ public class Wraith extends Mob {
 		
 		flying = true;
 
+		rareLootChance = 0;
+
 		properties.add(Property.UNDEAD);
 	}
 	

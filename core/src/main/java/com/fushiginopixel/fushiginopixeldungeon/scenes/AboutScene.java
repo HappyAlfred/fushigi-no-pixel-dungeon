@@ -41,10 +41,10 @@ import com.watabou.noosa.TouchArea;
 
 public class AboutScene extends PixelScene {
 
-	private static final String TTL_SHPX = "Shattered Pixel Dungeon";
+	private static final String TTL_SHPX = "Fushigi no Pixel Dungeon";
 
 	private static final String TXT_SHPX =
-			"Design, Code, & Graphics: Evan";
+			"Design, Code, & Graphics: Alfred";
 
 	private static final String LNK_SHPX = "ShatteredPixel.com";
 
@@ -64,13 +64,13 @@ public class AboutScene extends PixelScene {
 		final float colTop = (Camera.main.height / 2) - (SPDSettings.landscape() ? 30 : 90);
 		final float wataOffset = SPDSettings.landscape() ? colWidth : 0;
 
-		Image shpx = Icons.SHPX.get();
+		Image shpx = Icons.FUURAI.get();
 		shpx.x = (colWidth - shpx.width()) / 2;
 		shpx.y = colTop;
 		align(shpx);
 		add( shpx );
 
-		new Flare( 7, 64 ).color( 0x225511, true ).show( shpx, 0 ).angularSpeed = +20;
+		new Flare( 7, 64 ).color( 0x555555, true ).show( shpx, 0 ).angularSpeed = +20;
 
 		RenderedText shpxtitle = renderText( TTL_SHPX, 8 );
 		shpxtitle.hardlight( Window.SHPX_COLOR );

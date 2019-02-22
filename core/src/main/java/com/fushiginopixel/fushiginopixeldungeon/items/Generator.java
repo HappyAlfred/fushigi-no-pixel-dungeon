@@ -284,7 +284,7 @@ public class Generator {
 					ScrollOfAffection.class,
 
 					ScrollOfEscape.class};
-			SCROLL.probs = new float[]{ 30, 10, 20, 30, 15, 15, 12, 8, 8, 0, 8, 10,  15, 8, 8, 8, 8  ,8 };
+			SCROLL.probs = new float[]{ 25, 10, 20, 30, 15, 15, 12, 8, 8, 0, 8, 10,  15, 8, 8, 8, 8  ,8 };
 			
 			POTION.classes = new Class<?>[]{
 					PotionOfHealing.class,
@@ -319,7 +319,7 @@ public class Generator {
                     PotOfDispel.class,
 					PotOfCannon.class,
 			};
-			POT.probs = new float[]{ 20, 10, 10, 10, 20, 10, 20, 10, 20, 10};
+			POT.probs = new float[]{ 20, 10, 10, 10, 20, 10, 20, 10, 10, 10};
 			
 			//TODO: add last ones when implemented
 			WAND.classes = new Class<?>[]{

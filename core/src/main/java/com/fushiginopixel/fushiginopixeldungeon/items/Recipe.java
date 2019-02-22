@@ -45,62 +45,88 @@ public abstract class Recipe {
 	public abstract Item brew(ArrayList<Item> ingredients);
 	
 	public abstract Item sampleOutput(ArrayList<Item> ingredients);
-	
-	//subclass for the common situation of a recipe with static inputs and outputs
+
 	public static abstract class SimpleRecipe extends Recipe {
-		
+
 		//*** These elements must be filled in by subclasses
-		protected Class<?extends Item>[] inputs;
+		protected Class<?extends Item>[] inputs; //each class should be unique
 		protected int[] inQuantity;
-		
+
 		protected int cost;
-		
+
 		protected Class<?extends Item> output;
 		protected int outQuantity;
 		//***
-		
+
+		//gets a simple list of items based on inputs
+		public ArrayList<Item> getIngredients() {
+			ArrayList<Item> result = new ArrayList<>();
+			try {
+				for (int i = 0; i < inputs.length; i++) {
+					Item ingredient = inputs[i].newInstance();
+					ingredient.quantity(inQuantity[i]);
+					result.add(ingredient);
+				}
+			} catch (Exception e){
+				Fushiginopixeldungeon.reportException( e );
+				return null;
+			}
+			return result;
+		}
+
 		@Override
 		public final boolean testIngredients(ArrayList<Item> ingredients) {
-			boolean found;
-			for(int i = 0; i < inputs.length; i++){
-				found = false;
-				for (Item ingredient : ingredients){
-					if (ingredient.getClass() == inputs[i]
-							&& ingredient.quantity() >= inQuantity[i]){
-						found = true;
+
+			int[] needed = inQuantity.clone();
+
+			for (Item ingredient : ingredients){
+				for (int i = 0; i < inputs.length; i++){
+					if (ingredient.getClass() == inputs[i] && ingredient.isIdentifiedForAutomatic()){
+						needed[i] -= ingredient.quantity();
 						break;
 					}
 				}
-				if (!found){
+			}
+
+			for (int i : needed){
+				if (i > 0){
 					return false;
 				}
 			}
+
 			return true;
 		}
-		
+
 		public final int cost(ArrayList<Item> ingredients){
 			return cost;
 		}
-		
+
 		@Override
 		public final Item brew(ArrayList<Item> ingredients) {
 			if (!testIngredients(ingredients)) return null;
-			
-			for(int i = 0; i < inputs.length; i++){
-				for (Item ingredient : ingredients){
-					if (ingredient.getClass() == inputs[i]){
-						ingredient.quantity( ingredient.quantity()-inQuantity[i]);
-						break;
+
+			int[] needed = inQuantity.clone();
+
+			for (Item ingredient : ingredients){
+				for (int i = 0; i < inputs.length; i++) {
+					if (ingredient.getClass() == inputs[i] && needed[i] > 0) {
+						if (needed[i] <= ingredient.quantity()) {
+							ingredient.quantity(ingredient.quantity() - needed[i]);
+							needed[i] = 0;
+						} else {
+							needed[i] -= ingredient.quantity();
+							ingredient.quantity(0);
+						}
 					}
 				}
 			}
-			
+
 			//sample output and real output are identical in this case.
 			return sampleOutput(null);
 		}
-		
+
 		//ingredients are ignored, as output doesn't vary
-		public final Item sampleOutput(ArrayList<Item> ingredients){
+		public Item sampleOutput(ArrayList<Item> ingredients){
 			try {
 				Item result = output.newInstance();
 				result.quantity(outQuantity);

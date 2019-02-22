@@ -157,7 +157,7 @@ public class WndTradeItem extends Window {
 										if(Actor.findChar(cell) != null) {
 											Char c = Actor.findChar(cell);
 											if(c instanceof Shopkeeper){
-												((Mob)c).yell(Messages.get(c, "thief"));
+												((Mob)c).yell(Messages.get(c, "robber"));
 												((Shopkeeper) c).flee();
 											}
 										}

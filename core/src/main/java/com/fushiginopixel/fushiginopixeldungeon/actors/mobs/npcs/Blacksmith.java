@@ -342,7 +342,7 @@ public class Blacksmith extends NPC {
 		
 		public static ArrayList<Room> spawn( ArrayList<Room> rooms ) {
 			if (!spawned && Dungeon.depth > 21 && Random.Int( 25 - Dungeon.depth ) == 0) {
-				
+
 				rooms.add(new BlacksmithRoom());
 				spawned = true;
 				alternative = Random.Int( 2 ) == 0;

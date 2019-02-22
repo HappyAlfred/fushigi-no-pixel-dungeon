@@ -54,7 +54,6 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DeathEye;
-import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.Potential;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfTenacity;

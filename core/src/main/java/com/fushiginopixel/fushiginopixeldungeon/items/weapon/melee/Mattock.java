@@ -235,7 +235,7 @@ public class Mattock extends MeleeWeapon {
 
 	public void broken(Hero user) {
 		GLog.w( Messages.get(Mattock.class, "broken") );
-		if(!isUnique()){
+		if(!isUnique() && isEquipped(user)){
 			doUnequip( user, false );
 			//detach(user.belongings.backpack);
 		}

@@ -170,7 +170,7 @@ windows.wndtradeitem.sell_all=全部卖出以获得%d金币
 windows.wndtradeitem.cancel=算了
 windows.wndtradeitem.rob=抢劫
 windows.wndtradeitem.rob_alter=看起来商店附近有什么东西在埋伏着，你确定要强行获得这件商品吗？
-windows.wndtradeitem.rob_yes=是的，我要得到它！
+windows.wndtradeitem.rob_yes=是的，我知道我在做什么！
 windows.wndtradeitem.rob_no=不，我改主意了！
 
 windows.wndwandmaker.dust=哦，我注意到你已经获得了灰尘！别担心那些幽灵，我能解决它们。就像我承诺的，你可以选择我制作的一把高品质法杖。
