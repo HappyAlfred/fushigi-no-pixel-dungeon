@@ -75,12 +75,10 @@ public class GoblinFanatics extends GoblinSapper {
 
 		if(countDown != -1){
 			countDown --;
-			if(countDown == 0){
+			if(countDown <= 0){
 				die(this ,new EffectType(EffectType.BURST,0));
 				return true;
 			}
-			spend( TICK );
-			return true;
 		}
 
 		return false;

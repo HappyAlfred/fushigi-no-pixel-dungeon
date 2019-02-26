@@ -52,10 +52,8 @@ public class ShopGuardian extends Statue {
 	}
 	boolean type = false;
 
-	public ShopGuardian() {
-		super();
-		
-		this.removeWeapon();
+	@Override
+	public void addWeapon(){
 	}
 	
 	@Override

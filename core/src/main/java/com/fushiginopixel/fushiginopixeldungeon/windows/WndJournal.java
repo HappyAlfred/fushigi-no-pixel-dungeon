@@ -64,6 +64,7 @@ public class WndJournal extends WndTabbed {
 	private static final int ITEM_HEIGHT	= 18;
 	
 	private GuideTab guideTab;
+	private AlchemyGuideTab alchemisticTab;
 	private NotesTab notesTab;
 	private CatalogTab catalogTab;
 	
@@ -80,7 +81,12 @@ public class WndJournal extends WndTabbed {
 		add(guideTab);
 		guideTab.setRect(0, 0, width, height);
 		guideTab.updateList();
-		
+
+		alchemisticTab = new AlchemyGuideTab();
+		add(alchemisticTab);
+		alchemisticTab.setRect(0, 0, width, height);
+		alchemisticTab.updateList();
+
 		notesTab = new NotesTab();
 		add(notesTab);
 		notesTab.setRect(0, 0, width, height);
@@ -99,18 +105,25 @@ public class WndJournal extends WndTabbed {
 						if (value) last_index = 0;
 					}
 				},
+				new LabeledTab( Messages.get(this, "alchemy") ) {
+					protected void select( boolean value ) {
+						super.select( value );
+						alchemisticTab.active = alchemisticTab.visible = value;
+						if (value) last_index = 1;
+					}
+				},
 				new LabeledTab( Messages.get(this, "notes") ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						notesTab.active = notesTab.visible = value;
-						if (value) last_index = 1;
+						if (value) last_index = 2;
 					}
 				},
 				new LabeledTab( Messages.get(this, "items") ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						catalogTab.active = catalogTab.visible = value;
-						if (value) last_index = 2;
+						if (value) last_index = 3;
 					}
 				}
 		};
@@ -189,10 +202,11 @@ public class WndJournal extends WndTabbed {
 		}
 	}
 	
-	private static class GuideTab extends Component {
+	protected static class GuideTab extends Component {
 		
 		private ScrollPane list;
 		private ArrayList<GuideItem> pages = new ArrayList<>();
+		protected static Document document = Document.ADVENTURERS_GUIDE;
 		
 		@Override
 		protected void createChildren() {
@@ -215,8 +229,8 @@ public class WndJournal extends WndTabbed {
 			super.layout();
 			list.setRect( 0, 0, width, height);
 		}
-		
-		private void updateList(){
+
+		protected void updateList(){
 			Component content = list.content();
 			
 			float pos = 0;
@@ -225,7 +239,7 @@ public class WndJournal extends WndTabbed {
 			line.y = pos;
 			content.add(line);
 			
-			RenderedTextMultiline title = PixelScene.renderMultiline(Document.ADVENTURERS_GUIDE.title(), 9);
+			RenderedTextMultiline title = PixelScene.renderMultiline(document.title(), 9);
 			title.hardlight(TITLE_COLOR);
 			title.maxWidth( (int)width() - 2 );
 			title.setPos( (width() - title.width())/2f, pos + 1 + ((ITEM_HEIGHT) - title.height())/2f);
@@ -234,7 +248,7 @@ public class WndJournal extends WndTabbed {
 			
 			pos += Math.max(ITEM_HEIGHT, title.height());
 			
-			for (String page : Document.ADVENTURERS_GUIDE.pages()){
+			for (String page : document.pages()){
 				GuideItem item = new GuideItem( page );
 				
 				item.setRect( 0, pos, width(), ITEM_HEIGHT );
@@ -255,10 +269,10 @@ public class WndJournal extends WndTabbed {
 			
 			public GuideItem( String page ){
 				super( new ItemSprite( ItemSpriteSheet.GUIDE_PAGE, null),
-						Messages.titleCase(Document.ADVENTURERS_GUIDE.pageTitle(page)), -1);
+						Messages.titleCase(document.pageTitle(page)), -1);
 				
 				this.page = page;
-				found = Document.ADVENTURERS_GUIDE.hasPage(page);
+				found = document.hasPage(page);
 				
 				if (!found) {
 					icon.hardlight( 0.5f, 0.5f, 0.5f);
@@ -270,7 +284,7 @@ public class WndJournal extends WndTabbed {
 			
 			public boolean onClick( float x, float y ) {
 				if (inside( x, y ) && found) {
-					GameScene.show( new WndStory( Document.ADVENTURERS_GUIDE.pageBody(page) ));
+					GameScene.show( new WndStory( document.pageBody(page) ));
 					return true;
 				} else {
 					return false;
@@ -279,6 +293,12 @@ public class WndJournal extends WndTabbed {
 			
 		}
 		
+	}
+
+	protected static class AlchemyGuideTab extends GuideTab{
+		{
+			document = Document.ALCHEMISTIC_GUIDE;
+		}
 	}
 	
 	private static class NotesTab extends Component {

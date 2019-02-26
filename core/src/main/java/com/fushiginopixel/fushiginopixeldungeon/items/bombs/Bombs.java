@@ -261,7 +261,7 @@ public class Bombs extends Item {
 		String info = Messages.get(this, "desc");
 		if(delay > 0) {
 			if (fuse == null)
-				info += Messages.get(Bombs.class, "normal");
+				info += "\n\n" + Messages.get(Bombs.class, "normal");
 			else
 				info += "\n\n" + Messages.get(Bombs.class, "burning");
 		}

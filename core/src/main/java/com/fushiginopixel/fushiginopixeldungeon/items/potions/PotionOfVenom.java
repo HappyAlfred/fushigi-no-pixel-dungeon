@@ -68,15 +68,17 @@ public class PotionOfVenom extends Potion {
 				ch.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
 				((Hero)ch).STR -= 1;
 			}
-			Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set(3 + Dungeon.depth / 3);
-			Buff.prolong( ch, Slow.class, Slow.DURATION,new EffectType(0,EffectType.POISON));
-			Buff.prolong( ch, Weakness.class, 10f,new EffectType(0,EffectType.POISON));
+			venom(ch);
 			Sample.INSTANCE.play( Assets.SND_CURSED );
 		}else if(ch != null){
-			Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set(3 + Dungeon.depth / 3);
-			Buff.prolong( ch, Slow.class, Slow.DURATION,new EffectType(0,EffectType.POISON));
-			Buff.prolong( ch, Weakness.class, 10f,new EffectType(0,EffectType.POISON));
+			venom(ch);
 		}
+	}
+
+	private void venom(Char ch){
+		Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set(3 + Dungeon.depth / 3);
+		Buff.prolong( ch, Slow.class, Slow.DURATION,new EffectType(0,EffectType.POISON));
+		Buff.prolong( ch, Weakness.class, 10f,new EffectType(0,EffectType.POISON));
 	}
 	
 	@Override
@@ -88,9 +90,7 @@ public class PotionOfVenom extends Potion {
 			hero.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
 			hero.STR -= 1;
 		}
-		Buff.affect( hero, Poison.class, new EffectType(EffectType.INSIDE,EffectType.POISON)).set(3 + Dungeon.depth / 3);
-		Buff.affect( hero, Slow.class, Slow.DURATION, new EffectType(EffectType.INSIDE,EffectType.POISON));
-		Buff.affect( hero, Weakness.class, 10f, new EffectType(EffectType.INSIDE,EffectType.POISON));
+		venom(hero);
 		Sample.INSTANCE.play( Assets.SND_CURSED );
 	}
 	

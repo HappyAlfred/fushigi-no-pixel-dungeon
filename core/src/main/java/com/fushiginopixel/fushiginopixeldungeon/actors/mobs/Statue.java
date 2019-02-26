@@ -46,19 +46,21 @@ public class Statue extends Mob {
 		properties.add(Property.INORGANIC);
 	}
 	
-	protected Weapon weapon;
+	protected Weapon weapon = null;
 	
 	public Statue() {
 		super();
-		
+		addWeapon();
+		HP = HT = 15 + Dungeon.depth * 5;
+		defenseSkill = 4 + Dungeon.depth;
+	}
+
+	public void addWeapon(){
 		do {
 			weapon = (MeleeWeapon) Generator.random(Generator.Category.WEAPON);
 		} while (weapon.cursed);
-		
+
 		weapon.enchant( Enchantment.random() );
-		
-		HP = HT = 15 + Dungeon.depth * 5;
-		defenseSkill = 4 + Dungeon.depth;
 	}
 
 	public void removeWeapon(){

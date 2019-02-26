@@ -25,13 +25,18 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Alchemy;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.journal.AlchemisticGuidePage;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.IronKey;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.Potion;
+import com.fushiginopixel.fushiginopixeldungeon.journal.Document;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class LaboratoryRoom extends SpecialRoom {
 
@@ -67,6 +72,27 @@ public class LaboratoryRoom extends SpecialRoom {
 				level.map[pos] != Terrain.EMPTY_SP ||
 				level.heaps.get( pos ) != null);
 			level.drop( prize( level ), pos );
+		}
+
+
+		//guide pages
+		Collection<String> allPages = Document.ALCHEMISTIC_GUIDE.pages();
+		ArrayList<String> missingPages = new ArrayList<>();
+		for ( String page : allPages){
+			if (!Document.ALCHEMISTIC_GUIDE.hasPage(page)){
+				missingPages.add(page);
+			}
+		}
+		if (missingPages.size() > 0){
+			AlchemisticGuidePage p = new AlchemisticGuidePage();
+			p.page(Random.element(missingPages));
+			int pos;
+			do {
+				pos = level.pointToCell(random());
+			} while (
+					level.map[pos] != Terrain.EMPTY_SP ||
+							level.heaps.get( pos ) != null);
+			level.drop( p, pos );
 		}
 		
 		entrance.set( Door.Type.LOCKED );

@@ -40,8 +40,8 @@ items.armor.glyphs.camouflage.desc=This glyph allows the wearer to blend into ta
 items.armor.glyphs.entanglement.name=%s of entanglement
 items.armor.glyphs.entanglement.desc=This glyph grows earthroot around the wearer to absorb damage, but roots them if allowed to take hold.
 
-items.armor.glyphs.flow.name=%s of flow
-items.armor.glyphs.flow.desc=This glyph manipulates the flow of water around the wearer, making them much faster when moving through it.
+items.armor.glyphs.balance.name=%s of balance-armor
+items.armor.glyphs.balance.desc=This glyph keeps the armor in a stable state, making your soft ribs take less damage.
 
 items.armor.glyphs.obfuscation.name=%s of obfuscation
 items.armor.glyphs.obfuscation.desc=This glyph obscures the wearer, making them more difficult to detect.
@@ -73,7 +73,7 @@ items.armor.glyphs.viscosity.desc=This glyph is able to store damage dealt to th
 ###properties
 
 items.armor.properties.absorbwater.name=water-absorption %s
-items.armor.properties.absorbwater.desc=Water-absorbing armor absorbs moisture when the user soaks in water and grows a bark-like outer shell.
+items.armor.properties.absorbwater.desc=The armor has a outer rugged texture, which consists on a huge amount of micropores that catch the moisture in the ambient when stepping onto water, getting thicker and creating a bark-like outer shell.
 
 items.armor.properties.combustable.name=combustion %s
 items.armor.properties.combustable.desc=The combustion aid on the combustion armor will prevent the fire on the user from extinguishing. So stay away from the open flame!
@@ -134,7 +134,7 @@ items.armor.huntressarmor.no_enemies=No enemies in sight
 items.armor.huntressarmor.desc=A huntress in such cloak can create a fan of spectral blades. Each of these blades will target a single enemy in the huntress's field of view, inflicting damage depending on her currently equipped melee weapon.
 
 items.armor.leafarmor.name=leaf armor
-items.armor.leafarmor.desc=This is an armor made of thick, flexible leaves. Can provide a fairly good protection. Put it on if you stand still, you may be seen as a tree by others.
+items.armor.leafarmor.desc=This is an armor made of thick, flexible leaves. Can provide a fairly good protection. If you put it on and stand still, you may be regarded as a tree by other creatures.
 
 items.armor.leatherarmor.name=leather armor
 items.armor.leatherarmor.desc=Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.
@@ -162,7 +162,7 @@ items.armor.scalearmor.name=scale armor
 items.armor.scalearmor.desc=The metal scales sewn onto a leather vest create a flexible, yet protective armor.
 
 items.armor.silksuit.name=silk suit
-items.armor.silksuit.desc=This is a silk-made suit that is light and thin. If it is on the ground, it will definitely sell for a good price. But in this dungeon, businessmen are not expected to give up this opportunity to make a fortune. Evil capitalism.
+items.armor.silksuit.desc=This is a silk-made suit that is light and thin. It will definitely sell for a good price on the ground. But in this dungeon, businessmen are not expected to give up this opportunity to make a fortune. Evil capitalism.
 
 items.armor.warriorarmor.name=warrior suit of armor
 items.armor.warriorarmor.ac_special=HEROIC LEAP
@@ -524,11 +524,11 @@ items.potions.potionoflevitation.desc=Drinking this curious liquid will cause yo
 
 items.potions.potionofliquidflame.name=potion of liquid flame
 items.potions.potionofliquidflame.desc=This flask contains an unstable compound which will burst violently into flame upon exposure to open air.
-items.potions.potionofliquidflame$AlchemyEnchantOfFire.name=alchemy enchant-inferno
-items.potions.potionofliquidflame$AlchemyEnchantOfFire.desc=The weapon as a material will be attached with a enchantment of blazing.
-items.potions.potionofliquidflame$AlchemyEnchantOfFire.desc_1=The armor as a material will be attached with a glyph of brimstone.
+items.potions.potionofliquidflame$AlchemyEnchantOfFire.name=alchemical enchanting-infernal
+items.potions.potionofliquidflame$AlchemyEnchantOfFire.desc=The weapon which is a material will be attached with enchantment of blazing.
+items.potions.potionofliquidflame$AlchemyEnchantOfFire.desc_1=The armor which is a material will be attached with glyph of brimstone.
 items.potions.potionofliquidflame$Neutralization.name=neutralization
-items.potions.potionofliquidflame$Neutralization.desc=Ice and fire are neutralized, you will not get anything.
+items.potions.potionofliquidflame$Neutralization.desc=Ice and fire are neutralized, you will get nothing.
 
 items.potions.potionofmight.name=potion of might
 items.potions.potionofmight.msg_1=+1 str, +5 hp
@@ -559,7 +559,7 @@ items.potions.potionoftoxicgas.name=potion of toxic gas
 items.potions.potionoftoxicgas.desc=Uncorking or shattering this pressurized glass will cause its contents to explode into a deadly cloud of toxic green gas. You might choose to fling this potion at distant enemies instead of uncorking it by hand.
 
 items.potions.potionofpanacea.name=potion of panacea
-items.potions.potionofpanacea.heal=You feel that you are healthy and refresh.
+items.potions.potionofpanacea.heal=You feel you are healthy and refreshed.
 items.potions.potionofpanacea.desc=This magical potion can cure most of the intractable diseases and restore the patient's strength. But it does not restore the life of the patient.
 
 items.potions.potionofteargas.name=potion of teargas
@@ -569,13 +569,13 @@ items.potions.potionofvenom.name=potion of venom
 items.potions.potionofvenom.desc=This terrible pharmacy should be made by a black wizard. It has no odor and is very volatile and contains highly toxic, damaging the body and spirit of those who drink or touch the skin. Unless you want to die, don't use it for yourself.
 
 items.potions.potionofexplode.name=potion of explosion
-items.potions.potionofexplode.desc=This liquid may be a failure, but a geek collects them. It is extremely unstable and will explode when exposed to air. Fortunately, the destructive power is not particularly strong.
+items.potions.potionofexplode.desc=This liquid may be a failure, but a geek collects them. It is extremely unstable and will explode the instant it is exposed to air. Fortunately, the explosion is not particularly destructive
 
 items.potions.potionofbeverage.name=potion of beverage
 items.potions.potionofbeverage.desc=This may be which idiot wizard accidentally sold the juice he had just made as a pharmacy.
 items.potions.potionofbeverage.drinks=It tastes good, but is it really a potion?
-items.potions.potionofbeverage$remakepotion.name=remake potion
-items.potions.potionofbeverage$remakepotion.desc=The beverage is reconstituted using a beverage agent as a solvent, and the effect of the product is generally related to the seed as a material. Production may fail and produce uncertain results.
+items.potions.potionofbeverage$remakepotion.name=rebrew potion
+items.potions.potionofbeverage$remakepotion.desc=The beverage is reconstituted using a beverage agent as a solvent, and the effect of the product is generally related to the seed which is a material. Brewing may fail and produce uncertain results.
 
 
 
@@ -600,7 +600,7 @@ items.quest.pickaxe.name=pickaxe
 items.quest.pickaxe.ac_mine=MINE
 items.quest.pickaxe.no_vein=There is no dark gold vein near you to mine.
 items.quest.pickaxe.desc=This is a large and sturdy tool for breaking rocks. Probably it can be used as a weapon.
-items.quest.pickaxe.dig_select=Select the terrain to mine
+items.quest.pickaxe.dig_select=Select the terrain to excavate
 items.quest.pickaxe.bad_target=You can only choose the destructible terrain around you!
 items.quest.pickaxe.broken=This pickaxe has been damaged!
 
@@ -642,11 +642,11 @@ items.rings.ringofevasion.name=ring of evasion
 items.rings.ringofevasion.desc=This ring quickens the wearer's reactions, making it harder to land blows on them. A cursed ring will instead make the user easier to strike.
 
 items.rings.ringofalert.name=ring of alert
-items.rings.ringofalert.desc=This ring enhances the wearer's awareness. It already has enough power to allow the wearer to look farther and discover all the creatures on the floor. A cursed ring will weaken the wearer's vision.
-items.rings.ringofalert.desc_1=This ring enhances the wearer's awareness, allowing the wearer to see farther and discover hidden creatures nearby. A cursed ring will reduce the wearer's vision.
-items.rings.ringofalert$alert.desc=Somehow you are able to see all creatures on this floor through your mind. It's a weird feeling.\n\nAll characters on this floor are visible to you as long as you have mind vision. Seeing a creature through mind vision counts as it being seen or nearby for the purposes of many magical effects.
-items.rings.ringofalert$alert.desc_1=Somehow you are able to see all creatures on this floor through your mind. It's a weird feeling.\n\nCharacters within %s of your neighborhood are visible to you as long as you have weakened mind vision¡£Seeing a creature through mind vision counts as it being seen or nearby for the purposes of many magical effects.
-items.rings.ringofalert$alert.desc_2=This weakened mind vision is very unusual. You have a lot of strange creatures in your mind. You feel a headache. If your weakened mind vision still exists, your vision will remain in myopia.
+items.rings.ringofalert.desc=This ring enhances the wearer's awareness. It has enough power and allows the wearer to look farther and discover all the creatures on the floor. A cursed ring will limit the wearer's vision.
+items.rings.ringofalert.desc_1=This ring enhances the wearer's awareness, allowing the wearer to see farther and discover hidden creatures nearby. A cursed ring will limit the wearer's vision.
+items.rings.ringofalert$alert.desc=Somehow you are able to see all creatures on this floor through your mind. It's a weird feeling.\n\nAll characters on this floor are visible to you as long as you have weakened mind vision. The creatures seen through the vision are also counted as targets in the field of vision, which can be affected by many magic effects.
+items.rings.ringofalert$alert.desc_1=Somehow you are able to see all creatures on this floor through your mind. It's a weird feeling.\n\nCharacters within %s of your neighborhood are visible to you as long as you have weakened mind vision¡£The creatures seen through the vision are also counted as targets in the field of vision, which can be affected by many magic effects.
+items.rings.ringofalert$alert.desc_2=This weakened mind vision is very unusual. You have a lot of strange creatures emerged in your mind. You feel a headache. If your weakened mind vision still exists, your vision will remain in myopia.
 
 items.rings.ringoffuror.name=ring of furor
 items.rings.ringoffuror.desc=This ring grants the wearer an inner fury, allowing them to attack more rapidly. This fury works best in large bursts, so slow weapons benefit far more than fast ones. A cursed ring will instead slow the wearer's speed of attack.
@@ -728,7 +728,7 @@ items.scrolls.scrollofmirrorimage.desc=The incantation on this scroll will creat
 
 items.scrolls.scrollofpsionicblast.name=scroll of psionic blast
 items.scrolls.scrollofpsionicblast.ondeath=The Psionic Blast tears your mind apart...
-items.scrolls.scrollofpsionicblast.desc=This scroll contains destructive energy that can violently tremble the souls of all creatures in the field of vision. The power of the scroll seems to be related to the user's own will
+items.scrolls.scrollofpsionicblast.desc=This scroll contains destructive energy that can violently tremble the souls of all other creatures in the field of vision. The power of the scroll seems to be related to the user's own will
 
 items.scrolls.scrollofrage.name=scroll of rage
 items.scrolls.scrollofrage.roar=The scroll emits an enraging roar that echoes throughout the dungeon!
@@ -737,15 +737,15 @@ items.scrolls.scrollofrage.desc=When read aloud, this scroll will unleash a grea
 items.scrolls.scrollofrecharging.name=scroll of recharging
 items.scrolls.scrollofrecharging.surge=A surge of energy courses through your body, invigorating your wands!
 items.scrolls.scrollofrecharging.recharged=A surge of energy courses through your body, your wand gains %d charges!
-items.scrolls.scrollofrecharging.not_recharged=Your wand can not be charged!
-items.scrolls.scrollofrecharging.desc=The raw magical power bound up in this parchment will, when released, charge a users wand.
+items.scrolls.scrollofrecharging.not_recharged=Your wand can not gain more charged!
+items.scrolls.scrollofrecharging.desc=The raw magical power bound up in this parchment will, when released, charge a wand of the reader.
 
 items.scrolls.scrollofremovecurse.name=scroll of remove curse
 items.scrolls.scrollofremovecurse.inv_title=Cleanse an item
 items.scrolls.scrollofremovecurse.cleansed=Your item glows with a cleansing light, and a malevolent energy disperses!
 items.scrolls.scrollofremovecurse.not_cleansed=Your item glows with a cleansing light, but nothing happens.
 items.scrolls.scrollofremovecurse.cleared=Your item glows with a cleansing light.
-items.scrolls.scrollofremovecurse.removed=The enchants on your item are weakened.
+items.scrolls.scrollofremovecurse.removed=The enchantments on your item are weakened.
 items.scrolls.scrollofremovecurse.not_removed=But nothing happens.
 items.scrolls.scrollofremovecurse.desc=The incantation on this scroll will instantly strip any curses from a single weapon, ring, wand, armor, or artifact. It can also be used to remove the enchant of the weapon and the glyph of the armor.
 
@@ -775,25 +775,25 @@ items.scrolls.scrollofexpand.not_expand=The capacity of the pot did not change.
 items.scrolls.scrollofexpand.desc=This reel expands the capacity of a pot so that the pot can hold more items or allow the pot to be used again. However, it should be noted that the capacity of the pot is limited.
 
 items.scrolls.scrollofonigiri.name=scroll of onigiri
-items.scrolls.scrollofonigiri.inv_title=Choose an item to be turned into a onigiri
+items.scrolls.scrollofonigiri.inv_title=Choose an item to turn it into a onigiri
 items.scrolls.scrollofonigiri.trans_to=This item has become %s.
-items.scrolls.scrollofonigiri.desc=You can use this scroll to turn an item into a rice ball. You'd better not use it for your expensive equipment, because the quality of the onigiri has nothing to do with the value of the item.
+items.scrolls.scrollofonigiri.desc=You can use this scroll to turn an item into a rice ball. You'd better not use it on your expensive equipment, because the quality of the onigiri has nothing to do with the value of the item.
 
 items.scrolls.scrollofexsuction.name=scroll of exsuction
 items.scrolls.scrollofexsuction.inv_title=Choose a pot to exsuction
 items.scrolls.scrollofexsuction.suck_out=The items in the pot were sucked out!
 items.scrolls.scrollofexsuction.empty=The pot is empty. Nothing happens.
-items.scrolls.scrollofexsuction.desc=A small black hole magic is enclosed in the scroll that sucks the contents of the pot and falls to your side.
+items.scrolls.scrollofexsuction.desc=A small black hole magic is enclosed in the scroll that sucks the contents out of the pot and they will fall to your side.
 
 items.scrolls.scrollofselfdestruct.name=scroll of self-destruct
 items.scrolls.scrollofselfdestruct.rankings_desc=self-destructed
-items.scrolls.scrollofselfdestruct.desc=I heard that there are a group of self-destructive people in the far west, they will use this thing to die with the enemy. Obviously you don't want to die, your tenacious will will make you sigh after you blew yourself. Similarly, this scroll will also weaken some powerful enemies.
+items.scrolls.scrollofselfdestruct.desc=I heard that there are a group of self-destructive people in the far west, they will use this thing to preish with the enemy together. Obviously you don't want to die, your tenacious will will make you leave one breath after you blew yourself. Similarly, this scroll will also weaken some powerful enemies instead of instant-kill.
 
 items.scrolls.scrollofaffection.name=scroll of affection
 items.scrolls.scrollofaffection.none=This scroll makes you very glamorous in a flash.
 items.scrolls.scrollofaffection.one=This scroll makes you very glamorous in a flash. %s is charmed by you!
 items.scrolls.scrollofaffection.many=This scroll makes you very glamorous in a flash. The monsters around you are charmed by you!
-items.scrolls.scrollofaffection.desc=This may have been done by a single 50-year-old witch in the wizarding union. It allows you to capture the hearts of everyone around you in an instant, letting you be at your mercy.
+items.scrolls.scrollofaffection.desc=This may have been done by a single 50-year-old witch in the wizarding union. It allows you to capture the hearts of everyone around you in an instant, letting them be at your mercy.
 
 items.scrolls.specialscrolls.scrollofescape.name=scroll of escape
 items.scrolls.specialscrolls.scrollofescape.rankings_desc=Leave by the scroll of escape.
@@ -818,7 +818,7 @@ items.pots.pot.ear=pot of ear
 items.pots.pot.calabash=pot of calabash
 items.pots.pot.ring=pot of ring
 items.pots.pot.unknown_desc=This strange pot seems to hold a lot of things. Would you like to try something inside?
-items.pots.pot.prompt=Aim an area.
+items.pots.pot.prompt=Aim a tile.
 items.pots.pot.nothing=You tried to press the pot. But nothing happens.
 items.pots.pot.cursed=Since this pot is cursed, you can't put things in.
 items.pots.pot.pick=take out
@@ -827,12 +827,12 @@ items.pots.inventorypot.add_in=How many items do you want to put in?
 items.pots.inventorypot.one=Put only one.
 items.pots.inventorypot.all=Put in all.
 items.pots.inventorypot.cant_add=You can't put the pot in.
-items.pots.inventorypot.full=You can't put things in this pot.
+items.pots.inventorypot.full=The pot is too full to contain more things.
 items.pots.inventorypot.inv_title=Select the item to put in
 
 items.pots.potofidentify.name=pot of identify
 items.pots.potofidentify.it_is=Your pot identifies the %s.
-items.pots.potofidentify.desc=This pot can identify permanently reveals all of the secrets of a single item put in.
+items.pots.potofidentify.desc=This pot can permanently reveals all of the secrets of a single item put in.
 
 items.pots.potoftransmutation.name=pot of transmutation
 items.pots.potoftransmutation.trans_to=This item has been changed to %s by the pot.
@@ -852,23 +852,23 @@ items.pots.potoffusion.desc=This pot can blend the items placed in the back into
 
 items.pots.potoffreeze.name=pot of freeze
 items.pots.potoffreeze.freeze=%s was chilled.
-items.pots.potoffreeze.shatter=%s freezes£¡
+items.pots.potoffreeze.shatter=%s freezes!
 items.pots.potoffreeze.shatter_1=%s disappeared£¡
 items.pots.potoffreeze.expand=%s disappered£¡But the pot seems to have expanded.
 items.pots.potoffreeze.desc=There seems to be some cold substance in the pot that can freeze the items. Breaking or pressing the pot will release the frost inside.
 
-items.pots.potofstorge.name=pot pf storge
+items.pots.potofstorge.name=pot of storage
 items.pots.potofstorge.desc=This pot allows you to use or remove the items inside. 
 
 items.pots.potofalchemy.name=pot of alchemy
 items.pots.potofalchemy.desc=Put specific items into the pot and try to make them into other items like a medicine pot. The magic is that you don't even know what you put in, it will automatically help you. Pressing this pot will pop up the items inside.
 items.pots.potofalchemy.brew=This pot made the material in %s.
-items.pots.potofalchemy.shatter=The pot was bursting.
-items.pots.potofalchemy.disappear=Something missing in the pot.
+items.pots.potofalchemy.shatter=The pot burst.
+items.pots.potofalchemy.disappear=There seems to be something missing in the pot.
 
 items.pots.potofdispel.name=pot of dispel
-items.pots.potofdispel.dispel=The enchants of %s has been cleared by the pot!
-items.pots.potofdispel.desc=This pot can remove the magic attached to the item, whether it is beneficial or harmful. 
+items.pots.potofdispel.dispel=The enchantments of %s has been cleared by the pot!
+items.pots.potofdispel.desc=This pot can remove the magic attached to the item, regardless of whether it is beneficial or harmful. 
 
 items.pots.potofcannon.name=pot of cannon
 items.pots.potofcannon.desc=This pot can launch the placed items through the terrain and land in your chosen location. It can be used to launch shells.
@@ -886,9 +886,9 @@ items.stones.stoneofaugmentation$wndaugment.evasion=Evasion
 items.stones.stoneofaugmentation$wndaugment.defense=Defense
 items.stones.stoneofaugmentation$wndaugment.none=Remove Augmentation
 items.stones.stoneofaugmentation$wndaugment.cancel=Never mind
-items.stones.stoneofaugmentation$alchemyenchantofbalance.name=alchemy enchant-balance
-items.potions.stoneofaugmentation$alchemyenchantofbalance.desc=The weapon as a material will be attached with a enchantment of balance.
-items.potions.stoneofaugmentation$alchemyenchantofbalance.desc_1=The armor as a material will be attached with a glyph of balance.
+items.stones.stoneofaugmentation$alchemyenchantofbalance.name=alchemical enchanting-balance
+items.potions.stoneofaugmentation$alchemyenchantofbalance.desc=The weapon which is a material will be attached with enchantment of balance.
+items.potions.stoneofaugmentation$alchemyenchantofbalance.desc_1=The armor which is a material will be attached with glyph of balance.
 
 items.stones.stoneofenchantment.name=Stone of Enchantment
 items.stones.stoneofenchantment.inv_title=Enchant an item
@@ -1048,7 +1048,7 @@ items.weapon.enchantments.dazzling.name=dazzling %s
 items.weapon.enchantments.dazzling.desc=This enchantment dazes enemies when they are struck, rendering them blind for a short time.
 
 items.weapon.enchantments.energy.name=energy-storage %s
-items.weapon.enchantments.energy.desc=This enchantment will allow you to accumulate energy when you don't hit the enemy. When the energy is full, your next attack will be overwhelming.
+items.weapon.enchantments.energy.desc=This enchantment will allow you to accumulate energy when your hit is missed. When the energy is full, your next attack will be overwhelming.
 items.weapon.enchantments.energy.charged=%s's weapon gets enough energy from hatred!
 
 items.weapon.enchantments.eldritch.name=eldritch %s
@@ -1083,12 +1083,12 @@ items.weapon.enchantments.vorpal.desc=Vorpal weapons are especially deadly, caus
 
 ###weapon properties
 items.weapon.properties.assassination.name=assassination %s
-items.weapon.properties.assassination.desc=Assassination weapons can more effectively cause stronger, more stable damage when dealing with unware enemies, that is, the minimum damage value is closer to the maximum damage value, and the effect will decrease with the level until a certain degree. \n\nThe minimum damage caused by a sneak attack increases: %d%%
+items.weapon.properties.assassination.desc=Assassination weapons can more effectively cause stronger, more stable damage when dealing with unawared enemies, that is, the minimum damage value is closer to the maximum damage value, and the effect will decrease with the level until a certain degree. \n\nThe minimum damage caused by a sneak attack increases: %d%%
 
 items.weapon.properties.assault.name=assault %s
 items.weapon.properties.assault.desc=When you have an assault weapon, you can do more damage when you approach the enemy.
 
-items.weapon.properties.balanceattack.name=balance %s
+items.weapon.properties.balanceattack.name=balance-weapon %s
 items.weapon.properties.balanceattack.desc=Balanced weapons are able to cause damage steadily due to their weight balance.
 
 items.weapon.properties.critical.name=critical %s
@@ -1098,10 +1098,10 @@ items.weapon.properties.beheading.name=beheading %s
 items.weapon.properties.beheading.desc=Beheading weapon is unstoppable when dealing with extremely weak enemies.
 
 items.weapon.properties.firststrike.name=preemptive %s
-items.weapon.properties.firststrike.desc=preemptive%s weapons can cause more damage when dealing with enemies with health.
+items.weapon.properties.firststrike.desc=preemptive%s weapons can cause more damage when dealing with enemies with full health.
 
 items.weapon.properties.sleepy.name=sleepy %s
-items.weapon.properties.sleepy.desc=A sleepy weapon seems to have some kind of illusion that will put the enemy you hit into a magical sleep.
+items.weapon.properties.sleepy.desc=A sleepy weapon seems to have some kind of illusion that will put the enemy you hit into magical sleep.
 
 items.weapon.properties.thumping.name=thumping %s
 items.weapon.properties.thumping.desc=Thumping weapon can cause more damage to non-living enemies.
@@ -1168,7 +1168,7 @@ items.weapon.melee.handaxe.desc=A light axe, most commonly used for felling tree
 
 items.weapon.melee.infernofuhmakatana.name=infernal fuhma katana
 items.weapon.melee.infernofuhmakatana.stats_desc=This is a rather accurate weapon.
-items.weapon.melee.infernofuhmakatana.desc=It seems to have been made by some kind of tempering by the Fuhma katana. The blade emits a red glow, but it does not produce a flame. The katana seems to exist only in the legend. But it is said that the monarch of a desert kingdom has such a knife.
+items.weapon.melee.infernofuhmakatana.desc=It seems to have been made by some kind of tempering by the Fuhma katana. The blade emits a red glow, but it does not flame. The katana seems to exist only in the legend. But it is said that the monarch of a desert kingdom has such a knife.
 
 items.weapon.melee.katana.name=katana
 items.weapon.melee.katana.desc=Beautiful, durable, sharp, it is the favorite weapon of the Fuurai ronin.
@@ -1387,7 +1387,7 @@ items.bombs.bomb$doublebomb.name=two bombs
 items.bombs.bomb$doublebomb.desc=A stack of two hefty black powder bombs, looks like you get one free!
 
 items.bombs.firework.name=firework
-items.bombs.firework.desc=A fairly hefty black powder firework. It's power may be smaller than a bomb.
+items.bombs.firework.desc=A fairly hefty black powder firework. It's power may be weaker than a bomb.
 
 items.bombs.cannonball.name=cannon ball
 items.bombs.cannonball.desc=A relatively small bomb, it has no fuze, so it cannot be ignited directly.

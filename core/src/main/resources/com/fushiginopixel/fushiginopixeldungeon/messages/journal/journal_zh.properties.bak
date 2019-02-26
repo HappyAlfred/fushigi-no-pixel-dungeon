@@ -20,6 +20,28 @@ journal.document.adventurers_guide.looting.body=特殊房间中总是有着比�
 journal.document.adventurers_guide.magic.title=魔法攻击
 journal.document.adventurers_guide.magic.body=魔法攻击能够直接穿透护甲且极难闪避。\n\n这意味着法杖拥有非常可靠的输出能力，但同样也让敌方魔法生物变得异常危险。\n\n不过魔法攻击同样存在起软肋。由于法杖的充能数有限，它们在没有充能时就会变成一根无用的短棍。根据魔法的不同，敌人的魔法攻击同样也有自己的弱点。\n\n面对敌方魔法生物的攻击时，学会躲避这些魔法永远比硬抗伤害来得更加有效。
 
+journal.document.alchemy_guide.onigirislicing.title=饭团切割
+journal.document.alchemy_guide.onigirislicing.body=输入：大饭团\n输出：饭团x2
+
+journal.document.alchemy_guide.cookfruit.title=煮无味果
+journal.document.alchemy_guide.cookfruit.body=输入：无味果+种子\n输出：种子对应效果的无味果
+journal.document.alchemy_guide.remakepotion.title=再制药剂
+journal.document.alchemy_guide.remakepotion.body=输入：饮料药剂+种子\n输出：4/5种子对应效果的药剂，1/5随机药剂
+journal.document.alchemy_guide.makecannonball.title=炮弹制造
+journal.document.alchemy_guide.makecannonball.body=输入：爆炸药剂+破碎的蜂蜜罐\n输出：炮弹
+journal.document.alchemy_guide.extracthoney.title=蜂蜜萃取
+journal.document.alchemy_guide.extracthoney.body=输入：净化药剂(不消耗)+破碎的蜂蜜罐\n输出：饮料药剂
+journal.document.alchemy_guide.randompotion.title=药剂配制
+journal.document.alchemy_guide.randompotion.body=输入：种子+种子+种子\n输出：2/3其中1个种子对应的药剂，1/3随机药剂
+journal.document.alchemy_guide.onigiriprocess.title=饭团加工
+journal.document.alchemy_guide.onigiriprocess.body=输入：饭团+烤肉+种子\n输出：特制饭团x3
+journal.document.alchemy_guide.explosivespreparing.title=炸药制造
+journal.document.alchemy_guide.explosivespreparing.body=输入：黏滑凝胶+种类不同的药剂x2\n输出：爆炸药剂x2
+journal.document.alchemy_guide.alchemyenchantoffire.title=炼金法附魔-烈火
+journal.document.alchemy_guide.alchemyenchantoffire.body=输入1：武器+液火药剂+净化药剂+卷轴\n输出1：烈焰附魔的武器\n\n输入2：防具+液火药剂+净化药剂+卷轴\n输出2：狱火附魔的防具
+journal.document.alchemy_guide.alchemyenchantoffire.title=炼金法附魔-烈火
+journal.document.alchemy_guide.alchemyenchantoffire.body=输入1：武器+液火药剂+净化药剂+卷轴\n输出1：烈焰附魔的武器\n\n输入2：防具+液火药剂+净化药剂+卷轴\n输出2：狱火附魔的防具
+
 journal.notes$landmark.well_of_health=生命之泉
 journal.notes$landmark.well_of_awareness=觉察之泉
 journal.notes$landmark.well_of_transmutation=嬗变之泉

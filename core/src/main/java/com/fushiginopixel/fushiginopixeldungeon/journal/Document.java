@@ -32,7 +32,8 @@ import java.util.List;
 
 public enum Document {
 
-	ADVENTURERS_GUIDE;
+	ADVENTURERS_GUIDE,
+	ALCHEMISTIC_GUIDE;
 	
 	private LinkedHashMap<String, Boolean> pages = new LinkedHashMap<>();
 	
@@ -79,6 +80,19 @@ public enum Document {
 		ADVENTURERS_GUIDE.pages.put("Dieing", 			false);
 		ADVENTURERS_GUIDE.pages.put("Looting", 		    false);
 		ADVENTURERS_GUIDE.pages.put("Magic", 			false);
+
+		ALCHEMISTIC_GUIDE.pages.put("alchemyenchantoffire",false);
+		ALCHEMISTIC_GUIDE.pages.put("alchemyenchantofbalance",false);
+		ALCHEMISTIC_GUIDE.pages.put("cookfruit",false);
+		ALCHEMISTIC_GUIDE.pages.put("explosivespreparing",false);
+		ALCHEMISTIC_GUIDE.pages.put("extracthoney",false);
+		ALCHEMISTIC_GUIDE.pages.put("makecannonball",false);
+		ALCHEMISTIC_GUIDE.pages.put("neutralization",false);
+		ALCHEMISTIC_GUIDE.pages.put("onigiriprocess",false);
+		ALCHEMISTIC_GUIDE.pages.put("onigirislicing",false);
+		ALCHEMISTIC_GUIDE.pages.put("randompotion",false);
+		ALCHEMISTIC_GUIDE.pages.put("remakepotion",false);
+		ALCHEMISTIC_GUIDE.pages.put("tipdart",false);
 	}
 	
 	private static final String DOCUMENTS = "documents";

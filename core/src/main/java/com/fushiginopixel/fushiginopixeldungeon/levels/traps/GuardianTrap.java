@@ -85,9 +85,9 @@ public class GuardianTrap extends Trap {
 			state = WANDERING;
 		}
 
-		public Guardian(){
-			super();
-
+		@Override
+		public void addWeapon(){
+			super.addWeapon();
 			weapon.enchantmentClear();
 			weapon.degrade(weapon.level());
 		}

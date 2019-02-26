@@ -76,7 +76,7 @@ public class Energy extends Weapon.Enchantment {
 		charge++;
 
 		if (charge >= chargeTop && attacker != null) {
-			GLog.n(Messages.get(this, "charged", attacker));
+			GLog.n(Messages.get(this, "charged", attacker.name));
 			charged = true;
 		}
 	}

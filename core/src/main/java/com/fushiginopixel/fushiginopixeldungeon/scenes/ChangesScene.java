@@ -144,6 +144,12 @@ public class ChangesScene extends PixelScene {
 		changes = new ChangeInfo(Messages.get(this, "changes"), false, "");
 		changes.hardlight( Window.TITLE_COLOR );
 		infos.add(changes);
+		changes.addButton( new ChangeButton(new Image(Assets.NPCALFRED, 0, 0, 11, 16), Messages.get(this, "super_update"),
+				"英文文本更新！"));
+
+		changes = new ChangeInfo(Messages.get(this, "changes"), false, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
 
 		changes.addButton( new ChangeButton(new Image(Assets.SPINNER,  144, 0, 16, 16), Messages.get(this, "bugfixes"),
 				"修复了bug\n"+
@@ -358,7 +364,7 @@ public class ChangesScene extends PixelScene {
 		infos.add(changes);
 
 		changes.addButton( new ChangeButton(new Image(Assets.NPCALFRED, 0, 0, 11, 16), Messages.get(this, "super_update"),
-				"更新记录不再受到Evan的控制！" + "傻逼盗版，胜利属于阿飞！"));
+				"傻逼盗版，胜利属于阿飞！"));
 
 		//**********************
 		//       v0.6.5
