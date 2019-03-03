@@ -31,7 +31,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.food.Food;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.SpecialOnigiri;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfHealing;
 
-public class HardcoreMode {
+public class SpecialMode {
 
 	//Some of these internal IDs are outdated and don't represent what these challenges do
 	public static final int SUPER_FUSHIGI		= 1;
