@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.windows;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.Statistics;
 import com.fushiginopixel.fushiginopixeldungeon.Warehouse;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.GodownKeeper;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Wandmaker;
@@ -97,7 +98,7 @@ public class WndGodownKeeper extends Window {
 			}
 		};
 		btnGet.setRect(0, btnSave.bottom() + GAP, WIDTH, BTN_HEIGHT);
-		btnGet.enable( items.size() > 0 );
+		btnGet.enable( items.size() > 0 && (Dungeon.mode.enabledGotFromWarehouse() || Statistics.overed) );
 		add( btnGet );
 		
 		resize(WIDTH, (int) btnGet.bottom());

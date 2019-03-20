@@ -18,6 +18,16 @@ public class FirstStrike extends Weapon.Enchantment{
     }
 
     @Override
+    public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+
+        if(defender.HP == defender.HT) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
     public ItemSprite.Glowing glowing() {
         return BLACK;
     }

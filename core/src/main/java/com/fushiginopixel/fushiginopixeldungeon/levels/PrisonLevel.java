@@ -57,11 +57,16 @@ public class PrisonLevel extends RegularLevel {
 	{
 		color1 = 0x6a723d;
 		color2 = 0x88924c;
+		stage = 1;
 	}
 	
 	@Override
 	protected ArrayList<Room> initRooms() {
-		return Wandmaker.Quest.spawnRoom(super.initRooms());
+		if(Dungeon.mode.isNormalMode()) {
+			return Wandmaker.Quest.spawnRoom(super.initRooms());
+		}else{
+			return super.initRooms();
+		}
 	}
 	
 	@Override

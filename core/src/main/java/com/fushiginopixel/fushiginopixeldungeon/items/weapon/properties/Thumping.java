@@ -19,7 +19,7 @@ public class Thumping extends Weapon.Enchantment {
             if(defender.properties().contains(Char.Property.INORGANIC)){
                 if(defender != null)
                     CellEmitter.center(defender.pos).burst(Speck.factory(Speck.STAR), 14);
-                return 1.5f;
+                return 2f;
             }
         }
         return 1;

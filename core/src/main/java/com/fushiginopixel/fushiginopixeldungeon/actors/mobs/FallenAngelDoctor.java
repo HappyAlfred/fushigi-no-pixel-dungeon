@@ -131,7 +131,7 @@ public class FallenAngelDoctor extends FallenAngel {
 							&& mob != this
 							&& fieldOfView[mob.pos]
 							&& mob.HP < mob.HT
-							&& mob.enemy == this)
+							&& mob.enemy != this)
 						cureTargets.add(mob);
 
 				//and look for the hero
@@ -143,7 +143,7 @@ public class FallenAngelDoctor extends FallenAngel {
 			} else if (alignment == Alignment.ENEMY) {
 				//look for ally mobs to attack
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob.alignment == Alignment.ENEMY && mob != this && mob.HP < mob.HT && mob.enemy == this)
+					if (mob.alignment == Alignment.ENEMY && mob != this && mob.HP < mob.HT && mob.enemy != this)
 						cureTargets.add(mob);
 
 			}

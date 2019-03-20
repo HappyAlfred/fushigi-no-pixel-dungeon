@@ -23,10 +23,13 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class StandardRoom extends Room {
 	
@@ -111,8 +114,8 @@ public abstract class StandardRoom extends Room {
 	}
 	
 	//FIXME this is a very messy way of handing variable standard rooms
-	private static ArrayList<Class<?extends StandardRoom>> rooms = new ArrayList<>();
-	static {
+	public static ArrayList<Class<?extends StandardRoom>> rooms = new ArrayList<>();
+	static {//1+10+10
 		rooms.add(EmptyRoom.class);
 
 
@@ -143,8 +146,8 @@ public abstract class StandardRoom extends Room {
 		rooms.add(SuspiciousChestRoom.class);
 		rooms.add(MinefieldRoom.class);
 	}
-	
-	private static float[][] chances = new float[52][];
+
+	public static float[][] chances = new float[52][];
 	static {
 		chances[1] =  new float[]{20,  15,5, 0,0, 0,0, 0,0, 0,0,    1,0,1,0,1,0,1,1,0,0};
 		chances[2] =  new float[]{20,  15,5, 0,0, 0,0, 0,0, 0,0,    1,1,1,1,1,1,1,1,1,1};
@@ -173,18 +176,115 @@ public abstract class StandardRoom extends Room {
 		
 		chances[42] = new float[]{20,  0,0, 0,0, 0,0, 0,0, 15,5,    1,1,1,1,1,1,1,1,1,1};
 		chances[46] = chances[45] = chances[44] = chances[43] = chances[42];
-		chances[47] = new float[]{0,  10,10, 10,10, 10,10, 10,10, 10,10,    1,1,1,1,1,1,1,1,1,1};
+		chances[47] = new float[]{0,  15,5, 15,5, 15,5, 15,5, 15,5,    1,1,1,1,1,1,1,1,1,1};
 		chances[51] = chances[50] = chances[49] = chances[48] = chances[47];
 	}
 	
 	
 	public static StandardRoom createRoom(){
+		/*
 		try{
 			return rooms.get(Random.chances(chances[Dungeon.depth])).newInstance();
 		} catch (Exception e) {
 			Fushiginopixeldungeon.reportException(e);
 			return null;
 		}
+		*/
+		Mode mode = Dungeon.mode;
+		return mode.createStandardRoom();
 	}
-	
+
+	public enum Category {
+		EMPTY(10),
+		SEWER (10),
+		PRISON (10),
+		CAVE (10),
+		CITY (10),
+		HALL (10),
+		SPECIAL (5);
+		public Class<?>[] classes;
+		public float[] probs;
+
+		public float prob;
+		public Class<? extends StandardRoom> superClass;
+
+		private Category( float prob) {
+			this.prob = prob;
+		}
+
+		static {
+			EMPTY.classes = new Class<?>[]{
+					EmptyRoom.class};
+			EMPTY.probs = new float[]{ 1};
+
+			SEWER.classes = new Class<?>[]{
+					SewerPipeRoom.class,
+					RingRoom.class/*,
+					CrossPipeRoom.class*/};
+			SEWER.probs = new float[]{ 15, 5/*, 5*/ };
+
+			PRISON.classes = new Class<?>[]{
+					SegmentedRoom.class,
+					StatuesRoom.class};
+			PRISON.probs = new float[]{ 15, 5 };
+
+			CAVE.classes = new Class<?>[]{
+					CaveRoom.class,
+					CirclePitRoom.class};
+			CAVE.probs = new float[]{ 15, 5 };
+
+			CITY.classes = new Class<?>[]{
+					HallwayRoom.class,
+					PillarsRoom.class};
+			CITY.probs = new float[]{ 15, 5 };
+
+			HALL.classes = new Class<?>[]{
+					RuinsRoom.class,
+					SkullsRoom.class};
+			HALL.probs = new float[]{ 15, 5 };
+
+			SPECIAL.classes = new Class<?>[]{
+					PlantsRoom.class,
+					AquariumRoom.class,
+					PlatformRoom.class,
+					BurnedRoom.class,
+					FissureRoom.class,
+					GrassyGraveRoom.class,
+					StripedRoom.class,
+					StudyRoom.class,
+					SuspiciousChestRoom.class,
+					MinefieldRoom.class};
+			SPECIAL.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+		}
+	}
+
+	private static HashMap<Category,Float> categoryProbs = new LinkedHashMap<>();
+
+	public static void reset() {
+		for (Category cat : Category.values()) {
+			if(!categoryProbs.containsKey(cat)) {
+				categoryProbs.put(cat, cat.prob);
+			}
+		}
+	}
+
+	public static StandardRoom randomStandardRoom() {
+		//reset();
+		Category cat = Random.chances( categoryProbs );
+		if (cat == null){
+			reset();
+			cat = Random.chances( categoryProbs );
+		}
+		categoryProbs.put( cat, categoryProbs.get( cat ) - 1);
+		return randomStandardRoom( cat );
+	}
+
+	public static StandardRoom randomStandardRoom( Category cat ) {
+		try {
+			return (StandardRoom)cat.classes[Random.chances( cat.probs )].newInstance();
+		} catch (Exception e) {
+			Fushiginopixeldungeon.reportException(e);
+			return null;
+		}
+	}
 }

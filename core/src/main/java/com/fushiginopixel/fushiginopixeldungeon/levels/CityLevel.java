@@ -57,6 +57,7 @@ public class CityLevel extends RegularLevel {
 	{
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
+		stage = 3;
 	}
 	
 	@Override
@@ -108,8 +109,9 @@ public class CityLevel extends RegularLevel {
 	@Override
 	protected void createItems() {
 		super.createItems();
-		
-		Imp.Quest.spawn( this );
+		if(Dungeon.mode.isNormalMode()) {
+			Imp.Quest.spawn(this);
+		}
 	}
 	
 	@Override

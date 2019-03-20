@@ -55,6 +55,7 @@ public class SewerLevel extends RegularLevel {
 	{
 		color1 = 0x48763c;
 		color2 = 0x59994a;
+		stage = 0;
 	}
 	
 	@Override
@@ -107,13 +108,9 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
-		if (!Dungeon.LimitedDrops.DEW_VIAL.dropped()) {
-			addItemToSpawn( new DewVial() );
-			Dungeon.LimitedDrops.DEW_VIAL.drop();
+		if(Dungeon.mode.isNormalMode()) {
+			Ghost.Quest.spawn(this);
 		}
-
-		Ghost.Quest.spawn( this );
-		
 		super.createItems();
 	}
 	

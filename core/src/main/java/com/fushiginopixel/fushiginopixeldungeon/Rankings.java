@@ -33,6 +33,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.rings.Ring;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.journal.Notes;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.ui.QuickSlotButton;
 import com.watabou.utils.Bundlable;
@@ -105,7 +106,7 @@ public enum Rankings {
 	}
 
 	private int score( boolean win ) {
-		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? 51 : Dungeon.depth ) * 100) * (win ? 2 : 1);
+		return (Statistics.goldCollected + Dungeon.hero.lvl * (win ? Dungeon.mode.maxDepth() : Dungeon.depth ) * 100) * (win ? 2 : 1);
 	}
 
 	public static final String HERO = "hero";
@@ -113,6 +114,7 @@ public enum Rankings {
 	public static final String BADGES = "badges";
 	public static final String HANDLERS = "handlers";
 	public static final String CHALLENGES = "challenges";
+	public static final String MODE = "mode";
 
 	public void saveGameData(Record rec){
 		rec.gameData = new Bundle();
@@ -160,6 +162,7 @@ public enum Rankings {
 		
 		//save challenges
 		rec.gameData.put( CHALLENGES, Dungeon.challenges );
+		rec.gameData.put( MODE, Dungeon.mode );
 	}
 
 	public void loadGameData(Record rec){
@@ -186,6 +189,7 @@ public enum Rankings {
 		Statistics.restoreFromBundle(data.getBundle(STATS));
 		
 		Dungeon.challenges = data.getInt(CHALLENGES);
+		Dungeon.mode = (Mode)data.get(MODE);
 
 	}
 	

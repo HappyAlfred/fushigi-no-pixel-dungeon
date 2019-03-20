@@ -34,6 +34,8 @@ import com.fushiginopixel.fushiginopixeldungeon.items.quest.DarkGold;
 import com.fushiginopixel.fushiginopixeldungeon.items.quest.Pickaxe;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
+import com.fushiginopixel.fushiginopixeldungeon.levels.CavesBossLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.CavesLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.HighGrass;
@@ -188,7 +190,7 @@ public class Mattock extends MeleeWeapon {
 						Level.set(cell, Terrain.EMPTY);
 						GameScene.updateMap(cell);
 						break;
-					}else if (Dungeon.depth >= 21 && Dungeon.depth <= 30 && Dungeon.level.map[cell] == Terrain.WALL_DECO) {
+					}else if ((Dungeon.level instanceof CavesLevel || Dungeon.level instanceof CavesBossLevel) && Dungeon.level.map[cell] == Terrain.WALL_DECO) {
 						CellEmitter.center(cell).burst(Speck.factory(Speck.STAR), 7);
 						Sample.INSTANCE.play(Assets.SND_EVOKE);
 

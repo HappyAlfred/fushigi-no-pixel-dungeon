@@ -66,6 +66,7 @@ public class SurfaceLevel extends Level {
 	{
 		color1 = 0x6a723d;
 		color2 = 0x88924c;
+		stage = 0;
 	}
 
 	//keep track of that need to be removed as the level is changed. We dump 'em back into the level at the end.

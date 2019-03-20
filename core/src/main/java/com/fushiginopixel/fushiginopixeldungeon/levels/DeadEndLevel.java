@@ -32,6 +32,7 @@ public class DeadEndLevel extends Level {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
+		stage = 2;
 	}
 	
 	@Override

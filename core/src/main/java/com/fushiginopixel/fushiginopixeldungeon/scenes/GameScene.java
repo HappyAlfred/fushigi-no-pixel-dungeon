@@ -54,6 +54,7 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.CityLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.HallsBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.HallsLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.LastLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.LastShopLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.PrisonBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.PrisonLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.SewerBossLevel;
@@ -352,24 +353,26 @@ public class GameScene extends PixelScene {
 			ScrollOfTeleportation.appear(  Dungeon.hero, Dungeon.hero.pos );
 			break;
 		case DESCEND:
-			switch (Dungeon.depth) {
-			case 1:
-				WndStory.showChapter( WndStory.ID_SEWERS );
-				break;
-			case 11:
-				WndStory.showChapter( WndStory.ID_PRISON );
-				break;
-			case 21:
-				WndStory.showChapter( WndStory.ID_CAVES );
-				break;
-			case 31:
-				WndStory.showChapter( WndStory.ID_CITY );
-				break;
-			case 42:
-				WndStory.showChapter( WndStory.ID_HALLS );
-				break;
+			if(Dungeon.mode.isNormalMode()) {
+				switch (Dungeon.depth) {
+					case 1:
+						WndStory.showChapter(WndStory.ID_SEWERS);
+						break;
+					case 11:
+						WndStory.showChapter(WndStory.ID_PRISON);
+						break;
+					case 21:
+						WndStory.showChapter(WndStory.ID_CAVES);
+						break;
+					case 31:
+						WndStory.showChapter(WndStory.ID_CITY);
+						break;
+					case 42:
+						WndStory.showChapter(WndStory.ID_HALLS);
+						break;
+				}
 			}
-			if (Dungeon.hero.isAlive() && Dungeon.depth != 42) {
+			if (Dungeon.hero.isAlive() && !(Dungeon.level instanceof LastShopLevel)) {
 				Badges.validateNoKilling();
 			}
 			break;

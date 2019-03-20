@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Rankings;
+import com.fushiginopixel.fushiginopixeldungeon.SpecialMode;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Belongings;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -161,11 +162,11 @@ public class WndRanking extends WndTabbed {
 			
 			float pos = title.bottom();
 
-			if (Dungeon.challenges > 0) {
-				RedButton btnChallenges = new RedButton( Messages.get(this, "challenges") ) {
+			if (Dungeon.challenges > 0 || !Dungeon.mode.isNormalMode()) {
+				RedButton btnChallenges = new RedButton( Messages.get(this, Dungeon.challenges > 0 ? "challenges" : "specialmodes") ) {
 					@Override
 					protected void onClick() {
-						Game.scene().add( new WndChallenges( Dungeon.challenges, false ) );
+						Game.scene().add( new WndChallenges( Dungeon.challenges, SpecialMode.getModeValue(Dungeon.mode.getClass()),false ) );
 					}
 				};
 				float btnW = btnChallenges.reqWidth() + 2;

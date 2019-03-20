@@ -65,7 +65,7 @@ public class ScrollOfExpand extends InventoryScroll {
 	}
 	
 	public static void upgrade( Hero hero ) {
-		hero.sprite.emitter().start( Speck.factory( Speck.KIT ), 0.2f, 10 );
+		hero.sprite.emitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
 	}
 	
 	@Override

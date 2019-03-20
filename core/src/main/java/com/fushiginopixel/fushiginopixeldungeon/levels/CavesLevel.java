@@ -61,11 +61,16 @@ public class CavesLevel extends RegularLevel {
 		color2 = 0xb9d661;
 
 		viewDistance = Math.min(6, viewDistance);
+		stage = 2;
 	}
 	
 	@Override
 	protected ArrayList<Room> initRooms() {
-		return Blacksmith.Quest.spawn(super.initRooms());
+		if(Dungeon.mode.isNormalMode()) {
+			return Blacksmith.Quest.spawn(super.initRooms());
+		}else{
+			return super.initRooms();
+		}
 	}
 	
 	@Override

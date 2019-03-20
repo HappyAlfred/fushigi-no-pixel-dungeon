@@ -60,6 +60,7 @@ public class WebBuilder extends RegularBuilder {
                     placed.add(r);
                     if (!rooms.contains(r)) {
                         rooms.add(r);
+                        k++;
                     }
                 } else if(!r.isEmpty()){//not empty but not connected
                     r.setEmpty();

@@ -17,6 +17,7 @@ public class Assault extends Weapon.Enchantment {
     @Override
     public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type) {
 
+        /*
         if(attacker instanceof Hero){
             Hero hero = (Hero)attacker;
             if(hero.justMovedPos != -1 && Dungeon.level.distance(hero.justMovedPos , defender.pos) > Dungeon.level.distance(hero.pos, defender.pos)){
@@ -25,8 +26,21 @@ public class Assault extends Weapon.Enchantment {
                 hero.justMovedPos = -1;
                 return 1.5f;
             }
-        }
+        }*/
         return 1;
+    }
+
+    @Override
+    public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type) {
+
+        if(attacker instanceof Hero){
+            Hero hero = (Hero)attacker;
+            if(hero.justMovedPos != -1 && Dungeon.level.distance(hero.justMovedPos , defender.pos) > Dungeon.level.distance(hero.pos, defender.pos)){
+                hero.justMovedPos = -1;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

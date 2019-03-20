@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Statistics;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Bestiary;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
+import com.fushiginopixel.fushiginopixeldungeon.items.DewVial;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -49,6 +50,7 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.special.SpecialRoom
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.EntranceRoom;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.ExitRoom;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.StandardRoom;
+import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.StandardShopRoom;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.BlazingTrap;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.BurningTrap;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.ChillingTrap;
@@ -110,10 +112,13 @@ public abstract class RegularLevel extends Level {
 			initRooms.add(s);
 		}
 
-		int secrets = SecretRoom.secretsForFloor(Dungeon.depth);
+		int secrets = Dungeon.mode.isNormalMode() ? SecretRoom.secretsForFloor(Dungeon.depth) : SecretRoom.specialSecretsForFloor(Dungeon.depth);
 
 		if (Dungeon.shopOnLevel()) {
 			initRooms.add(new ShopRoom());
+		}
+		if(Random.Float(1) < Dungeon.mode.standardShopChance()){
+			initRooms.add(new StandardShopRoom());
 		}
 		
 		int specials = specialRooms();
@@ -123,9 +128,11 @@ public abstract class RegularLevel extends Level {
 
 		for (int i = 0; i < secrets; i++) {
 			SecretRoom r =SecretRoom.createRoom();
-			while((initRooms.contains(new ShopRoom()) || initRooms.contains(new SecretShopRoom())) & r instanceof SecretShopRoom){
+			/*
+			while((initRooms.contains(new ShopRoom()) || initRooms.contains(new SecretShopRoom())) && r instanceof SecretShopRoom){
 				r = SecretRoom.createRoom();
 			}
+			*/
 			initRooms.add(r);
 		}
 		return initRooms;
@@ -170,7 +177,8 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected int nTraps() {
-		return Random.NormalIntRange( 1, 3+(Dungeon.depth/3) );
+		//return Random.NormalIntRange( 1, 3+(Dungeon.depth/3) );
+		return Random.NormalIntRange( 1, (int)(100 * (float)Dungeon.depth / (Dungeon.depth + Dungeon.mode.maxDepth() * 5)) );
 	}
 
 	public Class<?>[] trapClasses(){
@@ -188,7 +196,7 @@ public abstract class RegularLevel extends Level {
 				//mobs are not randomly spawned on floor 1.
 				return 0;
 			default:
-				//more deeop ,more monster!
+				//more deeper ,more monster!
 				return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(Dungeon.depth % 10) + Random.Int(5);
 		}
 	}
@@ -197,12 +205,12 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	public Mob createMob() {
-		if(Bestiary.getStandardMobRotation(Dungeon.depth).isEmpty()){
+		if(Bestiary.getStandardMobRotation(Dungeon.depth, Dungeon.mode).isEmpty()){
 			return null;
 		}
 		if (mobsToSpawn == null || mobsToSpawn.isEmpty()) {
 			if (!Statistics.thief)
-				mobsToSpawn = Bestiary.getMobRotation(Dungeon.depth);
+				mobsToSpawn = Bestiary.getMobRotation(Dungeon.depth, Dungeon.mode);
 			else
 				mobsToSpawn = Bestiary.getGuardRotation();
 		}
@@ -320,6 +328,11 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	protected void createItems() {
+
+		if (!Dungeon.LimitedDrops.DEW_VIAL.dropped()) {
+			addItemToSpawn( new DewVial() );
+			Dungeon.LimitedDrops.DEW_VIAL.drop();
+		}
 		
 		// drops 3/4/5 items 60%/30%/10% of the time
 		int nItems = 3 + Random.chances(new float[]{6, 3, 1});

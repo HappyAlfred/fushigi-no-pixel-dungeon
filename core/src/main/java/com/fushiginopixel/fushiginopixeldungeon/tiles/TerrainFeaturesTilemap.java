@@ -64,8 +64,8 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 			return plants.get(pos).image + 7*16;
 		}
 
-		int stage = (Dungeon.depth-1)/10;
-		if (Dungeon.depth == 41) stage--;
+		int stage = Dungeon.level.stage;//(Dungeon.depth-1)/10;
+		//if (Dungeon.depth == 41) stage--;
 		if (tile == Terrain.HIGH_GRASS){
 			return 9 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.GRASS) {

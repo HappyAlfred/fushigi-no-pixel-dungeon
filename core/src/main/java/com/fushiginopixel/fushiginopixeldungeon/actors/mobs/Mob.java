@@ -539,7 +539,9 @@ public abstract class Mob extends Char {
 	@Override
 	public void damage( int dmg, Object src, EffectType type ) {
 
-		Terror.recover( this );
+		if(Random.Int(6) == 0) {
+			Terror.recover(this);
+		}
 
 		if (state == SLEEPING) {
 			state = WANDERING;
@@ -553,19 +555,41 @@ public abstract class Mob extends Char {
 	
 	
 	@Override
-	public void destroy() {
+	public void destroy(Object cause, EffectType type ) {
 		
-		super.destroy();
-		
-		Dungeon.level.mobs.remove( this );
-		
+		super.destroy(cause, type );
+
+		destroying(cause, type );
+		/*Dungeon.level.mobs.remove( this );
+
 		if (Dungeon.hero.isAlive()) {
-			
+
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
 				Statistics.qualifiedForNoKilling = false;
-				
+
+				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
+				exp = RingOfKnowledge.expAdapt(Dungeon.hero , exp);
+				if (exp > 0) {
+					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
+					Dungeon.hero.earnExp(exp);
+				}
+			}
+		}*/
+	}
+
+	public void destroying(Object cause, EffectType type ) {
+
+		Dungeon.level.mobs.remove( this );
+
+		if (Dungeon.hero.isAlive()) {
+
+			if (alignment == Alignment.ENEMY) {
+				Statistics.enemiesSlain++;
+				Badges.validateMonstersSlain();
+				Statistics.qualifiedForNoKilling = false;
+
 				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
 				exp = RingOfKnowledge.expAdapt(Dungeon.hero , exp);
 				if (exp > 0) {

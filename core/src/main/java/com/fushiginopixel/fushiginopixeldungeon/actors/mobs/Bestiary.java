@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -28,16 +29,16 @@ import java.util.Arrays;
 
 public class Bestiary {
 	
-	public static ArrayList<Class<? extends Mob>> getMobRotation( int depth ){
-		ArrayList<Class<? extends Mob>> mobs = standardMobRotation( depth );
-		addRareMobs(depth, mobs);
-		swapMobAlts(mobs);
+	public static ArrayList<Class<? extends Mob>> getMobRotation( int depth, Mode mode ){
+		ArrayList<Class<? extends Mob>> mobs = mode.standardMobRotation( depth );
+		mode.addRareMobs(depth, mobs);
+		mode.swapMobAlts(mobs);
 		Random.shuffle(mobs);
 		return mobs;
 	}
 
-	public static ArrayList<Class<? extends Mob>> getStandardMobRotation( int depth ){
-		ArrayList<Class<? extends Mob>> mobs = standardMobRotation( depth );
+	public static ArrayList<Class<? extends Mob>> getStandardMobRotation( int depth, Mode mode  ){
+		ArrayList<Class<? extends Mob>> mobs = mode.standardMobRotation( depth );
 		return mobs;
 	}
 	
@@ -432,5 +433,38 @@ public class Bestiary {
 				rotation.set(i, cl);
 			}
 		}
+	}
+
+	public static ArrayList<Class<?extends Mob>> spawningMobs(){
+		return new ArrayList<Class<? extends Mob>>(Arrays.asList(
+				Bat.class, EaterBat.class, VampireBat.class, SpiritBat.class,
+				Brute.class,
+				Crab.class, SilverCrab.class,
+				CurseGirl.class, CurseGirlSister.class,
+				DeathEye.class,
+				DM450.class,
+				Dragon.class, InfernoDragon.class, FlareDragon.class,
+				Elemental.class,
+				FallenAngel.class, FallenAngelNurse.class, FallenAngelDoctor.class,
+				GelCube.class, RedGelCube.class,
+				GoblinSapper.class, GoblinFanatics.class,
+				Golem.class,
+				Gnoll.class, GnollBomber.class, GnollNinja.class, Shaman.class,
+				HungryRat.class, InfernoDragon.class, IronScorpio.class,
+				Lich.class,
+				Monk.class,
+				PatrolDog.class, DarkWolf.class,
+				Pumpkin.class, PumpkinKing.class,
+				Rat.class, WhiteRat.class, HungryRat.class,
+				Scorpio.class, IronScorpio.class, GoldenScorpio.class,
+				Skeleton.class, SkeletonArcher.class, Lich.class,
+				Slime.class, RedSlime.class,
+				Spinner.class, PoisonSpinner.class,
+				Swarm.class,
+				Thief.class,
+				Warlock.class,
+				Zombie.class, ZombieSoldier.class, ZombieCaptain.class
+				));
+
 	}
 }

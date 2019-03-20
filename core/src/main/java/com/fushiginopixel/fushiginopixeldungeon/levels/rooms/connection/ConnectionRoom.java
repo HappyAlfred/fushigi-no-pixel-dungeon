@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.rooms.connection;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -58,7 +59,7 @@ public abstract class ConnectionRoom extends Room {
 	}
 	
 	//FIXME this is a very messy way of handing variable connection rooms
-	private static ArrayList<Class<?extends ConnectionRoom>> rooms = new ArrayList<>();
+	public static ArrayList<Class<?extends ConnectionRoom>> rooms = new ArrayList<>();
 	static {
 		rooms.add(TunnelRoom.class);
 		rooms.add(BridgeRoom.class);
@@ -69,8 +70,8 @@ public abstract class ConnectionRoom extends Room {
 		rooms.add(RingTunnelRoom.class);
 		rooms.add(RingBridgeRoom.class);
 	}
-	
-	private static float[][] chances = new float[52][];
+
+	public static float[][] chances = new float[52][];
 	static {
 		chances[1] =  new float[]{20, 1,    0, 2,       2, 1};
 		chances[9] =  chances[8] =  chances[7] =  chances[6] =  chances[4] =  chances[3] = chances[2] = chances[1];
@@ -93,11 +94,15 @@ public abstract class ConnectionRoom extends Room {
 	}
 	
 	public static ConnectionRoom createRoom(){
+		/*
 		try {
 			return rooms.get(Random.chances(chances[Dungeon.depth])).newInstance();
 		} catch (Exception e) {
 			Fushiginopixeldungeon.reportException(e);
 			return null;
 		}
+		*/
+		Mode mode = Dungeon.mode;
+		return mode.createConnectionRoom();
 	}
 }

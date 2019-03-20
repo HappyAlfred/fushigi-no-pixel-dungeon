@@ -555,6 +555,16 @@ public class Generator {
 			categoryProbs.put( cat, cat.prob );
 		}
 	}
+
+	public static Category randomCategory() {
+		Category cat = Random.chances( categoryProbs );
+		if (cat == null){
+			reset();
+			cat = Random.chances( categoryProbs );
+		}
+		categoryProbs.put( cat, categoryProbs.get( cat ) - 1);
+		return cat;
+	}
 	
 	public static Item random() {
 		Category cat = Random.chances( categoryProbs );

@@ -59,15 +59,13 @@ public class RedSlime extends Slime {
 	{
 		spriteClass = RedSlimeSprite.class;
 		
-		HP = HT = 60;
+		HP = HT = 70;
 		defenseSkill = 17;
 
 		EXP = 17;
 
 		corrodeStr = 2;
 	}
-	
-	private static final float SPLIT_DELAY	= 1f;
 	
 	@Override
 	public int damageRoll() {
@@ -112,48 +110,8 @@ public class RedSlime extends Slime {
 		}
 
 	}
-
-	@Override
-	public void damage( int dmg, Object src,EffectType type ) {
-		super.damage( dmg, src ,type );
-
-		if (isAlive() && type.isExistAttachType(EffectType.BURST)) {
-			split( dmg, src,type );
-		}
-	}
-
-	public void split( int damage, Object src,EffectType type ) {
-		if (HP >= damage + 2 && isAlive()) {
-			ArrayList<Integer> candidates = new ArrayList<>();
-			boolean[] solid = Dungeon.level.solid;
-
-			int[] neighbours = {pos + 1, pos - 1, pos + Dungeon.level.width(), pos - Dungeon.level.width()};
-			for (int n : neighbours) {
-				if (!solid[n] && Actor.findChar( n ) == null) {
-					candidates.add( n );
-				}
-			}
-
-			if (candidates.size() > 0) {
-
-				RedSlime clone = split();
-				clone.HP = (HP - damage) / 2;
-				clone.pos = Random.element( candidates );
-				clone.state = clone.HUNTING;
-
-				if (Dungeon.level.map[clone.pos] == Terrain.DOOR) {
-					Door.enter( clone.pos );
-				}
-
-				GameScene.add( clone, SPLIT_DELAY );
-				Actor.addDelayed( new Pushing( clone, pos, clone.pos ), -1 );
-
-				HP -= clone.HP;
-			}
-		}
-	}
 	
-	private RedSlime split() {
+	protected RedSlime split() {
 		RedSlime clone = new RedSlime();
 		clone.generation = generation + 1;
 		clone.EXP = 0;

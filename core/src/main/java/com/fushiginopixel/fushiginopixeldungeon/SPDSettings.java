@@ -157,6 +157,7 @@ public class SPDSettings extends GameSettings {
 	
 	public static final String KEY_LAST_CLASS	= "last_class";
 	public static final String KEY_CHALLENGES	= "challenges";
+	public static final String KEY_SPECIALMODE	= "specialmode";
 	public static final String KEY_INTRO		= "intro";
 	
 	public static void intro( boolean value ) {
@@ -181,6 +182,14 @@ public class SPDSettings extends GameSettings {
 	
 	public static int challenges() {
 		return getInt( KEY_CHALLENGES, 0, 0, Challenges.MAX_VALUE );
+	}
+
+	public static void specialMode( int value ) {
+		put( KEY_SPECIALMODE, value );
+	}
+
+	public static int specialMode() {
+		return getInt( KEY_SPECIALMODE, 0, 0, SpecialMode.MAX_VALUE );
 	}
 	
 	//Audio

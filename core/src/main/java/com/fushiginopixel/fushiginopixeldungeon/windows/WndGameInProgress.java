@@ -24,8 +24,10 @@ package com.fushiginopixel.fushiginopixeldungeon.windows;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.GamesInProgress;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
+import com.fushiginopixel.fushiginopixeldungeon.SpecialMode;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.NormalMode;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.InterlevelScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.PixelScene;
@@ -65,16 +67,19 @@ public class WndGameInProgress extends Window {
 		title.color(Window.SHPX_COLOR);
 		title.setRect( 0, 0, WIDTH, 0 );
 		add(title);
-		
-		if (info.challenges > 0) GAP -= 2;
+
+		if(info.mode == null){
+			info.mode = new NormalMode();
+		}
+		if (info.challenges > 0 || !info.mode.isNormalMode()) GAP -= 2;
 		
 		pos = title.bottom() + GAP;
 		
-		if (info.challenges > 0) {
+		if (info.challenges > 0 || !info.mode.isNormalMode()) {
 			RedButton btnChallenges = new RedButton( Messages.get(this, "challenges") ) {
 				@Override
 				protected void onClick() {
-					Game.scene().add( new WndChallenges( info.challenges, false ) );
+					Game.scene().add( new WndChallenges( info.challenges, SpecialMode.getModeValue(info.mode.getClass()), false ) );
 				}
 			};
 			float btnW = btnChallenges.reqWidth() + 2;

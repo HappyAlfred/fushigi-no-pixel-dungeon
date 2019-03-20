@@ -1009,6 +1009,13 @@ public class Hero extends Char {
 		}
 		resting = fullRest;
 	}
+
+	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+		KindOfWeapon wep = belongings.weapon;
+		if(wep != null) {
+			return wep.canCriticalAttack(this, enemy, damage, type);
+		}else return super.canCriticalAttack(enemy, damage, type);
+	}
 	
 	@Override
 	public int attackProc( Char enemy, int damage, EffectType type ) {
@@ -1294,7 +1301,7 @@ public class Hero extends Char {
 			
 			curAction = new HeroAction.Unlock( cell );
 			
-		} else if (cell == Dungeon.level.exit && Dungeon.depth < 51) {
+		} else if (cell == Dungeon.level.exit && Dungeon.depth < Dungeon.mode.maxDepth()) {
 			
 			curAction = new HeroAction.Descend( cell );
 			
@@ -1360,9 +1367,11 @@ public class Hero extends Char {
 	public int maxExp() {
 		return maxExp( lvl );
 	}
-	
+
+	//5 + lvl * 5
 	public static int maxExp( int lvl ){
-		return 5 + lvl * 5;
+		//multupler increse to 3 from 1
+		return (int)((5 + lvl * 5) * (1 + lvl/99f * 2));
 	}
 	
 	public boolean isStarving() {

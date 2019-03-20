@@ -145,6 +145,7 @@ abstract public class Weapon extends KindOfWeapon {
 			damage = super.damageRoll(owner);
 		}
 
+		/*
 		if(hasEnchant(FirstStrike.class)){
 			Char enemy = null;
 			if (owner instanceof Hero) {
@@ -157,6 +158,7 @@ abstract public class Weapon extends KindOfWeapon {
 				damage *= FirstStrike.strikeFactor(this);
 			}
 		}
+		*/
 
 		return damage;
 	}
@@ -194,6 +196,22 @@ abstract public class Weapon extends KindOfWeapon {
             min = max;
         return min;
     }
+
+	public boolean canCriticalAttack( Char attacker, Char defender, int damage, EffectType type ){
+		boolean critFlag = super.canCriticalAttack( attacker, defender, damage, type);
+		if (!properties.isEmpty()) {
+			for(Enchantment e : properties){
+				critFlag |= e.canCriticalAttack(this, attacker, defender, damage, type);
+			}
+		}
+
+		if (enchantmentCount() != 0) {
+			for(Enchantment e : enchantment){
+				critFlag |= e.canCriticalAttack(this, attacker, defender, damage, type);
+			}
+		}
+		return critFlag;
+	}
 
 	@Override
 	public int proc( Char attacker, Char defender, int damage, EffectType type ) {
@@ -564,6 +582,10 @@ abstract public class Weapon extends KindOfWeapon {
 				Annoying.class, Displacing.class, Exhausting.class, Fragile.class,
 				Sacrificial.class, Wayward.class, Friendly.class
 		};
+
+		public boolean canCriticalAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type){
+			return false;
+		}
 			
 		public abstract float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type );
 

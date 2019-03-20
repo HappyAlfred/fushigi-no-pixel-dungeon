@@ -96,8 +96,7 @@ public class Warden extends Mob {
 			}
 		}
 
-		if(jumpFlag){
-			jump();
+		if(jumpFlag && jump()){
 			return true;
 		}
 
@@ -193,7 +192,7 @@ public class Warden extends Mob {
 		return true;
 	}
 
-	private void jump() {
+	private boolean jump() {
 
 		Level level = Dungeon.level;
 		jumpFlag = false;
@@ -205,7 +204,7 @@ public class Warden extends Mob {
 		}
 
 		if (enemy == null) enemy = chooseEnemy();
-		if (enemy == null) return;
+		if (enemy == null) return false;
 
 		int newPos;
 		//if we're in phase 1, want to warp around within the room
@@ -216,7 +215,7 @@ public class Warden extends Mob {
 				newPos = Random.IntRange(14, 18) + 33*Random.IntRange(14, 18);
 			} while ( (level.adjacent(newPos, enemy.pos) || Actor.findChar(newPos) != null)
 					&&--tries > 0);
-			if (tries <= 0) return;
+			if (tries <= 0) return false;
 
 			//otherwise go wherever, as long as it's a little bit away
 		} else {
@@ -229,26 +228,22 @@ public class Warden extends Mob {
 			((PrisonMidBossLevel)Dungeon.level).toggleDoor();
 		}
 
-		if (level.heroFOV[pos]){
+		final int newPosFinal = newPos;
+		final Char warden = this;
+		sprite.parent.add(new Chains(this.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(newPos), new Callback() {
+			public void call() {
+				Actor.addDelayed(new Pushing(warden, pos, newPosFinal, new Callback(){
+					public void call() {
+						pos = newPosFinal;
+						Dungeon.level.press(newPosFinal, warden, true);
+						((Warden)warden).spend( 1 / speed() );
+						warden.next();
 
-			final int newPosFinal = newPos;
-			final Char warden = this;
-			sprite.parent.add(new Chains(this.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(newPos), new Callback() {
-				public void call() {
-					Actor.addDelayed(new Pushing(warden, pos, newPosFinal, new Callback(){
-						public void call() {
-							pos = newPosFinal;
-							Dungeon.level.press(newPosFinal, warden, true);
-							((Warden)warden).spend( 1 / speed() );
-							next();
-
-						}
-					}),-1);
-				}
+					}
+				}),-1);
+			}
 			}));
-		}
-
-		else spend( 1 / speed() );
+		return false;
 	}
 
 	@Override

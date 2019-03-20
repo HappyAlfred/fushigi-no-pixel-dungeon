@@ -64,7 +64,7 @@ public class WndJournal extends WndTabbed {
 	private static final int ITEM_HEIGHT	= 18;
 	
 	private GuideTab guideTab;
-	private AlchemyGuideTab alchemisticTab;
+	private AlchemyTab alchemisticTab;
 	private NotesTab notesTab;
 	private CatalogTab catalogTab;
 	
@@ -82,7 +82,7 @@ public class WndJournal extends WndTabbed {
 		guideTab.setRect(0, 0, width, height);
 		guideTab.updateList();
 
-		alchemisticTab = new AlchemyGuideTab();
+		alchemisticTab = new AlchemyTab();
 		add(alchemisticTab);
 		alchemisticTab.setRect(0, 0, width, height);
 		alchemisticTab.updateList();
@@ -102,14 +102,18 @@ public class WndJournal extends WndTabbed {
 					protected void select( boolean value ) {
 						super.select( value );
 						guideTab.active = guideTab.visible = value;
-						if (value) last_index = 0;
+						if (value) {
+							last_index = 0;
+						}
 					}
 				},
-				new LabeledTab( Messages.get(this, "alchemy") ) {
+				new LabeledTab( Messages.get(this, "recipe") ) {
 					protected void select( boolean value ) {
 						super.select( value );
 						alchemisticTab.active = alchemisticTab.visible = value;
-						if (value) last_index = 1;
+						if (value) {
+							last_index = 1;
+						}
 					}
 				},
 				new LabeledTab( Messages.get(this, "notes") ) {
@@ -238,7 +242,8 @@ public class WndJournal extends WndTabbed {
 			ColorBlock line = new ColorBlock( width(), 1, 0xFF222222);
 			line.y = pos;
 			content.add(line);
-			
+
+			//document = Document.ADVENTURERS_GUIDE;
 			RenderedTextMultiline title = PixelScene.renderMultiline(document.title(), 9);
 			title.hardlight(TITLE_COLOR);
 			title.maxWidth( (int)width() - 2 );
@@ -295,10 +300,98 @@ public class WndJournal extends WndTabbed {
 		
 	}
 
-	protected static class AlchemyGuideTab extends GuideTab{
-		{
-			document = Document.ALCHEMISTIC_GUIDE;
+	protected static class AlchemyTab extends Component {
+
+		private ScrollPane list;
+		private ArrayList<GuideItem> pages = new ArrayList<>();
+		protected static Document document = Document.ALCHEMISTIC_GUIDE;
+
+		@Override
+		protected void createChildren() {
+			list = new ScrollPane( new Component() ){
+				@Override
+				public void onClick( float x, float y ) {
+					int size = pages.size();
+					for (int i=0; i < size; i++) {
+						if (pages.get( i ).onClick( x, y )) {
+							break;
+						}
+					}
+				}
+			};
+			add( list );
 		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+			list.setRect( 0, 0, width, height);
+		}
+
+		protected void updateList(){
+			Component content = list.content();
+
+			float pos = 0;
+
+			ColorBlock line = new ColorBlock( width(), 1, 0xFF222222);
+			line.y = pos;
+			content.add(line);
+
+			//document = Document.ADVENTURERS_GUIDE;
+			RenderedTextMultiline title = PixelScene.renderMultiline(document.title(), 9);
+			title.hardlight(TITLE_COLOR);
+			title.maxWidth( (int)width() - 2 );
+			title.setPos( (width() - title.width())/2f, pos + 1 + ((ITEM_HEIGHT) - title.height())/2f);
+			PixelScene.align(title);
+			content.add(title);
+
+			pos += Math.max(ITEM_HEIGHT, title.height());
+
+			for (String page : document.pages()){
+				GuideItem item = new GuideItem( page );
+
+				item.setRect( 0, pos, width(), ITEM_HEIGHT );
+				content.add( item );
+
+				pos += item.height();
+				pages.add(item);
+			}
+
+			content.setSize( width(), pos );
+			list.setSize( list.width(), list.height() );
+		}
+
+		private static class GuideItem extends ListItem {
+
+			private boolean found = false;
+			private String page;
+
+			public GuideItem( String page ){
+				super( new ItemSprite( ItemSpriteSheet.GUIDE_PAGE, null),
+						Messages.titleCase(document.pageTitle(page)), -1);
+
+				this.page = page;
+				found = document.hasPage(page);
+
+				if (!found) {
+					icon.hardlight( 0.5f, 0.5f, 0.5f);
+					label.text( Messages.titleCase(Messages.get( this, "missing" )));
+					label.hardlight( 0x999999 );
+				}
+
+			}
+
+			public boolean onClick( float x, float y ) {
+				if (inside( x, y ) && found) {
+					GameScene.show( new WndStory( document.pageBody(page) ));
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+		}
+
 	}
 	
 	private static class NotesTab extends Component {

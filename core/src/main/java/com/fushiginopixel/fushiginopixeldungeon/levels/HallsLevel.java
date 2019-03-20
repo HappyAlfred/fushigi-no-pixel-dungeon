@@ -57,10 +57,11 @@ public class HallsLevel extends RegularLevel {
 
 	{
 		
-		viewDistance = Math.min( 51 - Dungeon.depth, viewDistance );
+		viewDistance = Math.min( Dungeon.mode.maxDepth() - Dungeon.depth, viewDistance );
 		
 		color1 = 0x801500;
 		color2 = 0xa68521;
+		stage = 4;
 	}
 	
 	@Override

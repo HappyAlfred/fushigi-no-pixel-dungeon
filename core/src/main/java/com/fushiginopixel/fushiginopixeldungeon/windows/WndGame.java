@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.GamesInProgress;
 import com.fushiginopixel.fushiginopixeldungeon.SPDSettings;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
+import com.fushiginopixel.fushiginopixeldungeon.SpecialMode;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.InterlevelScene;
@@ -57,12 +58,12 @@ public class WndGame extends Window {
 		});
 
 		// Challenges window
-		if (Dungeon.challenges > 0) {
+		if (Dungeon.challenges > 0 || !Dungeon.mode.isNormalMode()) {
 			addButton( new RedButton( Messages.get(this, "challenges") ) {
 				@Override
 				protected void onClick() {
 					hide();
-					GameScene.show( new WndChallenges( Dungeon.challenges, false ) );
+					GameScene.show( new WndChallenges( Dungeon.challenges, SpecialMode.getModeValue(Dungeon.mode.getClass()), false ) );
 				}
 			} );
 		}

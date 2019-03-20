@@ -51,7 +51,7 @@ public class RedGelCube extends GelCube {
 	}
 
 	public int zapSkill() {
-		return 2;
+		return 1;
 	}
 	
 	@Override

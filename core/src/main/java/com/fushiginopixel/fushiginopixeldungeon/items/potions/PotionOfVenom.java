@@ -77,8 +77,8 @@ public class PotionOfVenom extends Potion {
 
 	private void venom(Char ch){
 		Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set(3 + Dungeon.depth / 3);
-		Buff.prolong( ch, Slow.class, Slow.DURATION,new EffectType(0,EffectType.POISON));
-		Buff.prolong( ch, Weakness.class, 10f,new EffectType(0,EffectType.POISON));
+		Buff.prolong( ch, Slow.class, Slow.DURATION * 2,new EffectType(0,EffectType.POISON));
+		Buff.prolong( ch, Weakness.class, 20f,new EffectType(0,EffectType.POISON));
 	}
 	
 	@Override

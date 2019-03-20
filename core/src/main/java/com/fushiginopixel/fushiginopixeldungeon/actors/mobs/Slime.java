@@ -35,6 +35,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Roots;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
+import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
@@ -75,17 +76,20 @@ public class Slime extends Mob {
 	int generation	= 0;
 	
 	private static final String GENERATION	= "generation";
+	private static final String PARTICAL_REC	= "particalRec";
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
 		bundle.put( GENERATION, generation );
+		bundle.put( PARTICAL_REC, partialRec );
 	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		generation = bundle.getInt( GENERATION );
+		partialRec = bundle.getFloat( PARTICAL_REC );
 		if (generation > 0) EXP = 0;
 	}
 	
@@ -106,6 +110,24 @@ public class Slime extends Mob {
 
 	{
 		immunities.add(new EffectType(0,0,Roots.class));
+	}
+
+	private float partialRec = 0;
+
+	@Override
+	public boolean act() {
+
+		if (Dungeon.level.water[pos] && HP < HT) {
+			sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+			partialRec += HT/100f;
+			partialRec = Math.min(partialRec, HT-HP);
+			while (partialRec >= 1){
+				HP++;
+				partialRec--;
+			}
+		}
+
+		return super.act();
 	}
 
 	@Override
@@ -233,46 +255,68 @@ public class Slime extends Mob {
 	}
 
 	@Override
-	public void damage( int dmg, Object src,EffectType type ) {
+	public void damage( int dmg, Object src, EffectType type ) {
 		super.damage( dmg, src ,type );
+		burstSplit(dmg, src, type);
 
+	}
+
+	public void burstSplit(int dmg, Object src, EffectType type){
 		if (isAlive() && type.isExistAttachType(EffectType.BURST)) {
-			split( dmg, src,type );
+			split( dmg, src, type, 3 );
 		}
 	}
 
-	public void split( int damage, Object src,EffectType type ) {
-		if (HP >= damage + 2 && isAlive()) {
+
+	public void split( int damage, Object src,EffectType type) {
+		split( damage, src, type ,1);
+	}
+	public void split( int damage, Object src,EffectType type ,int count) {
+		{
 			ArrayList<Integer> candidates = new ArrayList<>();
 			boolean[] solid = Dungeon.level.solid;
 
 			int[] neighbours = {pos + 1, pos - 1, pos + Dungeon.level.width(), pos - Dungeon.level.width()};
 			for (int n : neighbours) {
-				if (!solid[n] && Actor.findChar( n ) == null) {
-					candidates.add( n );
+				if (!solid[n] && Actor.findChar(n) == null) {
+					candidates.add(n);
 				}
 			}
+			count = Math.min(candidates.size(), count);
+		}
+		if (HP >= damage + count + 1 && isAlive()) {
+			for(int i = 0; i < count; i++) {
+				ArrayList<Integer> candidates = new ArrayList<>();
+				boolean[] solid = Dungeon.level.solid;
 
-			if (candidates.size() > 0) {
-
-				Slime clone = split();
-				clone.HP = (HP - damage) / 2;
-				clone.pos = Random.element( candidates );
-				clone.state = clone.HUNTING;
-
-				if (Dungeon.level.map[clone.pos] == Terrain.DOOR) {
-					Door.enter( clone.pos );
+				int[] neighbours = {pos + 1, pos - 1, pos + Dungeon.level.width(), pos - Dungeon.level.width()};
+				for (int n : neighbours) {
+					if (!solid[n] && Actor.findChar(n) == null) {
+						candidates.add(n);
+					}
 				}
 
-				GameScene.add( clone, SPLIT_DELAY );
-				Actor.addDelayed( new Pushing( clone, pos, clone.pos ), -1 );
+				if (candidates.size() > 0) {
 
-				HP -= clone.HP;
+					Slime clone = split();
+					clone.HP = (HP - damage) / (count + 1);
+					clone.pos = Random.element(candidates);
+					clone.state = clone.HUNTING;
+
+					if (Dungeon.level.map[clone.pos] == Terrain.DOOR) {
+						Door.enter(clone.pos);
+					}
+
+					GameScene.add(clone, SPLIT_DELAY);
+					Actor.addDelayed(new Pushing(clone, pos, clone.pos), -1);
+
+					HP -= clone.HP;
+				}
 			}
 		}
 	}
 	
-	private Slime split() {
+	protected Slime split() {
 		Slime clone = new Slime();
 		clone.generation = generation + 1;
 		clone.EXP = 0;

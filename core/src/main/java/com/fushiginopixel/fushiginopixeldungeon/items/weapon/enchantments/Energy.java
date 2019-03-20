@@ -42,20 +42,21 @@ public class Energy extends Weapon.Enchantment {
 	
 	@Override
 	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
-		
-		if (charged){
+		return 1;
+	}
 
-			if(defender != null)
-				CellEmitter.center(defender.pos).burst(Speck.factory(Speck.STAR), 14);
+	@Override
+	public boolean canCriticalAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+
+		if (charged){
 			charge = 0;
 			charged = false;
-			return 2;
+			return true;
 		} else {
-
-			return 1;
+			return false;
 		}
-
 	}
+
 	@Override
 	public float accuracyAdapt( Weapon weapon, Char attacker ,Char target, float acc  ) {
 		if (charged){

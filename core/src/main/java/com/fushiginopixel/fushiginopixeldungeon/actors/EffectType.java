@@ -46,6 +46,10 @@ public class EffectType {
         this(0,0,attachClass);
     }
 
+    public EffectType(){
+        this(0,0,null);
+    }
+
     public EffectType(int attachType, int effectType, Class attachClass){
         this.attachType = attachType;
         this.effectType = effectType;

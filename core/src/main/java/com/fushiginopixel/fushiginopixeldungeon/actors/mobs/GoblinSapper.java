@@ -127,7 +127,7 @@ public class GoblinSapper extends Mob {
 		if(cause instanceof Burning || type.isExistAttachType(EffectType.BURST)){
 			selfExplode();
 
-			destroy();
+			destroy(this, type);
 			((GoblinSapperSprite)sprite).explodeFlag = true;
 			sprite.die();
 		}else {
@@ -173,6 +173,15 @@ public class GoblinSapper extends Mob {
 		}
 	}
 
+	@Override
+	public void destroying(Object src, EffectType type){
+		if(src == null || !EffectType.isExistType(new EffectType(type.attachType, type.effectType, src.getClass()), new EffectType(EffectType.BURST, 0, getClass()))){
+			super.destroying(src, type);
+		}else{
+			Dungeon.level.mobs.remove( this );
+		}
+	}
+
 	protected void suicide(){
 		suicide(DEFAULT_COUNTDOWN);
 	}
@@ -198,7 +207,7 @@ public class GoblinSapper extends Mob {
 		countDown = bundle.getInt( COUNTDOWN );
 	}
 
-	private class Hunting extends Mob.Hunting{
+	protected class Hunting extends Mob.Hunting{
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			enemySeen = enemyInFOV;
@@ -209,7 +218,7 @@ public class GoblinSapper extends Mob {
 				if(Random.Int(4) == 0 && countDown == -1){
 
 					suicide();
-					next();
+					spend(TICK);
 					return true;
 
 				}

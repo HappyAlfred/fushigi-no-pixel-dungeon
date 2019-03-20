@@ -92,7 +92,7 @@ public class GelCube extends Mob {
 		if(ch == null) return;
 		if (hit( this, ch, false )) {
 
-			if(zapSkill() > Random.Int(3) && ch instanceof Hero && shootPot((Hero)ch)) {
+			if(zapSkill() > Random.Int(3) && ch instanceof Hero && shootGel((Hero)ch)) {
 
 			}else{
 				attack( ch , new EffectType(EffectType.MISSILE ,0));
@@ -111,7 +111,7 @@ public class GelCube extends Mob {
 		}
 	}
 
-	public boolean shootPot(Hero hero){
+	public boolean shootGel(Hero hero){
 		ArrayList<Item> canShoot = new ArrayList<>();
 		for(Item itemhad : hero.belongings) {
 			if(itemhad instanceof Bag) {

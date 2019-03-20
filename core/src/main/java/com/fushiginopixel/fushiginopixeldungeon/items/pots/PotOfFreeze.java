@@ -53,11 +53,17 @@ public class PotOfFreeze extends InventoryPot {
 	}
 
 	@Override
-	public void click(final Hero curuser, Ballistica shot , final int cell) {
-		if(items.size() >= size || size <= 0) {
+	public boolean clickAble(Hero curuser, Ballistica shot, int cell) {
+		if(items.size() >= size || size <= 0){
+			return super.clickAble(curuser, shot, cell);
+		}
+		return true;
+	}
 
-			super.click(curuser,shot,cell);
-			return;
+	@Override
+	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+		if(!super.click(curuser, shot, cell)) {
+			return false;
 		}
 		Sample.INSTANCE.play(Assets.SND_ZAP);
 		for (int c : shot.subPath(1, Math.min(shot.dist, 5))) {
@@ -67,6 +73,7 @@ public class PotOfFreeze extends InventoryPot {
 		curUser.spendAndNext( TIME_TO_ZAP );
 		knownByUse();
 
+		return true;
 	}
 
 	@Override

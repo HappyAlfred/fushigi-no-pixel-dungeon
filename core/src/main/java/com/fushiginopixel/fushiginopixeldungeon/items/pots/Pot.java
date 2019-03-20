@@ -282,10 +282,15 @@ public abstract class Pot extends Item {
 
     );
 
-    public void click( Hero curuser,Ballistica shot ,int cell) {
-        GLog.i(Messages.get(this,"nothing"));
-        curUser.spendAndNext( TIME_TO_ZAP );
-        return;
+	public boolean clickAble( Hero curuser,Ballistica shot ,int cell) {
+		return false;
+	}
+
+    public boolean click( Hero curuser,Ballistica shot ,int cell) {
+    	if(!clickAble(curuser, shot, cell)){
+    		return false;
+		}
+        return true;
     }
 
 	protected void addAnimation() {
@@ -447,7 +452,11 @@ public abstract class Pot extends Item {
                     QuickSlotButton.target(Actor.findChar(cell));
 
                 curUser.busy();
-                curPot.click(curUser, shot , cell);
+                if (!curPot.click(curUser, shot , cell)){
+					GLog.i(Messages.get(this,"nothing"));
+					curUser.spendAndNext( TIME_TO_ZAP );
+
+				}
             }
         }
 

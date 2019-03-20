@@ -43,7 +43,7 @@ public class Eldritch extends Weapon.Enchantment {
 		// lvl 2 - 43%
 		int level = Math.max( 0, weapon.level() );
 		
-		if (Random.Int( level / 2 + 100 ) >= 80) {
+		if (Random.Int( level / 2 + 100 ) >= 88) {
 
 			if (defender == Dungeon.hero) {
 				Buff.affect( defender, Vertigo.class, Vertigo.DURATION, new EffectType(type.attachType,EffectType.SPIRIT) );

@@ -54,6 +54,8 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DeathEye;
+import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
+import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfTenacity;
@@ -204,6 +206,11 @@ public abstract class Char extends Actor {
 			
 			int effectiveDamage = enemy.defenseProc( this, dmg, type );
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
+			if(canCriticalAttack( enemy, effectiveDamage ,type)){
+				if(enemy != null)
+					enemy.sprite.emitter().burst(Speck.factory(Speck.CRIT), 12);
+				effectiveDamage *= criticalAttack();
+			}
 			effectiveDamage = attackProc( enemy, effectiveDamage ,type);
 			
 			if (visibleFight) {
@@ -261,6 +268,14 @@ public abstract class Char extends Actor {
 			return false;
 			
 		}
+	}
+
+	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+		return false;
+	}
+
+	public float criticalAttack(){
+		return 2;
 	}
 	
 	public static boolean hit( Char attacker, Char defender, boolean magic ) {
@@ -364,6 +379,10 @@ public abstract class Char extends Actor {
 	}
 	
 	public void destroy() {
+		destroy(null, new EffectType());
+	}
+
+	public void destroy(Object src, EffectType type ) {
 		HP = 0;
 		Actor.remove( this );
 	}
@@ -373,7 +392,7 @@ public abstract class Char extends Actor {
 	}
 
 	public void die( Object src,EffectType type ) {
-		destroy();
+		destroy(src, new EffectType(type.attachType,type.effectType));
 		if (src != Chasm.class) sprite.die();
 	}
 	

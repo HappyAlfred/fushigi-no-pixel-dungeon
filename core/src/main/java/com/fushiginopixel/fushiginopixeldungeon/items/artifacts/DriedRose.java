@@ -99,7 +99,7 @@ public class DriedRose extends Artifact {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if (!Ghost.Quest.completed()){
+		if (!Ghost.Quest.completed() && Dungeon.mode.isNormalMode()){
 			actions.remove(AC_EQUIP);
 			return actions;
 		}
@@ -417,7 +417,7 @@ public class DriedRose extends Artifact {
 
 		public void saySpawned(){
 			if (Messages.lang() != Languages.ENGLISH) return; //don't say anything if not on english
-			int i = (Dungeon.depth - 1) / 10;
+			int i = Dungeon.level.stage;//(Dungeon.depth - 1) / 10;
 			fieldOfView = new boolean[Dungeon.level.length()];
 			Dungeon.level.updateFieldOfView(this, fieldOfView);
 			if (chooseEnemy() == null)
@@ -530,7 +530,13 @@ public class DriedRose extends Artifact {
 			
 			return dmg;
 		}
-		
+
+		public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+			if(rose != null && rose.weapon != null)
+				return rose.weapon.canCriticalAttack( this, enemy, damage ,type);
+			else return super.canCriticalAttack(enemy, damage, type);
+		}
+
 		@Override
 		public int attackProc(Char enemy, int damage, EffectType type) {
 			damage = super.attackProc(enemy, damage, type);

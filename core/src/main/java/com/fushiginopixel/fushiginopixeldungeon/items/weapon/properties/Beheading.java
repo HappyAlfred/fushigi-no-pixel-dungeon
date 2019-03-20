@@ -13,10 +13,10 @@ public class Beheading extends Weapon.Enchantment {
     public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
         if(((float)defender.HP / defender.HT) <= 0.2f) {
+            defender.damage( defender.HP, this ,new EffectType(type.attachType,0));
             Wound.hit(defender);
-            return 1.5f;
         }
-        else return 1f;
+        return 1f;
     }
 
 

@@ -25,6 +25,7 @@ public class Point {
 
 	public int x;
 	public int y;
+    private static final double A = 180 / Math.PI;
 	
 	public Point() {
 	}
@@ -78,6 +79,18 @@ public class Point {
 		y = d.y - y;
 		return this;
 	}
+
+    public Point vectorRotate( float angle ) {
+		/*
+		x1 = cosA * x - sinA * y
+		y1 = sinA * x + cosB * y
+		*/
+        double x1 = x * Math.cos(angle/A) - y * Math.sin(angle/A);
+        double y1 = x * Math.sin(angle/A) + y * Math.cos(angle/A);
+        x = (int)Math.round(x1);
+        y = (int)Math.round(y1);
+        return this;
+    }
 	
 	@Override
 	public boolean equals( Object obj ) {

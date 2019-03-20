@@ -44,11 +44,17 @@ public class PotOfAlchemy extends InventoryPot {
 	}
 
 	@Override
-	public void click(final Hero curuser, Ballistica shot , final int cell) {
+	public boolean clickAble(final Hero curuser, Ballistica shot , final int cell) {
 		if(items.size() <= 0 || size <= 0) {
+			return super.clickAble(curuser, shot, cell);
+		}
+		return true;
+	}
 
-			super.click(curuser,shot,cell);
-			return;
+	@Override
+	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+		if(!super.click(curuser, shot, cell)) {
+			return false;
 		}
 		Sample.INSTANCE.play(Assets.SND_BEACON);
 		Item output = items.get(items.size() - 1);
@@ -57,6 +63,7 @@ public class PotOfAlchemy extends InventoryPot {
 		size --;
 		curUser.spendAndNext( TIME_TO_ZAP );
 
+		return true;
 	}
 
 	@Override

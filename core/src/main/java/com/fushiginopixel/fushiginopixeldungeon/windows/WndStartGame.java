@@ -120,7 +120,7 @@ public class WndStartGame extends Window {
 					Icons.get( SPDSettings.challenges() > 0 ? Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF)){
 				@Override
 				protected void onClick() {
-					Fushiginopixeldungeon.scene().add(new WndChallenges(SPDSettings.challenges(), true) {
+					Fushiginopixeldungeon.scene().add(new WndChallenges(SPDSettings.challenges(), SPDSettings.specialMode(), true) {
 						public void onBackPressed() {
 							super.onBackPressed();
 							icon( Icons.get( SPDSettings.challenges() > 0 ?

@@ -125,6 +125,7 @@ public abstract class Level implements Bundlable {
 
 	//when a boss level has become locked.
 	public boolean locked = false;
+	public int stage = 0;
 	
 	public HashSet<Mob> mobs;
 	public SparseArray<Heap> heaps;
@@ -163,7 +164,7 @@ public abstract class Level implements Bundlable {
 
 		Random.seed( Dungeon.seedCurDepth() );
 		
-		if (!(Dungeon.bossLevel() || Dungeon.depth == 41) /*final shop floor*/) {
+		if (!(Dungeon.bossLevel() || (Dungeon.level instanceof LastShopLevel)) /*final shop floor*/) {
 
 			/*
 			if (Dungeon.isChallenged(Challenges.NO_FOOD)){
@@ -1058,5 +1059,26 @@ public abstract class Level implements Bundlable {
 			default:
 				return "";
 		}
+	}
+
+	public static final HashSet<Class <? extends RegularLevel>> REGULARLEVELS = new HashSet<>();
+	static {
+		REGULARLEVELS.add(SewerLevel.class);
+		REGULARLEVELS.add(PrisonLevel.class);
+		REGULARLEVELS.add(CavesLevel.class);
+		REGULARLEVELS.add(CityLevel.class);
+		REGULARLEVELS.add(HallsLevel.class);
+
+	}
+
+	public static Level randomLevel(){
+		Level level;
+		try {
+			level = Random.element(REGULARLEVELS).newInstance();
+		} catch (Exception e) {
+			Fushiginopixeldungeon.reportException(e);
+			level = null;
+		}
+		return level;
 	}
 }

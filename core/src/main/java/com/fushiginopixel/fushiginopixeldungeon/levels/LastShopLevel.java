@@ -45,6 +45,7 @@ public class LastShopLevel extends RegularLevel {
 	{
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
+		stage = 3;
 	}
 	
 	@Override

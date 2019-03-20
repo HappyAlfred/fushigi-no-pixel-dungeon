@@ -67,6 +67,8 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.SewerBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.SewerLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.SewerMidBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.SurfaceLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.NormalMode;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.secret.SecretRoom;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.special.SpecialRoom;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -165,6 +167,7 @@ public class Dungeon {
 	}
 
 	public static int challenges;
+	public static Mode mode;
 
 	public static Hero hero;
 	public static Level level;
@@ -186,6 +189,7 @@ public class Dungeon {
 
 		version = Game.versionCode;
 		challenges = SPDSettings.challenges();
+        mode = SpecialMode.getMode(SPDSettings.specialMode());
 
 		seed = DungeonSeed.randomSeed();
 
@@ -240,6 +244,10 @@ public class Dungeon {
 		return (challenges & mask) != 0;
 	}
 
+	public static boolean isSpecialMode( int mask ) {
+		return SpecialMode.getModeValue(mode.getClass()) == mask;
+	}
+
 	//create a new level at current depth
 	public static Level newLevel() {
 		
@@ -256,46 +264,53 @@ public class Dungeon {
 				Statistics.completedWithNoKilling = false;
 			}
 		}
-		
-		Level level;
-		if(depth == 0)
-			level = new SurfaceLevel();
-		else if(depth >=1 && depth<= 9 && depth!= 5)
-			level = new SewerLevel();
-		else if(depth == 5)
-			level = new SewerMidBossLevel();
-		else if(depth == 10)
-			level = new SewerBossLevel();
-		else if(depth >= 11 && depth <= 19 && depth!= 15)
-			level = new PrisonLevel();
-		else if(depth == 15)
-			level = new PrisonMidBossLevel();
-		else if(depth == 20)
-			level = new PrisonBossLevel();
-		else if(depth >= 21 && depth <= 29 && depth!= 25)
-			level = new CavesLevel();
-		else if(depth == 25)
-			level = new CavesMidBossLevel();
-		else if(depth == 30)
-			level = new CavesBossLevel();
-		else if(depth >= 31 && depth <= 39)
-			level = new CityLevel();
-		else if(depth == 40)
-			level = new CityBossLevel();
-		else if(depth == 41)
-			level = new LastShopLevel();
-		else if(depth >= 42 && depth <= 49)
-			level = new HallsLevel();
-		else if(depth == 50)
-			level = new HallsBossLevel();
-		else if(depth == 51)
-			level = new LastLevel();
-		else{
-			level = new DeadEndLevel();
-			Statistics.deepestFloor--;
-		}
-		
-		level.create();
+
+        Level level;
+		/*
+		if(specialMode <= 0) {
+            if (depth == 0)
+                level = new SurfaceLevel();
+            else if (depth >= 1 && depth <= 9 && depth != 5)
+                level = new SewerLevel();
+            else if (depth == 5)
+                level = new SewerMidBossLevel();
+            else if (depth == 10)
+                level = new SewerBossLevel();
+            else if (depth >= 11 && depth <= 19 && depth != 15)
+                level = new PrisonLevel();
+            else if (depth == 15)
+                level = new PrisonMidBossLevel();
+            else if (depth == 20)
+                level = new PrisonBossLevel();
+            else if (depth >= 21 && depth <= 29 && depth != 25)
+                level = new CavesLevel();
+            else if (depth == 25)
+                level = new CavesMidBossLevel();
+            else if (depth == 30)
+                level = new CavesBossLevel();
+            else if (depth >= 31 && depth <= 39)
+                level = new CityLevel();
+            else if (depth == 40)
+                level = new CityBossLevel();
+            else if (depth == 41)
+                level = new LastShopLevel();
+            else if (depth >= 42 && depth <= 49)
+                level = new HallsLevel();
+            else if (depth == 50)
+                level = new HallsBossLevel();
+            else if (depth == 51)
+                level = new LastLevel();
+            else {
+                level = new DeadEndLevel();
+                Statistics.deepestFloor--;
+            }
+        }else{
+		    level = mode.newLevel(depth);
+        }
+        */
+		level = mode.newLevel(depth);
+
+        level.create();
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
 		
@@ -324,7 +339,7 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return depth % 5 == 1 && depth < 40 && depth > 1;
+		return mode.isNormalMode() ? (depth % 5 == 1 && depth < 40 && depth > 1) : false;
 	}
 	
 	public static boolean bossLevel() {
@@ -336,7 +351,7 @@ public class Dungeon {
 	}
 	
 	public static boolean bossLevel( int depth ) {
-		return depth % 5 == 0/*depth == 10 || depth == 20 || depth == 30 || depth == 40 || depth == 50*/;
+		return mode.bossLevel(depth);//depth % 5 == 0/*depth == 10 || depth == 20 || depth == 30 || depth == 40 || depth == 50*/;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -474,6 +489,7 @@ public class Dungeon {
 	private static final String VERSION		= "version";
 	private static final String SEED		= "seed";
 	private static final String CHALLENGES	= "challenges";
+	private static final String SPECIALMODE	= "specialmode";
 	private static final String HERO		= "hero";
 	private static final String GOLD		= "gold";
 	private static final String DEPTH		= "depth";
@@ -492,6 +508,7 @@ public class Dungeon {
 			bundle.put( VERSION, version );
 			bundle.put( SEED, seed );
 			bundle.put( CHALLENGES, challenges );
+			bundle.put( SPECIALMODE, mode );
 			bundle.put( HERO, hero );
 			bundle.put( GOLD, gold );
 			bundle.put( DEPTH, depth );
@@ -563,7 +580,7 @@ public class Dungeon {
 			saveGame( GamesInProgress.curSlot );
 			saveLevel( GamesInProgress.curSlot );
 
-			GamesInProgress.set( GamesInProgress.curSlot, depth, challenges, hero );
+			GamesInProgress.set( GamesInProgress.curSlot, depth, challenges, mode, hero );
 
 		} else if (WndResurrect.instance != null) {
 			
@@ -591,6 +608,10 @@ public class Dungeon {
 		QuickSlotButton.reset();
 
 		Dungeon.challenges = bundle.getInt( CHALLENGES );
+		Dungeon.mode = (Mode)bundle.get( SPECIALMODE );
+		if(mode == null){
+			mode = new NormalMode();
+		}
 		
 		Dungeon.level = null;
 		Dungeon.depth = -1;
@@ -702,6 +723,7 @@ public class Dungeon {
 		info.depth = bundle.getInt( DEPTH );
 		info.version = bundle.getInt( VERSION );
 		info.challenges = bundle.getInt( CHALLENGES );
+		info.mode = (Mode)bundle.get( SPECIALMODE );
 		Hero.preview( info, bundle.getBundle( HERO ) );
 		Statistics.preview( info, bundle );
 	}

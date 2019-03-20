@@ -14,14 +14,18 @@ public class Critical extends Weapon.Enchantment {
     @Override
     public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
+        return 1f;
+    }
+
+    @Override
+    public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+
         int level = Math.max( 0, weapon.level() );
 
         if (Random.Int( level / 2 + 100 ) >= 88) {
-            if(defender != null)
-                CellEmitter.center(defender.pos).burst(Speck.factory(Speck.STAR), 14);
-            return 1.5f;
+            return true;
         }
-        else return 1f;
+        else return false;
     }
 
     @Override

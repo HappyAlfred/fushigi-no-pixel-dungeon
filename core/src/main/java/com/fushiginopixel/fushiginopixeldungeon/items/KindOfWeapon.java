@@ -122,6 +122,10 @@ abstract public class KindOfWeapon extends EquipableItem {
 		return damage;
 	}
 
+	public boolean canCriticalAttack( Char attacker, Char defender, int damage, EffectType type ){
+		return false;
+	}
+
 	public void onMissed( Char attacker, Char defender) {
 		return;
 	}

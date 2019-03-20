@@ -73,7 +73,7 @@ public class InfernoDragon extends Dragon {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 60;
+		return 100;
 	}
 	
 	@Override

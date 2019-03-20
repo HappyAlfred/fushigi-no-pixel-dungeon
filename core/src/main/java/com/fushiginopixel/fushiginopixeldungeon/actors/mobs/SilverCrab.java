@@ -39,7 +39,7 @@ public class SilverCrab extends Crab {
 	{
 		spriteClass = SilverCrabSprite.class;
 
-		HP = HT = 120;
+		HP = HT = 100;
 		defenseSkill = 27; //see damage()
 		baseSpeed = 1f;
 

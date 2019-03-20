@@ -44,6 +44,7 @@ public class QuickSlot {
 
 	//direct array interaction methods, everything should build from these methods.
 	public void setSlot(int slot, Item item, String action){
+		/*
 		//If no action is provided, exit the function immediately so that nothing at all is changed.
 		if(action == null)
 			return;
@@ -51,6 +52,8 @@ public class QuickSlot {
 		clearItem(item); //we don't want to allow the same item in multiple slots.
 		slots[slot] = item;
 		slotsAction[slot] = action;
+		*/
+
 		/*
 	    String ac = "";
 	    if(slotsAction != null)
@@ -62,6 +65,20 @@ public class QuickSlot {
 		if(action != null)
 			slotsAction[slot] = action;
 		*/
+
+		String ac = getAction(slot);
+		if(action == null && ac != null && !ac.equals("")){
+			clearSlot(slot);
+			item.updateQuickslot();
+			setSlot( slot, item ,ac);
+			item.updateQuickslot();
+			return;
+		}
+
+		clearItem(item); //we don't want to allow the same item in multiple slots.
+		slots[slot] = item;
+		if(action != null)
+			slotsAction[slot] = action;
 	}
 
 	public void clearSlot(int slot){

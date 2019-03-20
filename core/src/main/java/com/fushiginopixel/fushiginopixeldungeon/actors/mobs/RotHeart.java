@@ -59,7 +59,7 @@ public class RotHeart extends Mob {
 	public void damage(int dmg, Object src,EffectType type) {
 		//TODO: when effect properties are done, change this to FIRE
 		if (src instanceof Burning) {
-			destroy();
+			destroy(src, type);
 			sprite.die();
 		} else {
 			super.damage(dmg, src, type);
@@ -84,8 +84,8 @@ public class RotHeart extends Mob {
 	}
 
 	@Override
-	public void destroy() {
-		super.destroy();
+	public void destroying(Object src,EffectType type) {
+		super.destroying(src, type);
 		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[Dungeon.level.mobs.size()])){
 			if (mob instanceof RotLasher){
 				mob.die(null);

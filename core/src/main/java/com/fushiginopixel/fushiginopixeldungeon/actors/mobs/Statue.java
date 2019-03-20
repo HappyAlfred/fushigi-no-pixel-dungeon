@@ -151,7 +151,13 @@ public class Statue extends Mob {
 		
 		super.damage( dmg, src ,type);
 	}
-	
+
+	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+		if(weapon != null) {
+			return weapon.canCriticalAttack(this, enemy, damage, type);
+		}else return super.canCriticalAttack(enemy, damage, type);
+	}
+
 	@Override
 	public int attackProc( Char enemy, int damage, EffectType type ) {
 		damage = super.attackProc( enemy, damage,type );

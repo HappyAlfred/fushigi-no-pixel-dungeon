@@ -66,6 +66,7 @@ public class Speck extends Image {
 	public static final int CONFUSION	= 113;
 	public static final int RED_LIGHT   = 114;
 	public static final int TEARGAS		= 115;
+	public static final int CRIT		= 116;
 	
 	private static final int SIZE = 7;
 	
@@ -101,6 +102,7 @@ public class Speck extends Image {
 		case MASTERY:
 		case KIT:
 		case FORGE:
+		case CRIT:
 			frame( film.get( STAR ) );
 			break;
 		case RATTLE:
@@ -173,6 +175,14 @@ public class Speck extends Image {
 			speed.set( Random.Int( 2 ) == 0 ? Random.Float( -128, -64 ) : Random.Float( +64, +128 ), 0 );
 			angularSpeed = speed.x < 0 ? -180 : +180;
 			acc.set( -speed.x, 0 );
+			lifespan = 0.5f;
+			break;
+
+		case CRIT:
+			speed.polar( index * 3.1415926f / 6, 100 );
+			acc.set( -speed.x, -speed.y );
+			angle = index * 30;
+			angularSpeed = 360;
 			lifespan = 0.5f;
 			break;
 
@@ -358,6 +368,7 @@ public class Speck extends Image {
 				
 			case KIT:
 			case MASTERY:
+			case CRIT:
 				am = 1 - p * p;
 				break;
 				

@@ -110,8 +110,8 @@ public class InterlevelScene extends PixelScene {
 					loadingDepth = Dungeon.depth+1;
 					if (!(Statistics.deepestFloor < loadingDepth)) {
 						fadeTime = FAST_FADE;
-					} else if (loadingDepth == 11 || loadingDepth == 21
-							|| loadingDepth == 31 || loadingDepth == 42) {
+					} else if (Dungeon.mode.isNormalMode() && (loadingDepth == 11 || loadingDepth == 21
+							|| loadingDepth == 31 || loadingDepth == 42)) {
 						fadeTime = SLOW_FADE;
 					}
 				}
@@ -217,7 +217,7 @@ public class InterlevelScene extends PixelScene {
 								break;
 						}
 						
-						if ((Dungeon.depth % 10) == 0) {
+						if (Dungeon.bossLevel()) {
 							Sample.INSTANCE.load(Assets.SND_BOSS);
 						}
 						

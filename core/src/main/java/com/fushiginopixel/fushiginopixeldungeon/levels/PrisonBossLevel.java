@@ -58,6 +58,7 @@ public class PrisonBossLevel extends Level {
 	{
 		color1 = 0x6a723d;
 		color2 = 0x88924c;
+		stage = 1;
 	}
 
 	private enum State{

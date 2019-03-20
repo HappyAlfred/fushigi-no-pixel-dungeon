@@ -44,6 +44,7 @@ public class SewerBossLevel extends SewerLevel {
 	{
 		color1 = 0x48763c;
 		color2 = 0x59994a;
+		stage = 0;
 	}
 	
 	private int stairs = 0;

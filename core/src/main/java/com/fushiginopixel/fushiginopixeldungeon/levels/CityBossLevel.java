@@ -46,6 +46,7 @@ public class CityBossLevel extends Level {
 	{
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
+		stage = 3;
 	}
 	
 	private static final int TOP			= 2;

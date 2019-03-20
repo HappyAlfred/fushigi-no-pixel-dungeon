@@ -324,23 +324,34 @@ public class Item implements Bundlable {
 			updateQuickslot();
 		}
 
-		for (Item item : container.items) {
-			if (item == this) {
-				container.items.remove(this);
-				item.onDetach();
-				return this;
-			} else if (item instanceof Bag) {
-				Bag bag = (Bag)item;
-				if (bag.contains( this )) {
-					return detachAll( bag );
-				}
-			} else if (item instanceof Pot) {
-				for(Item item1 : ((Pot)item).items){
-					if(item1 == this){
-						((Pot)item).items.remove(this);
-						item.onDetach();
-						return this;
+		if(container != null) {
+			for (Item item : container.items) {
+				if (item == this) {
+					container.items.remove(this);
+					item.onDetach();
+					return this;
+				} else if (item instanceof Bag) {
+					Bag bag = (Bag) item;
+					if (bag.contains(this)) {
+						return detachAll(bag);
 					}
+				} else if (item instanceof Pot) {
+					for (Item item1 : ((Pot) item).items) {
+						if (item1 == this) {
+							((Pot) item).items.remove(this);
+							item.onDetach();
+							return this;
+						}
+					}
+				}
+			}
+		}else if(getPot() != null){
+			Pot item = (Pot)getPot();
+			for (Item item1 : item.items) {
+				if (item1 == this) {
+					item.items.remove(this);
+					item.onDetach();
+					return this;
 				}
 			}
 		}

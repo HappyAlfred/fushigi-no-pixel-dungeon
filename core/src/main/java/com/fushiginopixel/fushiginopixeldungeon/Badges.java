@@ -687,9 +687,9 @@ public class Badges {
 		case HUNTRESS:
 			badge = Badge.MASTERY_HUNTRESS;
 			break;
-		case FUURAI:
+		/*case FUURAI:
 			badge = Badge.MASTERY_FUURAI;
-			break;
+			break;*/
 		}
 		
 		if (!global.contains( badge )) {

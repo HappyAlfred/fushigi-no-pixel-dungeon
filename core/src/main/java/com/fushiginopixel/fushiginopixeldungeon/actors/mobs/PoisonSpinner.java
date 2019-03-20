@@ -63,9 +63,10 @@ public class PoisonSpinner extends Spinner {
 		return Random.NormalIntRange(0, 6);
 	}
 
+	@Override
 	public void poisonAttack(Char enemy, int damage, EffectType type) {
 		if (Random.Int(2) == 0) {
-			Buff.affect(enemy, Poison.class,new EffectType(type.attachType,EffectType.POISON)).set(Random.Int(2, 4) );
+			Buff.affect(enemy, Poison.class,new EffectType(type.attachType,EffectType.POISON)).set(Random.Int(7, 11) );
 			state = FLEEING;
 		}
 	}

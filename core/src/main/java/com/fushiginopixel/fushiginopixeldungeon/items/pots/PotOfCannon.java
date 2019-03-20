@@ -47,11 +47,17 @@ public class PotOfCannon extends InventoryPot {
 	}
 
 	@Override
-	public void click(final Hero curuser, Ballistica shot , final int cell) {
-		if(items.isEmpty()) {
+	public boolean clickAble(Hero curuser, Ballistica shot, int cell) {
+		if(items.isEmpty()){
+			return super.clickAble(curuser, shot, cell);
+		}
+		return true;
+	}
 
-			super.click(curuser,shot,cell);
-			return;
+	@Override
+	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+		if(!super.click(curuser, shot, cell)) {
+			return false;
 		}
 		final Item ammo = items.get(items.size() - 1);
 		Sample.INSTANCE.play( Assets.SND_BLAST );
@@ -79,6 +85,7 @@ public class PotOfCannon extends InventoryPot {
 						});
 		knownByUse();
 
+		return true;
 	}
 
 	@Override

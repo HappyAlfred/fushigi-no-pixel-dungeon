@@ -98,6 +98,17 @@ public abstract class SecretRoom extends SpecialRoom {
 		return (int)secrets;
 	}
 
+	public static int specialSecretsForFloor(int depth){
+		float secrets = GamesInProgress.selectedClass == HeroClass.ROGUE ? 0.6f : 0.4f;
+		if (Random.Float() < secrets % 1f){
+			secrets = (float)Math.ceil(secrets);
+		} else {
+			secrets = (float)Math.floor(secrets);
+		}
+
+		return (int)secrets;
+	}
+
 	public static SecretRoom createShopRoom(SecretRoom room){
 		if(shop){
 			return room;

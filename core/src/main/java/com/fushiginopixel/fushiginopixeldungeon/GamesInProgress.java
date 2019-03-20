@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
@@ -118,13 +119,14 @@ public class GamesInProgress {
 		}
 	}
 
-	public static void set(int slot, int depth, int challenges,
+	public static void set(int slot, int depth, int challenges, Mode mode,
 	                       Hero hero) {
 		Info info = new Info();
 		info.slot = slot;
 		
 		info.depth = depth;
 		info.challenges = challenges;
+		info.mode = mode;
 		
 		info.level = hero.lvl;
 		info.str = hero.STR;
@@ -156,6 +158,7 @@ public class GamesInProgress {
 		public int depth;
 		public int version;
 		public int challenges;
+		public Mode mode;
 		
 		public int level;
 		public int str;
