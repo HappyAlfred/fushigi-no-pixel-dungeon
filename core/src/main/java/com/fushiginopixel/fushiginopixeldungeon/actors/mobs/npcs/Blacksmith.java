@@ -156,9 +156,9 @@ public class Blacksmith extends NPC {
 	}
 
 	public static boolean sameType(Item item1 ,Item item2){
-		if(item1 instanceof MeleeWeapon && item1.isUpgradable() && item2 instanceof MeleeWeapon)
+		if(item1 instanceof MeleeWeapon && item2 instanceof MeleeWeapon)
 			return true;
-		else if(item1 instanceof MissileWeapon && item1.isUpgradable() && item2 instanceof Weapon)
+		else if(item1 instanceof MissileWeapon && item2 instanceof Weapon)
 			return true;
 		else if(item1 instanceof Ring && item2 instanceof Ring)
 			return true;
@@ -170,18 +170,18 @@ public class Blacksmith extends NPC {
 	}
 
 	public static void reforge(Item item1 ,Item item2){
-		if(item1 instanceof MeleeWeapon && item1.isUpgradable() && item2 instanceof MeleeWeapon) {
-			if(item2.level() == 0)
+		if(item1 instanceof MeleeWeapon && item2 instanceof MeleeWeapon) {
+			if(item2.level() == 0 && item1.isUpgradable())
 				item1.level(item1.level()+1);
 			item1.fusion(item2);
 		}
-		else if(item1 instanceof MissileWeapon && item1.isUpgradable() && item2 instanceof Weapon){
-			if(item2.level() == 0)
+		else if(item1 instanceof MissileWeapon && item2 instanceof Weapon){
+			if(item2.level() == 0 && item1.isUpgradable())
 				item1.level(item1.level()+1);
 			item1.fusion(item2);
 		}
 		else if(item1 instanceof Ring && item2 instanceof Ring){
-			if(item2.level() == 0)
+			if(item2.level() == 0 && item1.isUpgradable())
 				item1.level(item1.level()+1);
 			item1.fusion(item2);
 		}
@@ -274,7 +274,8 @@ public class Blacksmith extends NPC {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src , EffectType type) {
+	public int damage( int dmg, Object src , EffectType type) {
+		return 0;
 	}
 	
 	@Override

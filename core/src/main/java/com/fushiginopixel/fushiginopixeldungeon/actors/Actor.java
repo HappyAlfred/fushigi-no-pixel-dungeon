@@ -42,6 +42,8 @@ public abstract class Actor implements Bundlable {
 
 	private int id = 0;
 
+	private boolean waiting = false;
+
 	//default priority values for general actor categories
 	//note that some specific actors pick more specific values
 	//e.g. a buff acting after all normal buffs might have priority BUFF_PRIO + 1
@@ -70,6 +72,15 @@ public abstract class Actor implements Bundlable {
 	public float cooldown() {
 		return time - now;
 	}
+
+	public boolean waitForNext() {
+		if(waiting == true){
+			return false;
+		}else{
+			waiting = true;
+			return true;
+		}
+	}
 	
 	protected void diactivate() {
 		time = Float.MAX_VALUE;
@@ -81,17 +92,20 @@ public abstract class Actor implements Bundlable {
 
 	private static final String TIME    = "time";
 	private static final String ID      = "id";
+	private static final String WAITING      = "wait";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		bundle.put( TIME, time );
 		bundle.put( ID, id );
+		bundle.put( WAITING, waiting );
 	}
 
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		time = bundle.getFloat( TIME );
 		id = bundle.getInt( ID );
+		waiting = bundle.getBoolean( WAITING );
 	}
 
 	private static int nextID = 1;
@@ -172,9 +186,18 @@ public abstract class Actor implements Bundlable {
 	}
 
 	/*protected*/public void next() {
+
+		//waiting for next
+		if (current == this && !waiting) {
+			current = null;
+		}else{
+			waiting = false;
+		}
+		/*
 		if (current == this) {
 			current = null;
 		}
+		*/
 	}
 
 	public static boolean processing(){

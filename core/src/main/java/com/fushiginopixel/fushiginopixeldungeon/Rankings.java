@@ -34,6 +34,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.journal.Notes;
 import com.fushiginopixel.fushiginopixeldungeon.levels.modes.Mode;
+import com.fushiginopixel.fushiginopixeldungeon.levels.modes.NormalMode;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.ui.QuickSlotButton;
 import com.watabou.utils.Bundlable;
@@ -189,7 +190,13 @@ public enum Rankings {
 		Statistics.restoreFromBundle(data.getBundle(STATS));
 		
 		Dungeon.challenges = data.getInt(CHALLENGES);
-		Dungeon.mode = (Mode)data.get(MODE);
+		Object mode = data.get(MODE);
+		if(mode == null){
+			Dungeon.mode = new NormalMode();
+		}else{
+			Dungeon.mode = (Mode)data.get(MODE);
+		}
+		//Dungeon.mode = (Mode)data.get(MODE);
 
 	}
 	

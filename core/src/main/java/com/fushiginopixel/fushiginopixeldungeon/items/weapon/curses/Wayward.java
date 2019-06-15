@@ -28,6 +28,9 @@ import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 
 public class Wayward extends Weapon.Enchantment {
 
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
@@ -40,11 +43,6 @@ public class Wayward extends Weapon.Enchantment {
 	public float accuracyAdapt( Weapon weapon, Char attacker ,Char target, float acc ) {
 		//no proc effect, see weapon.accuracyFactor for effect
 		return 0.5f;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 
 	@Override

@@ -38,33 +38,32 @@ import com.watabou.utils.Random;
 
 public class AntiEntropy extends Glyph {
 
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
+	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
 
-		if (Random.Int( 8 ) == 0) {
+		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK){
+			if (Random.Int(8) == 0) {
+				Char at = (Char) attacker;
+				if (Dungeon.level.adjacent(at.pos, defender.pos)) {
+					Buff.prolong(at, Frost.class, Frost.duration(at) * Random.Float(0.5f, 1f), new EffectType(EffectType.MELEE, EffectType.ICE));
+					CellEmitter.get(at.pos).start(SnowParticle.FACTORY, 0.2f, 6);
+				}
 
-			if (Dungeon.level.adjacent( attacker.pos, defender.pos )) {
-				Buff.prolong(attacker, Frost.class, Frost.duration(attacker) * Random.Float(0.5f, 1f),new EffectType(EffectType.MELEE,EffectType.ICE));
-				CellEmitter.get(attacker.pos).start(SnowParticle.FACTORY, 0.2f, 6);
+				Buff.affect(defender, Burning.class, new EffectType(EffectType.MELEE, EffectType.FIRE)).reignite(defender);
+				defender.sprite.emitter().burst(FlameParticle.FACTORY, 5);
+
 			}
-			
-			Buff.affect( defender, Burning.class,new EffectType(EffectType.MELEE,EffectType.FIRE) ).reignite( defender );
-			defender.sprite.emitter().burst( FlameParticle.FACTORY, 5 );
-
 		}
-		
 		return 1;
 	}
 
 	@Override
 	public Glowing glowing() {
 		return BLACK;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

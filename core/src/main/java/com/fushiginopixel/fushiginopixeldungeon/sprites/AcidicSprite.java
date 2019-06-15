@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class AcidicSprite extends ScorpioSprite {
-	
-	public AcidicSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SCORPIO );
 		

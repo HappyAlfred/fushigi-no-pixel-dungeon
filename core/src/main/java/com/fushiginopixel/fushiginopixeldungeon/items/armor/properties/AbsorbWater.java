@@ -35,12 +35,6 @@ import com.watabou.utils.Random;
 public class AbsorbWater extends Glyph {
 
 	private static Glowing BLUE = new Glowing( 0x0000FF );
-	
-	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
-		
-		return 1;
-	}
 
 	@Override
 	public Glowing glowing() {

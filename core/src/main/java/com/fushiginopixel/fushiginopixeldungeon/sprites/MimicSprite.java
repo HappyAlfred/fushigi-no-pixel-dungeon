@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class MimicSprite extends MobSprite {
-	
-	public MimicSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.MIMIC );
 		

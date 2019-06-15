@@ -24,7 +24,14 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.traps;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.CorrosiveGas;
+import com.fushiginopixel.fushiginopixeldungeon.levels.RegularLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.Room;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
+import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.Point;
+
+import java.util.ArrayList;
 
 public class CorrosionTrap extends Trap {
 
@@ -36,11 +43,40 @@ public class CorrosionTrap extends Trap {
 	@Override
 	public void activate() {
 
+		/*
 		CorrosiveGas corrosiveGas = Blob.seed(pos, 80 + 5 * Dungeon.depth, CorrosiveGas.class);
 
 		corrosiveGas.setStrength(1+Dungeon.depth/4);
 
 		GameScene.add(corrosiveGas);
+		*/
+		ArrayList<Integer> gasCells = new ArrayList<>();
+		if (Dungeon.level instanceof RegularLevel && ((RegularLevel)Dungeon.level).room( pos ) != null){
+			Room r = ((RegularLevel) Dungeon.level).room(pos);
+			int cell;
+			for (Point p : r.getPoints()){
+				cell = Dungeon.level.pointToCell(p);
+				if (!Dungeon.level.solid[cell]){
+					gasCells.add(cell);
+				}
+			}
+
+			//if we don't have rooms, then just do 5x5
+		} else {
+			PathFinder.buildDistanceMap( pos, BArray.not( Dungeon.level.solid, null ), 2 );
+			for (int i = 0; i < PathFinder.distance.length; i++) {
+				if (PathFinder.distance[i] < Integer.MAX_VALUE) {
+					gasCells.add(i);
+				}
+			}
+		}
+
+		for (int cell : gasCells) {
+			Blob corrosiveGas = Blob.seed(cell, 8, CorrosiveGas.class);
+			((CorrosiveGas)corrosiveGas).setStrength(Dungeon.depth/5 + 1);
+			//GameScene.add(Blob.seed(cell, 8, CorrosiveGas.class));
+			GameScene.add(corrosiveGas);
+		}
 
 	}
 }

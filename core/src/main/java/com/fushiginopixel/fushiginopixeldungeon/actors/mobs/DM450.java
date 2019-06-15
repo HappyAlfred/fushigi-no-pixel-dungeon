@@ -65,7 +65,7 @@ public class DM450 extends Mob {
 		
 		HP = HT = 220;
 		EXP = 20;
-		defenseSkill = 27;
+		//defenseSkill = 27;
 
         HUNTING = new Hunting();
 
@@ -80,11 +80,12 @@ public class DM450 extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 30, 60 );
 	}
-	
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 35;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -125,7 +126,7 @@ public class DM450 extends Mob {
         final int cell = new Ballistica( this.pos, target, Ballistica.MAGIC_BOLT ).collisionPos;
         this.sprite.zap( cell );
 
-        Sample.INSTANCE.play( Assets.SND_MISS, 0.6f, 0.6f, 1.5f );
+        Sample.INSTANCE.play( Assets.SND_CANNON, 0.6f, 0.6f, 1.5f );
 
         Char enemy = Actor.findChar( cell );
 

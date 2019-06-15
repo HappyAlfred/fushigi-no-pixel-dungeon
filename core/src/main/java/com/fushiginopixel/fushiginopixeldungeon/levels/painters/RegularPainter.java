@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Patch;
+import com.fushiginopixel.fushiginopixeldungeon.levels.RegularLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.Room;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.EmptyRoom;
@@ -61,10 +62,10 @@ public abstract class RegularPainter extends Painter {
 	private Class<? extends Trap>[] trapClasses;
 	private float[] trapChances;
 	
-	public RegularPainter setTraps(int num, Class<?>[] classes, float[] chances){
+	public RegularPainter setTraps(int num, RegularLevel.LevelTraps levelTraps){
 		nTraps = num;
-		trapClasses = (Class<? extends Trap>[]) classes;
-		trapChances = chances;
+		trapClasses = (Class<? extends Trap>[]) levelTraps.trapClasses;
+		trapChances = levelTraps.trapChances;
 		return this;
 	}
 	
@@ -355,14 +356,18 @@ public abstract class RegularPainter extends Painter {
 			
 			Integer trapPos = Random.element(validCells);
 			validCells.remove(trapPos); //removes the integer object, not at the index
-			
-			try {
-				Trap trap = trapClasses[Random.chances( trapChances )].newInstance().hide();
-				l.setTrap( trap, trapPos );
-				//some traps will not be hidden
-				l.map[trapPos] = trap.visible ? Terrain.TRAP : Terrain.SECRET_TRAP;
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+
+			if(Dungeon.mode.setTrap(trapClasses, trapChances, l, trapPos)){
+
+			}else {
+				try {
+					Trap trap = trapClasses[Random.chances(trapChances)].newInstance().hide();
+					l.setTrap(trap, trapPos);
+					//some traps will not be hidden
+					l.map[trapPos] = trap.visible ? Terrain.TRAP : Terrain.SECRET_TRAP;
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 	}

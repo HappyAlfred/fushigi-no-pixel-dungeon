@@ -32,15 +32,21 @@ import com.watabou.utils.Random;
 
 public class Stench extends Armor.Glyph {
 
+	{
+		curse = true;
+	}
+
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
 
-		if ( Random.Int( 8 ) == 0) {
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(8) == 0) {
 
-			GameScene.add( Blob.seed( defender.pos, 250, ToxicGas.class ) );
+				GameScene.add(Blob.seed(defender.pos, 250, ToxicGas.class));
 
+			}
 		}
 
 		return 1;
@@ -49,10 +55,5 @@ public class Stench extends Armor.Glyph {
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

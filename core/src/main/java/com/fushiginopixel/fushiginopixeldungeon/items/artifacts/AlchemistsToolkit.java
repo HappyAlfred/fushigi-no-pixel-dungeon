@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.artifacts;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -84,11 +85,11 @@ public class AlchemistsToolkit extends Artifact {
 	}
 
 	@Override
-	public void execute(Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute(hero, action);
 
-		if (action.equals(AC_BREW)){
+		if (action.equals(AC_BREW) && hero instanceof Hero){
 			GameScene.selectItem(itemSelector, mode, inventoryTitle);
 		}
 	}

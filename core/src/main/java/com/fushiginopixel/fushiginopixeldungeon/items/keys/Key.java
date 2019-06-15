@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.keys;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.journal.Notes;
@@ -47,14 +48,16 @@ public abstract class Key extends Item {
 	}
 
 	@Override
-	public boolean doPickUp(Hero hero) {
-		GameScene.pickUpJournal(this, hero.pos);
-		WndJournal.last_index = 1;
-		Notes.add(this);
-		Sample.INSTANCE.play( Assets.SND_ITEM );
-		hero.spendAndNext( TIME_TO_PICK_UP );
-		GameScene.updateKeyDisplay();
-		return true;
+	public boolean doPickUp(Char hero) {
+		if(hero instanceof Hero) {
+			GameScene.pickUpJournal(this, hero.pos);
+			WndJournal.last_index = 1;
+			Notes.add(this);
+			Sample.INSTANCE.play(Assets.SND_ITEM);
+			hero.spendAndNext(TIME_TO_PICK_UP);
+			GameScene.updateKeyDisplay();
+			return true;
+		}else return super.doPickUp(hero);
 	}
 
 	private static final String DEPTH = "depth";

@@ -53,6 +53,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.SoulMark;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Terror;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Bee;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.King;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mimic;
@@ -245,9 +246,9 @@ public class WandOfCorruption extends DamageWand {
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
 			Statistics.qualifiedForNoKilling = false;
-			if (enemy.EXP > 0 && curUser.lvl <= enemy.maxLvl) {
+			if (enemy.EXP > 0 && curUser instanceof Hero && ((Hero)curUser).lvl <= enemy.maxLvl) {
 				curUser.sprite.showStatus(CharSprite.POSITIVE, Messages.get(enemy, "exp", enemy.EXP));
-				curUser.earnExp(enemy.EXP);
+				((Hero)curUser).earnExp(enemy.EXP);
 			}
 			enemy.rollToDropLoot();
 

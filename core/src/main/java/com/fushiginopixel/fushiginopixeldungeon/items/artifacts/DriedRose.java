@@ -114,7 +114,7 @@ public class DriedRose extends Artifact {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute(hero, action);
 
@@ -135,6 +135,7 @@ public class DriedRose extends Artifact {
 
 				if (spawnPoints.size() > 0) {
 					ghost = new GhostHero( this );
+					ghost.ownerID = hero.id();
 					ghostID = ghost.id();
 					ghost.pos = Random.element(spawnPoints);
 
@@ -160,7 +161,7 @@ public class DriedRose extends Artifact {
 					GLog.i( Messages.get(this, "no_space") );
 			}
 
-		} else if (action.equals(AC_OUTFIT)){
+		} else if (action.equals(AC_OUTFIT) && hero instanceof Hero){
 			GameScene.show( new WndGhostHero(this) );
 		}
 	}
@@ -212,6 +213,13 @@ public class DriedRose extends Artifact {
 		return super.upgrade();
 	}
 
+	@Override
+	public void activate(Char ch) {
+		super.activate(ch);
+		if (ghost != null)
+			ghost.ownerID = ch.id();
+	}
+
 	private static final String TALKEDTO =      "talkedto";
 	private static final String FIRSTSUMMON =   "firstsummon";
 	private static final String GHOSTID =       "ghostID";
@@ -244,6 +252,15 @@ public class DriedRose extends Artifact {
 		
 		if (bundle.contains(WEAPON)) weapon = (MeleeWeapon)bundle.get( WEAPON );
 		if (bundle.contains(ARMOR))  armor = (Armor)bundle.get( ARMOR );
+
+		if (ghost == null && ghostID != 0){
+			Actor a = Actor.findById(ghostID);
+			if (a != null){
+				ghost = (GhostHero)a;
+			} else {
+				ghostID = 0;
+			}
+		}
 	}
 	
 	// *** static methods for transferring a ghost hero between floors ***
@@ -342,7 +359,7 @@ public class DriedRose extends Artifact {
 		}
 
 		@Override
-		public boolean doPickUp( Hero hero ) {
+		public boolean doPickUp( Char hero ) {
 			DriedRose rose = hero.belongings.getItem( DriedRose.class );
 
 			if (rose == null){
@@ -392,6 +409,9 @@ public class DriedRose extends Artifact {
 		private float partialRecover;
 		
 		private DriedRose rose = null;
+		private DriedRose firstRose = null;
+		public Char owner = null;
+		public int ownerID = 0;
 		
 		public GhostHero(){
 			super();
@@ -406,11 +426,19 @@ public class DriedRose extends Artifact {
 		}
 		
 		private void updateRose(){
-			if (rose == null) {
-				rose = Dungeon.hero.belongings.getItem(DriedRose.class);
+			if (owner == null && ownerID != 0){
+				Actor a = Actor.findById(ownerID);
+				if (a != null){
+					owner = (Char)a;
+				} else {
+					ownerID = 0;
+				}
+			}
+			if (rose == null && owner != null) {
+				rose = owner.belongings.getItem(DriedRose.class);
 			}
 			
-			defenseSkill = (Dungeon.hero.lvl+4)*2;
+			//defenseSkill = (Dungeon.hero.lvl+4)*2;
 			if (rose == null) return;
 			HT = 20 + Dungeon.hero.lvl * 5 * rose.level() / 10;
 		}
@@ -452,7 +480,7 @@ public class DriedRose extends Artifact {
 		@Override
 		protected boolean act() {
 			updateRose();
-			if (rose == null || !rose.isEquipped(Dungeon.hero)){
+			if (rose == null || (owner == null || !rose.isEquipped(owner))){
 				damage(HT/20, this);
 			}else if(HP < HT){
 				float delay = 1000 - rose.level() * 75;
@@ -481,7 +509,7 @@ public class DriedRose extends Artifact {
 			Char enemy = super.chooseEnemy();
 			
 			//will never attack something far from the player
-			if (enemy != null &&  Dungeon.level.distance(enemy.pos, Dungeon.hero.pos) <= 8){
+			if (enemy != null &&  (owner != null && Dungeon.level.distance(enemy.pos, owner.pos) <= 8)){
 				return enemy;
 			} else {
 				return null;
@@ -491,8 +519,9 @@ public class DriedRose extends Artifact {
 		@Override
 		public int attackSkill(Char target) {
 			//same accuracy as the hero.
-			int acc = Dungeon.hero.lvl + 9;
-			
+			//int acc = Dungeon.hero.lvl + 9;
+			int acc = super.attackSkill(target);
+
 			if (rose != null && rose.weapon != null){
 				acc *= rose.weapon.accuracyFactor(this, target);
 			}
@@ -501,7 +530,7 @@ public class DriedRose extends Artifact {
 		}
 		
 		@Override
-		protected float attackDelay() {
+        public float attackDelay() {
 			if (rose != null && rose.weapon != null){
 				return rose.weapon.speedFactor(this);
 			} else {
@@ -549,7 +578,7 @@ public class DriedRose extends Artifact {
 		@Override
 		public int defenseProc(Char enemy, int damage, EffectType type ) {
 			if (rose != null && rose.armor != null) {
-				return rose.armor.proc( enemy, this, damage ,type);
+				return rose.armor.proc( enemy, this, damage ,type, Armor.EVENT_SUFFER_ATTACK);
 			} else {
 				return super.defenseProc(enemy, damage, type);
 			}
@@ -563,14 +592,24 @@ public class DriedRose extends Artifact {
 		}
 		
 		@Override
-		public void damage(int dmg, Object src, EffectType type) {
+		public int damage(int dmg, Object src, EffectType type) {
+			/*
 			//TODO improve this when I have proper damage source logic
 			if (rose != null && rose.armor != null && rose.armor.hasGlyph(AntiMagic.class)
 					&& RingOfElements.RESISTS.contains(src.getClass())){
 				dmg -= Random.NormalIntRange(rose.armor.min(), rose.armor.max())/3;
 			}
-			
-			super.damage( dmg, src ,type);
+			*/
+			if (rose != null && rose.armor != null) {
+				dmg = rose.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
+			}
+
+			int damage = super.damage( dmg, src ,type);
+
+			if (rose != null && rose.armor != null && isAlive()) {
+				rose.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
+			}
+			return damage;
 		}
 		
 		@Override
@@ -649,13 +688,27 @@ public class DriedRose extends Artifact {
 		}
 
 		@Override
-		public void destroy() {
+		public void destroy(Object src, EffectType type ) {
 			updateRose();
 			if (rose != null) {
 				rose.ghost = null;
 				rose.ghostID = -1;
 			}
-			super.destroy();
+			super.destroy(src, type);
+		}
+
+		private static final String OWNERID = "ownerid";
+
+		@Override
+		public void storeInBundle( Bundle bundle ) {
+			super.storeInBundle( bundle );
+			bundle.put( OWNERID, ownerID );
+		}
+
+		@Override
+		public void restoreFromBundle( Bundle bundle ) {
+			super.restoreFromBundle( bundle );
+			ownerID = bundle.getInt( OWNERID );
 		}
 		
 		{

@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.scrolls;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
@@ -82,7 +83,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 		}
 	}
 
-	public static boolean uncurse( Hero hero, Item... items ) {
+	public static boolean uncurse(Char hero, Item... items ) {
 		
 		boolean procced = false;
 		for (Item item : items) {

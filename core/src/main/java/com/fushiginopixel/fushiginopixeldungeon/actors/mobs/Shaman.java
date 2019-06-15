@@ -45,7 +45,7 @@ public class Shaman extends Mob implements Callback {
 		spriteClass = ShamanSprite.class;
 		
 		HP = HT = 90;
-		defenseSkill = 22;
+		//defenseSkill = 22;
 		
 		EXP = 18;
 		
@@ -59,11 +59,13 @@ public class Shaman extends Mob implements Callback {
 	public int damageRoll() {
 		return Random.NormalIntRange( 15, 27 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 50;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

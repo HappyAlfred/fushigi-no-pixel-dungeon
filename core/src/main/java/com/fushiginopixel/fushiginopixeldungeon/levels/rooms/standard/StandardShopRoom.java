@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Shop;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Shopkeeper;
@@ -37,15 +38,49 @@ import com.fushiginopixel.fushiginopixeldungeon.items.stones.StoneOfEnchantment;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.painters.Painter;
+import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.ShopInterface;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.secret.SecretRoom;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class StandardShopRoom extends StandardRoom {
+public class StandardShopRoom extends StandardRoom implements ShopInterface {
 
 	private ArrayList<Item> itemsToSpawn;
+	public int shopKeeperID = 0;
+	public Shopkeeper shopKeeper = null;
+
+	private static final String NODE	= "shopKeeper";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		/*
+		if(shopKeeper != null){
+			shopKeeperID = shopKeeper.id();
+		}
+		*/
+		getShopkeeper();
+		bundle.put(NODE, shopKeeperID);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		shopKeeperID = bundle.getInt(NODE);
+		/*
+		if (shopKeeper == null && shopKeeperID != 0) {
+			Actor a = Actor.findById(shopKeeperID);
+			if (a != null) {
+				shopKeeper = (Shopkeeper) a;
+			} else {
+				shopKeeperID = 0;
+			}
+		}
+		*/
+	}
 
 	@Override
 	public int minWidth() {
@@ -86,9 +121,9 @@ public class StandardShopRoom extends StandardRoom {
 
 		int pos = level.pointToCell(center());
 
-		Mob shopkeeper = new Shopkeeper();
-		shopkeeper.pos = pos;
-		level.mobs.add( shopkeeper );
+		shopKeeper = new Shopkeeper();
+		shopKeeper.pos = pos;
+		level.mobs.add( shopKeeper );
 
 	}
 
@@ -129,7 +164,7 @@ public class StandardShopRoom extends StandardRoom {
 			if (level.heaps.get( cell ) != null) {
 				do {
 					cell = level.pointToCell(random());
-				} while (level.heaps.get( cell ) != null || level.findMob( cell ) != null);
+				} while (level.heaps.get( cell ) != null || level.findMob( cell ) == shopKeeper);
 			}
 
 			level.drop( item, cell ).type = Heap.Type.FOR_SALE;
@@ -164,5 +199,19 @@ public class StandardShopRoom extends StandardRoom {
 		itemsToSpawn.add(new Ankh());
 		Random.shuffle(itemsToSpawn);
 		return itemsToSpawn;
+	}
+
+	@Override
+	public Shopkeeper getShopkeeper() {
+		if(shopKeeperID != 0 && shopKeeper == null){
+			Actor a = Actor.findById(shopKeeperID);
+			if(a != null){
+				shopKeeper = (Shopkeeper)a;
+				shopKeeperID = a.id();
+			}else{
+				shopKeeperID = 0;
+			}
+		}
+		return shopKeeper;
 	}
 }

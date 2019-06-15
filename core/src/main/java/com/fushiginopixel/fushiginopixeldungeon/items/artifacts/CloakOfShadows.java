@@ -68,13 +68,13 @@ public class CloakOfShadows extends Artifact {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if (charge > 1)
+		if (charge >= 1)
 			actions.add(AC_STEALTH);
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute(hero, action);
 
@@ -118,7 +118,7 @@ public class CloakOfShadows extends Artifact {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
+	public boolean doUnequip(Char hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 			stealthed = false;
 			return true;
@@ -232,10 +232,17 @@ public class CloakOfShadows extends Artifact {
 					charge = 0;
 					detach();
 					GLog.w(Messages.get(this, "no_charge"));
-					((Hero) target).interrupt();
+					if(target instanceof Hero) {
+						((Hero) target).interrupt();
+					}
 				} else {
 					//target hero level is 1 + 2*cloak level
-					int lvlDiffFromTarget = ((Hero) target).lvl - (1+level()*2);
+					int lvlDiffFromTarget;
+					if(target instanceof Hero){
+						lvlDiffFromTarget = ((Hero) target).lvl - (1+level()*2);
+					}else{
+						lvlDiffFromTarget = 1 - (1+level()*2);
+					}
 					//plus an extra one for each level after 6
 					if (level() >= 7){
 						lvlDiffFromTarget -= level()-6;

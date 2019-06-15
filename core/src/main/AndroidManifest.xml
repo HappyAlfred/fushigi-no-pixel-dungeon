@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.fushiginopixel.fushiginopixeldungeon"
-	android:versionCode="272"
-	android:versionName="1.2.3"
+	android:versionCode="273"
+	android:versionName="1.2.4"
 	android:installLocation="auto">
 
 	<uses-sdk
@@ -21,6 +21,7 @@
 		android:xlargeScreens="true"/>
 
 	<application
+		android:name="com.fushiginopixel.fushiginopixeldungeon.CrashApplication"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@android:style/Theme.Black.NoTitleBar"

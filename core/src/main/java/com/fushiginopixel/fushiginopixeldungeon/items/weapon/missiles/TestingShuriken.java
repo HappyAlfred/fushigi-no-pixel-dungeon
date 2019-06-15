@@ -40,6 +40,7 @@ public class TestingShuriken extends MissileWeapon {
 
 	{
 		image = ItemSpriteSheet.SHURIKEN;
+		LIMIT = 5;
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class TestingShuriken extends MissileWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return 6;
+		return 12;
 	}
 	
 	@Override
@@ -58,7 +59,7 @@ public class TestingShuriken extends MissileWeapon {
 	}
 
 	@Override
-	public void cast( final Hero user, final int dst ) {
+	public void cast( final Char user, final int dst ) {
 
 
 		Ballistica ballistica = new Ballistica(user.pos,dst,Ballistica.STOP_TERRAIN);

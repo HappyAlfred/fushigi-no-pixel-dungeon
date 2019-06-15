@@ -40,6 +40,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.LeatherArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.MailArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.PlateArmor;
+import com.fushiginopixel.fushiginopixeldungeon.items.armor.SamuraiArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.ScaleArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Katana;
@@ -98,7 +99,8 @@ public class Ghost extends NPC {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src ,EffectType type) {
+	public int damage( int dmg, Object src ,EffectType type) {
+		return 0;
 	}
 	
 	@Override
@@ -276,6 +278,7 @@ public class Ghost extends NPC {
 
 				//50%:tier2, 30%:tier3, 15%:tier4, 5%:tier5
 				float itemTierRoll = Random.Float();
+				/*
 				int wepTier;
 
 				if (itemTierRoll < 0.5f) {
@@ -291,14 +294,18 @@ public class Ghost extends NPC {
 					wepTier = 5;
 					armor = new PlateArmor();
 				}
+				*/
 
 				try {
 					do {
-						weapon = (Weapon) Generator.wepTiers[wepTier - 1].classes[Random.chances(Generator.wepTiers[wepTier - 1].probs)].newInstance();
+						//weapon = (Weapon) Generator.wepTiers[wepTier - 1].classes[Random.chances(Generator.wepTiers[wepTier - 1].probs)].newInstance();
+						weapon = Generator.randomWeapon((Dungeon.depth / 10) + 2);
+						armor = Generator.randomArmor((Dungeon.depth / 10) + 2);
 					} while (!(weapon instanceof MeleeWeapon));
 				} catch (Exception e){
 					Fushiginopixeldungeon.reportException(e);
 					weapon = new Katana();
+					armor = new SamuraiArmor();
 				}
 
 				//50%:+0, 30%:+1, 15%:+2, 5%:+3

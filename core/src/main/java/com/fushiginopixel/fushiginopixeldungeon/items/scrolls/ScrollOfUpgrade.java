@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.scrolls;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
@@ -103,16 +104,16 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		Badges.validateItemLevelAquired( item );
 	}
 	
-	public static void upgrade( Hero hero ) {
+	public static void upgrade( Char hero ) {
 		hero.sprite.emitter().start( Speck.factory( Speck.UP ), 0.2f, 3 );
 	}
 
-	public static void weakenCurse( Hero hero ){
+	public static void weakenCurse( Char hero ){
 		GLog.p( Messages.get(ScrollOfUpgrade.class, "weaken_curse") );
 		hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 5 );
 	}
 
-	public static void removeCurse( Hero hero ){
+	public static void removeCurse( Char hero ){
 		GLog.p( Messages.get(ScrollOfUpgrade.class, "remove_curse") );
 		hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 	}

@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class ZombieSoldierSprite extends ZombieSprite {
 
-	public ZombieSoldierSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.ZOMBIE );
 		

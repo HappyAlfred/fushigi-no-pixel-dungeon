@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
@@ -51,11 +52,11 @@ public class MerchantsBeacon extends Item {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
-		if (action.equals(AC_USE)) {
+		if (action.equals(AC_USE) && hero instanceof Hero) {
 			detach( hero.belongings.backpack );
 			Shopkeeper.sell();
 			Sample.INSTANCE.play( Assets.SND_BEACON );

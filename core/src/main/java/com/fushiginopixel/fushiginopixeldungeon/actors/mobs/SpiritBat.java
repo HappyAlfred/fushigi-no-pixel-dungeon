@@ -46,7 +46,7 @@ public class SpiritBat extends Bat {
 		spriteClass = SpiritBatSprite.class;
 		
 		HP = HT = 200;
-		defenseSkill = 60;
+		//defenseSkill = 60;
 		baseSpeed = 2f;
 		viewDistance = 16;
 		
@@ -64,10 +64,12 @@ public class SpiritBat extends Bat {
 		return Random.NormalIntRange( 40, 80 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 80;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

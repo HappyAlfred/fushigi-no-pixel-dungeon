@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.food;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Bless;
@@ -43,7 +44,7 @@ public class SpecialOnigiri extends Food {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -52,7 +53,7 @@ public class SpecialOnigiri extends Food {
 		}
 	}
 
-	public static void effect(Hero hero){
+	public static void effect(Char hero){
 		switch (Random.Int( 4 )) {
 			case 0:
 				GLog.i( Messages.get(SpecialOnigiri.class, "mindvr") );

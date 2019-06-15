@@ -41,10 +41,12 @@ import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.InventoryPot;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.Pot;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
+import com.fushiginopixel.fushiginopixeldungeon.sprites.MissileSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.PatrolDogSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.PotFairySprite;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -56,14 +58,13 @@ public class PotFairy extends Mob {
 	{
 		spriteClass = PotFairySprite.class;
 		
-		HP = HT = 50;
-		defenseSkill = 18;
-        EXP = 9;
+		HP = HT = 15;
+		//defenseSkill = 1;
+        EXP = 1;
 
         HUNTING = new Hunting();
 	}
 
-    protected Pot pot = null;
 	protected int initSize = 1;
 
     public PotFairy() {
@@ -72,30 +73,68 @@ public class PotFairy extends Mob {
     }
 
     public void addPot(){
+        Pot pot;
         do {
             pot = (Pot) Generator.random(Generator.Category.POT);
         } while (pot.cursed);
 
         pot.size = initSize;
+        pot.collect(belongings.backpack);
     }
-	
+
+    @Override
+    public boolean act() {
+
+        if(getPot() == null){
+            destroy(this, new EffectType(0,0));
+            sprite.die();
+            return true;
+        }
+
+        return super.act();
+    }
+
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 6 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 25;
 	}
+	*/
 
-    protected Item steal(Hero hero, EffectType type ) {
+    protected Item beforeSteal(Char hero, EffectType type ) {
 
-        Item item = hero.belongings.randomUnequipped();
+        Item item;
+        Pot pot = getPot();
+        ArrayList<Item> items = new ArrayList<Item>(hero.belongings.backpack.items);
 
-        if (item != null && !item.isUnique() && item.level() < 1 ) {
+        do{
+             item = Random.element(items);
+             if(item != null) items.remove(item);
+             else break;
+        }while (!((InventoryPot)pot).canInput(item));
 
-            GLog.w( Messages.get(PotFairy.class, "suck", item.name(), pot.name()) );
+        return item;
+    }
+
+    protected Item steal(Char hero, EffectType type ) {
+
+        Item item = beforeSteal(hero,type);
+        if(item == null) {
+            return null;
+        }else{
+            return steal(hero, type, item);
+        }
+    }
+
+    protected Item steal(Char hero, EffectType type, Item item ) {
+
+        if (item != null) {
+
             if (!item.stackable || hero.belongings.getSimilar(item) == null) {
                 Dungeon.quickslot.convertToPlaceholder(item);
             }
@@ -111,24 +150,64 @@ public class PotFairy extends Mob {
         }
     }
 
-    public void suck( Char enemy ) {
+    public Pot getPot(){
+        ArrayList<Item> items = new ArrayList<Item>(belongings.backpack.items);
+        for(Item item:items){
+            if(item instanceof Pot) {
+                return (Pot)item;
+            }
+        }
+        return null;
+    }
+
+    public void dropInventory(){
+        Pot pot = getPot();
+        if(pot != null) {
+            ((Pot)pot.detachAll(belongings.backpack)).shatter(pos);
+        }
+        super.dropInventory();
+    }
+
+    @Override
+    public boolean catchItem(Item item) {
+        Pot pot = getPot();
+        if(pot != null && pot instanceof InventoryPot && ((InventoryPot) pot).canInput(item)){
+            this.sprite.zap(enemy.pos);
+            ((InventoryPot) pot).input(item);
+            GLog.w(Messages.get(PotFairy.class, "catch", item.name(), pot.name()));
+            return true;
+        }
+        return super.catchItem(item);
+    }
+
+    public void suck(Char enemy ) {
         this.sprite.zap(enemy.pos);
-        if (enemy instanceof Hero && pot instanceof InventoryPot){
-            Item item = steal((Hero) enemy, new EffectType(0, 0));
-            input(item);
+        Pot pot = getPot();
+        if (pot != null && pot instanceof InventoryPot){
+            Item item = steal(enemy, new EffectType(0, 0));
+            if(item != null) {
+                ((MissileSprite) sprite.parent.recycle(MissileSprite.class)).
+                        reset(sprite,
+                                enemy.sprite,
+                                item,
+                                this,
+                                new Callback() {
+                                    @Override
+                                    public void call() {
+                                    }
+                                });
+                GLog.w(Messages.get(PotFairy.class, "suck", item.name(), pot.name()));
+                ((InventoryPot) pot).input(item);
+            }
         }
         else{
             Buff.affect(enemy , Vertigo.class , Random.NormalIntRange(4, 8), new EffectType(0,0));
         }
     }
 
-    public void input(Item item){
-        ((InventoryPot) pot).onItemSelected(item);
-    }
-
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(0, 4);
+		return Random.NormalIntRange(0, 2);
 	}
 
     protected class Hunting extends Mob.Hunting {
@@ -137,10 +216,11 @@ public class PotFairy extends Mob {
         public boolean act( boolean enemyInFOV, boolean justAlerted ) {
             enemySeen = enemyInFOV;
 
+            Pot pot = getPot();
             if (enemyInFOV
                     && !isCharmedBy(enemy)
                     && canAttack(enemy)) {
-                if (Random.Int(4) == 0) {
+                if (pot != null && !pot.isFull() && Random.Int(4) == 0) {
 
                     suck(enemy);
                     spend(TICK);

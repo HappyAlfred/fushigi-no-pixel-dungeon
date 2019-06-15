@@ -27,19 +27,19 @@ public class ScaleArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_SCALE;
-		LIMIT = 2;
+		LIMIT = 3;
 
 		tier = 4;
 	}
 	@Override
 	public int DRMax(int lvl){
-		return  16 +
+		return  21 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 8 + lvl;
+		return 10 + lvl;
 	}
 
 }

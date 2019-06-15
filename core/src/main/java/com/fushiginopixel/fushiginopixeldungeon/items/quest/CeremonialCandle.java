@@ -65,7 +65,7 @@ public class CeremonialCandle extends Item {
 	}
 
 	@Override
-	public void doDrop(Hero hero) {
+	public void doDrop(Char hero) {
 		super.doDrop(hero);
 		checkCandles();
 	}

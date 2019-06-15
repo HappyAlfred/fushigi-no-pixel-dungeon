@@ -26,9 +26,8 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.watabou.noosa.TextureFilm;
 
 public class ElementalSprite extends MobSprite {
-	
-	public ElementalSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.ELEMENTAL );
 		

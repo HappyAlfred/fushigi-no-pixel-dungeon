@@ -133,7 +133,19 @@ public class Fushiginopixeldungeon extends Game {
 		com.watabou.utils.Bundle.addAlias(
 				com.fushiginopixel.fushiginopixeldungeon.items.stones.StoneOfAugmentation.class,
 				"com.fushiginopixiel.fushiginopixieldungeon.items.Weightstone" );
-		
+
+
+		/*
+		//FNPD v1.2.4
+		com.watabou.utils.Bundle.addAlias(
+				com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfHoly.class,
+				"com.fushiginopixiel.fushiginopixieldungeon.items.wands.WandOfTransfusion" );
+
+
+		com.watabou.utils.Bundle.addAlias(
+				com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagician.class,
+				"com.fushiginopixiel.fushiginopixieldungeon.items.wands.WandOfFrost" );
+		*/
 	}
 	
 	@Override
@@ -198,7 +210,8 @@ public class Fushiginopixeldungeon extends Game {
 				Assets.SND_BONES,
 				Assets.SND_BEE,
 				Assets.SND_DEGRADE,
-				Assets.SND_MIMIC );
+				Assets.SND_MIMIC,
+				Assets.SND_CANNON );
 
 		if (!SPDSettings.systemFont()) {
 			RenderedText.setFont("pixelfont.ttf");

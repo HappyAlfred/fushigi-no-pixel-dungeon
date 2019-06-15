@@ -37,7 +37,11 @@ public class WndWarehouse extends WndTabbed {
 
         ArrayList<Object> items = new ArrayList<>();
         for (int i = 0; i < Warehouse.getBundle().size(); i++) {
-            items.add((Object) Warehouse.getBundle().get(i));
+            Item item = Warehouse.getBundle().get(i);
+            if(!item.isIdentified()) {
+                item.identify();
+            }
+            items.add((Object) item);
         }
 
         warehouseItems = new WarehouseTab(items);

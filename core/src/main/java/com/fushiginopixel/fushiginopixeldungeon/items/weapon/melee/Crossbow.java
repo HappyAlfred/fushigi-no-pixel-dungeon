@@ -33,10 +33,16 @@ public class Crossbow extends MeleeWeapon {
 		tier = 3;
 		LIMIT = 3;
 	}
+
+	@Override
+	public int min(int lvl) {
+		return  2 +
+				lvl;
+	}
 	
 	@Override
 	public int max(int lvl) {
-		return  12 +    //20 base, down from 25
+		return  14 +    //20 base, down from 25
 				lvl*UPGRADE_ATTACK;     //+4 per level, down from +5
 	}
 }

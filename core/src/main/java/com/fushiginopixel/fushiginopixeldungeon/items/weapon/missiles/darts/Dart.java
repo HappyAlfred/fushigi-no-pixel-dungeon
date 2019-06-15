@@ -43,7 +43,8 @@ public class Dart extends MissileWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return bow != null ? 12 + 3*bow.level() : 2;
+		//return bow != null ? 12 + 3*bow.level() : 2;
+		return bow != null ? 16 + (UPGRADE_ATTACK - 1)*bow.level() : 5;
 	}
 	
 	@Override
@@ -62,7 +63,7 @@ public class Dart extends MissileWeapon {
 	}
 	
 	@Override
-	public int throwPos(Hero user, int dst) {
+	public int throwPos(Char user, int dst) {
 		if (bow != null && bow.hasEnchant(Projecting.class)
 				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
 			return dst;

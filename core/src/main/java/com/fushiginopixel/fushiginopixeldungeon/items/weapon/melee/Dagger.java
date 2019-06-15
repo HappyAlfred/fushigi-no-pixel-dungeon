@@ -38,7 +38,7 @@ public class Dagger extends MeleeWeapon {
 		tier = 1;
 		
 		//bones = false;
-		LIMIT = 4;
+		LIMIT = 3;
 
 		properties = new ArrayList<Enchantment>(){
 			{
@@ -48,9 +48,15 @@ public class Dagger extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  1 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  9 +    //8 base, down from 10
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  13 +
+				lvl*UPGRADE_ATTACK;
 	}
 	
 	/*

@@ -32,8 +32,8 @@ import com.watabou.utils.Callback;
 
 public class InfernoDragonSprite extends MobSprite {
 
-	public InfernoDragonSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		int ofs = 14;
 		

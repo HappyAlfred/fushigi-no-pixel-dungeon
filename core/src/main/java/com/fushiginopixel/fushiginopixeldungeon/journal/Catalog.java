@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.GoldArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.HuntressArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.LeafArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.LeatherArmor;
+import com.fushiginopixel.fushiginopixeldungeon.items.armor.LightningConchShell;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.MageArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.MailArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.PlateArmor;
@@ -114,8 +115,11 @@ import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfDisintegration
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFireblast;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFrost;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfHoly;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfKaleidoscope;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfLightning;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagicMissile;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagician;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfNightmare;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfPrismaticLight;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfTransfusion;
@@ -229,6 +233,7 @@ public enum Catalog {
 		ARMOR.seen.put( CaneArmor.class,                    false);
 		ARMOR.seen.put( ScaleArmor.class,                   false);
 		ARMOR.seen.put( SamuraiArmor.class,                 false);
+		ARMOR.seen.put( LightningConchShell.class,          false);
 		ARMOR.seen.put( PlateArmor.class,                   false);
 		//ARMOR.seen.put( WarriorArmor.class,                 false);
 		//ARMOR.seen.put( MageArmor.class,                    false);
@@ -242,14 +247,17 @@ public enum Catalog {
 		WANDS.seen.put( WandOfCorrosion.class,              false);
 		WANDS.seen.put( WandOfBlastWave.class,              false);
 		//WANDS.seen.put( WandOfLivingEarth.class,          false);
-		WANDS.seen.put( WandOfFrost.class,                  false);
+		//WANDS.seen.put( WandOfFrost.class,                  false);
 		WANDS.seen.put( WandOfPrismaticLight.class,         false);
 		//WANDS.seen.put( WandOfWarding.class,              false);
-		WANDS.seen.put( WandOfTransfusion.class,            false);
+		//WANDS.seen.put( WandOfTransfusion.class,            false);
+		WANDS.seen.put( WandOfHoly.class,            false);
 		WANDS.seen.put( WandOfCorruption.class,             false);
 		//WANDS.seen.put( WandOfRegrowth.class,               false);
 		WANDS.seen.put( WandOfElements.class,            false);
 		WANDS.seen.put( WandOfNightmare.class,             false);
+		WANDS.seen.put( WandOfKaleidoscope.class,            false);
+		WANDS.seen.put( WandOfMagician.class,            false);
 	
 		RINGS.seen.put( RingOfAccuracy.class,               false);
 		//RINGS.seen.put( RingOfEnergy.class,                 false);

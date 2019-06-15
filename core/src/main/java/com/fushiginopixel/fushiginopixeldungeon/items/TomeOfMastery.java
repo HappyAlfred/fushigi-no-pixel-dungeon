@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
@@ -57,17 +58,17 @@ public class TomeOfMastery extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
-		if (action.equals( AC_READ )) {
+		if (action.equals( AC_READ ) && hero instanceof Hero) {
 			
 			curUser = hero;
 			
 			HeroSubClass way1 = null;
 			HeroSubClass way2 = null;
-			switch (hero.heroClass) {
+			switch (((Hero)hero).heroClass) {
 			case WARRIOR:
 				way1 = HeroSubClass.GLADIATOR;
 				way2 = HeroSubClass.BERSERKER;
@@ -92,8 +93,10 @@ public class TomeOfMastery extends Item {
 	}
 	
 	@Override
-	public boolean doPickUp( Hero hero ) {
-		Badges.validateMastery();
+	public boolean doPickUp( Char hero ) {
+		if(hero instanceof Hero) {
+			Badges.validateMastery();
+		}
 		return super.doPickUp( hero );
 	}
 	
@@ -114,7 +117,7 @@ public class TomeOfMastery extends Item {
 		curUser.spend( TomeOfMastery.TIME_TO_READ );
 		curUser.busy();
 		
-		curUser.subClass = way;
+		((Hero)curUser).subClass = way;
 		
 		curUser.sprite.operate( curUser.pos );
 		Sample.INSTANCE.play( Assets.SND_MASTERY );

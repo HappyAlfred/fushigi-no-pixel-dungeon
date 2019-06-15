@@ -78,10 +78,12 @@ public class HallsLevel extends RegularLevel {
 	
 	@Override
 	protected Painter painter() {
+		LevelTraps levelTraps = new LevelTraps(trapClasses(), trapChances());
+		this.levelTraps = levelTraps;
 		return new HallsPainter()
 				.setWater(feeling == Feeling.WATER ? 0.70f : 0.15f, 6)
 				.setGrass(feeling == Feeling.GRASS ? 0.65f : 0.10f, 3)
-				.setTraps(nTraps(), trapClasses(), trapChances());
+				.setTraps(nTraps(), levelTraps);
 	}
 	
 	@Override

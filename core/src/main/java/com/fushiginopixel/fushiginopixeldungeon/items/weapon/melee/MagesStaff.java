@@ -82,7 +82,7 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  8 +    //8 base damage, down from 10
+		return  9 +    //8 base damage, down from 10
 				lvl*(UPGRADE_ATTACK -1);   //scaling unaffected
 	}
 
@@ -112,7 +112,7 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
@@ -134,9 +134,9 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int proc(Char attacker, Char defender, int damage, EffectType type) {
-		if (wand != null && Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE) {
+		if (wand != null && attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
 			if (wand.curCharges < 10) wand.partialCharge += 0.25f;
-			ScrollOfRecharging.charge((Hero)attacker);
+			ScrollOfRecharging.charge(attacker);
 			wand.onHit(this, attacker, defender, damage, type);
 		}
 		return super.proc(attacker, defender, damage, type);
@@ -166,7 +166,7 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
-	public void onDetach( ) {
+	public void onDetach(Bag container ) {
 		if (wand != null) wand.stopCharging();
 	}
 
@@ -201,7 +201,9 @@ public class MagesStaff extends MeleeWeapon {
 
 		this.wand = wand;
 		wand.maxCharges = Wand.MAXCHARGE;//Math.min(wand.maxCharges + 1, 10);
-		wand.curCharges = Math.min(Math.max(charges,wand.curCharges + 1) , wand.maxCharges);//wand.maxCharges;
+		//wand.curCharges = wand.maxCharges;
+		//wand.curCharges = Math.min(Math.max(charges,wand.curCharges + 1) , wand.maxCharges);
+		wand.curCharges = Math.min(charges + wand.curCharges , wand.maxCharges);
 		wand.identify();
 		if (owner != null) wand.charge(owner);
 

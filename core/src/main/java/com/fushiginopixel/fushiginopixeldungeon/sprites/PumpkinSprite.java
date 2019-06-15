@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class PumpkinSprite extends MobSprite {
 
-	public PumpkinSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.PUMPKIN );
 		

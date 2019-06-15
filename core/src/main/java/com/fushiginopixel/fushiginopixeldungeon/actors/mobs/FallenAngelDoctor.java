@@ -27,18 +27,12 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Amok;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Charm;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Corruption;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Healing;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
-import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfTransfusion;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
-import com.fushiginopixel.fushiginopixeldungeon.plants.Sungrass;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.FallenAngelDoctorSprite;
-import com.fushiginopixel.fushiginopixeldungeon.sprites.FallenAngelSprite;
-import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
@@ -52,7 +46,7 @@ public class FallenAngelDoctor extends FallenAngel {
 		spriteClass = FallenAngelDoctorSprite.class;
 		
 		HP = HT = 270;
-		defenseSkill = 55;
+		//defenseSkill = 55;
 
 		EXP = 26;
 
@@ -72,10 +66,12 @@ public class FallenAngelDoctor extends FallenAngel {
 		return Random.NormalIntRange( 25, 50 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 60;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -198,15 +194,15 @@ public class FallenAngelDoctor extends FallenAngel {
 		return false;
 	}
 
-	public void cure(Char cureTarget){
+	public boolean cure(Char cureTarget){
 		spend( TICK );
 		boolean visible = Dungeon.level.heroFOV[pos];
-		if(cureTarget == null) return;
 		if (visible) {
 			((FallenAngelDoctorSprite)sprite).cure( cureTarget.pos );
 		} else {
 			cureBeam( cureTarget );
 		}
+		return !visible;
 
 	}
 
@@ -240,12 +236,9 @@ public class FallenAngelDoctor extends FallenAngel {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			if(cureInFOV && buff(Amok.class) == null && canCure( cureTarget )){
-				cure( cureTarget );
-
-				return true;
+				return cure( cureTarget );
 			} else if(cureInFOV && buff(Amok.class) == null && cureTarget.HP < cureTarget.HT && distance(cureTarget) > 1 && blink(cureTarget)){
-				cure(cureTarget);
-				return true;
+				return cure(cureTarget);
 			}else {
 
 				if (cureInFOV) {

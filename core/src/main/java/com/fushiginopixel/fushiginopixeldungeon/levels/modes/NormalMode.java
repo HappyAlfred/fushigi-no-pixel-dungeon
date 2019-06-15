@@ -35,6 +35,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Monk;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.PatrolDog;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.PoisonSpinner;
+import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.PotFairy;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Pumpkin;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.PumpkinKing;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Rat;

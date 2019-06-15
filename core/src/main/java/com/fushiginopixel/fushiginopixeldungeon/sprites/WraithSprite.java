@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class WraithSprite extends MobSprite {
-	
-	public WraithSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.WRAITH );
 		

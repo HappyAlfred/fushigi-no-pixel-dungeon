@@ -48,7 +48,7 @@ public class DarkWolf extends PatrolDog {
 		spriteClass = DarkWolfSprite.class;
 		
 		HP = HT = 200;
-		defenseSkill = 34;
+		//defenseSkill = 34;
         EXP = 20;
 	}
 	public int range = 8;
@@ -57,11 +57,12 @@ public class DarkWolf extends PatrolDog {
 	public int damageRoll() {
 		return Random.NormalIntRange( 37, 52 );
 	}
-	
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 60;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

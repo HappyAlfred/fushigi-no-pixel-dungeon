@@ -34,6 +34,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.MasterThievesArmband;
 import com.fushiginopixel.fushiginopixeldungeon.levels.RegularLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.Room;
+import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.ShopInterface;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.PixelScene;
@@ -304,7 +305,23 @@ public class WndTradeItem extends Window {
 		if (item.isEquipped( hero ) && !((EquipableItem)item).doUnequip( hero, false )) {
 			return;
 		}
+
 		item.detachAll( hero.belongings.backpack );
+		if (Dungeon.level instanceof RegularLevel && (((RegularLevel)Dungeon.level).room(hero.pos) != null)){
+			Room r = ((RegularLevel) Dungeon.level).room(hero.pos);
+
+			if(r instanceof ShopInterface){
+				ShopInterface shop = (ShopInterface)r;
+				Shopkeeper shopkeeper = shop.getShopkeeper();
+
+				if (shopkeeper != null && shopkeeper.isAlive() && !shopkeeper.addItem(item)){
+					if(!item.collect(hero.belongings.backpack)) {
+						Dungeon.level.drop(item, hero.pos);
+					}
+					return;
+				}
+			}
+		}
 		
 		new Gold( item.price() ).doPickUp( hero );
 		
@@ -319,8 +336,23 @@ public class WndTradeItem extends Window {
 		} else {
 			
 			Hero hero = Dungeon.hero;
-			
+
 			item = item.detach( hero.belongings.backpack );
+			if (Dungeon.level instanceof RegularLevel && (((RegularLevel)Dungeon.level).room(hero.pos) != null)){
+				Room r = ((RegularLevel) Dungeon.level).room(hero.pos);
+
+				if(r instanceof ShopInterface){
+					ShopInterface shop = (ShopInterface)r;
+					Shopkeeper shopkeeper = shop.getShopkeeper();
+
+					if (shopkeeper != null && !shopkeeper.addItem(item)){
+						if(!item.collect(hero.belongings.backpack)) {
+							Dungeon.level.drop(item, hero.pos);
+						}
+						return;
+					}
+				}
+			}
 			
 			new Gold( item.price() ).doPickUp( hero );
 			
@@ -330,7 +362,8 @@ public class WndTradeItem extends Window {
 	}
 	
 	private int price( Item item ) {
-		int price = item.price() * 5 * (Dungeon.depth / 5 + 1);
+		//int price = item.price() * 5 * (Dungeon.depth / 5 + 1);
+		int price = item.price() * 3;
 		return price;
 	}
 	

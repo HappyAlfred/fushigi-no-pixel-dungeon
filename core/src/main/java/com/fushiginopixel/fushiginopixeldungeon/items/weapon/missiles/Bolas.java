@@ -36,12 +36,12 @@ public class Bolas extends MissileWeapon {
 	
 	@Override
 	public int min(int lvl) {
-		return 4;
+		return 1;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 6;
+		return 15;
 	}
 	
 	@Override

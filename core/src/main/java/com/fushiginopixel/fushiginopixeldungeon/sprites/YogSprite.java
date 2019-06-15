@@ -27,9 +27,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Splash;
 import com.watabou.noosa.TextureFilm;
 
 public class YogSprite extends MobSprite {
-	
-	public YogSprite() {
-		super();
+
+	public void init() {
+		super.init();
 
 		perspectiveRaise = 0.2f;
 

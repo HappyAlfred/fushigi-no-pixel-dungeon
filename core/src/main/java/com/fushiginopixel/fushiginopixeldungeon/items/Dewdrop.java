@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
@@ -40,7 +41,7 @@ public class Dewdrop extends Item {
 	}
 	
 	@Override
-	public boolean doPickUp( Hero hero ) {
+	public boolean doPickUp( Char hero ) {
 		
 		DewVial vial = hero.belongings.getItem( DewVial.class );
 		
@@ -51,7 +52,7 @@ public class Dewdrop extends Item {
 		} else {
 			
 			//20 drops for a full heal normally, 15 for the warden
-			float healthPercent = hero.subClass == HeroSubClass.WARDEN ? 0.0667f : 0.05f;
+			float healthPercent = (hero instanceof Hero && ((Hero)hero).subClass == HeroSubClass.WARDEN) ? 0.0667f : 0.05f;
 			int heal = Math.round( hero.HT * healthPercent * quantity );
 			
 			int effect = Math.min( hero.HT - hero.HP, heal );

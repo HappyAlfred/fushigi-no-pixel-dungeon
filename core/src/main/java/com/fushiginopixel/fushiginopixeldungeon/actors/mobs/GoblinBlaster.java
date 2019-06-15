@@ -26,6 +26,8 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Chill;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Frost;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bomb;
@@ -42,7 +44,7 @@ public class GoblinBlaster extends GoblinSapper {
 		spriteClass = GoblinBlasterSprite.class;
 		
 		HP = HT = 190;
-		defenseSkill = 30;
+		//defenseSkill = 30;
 		
 		EXP = 1;
 		
@@ -56,16 +58,23 @@ public class GoblinBlaster extends GoblinSapper {
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 1 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 57;
 	}
+	*/
 
 	protected boolean expAct(){
 
 		if(buff(Burning.class) != null){
 			suicide();
+		}
+
+		if(buff(Frost.class) != null || buff(Chill.class) != null){
+			coolDown();
+			return false;
 		}
 
 		if(countDown != -1){

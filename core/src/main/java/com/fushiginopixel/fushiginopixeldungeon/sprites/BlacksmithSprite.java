@@ -32,9 +32,8 @@ import com.watabou.noosa.particles.Emitter;
 public class BlacksmithSprite extends MobSprite {
 	
 	private Emitter emitter;
-	
-	public BlacksmithSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.TROLL );
 		

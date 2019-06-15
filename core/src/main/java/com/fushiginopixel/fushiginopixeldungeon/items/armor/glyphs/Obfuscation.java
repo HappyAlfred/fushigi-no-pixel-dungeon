@@ -31,12 +31,6 @@ public class Obfuscation extends Armor.Glyph {
 	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x888888 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		//no proc effect, see armor.stealthfactor for effect.
-		return 1;
-	}
-
-	@Override
 	public ItemSprite.Glowing glowing() {
 		return GREY;
 	}

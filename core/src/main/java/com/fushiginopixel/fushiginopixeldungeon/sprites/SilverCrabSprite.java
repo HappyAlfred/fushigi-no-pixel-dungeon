@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class SilverCrabSprite extends MobSprite {
 
-	public SilverCrabSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.CRAB );
 

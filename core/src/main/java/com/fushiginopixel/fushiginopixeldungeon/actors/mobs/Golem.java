@@ -35,7 +35,7 @@ public class Golem extends Mob {
 		spriteClass = GolemSprite.class;
 		
 		HP = HT = 180;
-		defenseSkill = 29;
+		//defenseSkill = 29;
 		
 		EXP = 19;
 		
@@ -46,14 +46,16 @@ public class Golem extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 25, 100 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 55;
 	}
+	*/
 	
 	@Override
-	protected float attackDelay() {
+    public float attackDelay() {
 		return 1.5f;
 	}
 	

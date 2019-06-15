@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
@@ -68,7 +69,7 @@ public class Ankh extends Item {
 	}
 
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute(final Char hero, String action ) {
 
 		super.execute( hero, action );
 

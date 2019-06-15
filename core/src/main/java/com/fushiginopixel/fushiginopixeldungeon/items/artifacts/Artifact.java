@@ -56,7 +56,7 @@ public class Artifact extends KindofMisc {
 	protected int cooldown = 0;
 
 	@Override
-	public boolean doEquip( final Hero hero ) {
+	public boolean doEquip( final Char hero ) {
 
 		if ((hero.belongings.misc1 != null && hero.belongings.misc1.getClass() == this.getClass())
 				|| (hero.belongings.misc2 != null && hero.belongings.misc2.getClass() == this.getClass())){
@@ -87,7 +87,7 @@ public class Artifact extends KindofMisc {
 	}
 
 	@Override
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
 			passiveBuff.detach();

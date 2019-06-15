@@ -44,13 +44,13 @@ public class CaneArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  18 +
+		return  33 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 3 + lvl;
+		return 5 + lvl;
 	}
 
 }

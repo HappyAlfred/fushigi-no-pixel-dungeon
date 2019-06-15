@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.artifacts;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Roots;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
@@ -73,7 +74,7 @@ public class SandalsOfNature extends Artifact {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 		super.execute(hero, action);
 
 		if (action.equals(AC_FEED)){

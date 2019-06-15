@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.pots;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Freezing;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
@@ -53,7 +54,7 @@ public class PotOfFreeze extends InventoryPot {
 	}
 
 	@Override
-	public boolean clickAble(Hero curuser, Ballistica shot, int cell) {
+	public boolean clickAble(Char curuser, Ballistica shot, int cell) {
 		if(items.size() >= size || size <= 0){
 			return super.clickAble(curuser, shot, cell);
 		}
@@ -61,7 +62,7 @@ public class PotOfFreeze extends InventoryPot {
 	}
 
 	@Override
-	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+	public boolean click(final Char curuser, Ballistica shot , final int cell) {
 		if(!super.click(curuser, shot, cell)) {
 			return false;
 		}

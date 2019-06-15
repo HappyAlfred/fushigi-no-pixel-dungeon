@@ -107,7 +107,7 @@ public class WndChallenges extends Window {
 
 		for (int i = 0; i < SpecialMode.MASKS.length; i++) {
 
-			final String mode = Messages.get(SpecialMode.MODES.indexOf(i + 1), "name");
+			final String mode = Messages.get(SpecialMode.MODES.get(i + 1), "name");
 
 			CheckBox cb = new CheckBox( mode ){
 				@Override
@@ -136,7 +136,7 @@ public class WndChallenges extends Window {
 				protected void onClick() {
 					super.onClick();
 					Fushiginopixeldungeon.scene().add(
-							new WndMessage(Messages.get(SpecialMode.MODES.indexOf(j + 1), "desc"))
+							new WndMessage(Messages.get(SpecialMode.MODES.get(j + 1), "desc"))
 					);
 				}
 			};

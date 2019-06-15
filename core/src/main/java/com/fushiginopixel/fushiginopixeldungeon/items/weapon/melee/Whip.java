@@ -30,13 +30,20 @@ public class Whip extends MeleeWeapon {
 
 		tier = 3;
 		RCH = 3;    //lots of extra reach
+		ACC = 0.9f;
 		LIMIT = 3;
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  2 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  14 +    //12 base, down from 20
-				lvl*UPGRADE_ATTACK/2;     //+3 per level, down from +4
+		return  12 +
+				lvl*(UPGRADE_ATTACK-1);
 	}
 
 }

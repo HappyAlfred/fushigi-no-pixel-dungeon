@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 public class NpcAbeysSprite extends MobSprite {
 
 
-	public NpcAbeysSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCABBEY );
 		

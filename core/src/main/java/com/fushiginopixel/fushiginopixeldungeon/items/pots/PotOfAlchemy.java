@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.pots;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.Recipe;
@@ -44,7 +45,7 @@ public class PotOfAlchemy extends InventoryPot {
 	}
 
 	@Override
-	public boolean clickAble(final Hero curuser, Ballistica shot , final int cell) {
+	public boolean clickAble(final Char curuser, Ballistica shot , final int cell) {
 		if(items.size() <= 0 || size <= 0) {
 			return super.clickAble(curuser, shot, cell);
 		}
@@ -52,7 +53,7 @@ public class PotOfAlchemy extends InventoryPot {
 	}
 
 	@Override
-	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+	public boolean click(final Char curuser, Ballistica shot , final int cell) {
 		if(!super.click(curuser, shot, cell)) {
 			return false;
 		}

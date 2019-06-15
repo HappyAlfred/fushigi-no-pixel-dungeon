@@ -52,7 +52,7 @@ public class GnollNinja extends Gnoll {
 		spriteClass = GnollNinjaSprite.class;
 
 		HP = HT = 70;
-		defenseSkill = 20;
+		//defenseSkill = 20;
 
 		EXP = 13;
 
@@ -75,7 +75,8 @@ public class GnollNinja extends Gnoll {
 
 	@Override
 	public int attackSkill( Char target ) {
-		return distance(target) > 1 ?  26 : 13;
+		int attack = super.attackSkill(target);
+		return distance(target) > 1 ?  attack : attack/2;
 	}
 
 	@Override
@@ -102,7 +103,7 @@ public class GnollNinja extends Gnoll {
 	}
 
 	@Override
-	protected float attackDelay(){
+    public float attackDelay(){
 		return justMoved ? 0 : 1f;
 	}
 	
@@ -196,8 +197,7 @@ public class GnollNinja extends Gnoll {
 
 				int oldPos = pos;
 				if(justMoved && distance(enemy ) <= 2){
-					doAttack(enemy);
-					return true;
+					return doAttack(enemy);
 				}else if(distance(enemy) <= 2 && target != -1 && getFurther( target )){
 
 					spend( 1 / speed() );
@@ -209,8 +209,7 @@ public class GnollNinja extends Gnoll {
 						spend(1f);
 						return true;
 					}else{
-						doAttack(enemy);
-						return true;
+						return doAttack(enemy);
 					}
 				}
 			} else if (!enemyInFOV && target != -1 && lastBomb && Dungeon.level.distance( pos, target ) > 2 && new Ballistica( pos, target, Ballistica.PROJECTILE).collisionPos == target) {

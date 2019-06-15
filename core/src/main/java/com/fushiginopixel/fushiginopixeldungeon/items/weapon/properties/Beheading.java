@@ -12,9 +12,11 @@ public class Beheading extends Weapon.Enchantment {
     @Override
     public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
-        if(((float)defender.HP / defender.HT) <= 0.2f) {
-            defender.damage( defender.HP, this ,new EffectType(type.attachType,0));
+        if(((float)defender.HP / defender.HT) <= 0.2f && damage > 0) {
+            float damFactor = Math.max(damage, defender.HT);
+            //defender.damage( defender.HP, this ,new EffectType(type.attachType,0));
             Wound.hit(defender);
+            return damFactor/damage;
         }
         return 1f;
     }

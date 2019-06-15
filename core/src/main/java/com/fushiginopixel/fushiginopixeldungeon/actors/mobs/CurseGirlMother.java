@@ -31,7 +31,7 @@ public class CurseGirlMother extends CurseGirl {
 		spriteClass = CurseGirlSisterSprite.class;
 		
 		HP = HT = 250;
-		defenseSkill = 47;
+		//defenseSkill = 47;
 		
 		EXP = 27;
 
@@ -42,11 +42,13 @@ public class CurseGirlMother extends CurseGirl {
 	public int damageRoll() {
 		return Random.NormalIntRange( 49, 105 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 90;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

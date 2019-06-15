@@ -262,9 +262,9 @@ public abstract class StandardRoom extends Room {
 
 	public static void reset() {
 		for (Category cat : Category.values()) {
-			if(!categoryProbs.containsKey(cat)) {
+			//if(!categoryProbs.containsKey(cat)) {
 				categoryProbs.put(cat, cat.prob);
-			}
+			//}
 		}
 	}
 

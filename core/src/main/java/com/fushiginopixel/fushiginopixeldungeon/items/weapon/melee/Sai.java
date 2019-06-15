@@ -35,9 +35,15 @@ public class Sai extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  6 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  12 +     //10 base, down from 20
-				lvl*(UPGRADE_ATTACK/2);  //+2 per level, down from +4
+		return  12 +
+				lvl*(UPGRADE_ATTACK-1);
 	}
 
 	@Override

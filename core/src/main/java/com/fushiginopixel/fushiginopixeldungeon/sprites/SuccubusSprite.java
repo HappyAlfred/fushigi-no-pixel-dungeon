@@ -27,9 +27,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle
 import com.watabou.noosa.TextureFilm;
 
 public class SuccubusSprite extends MobSprite {
-	
-	public SuccubusSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SUCCUBUS );
 		

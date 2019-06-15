@@ -31,8 +31,7 @@ import com.watabou.utils.Callback;
 
 public class GelCubeSprite extends MobSprite {
 
-	public GelCubeSprite() {
-		super();
+	public void init() {
 
 		texture( Assets.GELCUBE );
 		

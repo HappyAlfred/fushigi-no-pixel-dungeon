@@ -39,7 +39,7 @@ public class Elemental extends Mob {
 		spriteClass = ElementalSprite.class;
 		
 		HP = HT = 120;
-		defenseSkill = 24;
+		//defenseSkill = 24;
 		
 		EXP = 18;
 		
@@ -55,11 +55,13 @@ public class Elemental extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 26, 42 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 45;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

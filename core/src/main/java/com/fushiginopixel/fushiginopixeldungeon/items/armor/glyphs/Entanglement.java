@@ -42,40 +42,42 @@ public class Entanglement extends Glyph {
 	private static ItemSprite.Glowing BROWN = new ItemSprite.Glowing( 0x663300 );
 	
 	@Override
-	public float proc(Armor armor, Char attacker, final Char defender, final int damage , EffectType type ) {
+	public float proc(Armor armor, Object attacker, final Char defender, final int damage , EffectType type, int event ) {
 
 		final int level = Math.max( 0, armor.level() );
 		
 		final int pos = defender.pos;
-		
-		if (Random.Int( 4 ) == 0) {
-			
-			Actor delay = new Actor() {
-				
-				{
-					actPriority = HERO_PRIO+1;
-				}
-				
-				@Override
-				protected boolean act() {
-					
-					Buff.affect( defender, Earthroot.Armor.class ).level( 4 * (level + 1) );
-					CellEmitter.bottom( defender.pos ).start( EarthParticle.FACTORY, 0.05f, 8 );
-					Camera.main.shake( 1, 0.4f );
-					
-					if (defender.buff(Roots.class) != null){
-						Buff.prolong(defender, Roots.class, 5,new EffectType(EffectType.BLOB,0));
-					} else {
-						DelayedRoot root = Buff.append(defender, DelayedRoot.class,new EffectType(EffectType.BLOB,0));
-						root.setup(pos);
+
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(4) == 0) {
+
+				Actor delay = new Actor() {
+
+					{
+						actPriority = HERO_PRIO + 1;
 					}
-					
-					Actor.remove(this);
-					return true;
-				}
-			};
-			Actor.addDelayed(delay, defender.cooldown());
-			
+
+					@Override
+					protected boolean act() {
+
+						Buff.affect(defender, Earthroot.Armor.class).level(4 * (level + 1));
+						CellEmitter.bottom(defender.pos).start(EarthParticle.FACTORY, 0.05f, 8);
+						Camera.main.shake(1, 0.4f);
+
+						if (defender.buff(Roots.class) != null) {
+							Buff.prolong(defender, Roots.class, 5, new EffectType(EffectType.BLOB, 0));
+						} else {
+							DelayedRoot root = Buff.append(defender, DelayedRoot.class, new EffectType(EffectType.BLOB, 0));
+							root.setup(pos);
+						}
+
+						Actor.remove(this);
+						return true;
+					}
+				};
+				Actor.addDelayed(delay, defender.cooldown());
+
+			}
 		}
 
 		return 1;

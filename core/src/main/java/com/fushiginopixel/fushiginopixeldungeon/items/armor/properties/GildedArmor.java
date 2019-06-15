@@ -12,12 +12,6 @@ public class GildedArmor extends Armor.Glyph{
     private ItemSprite.Glowing GOLD = new ItemSprite.Glowing( 0xFFD700 );
 
     @Override
-    public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
-
-        return 1;
-    }
-
-    @Override
     public ItemSprite.Glowing glowing() {
         return GOLD;
     }

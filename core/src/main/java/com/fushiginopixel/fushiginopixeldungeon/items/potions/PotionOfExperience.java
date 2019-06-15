@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.potions;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 
 public class PotionOfExperience extends Potion {
@@ -32,9 +33,11 @@ public class PotionOfExperience extends Potion {
 	}
 	
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
-		hero.earnExp( hero.maxExp() );
+		if(hero instanceof Hero) {
+			((Hero)hero).earnExp(((Hero)hero).maxExp());
+		}
 	}
 	
 	@Override

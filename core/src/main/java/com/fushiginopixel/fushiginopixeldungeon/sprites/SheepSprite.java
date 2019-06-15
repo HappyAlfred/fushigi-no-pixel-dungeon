@@ -26,9 +26,9 @@ import com.watabou.noosa.TextureFilm;
 import com.watabou.utils.Random;
 
 public class SheepSprite extends MobSprite {
-	
-	public SheepSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SHEEP );
 		

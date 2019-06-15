@@ -49,7 +49,7 @@ public abstract class EquipableItem extends Item {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -61,26 +61,33 @@ public abstract class EquipableItem extends Item {
 		if (action.equals( AC_EQUIP )) {
 			//In addition to equipping itself, item reassigns itself to the quickslot
 			//This is a special case as the item is being removed from inventory, but is staying with the hero.
-			int slot = Dungeon.quickslot.getSlot( this );
+			//int slot = Dungeon.quickslot.getSlot( this );
+			ArrayList<Integer> slots = Dungeon.quickslot.getSlots( this );
 			doEquip(hero);
+			if (!slots.isEmpty()) {
+				Dungeon.quickslot.setSlots(slots, this, null);
+				updateQuickslot();
+			}
+			/*
 			if (slot != -1) {
 				Dungeon.quickslot.setSlot( slot, this , null);
 				updateQuickslot();
 			}
+			*/
 		} else if (action.equals( AC_UNEQUIP )) {
 			doUnequip( hero, true );
 		}
 	}
 
 	@Override
-	public void doDrop( Hero hero ) {
+	public void doDrop( Char hero ) {
 		if (!isEquipped( hero ) || doUnequip( hero, false, false )) {
 			super.doDrop( hero );
 		}
 	}
 
 	@Override
-	public void cast( final Hero user, int dst ) {
+	public void cast( final Char user, int dst ) {
 
 		if (isEquipped( user )) {
 			if (quantity == 1 && !this.doUnequip( user, false, false )) {
@@ -91,18 +98,18 @@ public abstract class EquipableItem extends Item {
 		super.cast( user, dst );
 	}
 
-	public static void equipCursed( Hero hero ) {
+	public static void equipCursed( Char hero ) {
 		hero.sprite.emitter().burst( ShadowParticle.CURSE, 6 );
 		Sample.INSTANCE.play( Assets.SND_CURSED );
 	}
 
-	protected float time2equip( Hero hero ) {
+	protected float time2equip( Char hero ) {
 		return 1;
 	}
 
-	public abstract boolean doEquip( Hero hero );
+	public abstract boolean doEquip( Char hero );
 
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 
 		if (cursed) {
 			GLog.w(Messages.get(EquipableItem.class, "unequip_cursed"));
@@ -116,7 +123,7 @@ public abstract class EquipableItem extends Item {
 		}
 
 		if (!collect || !collect( hero.belongings.backpack )) {
-			onDetach();
+			onDetach(hero.belongings.backpack);
 			Dungeon.quickslot.clearItem(this);
 			updateQuickslot();
 			if (collect) Dungeon.level.drop( this, hero.pos );
@@ -125,7 +132,7 @@ public abstract class EquipableItem extends Item {
 		return true;
 	}
 
-	final public boolean doUnequip( Hero hero, boolean collect ) {
+	final public boolean doUnequip( Char hero, boolean collect ) {
 		return doUnequip( hero, collect, true );
 	}
 

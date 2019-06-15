@@ -163,7 +163,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MAGES_STAFF,     15, 16);
 	}
 
-	private static final int WEP_TIER2      =                               xy(9, 6);   //8 slots
+	private static final int WEP_TIER2      =                               xy(17, 6);   //8 slots
 	public static final int HAND_AXE        = WEP_TIER2+0;
 	public static final int SPEAR           = WEP_TIER2+1;
 	public static final int QUARTERSTAFF    = WEP_TIER2+2;
@@ -199,7 +199,7 @@ public class ItemSpriteSheet {
 		assignItemRect(FLAIL,           14, 14);
 	}
 
-	private static final int WEP_TIER4      =                               xy(9, 7);   //8 slots
+	private static final int WEP_TIER4      =                               xy(17, 7);   //8 slots
 	public static final int BATTLE_AXE      = WEP_TIER4+0;
 	public static final int WAR_HAMMER      = WEP_TIER4+1;
 	public static final int GLAIVE          = WEP_TIER4+2;
@@ -316,9 +316,11 @@ public class ItemSpriteSheet {
 	private static final int ARMOR_TIER4          =                               xy(9, 12);  //8 slots
 	public static final int ARMOR_SCALE   = ARMOR_TIER4+0;
 	public static final int ARMOR_SAMURAI   = ARMOR_TIER4+1;
+	public static final int LIGHTNINGCONCH_SHELL   = ARMOR_TIER4+2;
 	static{
 		assignItemRect(ARMOR_SCALE,      14, 11);
 		assignItemRect(ARMOR_SAMURAI,      11, 14);
+		assignItemRect(LIGHTNINGCONCH_SHELL,      10, 16);
 	}
 
 	private static final int ARMOR_TIER5          =                               xy(1, 13);  //8 slots

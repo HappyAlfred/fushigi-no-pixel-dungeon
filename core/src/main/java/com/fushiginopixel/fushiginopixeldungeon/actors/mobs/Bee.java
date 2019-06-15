@@ -77,7 +77,7 @@ public class Bee extends Mob {
 		this.level = level;
 		
 		HT = (2 + level) * 4;
-		defenseSkill = 9 + level;
+		//defenseSkill = 9 + level;
 	}
 
 	public void setPotInfo(int potPos, Char potHolder){
@@ -87,11 +87,13 @@ public class Bee extends Mob {
 		else
 			this.potHolder = potHolder.id();
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return defenseSkill;
 	}
+	*/
 	
 	@Override
 	public int damageRoll() {

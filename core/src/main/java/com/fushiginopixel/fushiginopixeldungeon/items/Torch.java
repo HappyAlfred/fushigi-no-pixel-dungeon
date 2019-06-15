@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Light;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
@@ -52,7 +53,7 @@ public class Torch extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 		

@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.artifacts;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
@@ -57,7 +58,7 @@ public class ChaliceOfBlood extends Artifact {
 	}
 
 	@Override
-	public void execute(Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 		super.execute(hero, action);
 
 		if (action.equals(AC_PRICK)){
@@ -69,7 +70,7 @@ public class ChaliceOfBlood extends Artifact {
 
 			int damage = 3*(level()*level());
 
-			if (damage > hero.HP*0.75) {
+			if (damage > hero.HP*0.75 && hero instanceof Hero) {
 
 				GameScene.show(
 					new WndOptions(Messages.get(this, "name"),
@@ -90,7 +91,7 @@ public class ChaliceOfBlood extends Artifact {
 		}
 	}
 
-	private void prick(Hero hero){
+	private void prick(Char hero){
 		int damage = 3*(level()*level());
 
 		Earthroot.Armor armor = hero.buff(Earthroot.Armor.class);
@@ -113,7 +114,7 @@ public class ChaliceOfBlood extends Artifact {
 
 		hero.damage(damage, this,new EffectType(EffectType.MELEE,0));
 
-		if (!hero.isAlive()) {
+		if (!Dungeon.hero.isAlive()) {
 			Dungeon.fail( getClass() );
 			GLog.n( Messages.get(this, "ondeath") );
 		} else {

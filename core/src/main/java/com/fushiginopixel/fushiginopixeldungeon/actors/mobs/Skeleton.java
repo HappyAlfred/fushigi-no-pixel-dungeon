@@ -42,7 +42,7 @@ public class Skeleton extends Mob {
 		spriteClass = SkeletonSprite.class;
 		
 		HP = HT = 40;
-		defenseSkill = 11;
+		//defenseSkill = 11;
 		
 		EXP = 7;
 
@@ -98,10 +98,12 @@ public class Skeleton extends Mob {
 		loot.level(0);
 		return loot;
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 17;
 	}
+	*/
 
 }

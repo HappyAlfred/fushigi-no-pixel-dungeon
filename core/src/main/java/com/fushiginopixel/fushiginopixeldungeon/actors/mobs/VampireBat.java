@@ -34,7 +34,7 @@ public class VampireBat extends Bat {
 		spriteClass = VampireBatSprite.class;
 		
 		HP = HT = 220;
-		defenseSkill = 38;
+		//defenseSkill = 38;
 		baseSpeed = 2f;
 		
 		EXP = 22;
@@ -44,11 +44,13 @@ public class VampireBat extends Bat {
 	public int damageRoll() {
 		return Random.NormalIntRange( 25, 55 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 80;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class PatrolDogSprite extends MobSprite {
 
-	public PatrolDogSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.DOG );
 		

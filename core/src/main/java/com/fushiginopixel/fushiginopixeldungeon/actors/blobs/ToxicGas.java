@@ -39,7 +39,7 @@ public class ToxicGas extends Blob implements Hero.Doom {
 	protected void evolve() {
 		super.evolve();
 
-		int levelDamage = 5 + Dungeon.depth * 5;
+		//int levelDamage = 5 + Dungeon.depth * 5;
 
 		Char ch;
 		int cell;
@@ -50,8 +50,10 @@ public class ToxicGas extends Blob implements Hero.Doom {
 				if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
 					if (!ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB + EffectType.GAS,0))) {
 
-						int damage = (ch.HT + levelDamage) / 40;
-						if (Random.Int( 40 ) < (ch.HT + levelDamage) % 40) {
+						//float mul = 40;
+						float mul = 20 / (1 + Math.min(cur[cell] / 33.3f, 3f));
+						int damage = (int) ((ch.HT /*+ levelDamage*/) / mul);
+						if (Random.Float( mul ) < (ch.HT/*+ levelDamage*/) % mul) {
 							damage++;
 						}
 
@@ -70,8 +72,9 @@ public class ToxicGas extends Blob implements Hero.Doom {
 	}
 	
 	@Override
-	public String tileDesc() {
-		return Messages.get(this, "desc");
+	public String tileDesc(int cell) {
+		int m = (int) ((1 + Math.min(cur[cell] / 33.3f, 3f)) / 20 * 100);
+		return Messages.get(this, "desc", m);
 	}
 	
 	@Override

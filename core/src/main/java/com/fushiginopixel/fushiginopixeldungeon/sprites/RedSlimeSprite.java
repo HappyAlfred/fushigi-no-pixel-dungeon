@@ -29,8 +29,8 @@ public class RedSlimeSprite extends SlimeSprite {
 
 	private Animation knocked;
 	public boolean knockedFlag = false;
-	public RedSlimeSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.SLIME );
 		

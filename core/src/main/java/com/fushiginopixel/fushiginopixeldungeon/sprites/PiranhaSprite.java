@@ -27,9 +27,9 @@ import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.watabou.noosa.TextureFilm;
 
 public class PiranhaSprite extends MobSprite {
-	
-	public PiranhaSprite() {
-		super();
+
+	public void init() {
+		super.init();
 
 		renderShadow = false;
 		perspectiveRaise = 0.2f;

@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.armor;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.BrokenSeal;
@@ -106,7 +107,7 @@ abstract public class ClassArmor extends Armor {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 

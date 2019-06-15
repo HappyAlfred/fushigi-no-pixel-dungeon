@@ -29,18 +29,18 @@ public class Greatsword extends MeleeWeapon {
 		image = ItemSpriteSheet.GREATSWORD;
 
 		tier=1;
-		LIMIT = 2;
+		LIMIT = 3;
 	}
 
 	@Override
 	public int min(int lvl) {
-		return  8 +
+		return  10 +
 				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  32 +
+		return  40 +
 				lvl*UPGRADE_ATTACK;
 	}
 

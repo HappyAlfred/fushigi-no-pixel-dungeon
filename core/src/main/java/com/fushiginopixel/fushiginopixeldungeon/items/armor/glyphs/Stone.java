@@ -31,24 +31,28 @@ public class Stone extends Armor.Glyph {
 	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x222222 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		
-		testing = true;
-		float evasion = defender.defenseSkill(attacker);
-		float accuracy = attacker.attackSkill(defender);
-		testing = false;
-		
-		float hitChance;
-		if (evasion >= accuracy){
-			hitChance = 1f - (1f - (accuracy/evasion))/2f;
-		} else {
-			hitChance = 1f - (evasion/accuracy)/2f;
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+
+		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
+			Char at = (Char) attacker;
+			testing = true;
+			float evasion = defender.defenseSkill(at);
+			float accuracy = at.attackSkill(defender);
+			testing = false;
+
+			float hitChance;
+			if (evasion >= accuracy) {
+				hitChance = 1f - (1f - (accuracy / evasion)) / 2f;
+			} else {
+				hitChance = 1f - (evasion / accuracy) / 2f;
+			}
+
+			//60% of dodge chance is applied as damage reduction
+			hitChance = (2f + 3f * hitChance) / 5f;
+
+			return hitChance;
 		}
-		
-		//60% of dodge chance is applied as damage reduction
-		hitChance = (2f + 3f*hitChance)/5f;
-		
-		return hitChance;
+		return 1f;
 	}
 	
 	private boolean testing = false;

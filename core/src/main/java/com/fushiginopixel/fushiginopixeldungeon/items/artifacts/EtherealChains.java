@@ -71,7 +71,7 @@ public class EtherealChains extends Artifact {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
@@ -130,7 +130,7 @@ public class EtherealChains extends Artifact {
 	};
 	
 	//pulls an enemy to a position along the chain's path, as close to the hero as possible
-	private void chainEnemy( Ballistica chain, final Hero hero, final Char enemy ){
+	private void chainEnemy( Ballistica chain, final Char hero, final Char enemy ){
 		
 		if (enemy.properties().contains(Char.Property.IMMOVABLE)) {
 			GLog.w( Messages.get(this, "cant_pull") );
@@ -179,7 +179,7 @@ public class EtherealChains extends Artifact {
 	}
 	
 	//pulls the hero along the chain to the collosionPos, if possible.
-	private void chainLocation( Ballistica chain, final Hero hero ){
+	private void chainLocation( Ballistica chain, final Char hero ){
 		
 		//don't pull if the collision spot is in a wall
 		if (Dungeon.level.solid[chain.collisionPos]){

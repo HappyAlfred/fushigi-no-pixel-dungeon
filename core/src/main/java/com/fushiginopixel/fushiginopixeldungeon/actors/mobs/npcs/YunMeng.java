@@ -43,7 +43,8 @@ public class YunMeng extends NPC {
     }
 
     @Override
-    public void damage( int dmg, Object src ,EffectType type) {
+    public int damage( int dmg, Object src ,EffectType type) {
+        return 0;
     }
 
     @Override

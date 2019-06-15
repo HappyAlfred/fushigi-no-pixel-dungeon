@@ -36,12 +36,6 @@ public class Camouflage extends Armor.Glyph {
 	private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x448822 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		//no proc effect, see HighGrass.trample
-		return 1;
-	}
-
-	@Override
 	public ItemSprite.Glowing glowing() {
 		return GREEN;
 	}

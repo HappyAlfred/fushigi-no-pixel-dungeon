@@ -48,7 +48,7 @@ public class MultiplicationTrap extends Trap {
 	public void activate() {
 
 		ArrayList<Integer> validCells = new ArrayList<>();
-		if(!(Dungeon.level instanceof RegularLevel)){
+		if(!(Dungeon.level instanceof RegularLevel) || ((RegularLevel)Dungeon.level).levelTraps == null){
 			return;
 		}
 
@@ -61,8 +61,8 @@ public class MultiplicationTrap extends Trap {
 
 		for (int trapPos : validCells) {
 
-			Class<?>[] trapClasses = ((RegularLevel)Dungeon.level).trapClasses();
-			float[] trapChances = ((RegularLevel)Dungeon.level).trapChances();
+			Class<?>[] trapClasses = ((RegularLevel)Dungeon.level).levelTraps.trapClasses;
+			float[] trapChances = ((RegularLevel)Dungeon.level).levelTraps.trapChances;
 			try {
 				Trap trap = ((Trap)trapClasses[Random.chances( trapChances )].newInstance()).hide();
 				if(!Dungeon.bossLevel() || !trap.dangerous() || !(trap instanceof MultiplicationTrap)) {

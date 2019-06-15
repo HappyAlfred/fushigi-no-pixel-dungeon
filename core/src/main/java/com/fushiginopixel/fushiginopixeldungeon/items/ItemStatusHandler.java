@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
+import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -137,6 +138,10 @@ public class ItemStatusHandler<T extends Item> {
 	}
 	
 	public int image( T item ) {
+		String label = label(item);
+		if(label == null){
+			return ItemSpriteSheet.SOMETHING;
+		}
 		return labelImages.get(label(item));
 	}
 	

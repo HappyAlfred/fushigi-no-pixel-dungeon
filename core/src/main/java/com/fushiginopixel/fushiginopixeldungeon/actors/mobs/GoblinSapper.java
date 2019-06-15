@@ -54,7 +54,7 @@ public class GoblinSapper extends Mob {
 		spriteClass = GoblinSapperSprite.class;
 		
 		HP = HT = 65;
-		defenseSkill = 17;
+		//defenseSkill = 17;
 		
 		EXP = 10;
 		
@@ -71,11 +71,13 @@ public class GoblinSapper extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 15, 25 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 26;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -83,18 +85,24 @@ public class GoblinSapper extends Mob {
 	}
 
 	@Override
-	public void damage( int dmg, Object src,EffectType type ) {
-		super.damage( dmg, src ,type );
+	public int damage( int dmg, Object src,EffectType type ) {
+		int damage = super.damage( dmg, src ,type );
 
 		if (isAlive() && type.isExistAttachType(EffectType.BURST)) {
 			die( src ,type );
 		}
+		return damage;
 	}
 
 	protected boolean expAct(){
 
 		if(buff(Burning.class) != null){
 			suicide();
+		}
+
+		if(buff(Frost.class) != null || buff(Chill.class) != null){
+			coolDown();
+			return false;
 		}
 
 		if(countDown != -1){
@@ -191,6 +199,14 @@ public class GoblinSapper extends Mob {
 			sprite.showStatus(CharSprite.NEGATIVE, Messages.get(this, "!!!"));
 			GLog.n( Messages.get(this, "suicide",name) );
 			this.countDown = countDown;
+		}
+	}
+
+	protected void coolDown(){
+		if(this.countDown != -1) {
+			sprite.showStatus(CharSprite.NEGATIVE, Messages.get(this, ",,,"));
+			GLog.n( Messages.get(this, "suicide",name) );
+			this.countDown = -1;
 		}
 	}
 	private static final String COUNTDOWN = "countDown";

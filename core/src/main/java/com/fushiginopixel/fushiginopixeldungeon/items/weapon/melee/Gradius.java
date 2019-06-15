@@ -71,7 +71,7 @@ public class Gradius extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  85 +
-				lvl*UPGRADE_ATTACK/2;
+				lvl*(UPGRADE_ATTACK-1);
 	}
 
 	public int damageRoll(int lvl) {
@@ -86,7 +86,7 @@ public class Gradius extends MeleeWeapon {
 	}
 
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute( final Char hero, String action ) {
 
 		super.execute( hero, action );
 

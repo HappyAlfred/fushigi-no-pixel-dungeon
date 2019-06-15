@@ -107,7 +107,7 @@ public class LloydsBeacon extends Artifact {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -158,7 +158,7 @@ public class LloydsBeacon extends Artifact {
 			
 			GLog.i( Messages.get(this, "return") );
 			
-		} else if (action == AC_RETURN) {
+		} else if (action == AC_RETURN && hero instanceof Hero) {
 
 			if ((Statistics.amuletObtained || returnDepth == Dungeon.depth ) && !Statistics.thief) {
 				if (returnDepth == Dungeon.depth) {
@@ -273,8 +273,14 @@ public class LloydsBeacon extends Artifact {
 	public Item upgrade() {
 		if (level() == levelCap) return this;
 		chargeCap ++;
-		GLog.p( Messages.get(this, "levelup") );
+		//GLog.p( Messages.get(this, "levelup") );
 		return super.upgrade();
+	}
+
+	public void toUpgrade() {
+		if (level() == levelCap) return;
+		GLog.p( Messages.get(this, "levelup") );
+		upgrade();
 	}
 
 	@Override

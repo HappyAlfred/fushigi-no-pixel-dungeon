@@ -114,7 +114,7 @@ public class Item implements Bundlable {
 		return actions;
 	}
 	
-	public boolean doPickUp( Hero hero ) {
+	public boolean doPickUp( Char hero ) {
 		if (collect( hero.belongings.backpack )) {
 
 			int ringCharges = Ring.getBonus(hero, RingOfKnowledge.Knowledge.class);
@@ -131,12 +131,12 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public void doDrop( Hero hero ) {
+	public void doDrop( Char hero ) {
 		hero.spendAndNext( TIME_TO_DROP );
 		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );
 	}
 
-	public void doGuess( Hero hero ) {
+	public void doGuess( Char hero ) {
 		hero.sprite.operate( hero.pos );
 		GameScene.show(new WndGuessItem(this));
 	}
@@ -147,11 +147,11 @@ public class Item implements Bundlable {
 		name = Messages.get(this, "name");
 	}
 
-	public void doThrow( Hero hero ) {
+	public void doThrow( Char hero ) {
 		GameScene.selectCell( thrower );
 	}
 	
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 		
 		curUser = hero;
 		curItem = this;
@@ -167,14 +167,14 @@ public class Item implements Bundlable {
 			
 			doThrow( hero );
 			
-		} else if (action.equals( AC_GUESS ) && !this.isIdentified()) {
+		} else if (action.equals( AC_GUESS ) && !this.isIdentified() && hero instanceof Hero) {
 
 			doGuess( hero );
 
 		}
 	}
 	
-	public void execute( Hero hero ) {
+	public void execute( Char hero ) {
 		execute( hero, defaultAction );
 	}
 
@@ -185,17 +185,24 @@ public class Item implements Bundlable {
 		onThrow( cell );
 	}
 
-	public void throwToCell(int cell){
-		onThrow(cell);
-	}
-
 	protected void onThrow( int cell ) {
 		if(pierceThrow) return;
+
 		Heap heap = Dungeon.level.drop( this, cell );
 		if (!heap.isEmpty()) {
 			heap.sprite.drop( cell );
 		}
 	}
+    protected void onCatch( Char c ) {}
+
+    public void throwTo(int cell){
+        Char c = Actor.findChar(cell);
+        if(!pierceThrow && c != null && c.catchItem(this)){
+            onCatch(c);
+            return;
+        }
+	    onThrow(cell);
+    }
 	
 	//takes two items and merges them (if possible)
 	public Item merge( Item other ){
@@ -208,14 +215,16 @@ public class Item implements Bundlable {
 	
 	public boolean collect( Bag container ) {
 
-		if(container.owner instanceof Hero && classlimit != null){
-			if((((Hero) container.owner).heroClass) != classlimit){
-				return false;
+		if(container.owner instanceof Hero){
+			if(classlimit != null) {
+				if ((((Hero) container.owner).heroClass) != classlimit) {
+					return false;
+				}
 			}
-		}
 
-		if(isIdentified() && Dungeon.hero != null && Dungeon.hero.isAlive()){
-			Catalog.setSeen(getClass());
+			if(isIdentified() && Dungeon.hero != null && Dungeon.hero.isAlive()){
+				Catalog.setSeen(getClass());
+			}
 		}
 		
 		ArrayList<Item> items = container.items;
@@ -242,7 +251,7 @@ public class Item implements Bundlable {
 		
 		if (items.size() < container.size) {
 			
-			if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
+			if (container.owner instanceof Hero && Dungeon.hero != null && Dungeon.hero.isAlive()) {
 				Badges.validateItemLevelAquired( this );
 			}
 			
@@ -307,7 +316,7 @@ public class Item implements Bundlable {
 			
 			Item detached = split(1);
 			updateQuickslot();
-			if (detached != null) detached.onDetach( );
+			if (detached != null) detached.onDetach(container );
 			return detached;
 			
 		}
@@ -328,7 +337,7 @@ public class Item implements Bundlable {
 			for (Item item : container.items) {
 				if (item == this) {
 					container.items.remove(this);
-					item.onDetach();
+					item.onDetach(container);
 					return this;
 				} else if (item instanceof Bag) {
 					Bag bag = (Bag) item;
@@ -339,7 +348,7 @@ public class Item implements Bundlable {
 					for (Item item1 : ((Pot) item).items) {
 						if (item1 == this) {
 							((Pot) item).items.remove(this);
-							item.onDetach();
+							item.onDetach(container);
 							return this;
 						}
 					}
@@ -350,7 +359,7 @@ public class Item implements Bundlable {
 			for (Item item1 : item.items) {
 				if (item1 == this) {
 					item.items.remove(this);
-					item.onDetach();
+					item.onDetach(container);
 					return this;
 				}
 			}
@@ -376,7 +385,7 @@ public class Item implements Bundlable {
 		return getClass() == item.getClass();
 	}
 
-	protected void onDetach(){}
+	protected void onDetach(Bag container){}
 
 	public int level(){
 		return level;
@@ -462,7 +471,7 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public boolean isEquipped( Hero hero ) {
+	public boolean isEquipped( Char hero ) {
 		return false;
 	}
 	
@@ -491,7 +500,7 @@ public class Item implements Bundlable {
 		return this;
 	}
 	
-	public static void evoke( Hero hero ) {
+	public static void evoke( Char hero ) {
 		hero.sprite.emitter().burst( Speck.factory( Speck.EVOKE ), 5 );
 	}
 	
@@ -595,9 +604,21 @@ public class Item implements Bundlable {
 		bundle.put( CURSED, cursed );
 		bundle.put( CURSED_KNOWN, cursedKnown );
 		bundle.put( GUESSEDNAME, guessedName );
+		/*
 		if (Dungeon.quickslot.contains(this)) {
 			bundle.put( QUICKSLOT, Dungeon.quickslot.getSlot(this) );
 			bundle.put( QUICKACTION, Dungeon.quickslot.getAction(Dungeon.quickslot.getSlot(this) ) );
+		}
+		*/
+		if (Dungeon.quickslot.contains(this)) {
+			int size = Dungeon.quickslot.getSlots(this).size();
+			Integer[] array = (Dungeon.quickslot.getSlots(this).toArray(new Integer[size]));
+			int[] slots = new int[size];
+			for(int i = 0;i < size; i++){
+				slots[i] = array[i];
+			}
+			bundle.put( QUICKSLOT, slots );
+			bundle.put( QUICKACTION, Dungeon.quickslot.getActions(Dungeon.quickslot.getSlots(this) ).toArray(new String[size]) );
 		}
 	}
 	
@@ -617,23 +638,38 @@ public class Item implements Bundlable {
 		cursed	= bundle.getBoolean( CURSED );
 		guessedName	= bundle.getString( GUESSEDNAME );
 
+		/*
 		//only want to populate slot on first load.
 		if (Dungeon.hero == null) {
 			if (bundle.contains(QUICKSLOT) && bundle.contains(QUICKACTION)) {
 				Dungeon.quickslot.setSlot(bundle.getInt(QUICKSLOT), this, bundle.getString(QUICKACTION));
 			}
 		}
+		*/
+		if (Dungeon.hero == null) {
+			if (bundle.contains(QUICKSLOT) && bundle.contains(QUICKACTION)) {
+				int[] slots = bundle.getIntArray(QUICKSLOT);
+				String[] actions = bundle.getStringArray(QUICKACTION);
+				if(slots != null && actions != null) {
+					for (int i = 0; i < slots.length; i++) {
+						Dungeon.quickslot.setSlot(slots[i], this, actions[i]);
+					}
+				}
+			}
+		}
 	}
 
-	public int throwPos( Hero user, int dst){
+	public int throwPos( Char user, int dst){
 		return new Ballistica( user.pos, dst, Ballistica.PROJECTILE ).collisionPos;
 	}
 	
-	public void cast( final Hero user, final int dst ) {
+	public void cast( final Char user, final int dst ) {
 		
 		final int cell = throwPos( user, dst );
 		user.sprite.zap( cell );
-		user.busy();
+		if(user instanceof Hero) {
+			((Hero)user).busy();
+		}
 
 		Sample.INSTANCE.play( Assets.SND_MISS, 0.6f, 0.6f, 1.5f );
 
@@ -651,7 +687,7 @@ public class Item implements Bundlable {
 							new Callback() {
 						@Override
 						public void call() {
-							Item.this.detach(user.belongings.backpack).onThrow(cell);
+							Item.this.detach(user.belongings.backpack).throwTo(cell);
 							user.spendAndNext(delay);
 						}
 					});
@@ -664,7 +700,7 @@ public class Item implements Bundlable {
 							new Callback() {
 						@Override
 						public void call() {
-							Item.this.detach(user.belongings.backpack).onThrow(cell);
+							Item.this.detach(user.belongings.backpack).throwTo(cell);
 							user.spendAndNext(delay);
 						}
 					});
@@ -675,7 +711,7 @@ public class Item implements Bundlable {
 		return TIME_TO_THROW;
 	}
 	
-	protected static Hero curUser = null;
+	protected static Char curUser = null;
 	protected static Item curItem = null;
 	protected static CellSelector.Listener thrower = new CellSelector.Listener() {
 		@Override

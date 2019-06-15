@@ -25,9 +25,8 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class BeeSprite extends MobSprite {
-	
-	public BeeSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.BEE );
 		

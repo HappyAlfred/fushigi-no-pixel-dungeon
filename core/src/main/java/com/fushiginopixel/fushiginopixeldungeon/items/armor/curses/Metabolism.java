@@ -35,31 +35,37 @@ import com.watabou.utils.Random;
 
 public class Metabolism extends Glyph {
 
+	{
+		curse = true;
+	}
+
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
+	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
 
-		if (Random.Int( 6 ) == 0) {
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(6) == 0) {
 
-			//assumes using up 10% of starving, and healing of 1 hp per 10 turns;
-			int healing = Math.min((int)Hunger.STARVING/100, defender.HT - defender.HP);
+				//assumes using up 10% of starving, and healing of 1 hp per 10 turns;
+				int healing = Math.min((int) Hunger.STARVING / 100, defender.HT - defender.HP);
 
-			if (healing > 0) {
-				
-				Hunger hunger = defender.buff( Hunger.class );
-				
-				if (hunger != null && !hunger.isStarving()) {
-					
-					hunger.reduceHunger( healing * -10 );
-					BuffIndicator.refreshHero();
-					
-					defender.HP += healing;
-					defender.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-					defender.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healing ) );
+				if (healing > 0) {
+
+					Hunger hunger = defender.buff(Hunger.class);
+
+					if (hunger != null && !hunger.isStarving()) {
+
+						hunger.reduceHunger(healing * -10);
+						BuffIndicator.refreshHero();
+
+						defender.HP += healing;
+						defender.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+						defender.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(healing));
+					}
 				}
-			}
 
+			}
 		}
 		
 		return 1;
@@ -68,10 +74,5 @@ public class Metabolism extends Glyph {
 	@Override
 	public Glowing glowing() {
 		return BLACK;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

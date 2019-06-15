@@ -37,17 +37,20 @@ public class Affection extends Glyph {
 	private static ItemSprite.Glowing PINK = new ItemSprite.Glowing( 0xFF4488 );
 	
 	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
+	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
 
 		int level = Math.max(0, armor.level());
-		
-		if (Random.Int( level / 2 + 100 ) >= 88) {
-			
-			int duration = Random.IntRange( 2, 5 );
 
-			Buff.affect( attacker, Charm.class, duration, new EffectType(0,EffectType.SPIRIT) ).object = defender.id();
-			attacker.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 5 );
+		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(level / 2 + 100) >= 88) {
 
+				Char at = (Char) attacker;
+				int duration = Random.IntRange(2, 5);
+
+				Buff.affect(at, Charm.class, duration, new EffectType(0, EffectType.SPIRIT)).object = defender.id();
+				at.sprite.centerEmitter().start(Speck.factory(Speck.HEART), 0.2f, 5);
+
+			}
 		}
 		
 		return 1;

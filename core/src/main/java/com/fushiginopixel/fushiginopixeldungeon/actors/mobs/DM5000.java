@@ -67,7 +67,7 @@ public class DM5000 extends Mob {
 		
 		HP = HT = 500;
 		EXP = 60;
-		defenseSkill = 30;
+		//defenseSkill = 30;
 
         HUNTING = new Hunting();
 
@@ -84,11 +84,13 @@ public class DM5000 extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 35, 70 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 35;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -150,17 +152,18 @@ public class DM5000 extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src,EffectType type) {
+	public int damage(int dmg, Object src,EffectType type) {
         int beforeHitHP = HP;
-		super.damage(dmg, src, type);
+		int damage = super.damage(dmg, src, type);
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null && !isImmune(src.getClass(),type)) lock.addTime(dmg*1.5f);
+		if (lock != null && !isImmune(src.getClass(),type)) lock.addTime(damage*1.5f);
 
         int hpBracket = beforeHitHP > HT/2 ? 150 : 100;
         if (beforeHitHP / hpBracket != HP / hpBracket) {
             yell( Messages.get(this, "flee") );
             countdown = 20;
         }
+        return damage;
 	}
 
 	@Override
@@ -175,7 +178,7 @@ public class DM5000 extends Mob {
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
-			beacon.upgrade();
+			beacon.toUpgrade();
 		}
 		
 		yell( Messages.get(this, "defeated") );
@@ -201,7 +204,7 @@ public class DM5000 extends Mob {
         final int cell = new Ballistica( this.pos, target, Ballistica.MAGIC_BOLT ).collisionPos;
         this.sprite.zap( cell );
 
-        Sample.INSTANCE.play( Assets.SND_MISS, 0.6f, 0.6f, 1.5f );
+        Sample.INSTANCE.play( Assets.SND_CANNON, 0.6f, 0.6f, 1.5f );
 
         Char enemy = Actor.findChar( cell );
 

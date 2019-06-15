@@ -33,7 +33,7 @@ public class Katana extends MeleeWeapon {
 		image = ItemSpriteSheet.KATANA;
 
 		tier = 3;
-		LIMIT = 3;
+		LIMIT = 4;
 
 		properties = new ArrayList<Enchantment>(){
 			{
@@ -43,8 +43,14 @@ public class Katana extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  7 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  20 +
+		return  32 +
 				lvl*UPGRADE_ATTACK;
 	}
 

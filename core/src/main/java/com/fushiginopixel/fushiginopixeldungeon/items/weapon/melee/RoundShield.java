@@ -30,13 +30,19 @@ public class RoundShield extends MeleeWeapon {
 		image = ItemSpriteSheet.ROUND_SHIELD;
 
 		tier = 2;
-		LIMIT = 3;
+		LIMIT = 5;
+	}
+
+	@Override
+	public int min(int lvl) {
+		return  3 +
+				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  16 +    //12 base, down from 20
-				lvl*(UPGRADE_ATTACK/2);   //+2 per level, down from +4
+		return  12 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 	@Override

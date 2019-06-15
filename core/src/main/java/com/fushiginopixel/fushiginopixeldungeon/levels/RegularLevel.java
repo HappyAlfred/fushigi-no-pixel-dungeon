@@ -59,6 +59,7 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.traps.ExplosiveTrap;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.FrostTrap;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.Trap;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.WornDartTrap;
+import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -76,6 +77,7 @@ public abstract class RegularLevel extends Level {
 	protected Room roomExit;
 	
 	public int secretDoors;
+	public LevelTraps levelTraps = null;
 	
 	@Override
 	protected boolean build() {
@@ -178,7 +180,8 @@ public abstract class RegularLevel extends Level {
 	
 	protected int nTraps() {
 		//return Random.NormalIntRange( 1, 3+(Dungeon.depth/3) );
-		return Random.NormalIntRange( 1, (int)(100 * (float)Dungeon.depth / (Dungeon.depth + Dungeon.mode.maxDepth() * 5)) );
+		//1 + (0 ~ 100/9 )
+		return Random.NormalIntRange( 1, 1 + (int)(100 * (float)Dungeon.depth / (Dungeon.depth + Dungeon.mode.maxDepth() * 8)) );
 	}
 
 	public Class<?>[] trapClasses(){
@@ -494,6 +497,7 @@ public abstract class RegularLevel extends Level {
 		super.storeInBundle( bundle );
 		bundle.put( "rooms", rooms );
 		bundle.put( "mobs_to_spawn", mobsToSpawn.toArray(new Class[0]));
+		bundle.put("levelTraps", levelTraps);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -515,6 +519,36 @@ public abstract class RegularLevel extends Level {
 			for (Class<? extends Mob> mob : bundle.getClassArray("mobs_to_spawn")) {
 				if (mob != null) mobsToSpawn.add(mob);
 			}
+		}
+		levelTraps = (LevelTraps)bundle.get("levelTraps");
+	}
+
+	public class LevelTraps implements Bundlable{
+		public Class<?>[] trapClasses;
+		public float[] trapChances;
+
+		public LevelTraps(Class<?>[] trapClasses, float[] trapChances){
+			if(Dungeon.mode.setLevelTrap(this)){
+
+			}else {
+				this.trapClasses = trapClasses;
+				this.trapChances = trapChances;
+			}
+		}
+
+		private static final String TRAPCLASSES = "trapClasses";
+		private static final String TRAPCHANCES = "trapChances";
+
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			trapClasses = bundle.getClassArray(TRAPCLASSES);
+			trapChances = bundle.getFloatArray(TRAPCHANCES);
+		}
+
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			bundle.put(TRAPCLASSES, trapClasses);
+			bundle.put(TRAPCHANCES, trapChances);
 		}
 	}
 	

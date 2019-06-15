@@ -32,7 +32,7 @@ public class Gnoll extends Mob {
 		spriteClass = GnollSprite.class;
 		
 		HP = HT = 15;
-		defenseSkill = 5;
+		//defenseSkill = 5;
 		
 		EXP = 3;
 		
@@ -44,11 +44,13 @@ public class Gnoll extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 7 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 14;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

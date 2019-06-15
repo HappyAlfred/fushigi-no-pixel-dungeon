@@ -37,7 +37,7 @@ public class HandAxe extends MeleeWeapon {
 
 		tier = 2;
 		//ACC = 1.32f; //32% boost to accuracy
-		LIMIT = 3;
+		LIMIT = 4;
 
 		properties = new ArrayList<Enchantment>(){
 			{
@@ -47,9 +47,15 @@ public class HandAxe extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  1 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  20 +    //12 base, down from 15
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  25 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 }

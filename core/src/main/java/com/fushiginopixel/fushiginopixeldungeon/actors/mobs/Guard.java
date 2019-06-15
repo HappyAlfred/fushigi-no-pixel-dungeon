@@ -49,7 +49,7 @@ public class Guard extends Mob {
 		spriteClass = GuardSprite.class;
 
 		HP = HT = 85;
-		defenseSkill = 18;
+		//defenseSkill = 18;
 
 		EXP = 11;
 
@@ -114,10 +114,12 @@ public class Guard extends Mob {
 		return true;
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 28;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

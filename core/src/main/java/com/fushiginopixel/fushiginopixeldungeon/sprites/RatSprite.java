@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class RatSprite extends MobSprite {
-	
-	public RatSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.RAT );
 		

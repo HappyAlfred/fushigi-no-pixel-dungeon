@@ -27,19 +27,19 @@ public class MailArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_MAIL;
-		LIMIT = 3;
+		LIMIT = 4;
 
 		tier = 3;
 	}
 	@Override
 	public int DRMax(int lvl){
-		return  12 +
+		return  15 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 6 + lvl;
+		return 7 + lvl;
 	}
 
 }

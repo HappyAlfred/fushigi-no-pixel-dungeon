@@ -31,12 +31,12 @@ public class ThrowingSpear extends MissileWeapon {
 	
 	@Override
 	public int min(int lvl) {
-		return 6;
+		return 3;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 15;
+		return 24;
 	}
 	
 	@Override

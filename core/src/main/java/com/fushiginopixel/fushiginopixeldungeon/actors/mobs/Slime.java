@@ -61,7 +61,7 @@ public class Slime extends Mob {
 		spriteClass = SlimeSprite.class;
 		
 		HP = HT = 30;
-		defenseSkill = 8;
+		//defenseSkill = 8;
 
 		EXP = 7;
 
@@ -98,10 +98,12 @@ public class Slime extends Mob {
 		return Random.NormalIntRange( 1, 5 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 12;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -255,9 +257,10 @@ public class Slime extends Mob {
 	}
 
 	@Override
-	public void damage( int dmg, Object src, EffectType type ) {
-		super.damage( dmg, src ,type );
-		burstSplit(dmg, src, type);
+	public int damage( int dmg, Object src, EffectType type ) {
+		int damage = super.damage( dmg, src ,type );
+		burstSplit(damage, src, type);
+		return damage;
 
 	}
 

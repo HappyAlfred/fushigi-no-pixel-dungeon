@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class ThiefSprite extends MobSprite {
-	
-	public ThiefSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.THIEF );
 		TextureFilm film = new TextureFilm( texture, 12, 13 );

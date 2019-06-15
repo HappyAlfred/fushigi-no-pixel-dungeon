@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.scrolls;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Recharging;
@@ -94,7 +95,7 @@ public class ScrollOfRecharging extends InventoryScroll {
 		Buff.append(curUser, Recharging.class, BUFF_DURATION/3f);
 	}
 	
-	public static void charge( Hero hero ) {
+	public static void charge( Char hero ) {
 		hero.sprite.centerEmitter().burst( EnergyParticle.FACTORY, 15 );
 	}
 	

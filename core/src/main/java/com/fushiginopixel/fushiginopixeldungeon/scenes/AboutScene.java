@@ -46,7 +46,7 @@ public class AboutScene extends PixelScene {
 	private static final String TXT_SHPX =
 			"Design, Code, & Graphics: Alfred";
 
-	private static final String LNK_SHPX = "ShatteredPixel.com";
+	private static final String LNK_SHPX = "QQ develop&testing group 634440644";
 
 	private static final String TTL_WATA = "Pixel Dungeon";
 

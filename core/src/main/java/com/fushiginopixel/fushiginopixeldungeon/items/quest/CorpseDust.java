@@ -24,11 +24,13 @@ package com.fushiginopixel.fushiginopixeldungeon.items.quest;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Wraith;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.bags.Bag;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
@@ -65,7 +67,7 @@ public class CorpseDust extends Item {
 	}
 
 	@Override
-	public boolean doPickUp(Hero hero) {
+	public boolean doPickUp(Char hero) {
 		if (super.doPickUp(hero)){
 			GLog.n( Messages.get( this, "chill") );
 			Buff.affect(hero, DustGhostSpawner.class);
@@ -75,8 +77,8 @@ public class CorpseDust extends Item {
 	}
 
 	@Override
-	protected void onDetach() {
-		DustGhostSpawner spawner = Dungeon.hero.buff(DustGhostSpawner.class);
+	protected void onDetach(Bag container) {
+		DustGhostSpawner spawner = container.owner.buff(DustGhostSpawner.class);
 		if (spawner != null){
 			spawner.dispel();
 		}

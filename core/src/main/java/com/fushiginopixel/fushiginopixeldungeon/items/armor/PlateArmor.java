@@ -33,13 +33,13 @@ public class PlateArmor extends Armor {
 	}
 	@Override
 	public int DRMax(int lvl){
-		return  20 +
+		return  27 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 10 + lvl;
+		return 13 + lvl;
 	}
 
 }

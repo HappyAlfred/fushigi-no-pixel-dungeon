@@ -106,7 +106,7 @@ public class Bombs extends Item {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		if (action.equals(AC_LIGHTTHROW)) {
 			lightingFuse = true;
@@ -124,6 +124,7 @@ public class Bombs extends Item {
 				Actor.addDelayed(fuse = new Fuse().ignite(this), delay);
 			}
 			if (Actor.findChar(cell) != null && !(Actor.findChar(cell) instanceof Hero)) {
+
 				ArrayList<Integer> candidates = new ArrayList<>();
 				for (int i : PathFinder.NEIGHBOURS8)
 					if (Dungeon.level.passable[cell + i])
@@ -140,6 +141,12 @@ public class Bombs extends Item {
 	}
 
 	@Override
+	protected void onCatch(Char c) {
+		super.onCatch(c);
+		fuse = null;
+	}
+
+	@Override
 	public boolean isUpgradable() {
 		return false;
 	}
@@ -150,7 +157,7 @@ public class Bombs extends Item {
 	}
 
 	@Override
-	public boolean doPickUp(Hero hero) {
+	public boolean doPickUp(Char hero) {
 		if(Dungeon.level.mobs.contains(enemyThrow) && enemyThrow!= null && Dungeon.level.heroFOV[enemyThrow.pos]) {
 			return false;
 
@@ -166,7 +173,7 @@ public class Bombs extends Item {
 	public void lightThrow(int cell ,float delay){
 		lightingFuse = true;
 		this.delay = delay;
-		onThrow(cell);
+		throwTo(cell);
 	}
 
 	public void lightThrow(int cell){

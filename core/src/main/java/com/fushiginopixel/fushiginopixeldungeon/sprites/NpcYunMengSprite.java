@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 public class NpcYunMengSprite extends MobSprite {
 
 
-	public NpcYunMengSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCYUNMENG );
 		

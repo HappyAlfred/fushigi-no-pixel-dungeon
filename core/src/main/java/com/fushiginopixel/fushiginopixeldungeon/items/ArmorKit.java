@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
@@ -58,11 +59,11 @@ public class ArmorKit extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
-		if (action == AC_APPLY) {
+		if (action == AC_APPLY && hero instanceof Hero) {
 
 			curUser = hero;
 			GameScene.selectItem( itemSelector, WndBag.Mode.ARMOR, Messages.get(this, "prompt") );
@@ -81,30 +82,34 @@ public class ArmorKit extends Item {
 	}
 	
 	private void upgrade( Armor armor ) {
-		
-		detach( curUser.belongings.backpack );
-		
-		curUser.sprite.centerEmitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
-		curUser.spend( TIME_TO_UPGRADE );
-		curUser.busy();
+
+		if(!(curUser instanceof Hero)){
+			return;
+		}
+		Hero hero = (Hero)curUser;
+		detach( hero.belongings.backpack );
+
+		hero.sprite.centerEmitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
+		hero.spend( TIME_TO_UPGRADE );
+		hero.busy();
 		
 		GLog.w( Messages.get(this, "upgraded", armor.name()) );
 		
-		ClassArmor classArmor = ClassArmor.upgrade( curUser, armor );
-		if (curUser.belongings.armor == armor) {
-			
-			curUser.belongings.armor = classArmor;
-			((HeroSprite)curUser.sprite).updateArmor();
-			classArmor.activate(curUser);
+		ClassArmor classArmor = ClassArmor.upgrade( hero, armor );
+		if (hero.belongings.armor == armor) {
+
+			hero.belongings.armor = classArmor;
+			((HeroSprite)hero.sprite).updateArmor();
+			classArmor.activate(hero);
 			
 		} else {
 			
-			armor.detach( curUser.belongings.backpack );
-			classArmor.collect( curUser.belongings.backpack );
+			armor.detach( hero.belongings.backpack );
+			classArmor.collect( hero.belongings.backpack );
 			
 		}
-		
-		curUser.sprite.operate( curUser.pos );
+
+		hero.sprite.operate( hero.pos );
 		Sample.INSTANCE.play( Assets.SND_EVOKE );
 	}
 	

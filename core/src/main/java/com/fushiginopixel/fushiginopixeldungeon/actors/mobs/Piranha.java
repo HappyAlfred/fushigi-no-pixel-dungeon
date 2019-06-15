@@ -41,6 +41,7 @@ public class Piranha extends Mob {
 		spriteClass = PiranhaSprite.class;
 
 		baseSpeed = 2f;
+		defenseSkill = 4 * DEFENSE_SKILL;
 		
 		EXP = 0;
 		
@@ -56,7 +57,7 @@ public class Piranha extends Mob {
 		super();
 		
 		HP = HT = 10 + Dungeon.depth * 5;
-		defenseSkill = 10 + Dungeon.depth * 2;
+		//defenseSkill = 10 + Dungeon.depth * 2;
 	}
 	
 	@Override
@@ -75,11 +76,13 @@ public class Piranha extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( Dungeon.depth, 4 + Dungeon.depth * 2 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 20 + Dungeon.depth * 2;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

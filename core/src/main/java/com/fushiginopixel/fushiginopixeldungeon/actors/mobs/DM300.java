@@ -58,7 +58,7 @@ public class DM300 extends Mob {
 		
 		HP = HT = 400;
 		EXP = 50;
-		defenseSkill = 28;
+		//defenseSkill = 28;
 		
 		loot = new CapeOfThorns();
 		lootChance = 0.333f;
@@ -72,11 +72,13 @@ public class DM300 extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 20, 45 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 35;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -134,10 +136,11 @@ public class DM300 extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src, EffectType type) {
-		super.damage(dmg, src, type);
+	public int damage(int dmg, Object src, EffectType type) {
+		int damage = super.damage(dmg, src, type);
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null && !isImmune(src.getClass(),type)) lock.addTime(dmg*1.5f);
+		if (lock != null && !isImmune(src.getClass(),type)) lock.addTime(damage*1.5f);
+		return damage;
 	}
 
 	@Override

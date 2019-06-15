@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.windows;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.SPDSettings;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Belongings;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.EquipableItem;
@@ -325,7 +326,7 @@ public class WndBag extends WndTabbed {
 		}
 		
 		@Override
-		public boolean isEquipped( Hero hero ) {
+		public boolean isEquipped( Char hero ) {
 			return true;
 		}
 	}

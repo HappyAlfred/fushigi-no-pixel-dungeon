@@ -34,12 +34,12 @@ public class FishingSpear extends MissileWeapon {
 	
 	@Override
 	public int min(int lvl) {
-		return 4;
+		return 2;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 10;
+		return 17;
 	}
 	
 	@Override

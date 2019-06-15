@@ -40,6 +40,8 @@ import com.fushiginopixel.fushiginopixeldungeon.ui.Window;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.fushiginopixel.fushiginopixeldungeon.windows.IconTitle;
 
+import java.util.ArrayList;
+
 public class RatKing extends NPC {
 
 	{
@@ -48,7 +50,7 @@ public class RatKing extends NPC {
 		state = SLEEPING;
 	}
 
-	public static Item reward = new ScrollOfMagicalInfusion();
+	//public static Item reward = new ScrollOfMagicalInfusion();
 
 	@Override
 	public int defenseSkill( Char enemy ) {
@@ -66,7 +68,8 @@ public class RatKing extends NPC {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src,EffectType type ) {
+	public int damage( int dmg, Object src,EffectType type ) {
+		return 0;
 	}
 	
 	@Override
@@ -81,7 +84,13 @@ public class RatKing extends NPC {
 	@Override
 	public boolean interact() {
 		sprite.turnTo( pos, Dungeon.hero.pos );
+		ArrayList<Item> t = Dungeon.hero.belongings.getItems( RatSceptre.class );
 		RatSceptre tokens = Dungeon.hero.belongings.getItem( RatSceptre.class );
+		for (Item i : t) {
+			if((i.level() > tokens.level() || ((RatSceptre) i).enchantmentCount() > tokens.enchantmentCount())){
+				tokens = (RatSceptre)i;
+			}
+		}
 		if (state == SLEEPING) {
 			notice();
 			yell( Messages.get(this, "not_sleeping") );
@@ -134,7 +143,7 @@ public class RatKing extends NPC {
 					}
 					tokens.detach( Dungeon.hero.belongings.backpack );
 
-					takeReward( ratKing, RatKing.reward );
+					takeReward( ratKing, new ScrollOfMagicalInfusion() );
 				}
 			};
 			btnReward.setRect( 0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT );

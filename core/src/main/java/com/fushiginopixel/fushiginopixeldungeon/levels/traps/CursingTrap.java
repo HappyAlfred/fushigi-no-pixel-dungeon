@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.traps;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
@@ -71,7 +72,7 @@ public class CursingTrap extends Trap {
 		}
 	}
 
-	public static void curse(Hero hero , int count ,boolean equiponly){
+	public static void curse(Char hero , int count , boolean equiponly){
 		//items the trap wants to curse because it will create a more negative effect
 		ArrayList<Item> priorityCurse = new ArrayList<>();
 		//items the trap can curse if nothing else is available.

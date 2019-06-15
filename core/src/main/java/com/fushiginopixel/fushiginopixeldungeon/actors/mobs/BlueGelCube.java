@@ -45,7 +45,7 @@ public class BlueGelCube extends GelCube {
 		spriteClass = BlueGelCubeSprite.class;
 		
 		HP = HT = 190;
-		defenseSkill = 46;
+		//defenseSkill = 46;
 		
 		EXP = 24;
 	}
@@ -58,11 +58,13 @@ public class BlueGelCube extends GelCube {
 	public int damageRoll() {
 		return Random.NormalIntRange( 48, 82 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 95;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -84,8 +86,9 @@ public class BlueGelCube extends GelCube {
 
 		if(!canShoot.isEmpty()) {
 			InventoryPot pot = (InventoryPot) Random.element(canShoot);
-			if(!pot.isFull()) {
-				pot.input(new SlimyGel());
+			Item gel = new SlimyGel();
+			if(pot.canInput(gel)) {
+				pot.input(gel);
 				GLog.n(Messages.get(this, "gel_zap", pot.name()));
 			}else{
 				pot.detach(hero.belongings.backpack);

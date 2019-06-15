@@ -25,9 +25,8 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class BatSprite extends MobSprite {
-	
-	public BatSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.BAT );
 		

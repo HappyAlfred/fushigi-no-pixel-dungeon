@@ -27,8 +27,8 @@ import com.watabou.noosa.tweeners.AlphaTweener;
 
 public class GoblinFanaticsSprite extends GoblinSapperSprite {
 
-	public GoblinFanaticsSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.GOBLIN_SAPPER );
 		

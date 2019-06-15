@@ -45,7 +45,7 @@ public class RedGelCube extends GelCube {
 		spriteClass = RedGelCubeSprite.class;
 		
 		HP = HT = 100;
-		defenseSkill = 25;
+		//defenseSkill = 25;
 		
 		EXP = 19;
 	}
@@ -58,11 +58,13 @@ public class RedGelCube extends GelCube {
 	public int damageRoll() {
 		return Random.NormalIntRange( 15, 47 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 52;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

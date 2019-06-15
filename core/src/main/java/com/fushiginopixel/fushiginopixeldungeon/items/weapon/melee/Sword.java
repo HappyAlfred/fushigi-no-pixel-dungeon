@@ -29,7 +29,7 @@ public class Sword extends MeleeWeapon {
 		image = ItemSpriteSheet.SWORD;
 
 		tier = 1;
-		LIMIT = 4;
+		LIMIT = 5;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class Sword extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  16 +    //12 base, down from 15
+		return  20 +    //12 base, down from 15
 				lvl*UPGRADE_ATTACK;   //scaling unchanged
 	}
 

@@ -70,7 +70,7 @@ public class TimekeepersHourglass extends Artifact {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute(hero, action);
 
@@ -122,7 +122,7 @@ public class TimekeepersHourglass extends Artifact {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
+	public boolean doUnequip(Char hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 			if (activeBuff != null){
 				activeBuff.detach();
@@ -212,7 +212,7 @@ public class TimekeepersHourglass extends Artifact {
 					}
 				}
 			} else if (cursed && Random.Int(10) == 0)
-				((Hero) target).spend( TICK );
+				target.spend( TICK );
 
 			updateQuickslot();
 
@@ -232,7 +232,7 @@ public class TimekeepersHourglass extends Artifact {
 				int usedCharge = Math.min(charge, 2);
 				//buffs always act last, so the stasis buff should end a turn early.
 				spend((5*usedCharge) - 1);
-				((Hero) target).spendAndNext(5*usedCharge);
+				target.spendAndNext(5*usedCharge);
 
 				//shouldn't punish the player for going into stasis frequently
 				Hunger hunger = target.buff(Hunger.class);
@@ -359,7 +359,7 @@ public class TimekeepersHourglass extends Artifact {
 		}
 
 		@Override
-		public boolean doPickUp( Hero hero ) {
+		public boolean doPickUp( Char hero ) {
 			TimekeepersHourglass hourglass = hero.belongings.getItem( TimekeepersHourglass.class );
 			if (hourglass != null && !hourglass.cursed) {
 				hourglass.upgrade();

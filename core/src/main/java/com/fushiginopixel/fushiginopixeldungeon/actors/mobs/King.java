@@ -66,7 +66,7 @@ public class King extends Mob {
 		
 		HP = HT = 800;
 		EXP = 80;
-		defenseSkill = 55;
+		//defenseSkill = 55;
 		
 		Undead.count = 0;
 
@@ -95,11 +95,13 @@ public class King extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 35, 70 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 60;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -143,10 +145,11 @@ public class King extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src, EffectType type) {
-		super.damage(dmg, src ,type);
+	public int damage(int dmg, Object src, EffectType type) {
+		int damage = super.damage( dmg, src ,type );
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null) lock.addTime(dmg);
+		if (lock != null) lock.addTime(damage);
+		return damage;
 	}
 	
 	@Override
@@ -162,7 +165,7 @@ public class King extends Mob {
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
-			beacon.upgrade();
+			beacon.toUpgrade();
 		}
 		
 		yell( Messages.get(this, "defeated", Dungeon.hero.givenName()) );
@@ -288,7 +291,7 @@ public class King extends Mob {
 			spriteClass = UndeadSprite.class;
 			
 			HP = HT = 50;
-			defenseSkill = 13;
+			//defenseSkill = 13;
 			
 			EXP = 0;
 			
@@ -314,11 +317,13 @@ public class King extends Mob {
 		public int damageRoll() {
 			return Random.NormalIntRange( 25, 50 );
 		}
-		
+
+		/*
 		@Override
 		public int attackSkill( Char target ) {
 			return 20;
 		}
+		*/
 		
 		@Override
 		public int attackProc( Char enemy, int damage, EffectType type ) {
@@ -331,11 +336,12 @@ public class King extends Mob {
 		}
 		
 		@Override
-		public void damage( int dmg, Object src ,EffectType type) {
-			super.damage( dmg, src ,type);
+		public int damage( int dmg, Object src ,EffectType type) {
+			int damage = super.damage( dmg, src ,type);
 			if (src instanceof ToxicGas) {
 				((ToxicGas)src).clear( pos );
 			}
+			return damage;
 		}
 		
 		@Override

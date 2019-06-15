@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class RotLasherSprite extends MobSprite {
 
-	public RotLasherSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.ROT_LASH );
 

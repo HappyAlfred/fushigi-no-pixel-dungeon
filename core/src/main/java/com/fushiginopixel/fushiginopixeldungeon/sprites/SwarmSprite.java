@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class SwarmSprite extends MobSprite {
-	
-	public SwarmSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SWARM );
 		

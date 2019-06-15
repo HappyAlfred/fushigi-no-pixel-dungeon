@@ -42,7 +42,7 @@ public class EaterBat extends Bat {
 		spriteClass = EaterBatSprite.class;
 		
 		HP = HT = 80;
-		defenseSkill = 25;
+		//defenseSkill = 25;
 		baseSpeed = 2f;
 		
 		EXP = 13;
@@ -53,10 +53,12 @@ public class EaterBat extends Bat {
 		return Random.NormalIntRange( 20, 30 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 40;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class KingSprite extends MobSprite {
-	
-	public KingSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.KING );
 		

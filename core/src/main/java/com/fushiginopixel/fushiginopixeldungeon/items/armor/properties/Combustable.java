@@ -30,12 +30,6 @@ import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite.Glowing;
 public class Combustable extends Glyph {
 
 	private static Glowing GREEN = new Glowing( 0x00FF00 );
-	
-	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
-		
-		return 1;
-	}
 
 	@Override
 	public Glowing glowing() {

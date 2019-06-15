@@ -34,24 +34,30 @@ import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
 public class Overgrowth extends Armor.Glyph {
+
+	{
+		curse = true;
+	}
 	
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		
-		if ( Random.Int( 20 ) == 0) {
-			
-			Plant.Seed s;
-			do{
-				s = (Plant.Seed) Generator.random(Generator.Category.SEED);
-			} while (s instanceof BlandfruitBush.Seed || s instanceof Starflower.Seed);
-			
-			Plant p = s.couch(defender.pos, null);
-			
-			p.activate();
-			CellEmitter.get( defender.pos ).burst( LeafParticle.LEVEL_SPECIFIC, 10 );
-			
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(20) == 0) {
+
+				Plant.Seed s;
+				do {
+					s = (Plant.Seed) Generator.random(Generator.Category.SEED);
+				} while (s instanceof BlandfruitBush.Seed || s instanceof Starflower.Seed);
+
+				Plant p = s.couch(defender.pos, null);
+
+				p.activate();
+				CellEmitter.get(defender.pos).burst(LeafParticle.LEVEL_SPECIFIC, 10);
+
+			}
 		}
 		
 		return 1;
@@ -60,10 +66,5 @@ public class Overgrowth extends Armor.Glyph {
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;
-	}
-	
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

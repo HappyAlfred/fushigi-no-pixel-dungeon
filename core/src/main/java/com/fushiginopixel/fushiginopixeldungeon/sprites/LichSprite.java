@@ -34,9 +34,7 @@ import com.watabou.utils.Callback;
 public class LichSprite extends MobSprite {
 	private Animation cast;
 
-	public LichSprite() {
-		super();
-
+	public void init() {
 		int ofs = 42;
 		texture( Assets.SKELETON );
 		

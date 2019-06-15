@@ -112,6 +112,7 @@ public class Assets {
 	public static final String ZOMBIE		= "zombie.png";
 	public static final String CANNIBAL_FLOWER		= "cannibal_flower.png";
 	public static final String POT_FAIRY		= "pot_fairy.png";
+	public static final String MECHANICAL_BEAST		= "mechanical_beast.png";
 
 	public static final String NPCALFRED    = "npcalfred.png";
 	public static final String NPCREN    = "npcren.png";
@@ -216,4 +217,5 @@ public class Assets {
 	public static final String SND_BEE      = "snd_bee.mp3";
 	public static final String SND_DEGRADE  = "snd_degrade.mp3";
 	public static final String SND_MIMIC    = "snd_mimic.mp3";
+	public static final String SND_CANNON    = "snd_cannon.mp3";
 }

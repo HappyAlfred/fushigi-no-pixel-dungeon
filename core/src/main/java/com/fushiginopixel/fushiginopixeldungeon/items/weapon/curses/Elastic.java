@@ -29,7 +29,10 @@ import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 
 public class Elastic extends Weapon.Enchantment {
-	
+
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
@@ -42,11 +45,6 @@ public class Elastic extends Weapon.Enchantment {
 		WandOfBlastWave.knockBack(attacker, defender, 2);
 		
 		return 0;
-	}
-	
-	@Override
-	public boolean curse() {
-		return true;
 	}
 	
 	@Override

@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.food;
 import com.fushiginopixel.fushiginopixeldungeon.Challenges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.EarthImbue;
@@ -41,6 +42,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfInvisibili
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfLevitation;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMindVision;
+import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfPanacea;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfParalyticGas;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfPurity;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
@@ -86,7 +88,7 @@ public class Blandfruit extends Food {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		if (action.equals( AC_EAT ) && potionAttrib == null) {
 
@@ -174,7 +176,7 @@ public class Blandfruit extends Food {
 		} else if (potionAttrib instanceof PotionOfLevitation) {
 			name = Messages.get(this, "stormfruit");
 			potionGlow = new ItemSprite.Glowing( 0x1C3A57 );
-		} else if (potionAttrib instanceof PotionOfPurity) {
+		} else if (potionAttrib instanceof PotionOfPanacea) {
 			name = Messages.get(this, "dreamfruit");
 			potionGlow = new ItemSprite.Glowing( 0x8E2975 );
 		} else if (potionAttrib instanceof PotionOfExperience) {

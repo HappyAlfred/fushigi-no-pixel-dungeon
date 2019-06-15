@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class GoldenScorpioSprite extends ScorpioSprite {
 
-	public GoldenScorpioSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.SCORPIO );
 

@@ -82,13 +82,15 @@ public class PotionOfVenom extends Potion {
 	}
 	
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
 		CellEmitter.get(hero.pos).burst(ShadowParticle.UP, 5);
 
-		if(hero.STR > 1){
-			hero.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
-			hero.STR -= 1;
+		if(hero instanceof Hero) {
+			if (((Hero)hero).STR > 1) {
+				hero.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
+				((Hero)hero).STR -= 1;
+			}
 		}
 		venom(hero);
 		Sample.INSTANCE.play( Assets.SND_CURSED );

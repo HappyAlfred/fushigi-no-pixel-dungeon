@@ -163,7 +163,7 @@ public class Potion extends Item {
 	}
 	
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute( final Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -195,7 +195,7 @@ public class Potion extends Item {
 	}
 	
 	@Override
-	public void doThrow( final Hero hero ) {
+	public void doThrow( final Char hero ) {
 
 		if (isKnown() && (
 			this instanceof PotionOfExperience ||
@@ -223,7 +223,7 @@ public class Potion extends Item {
 		}
 	}
 	
-	protected void drink( Hero hero ) {
+	protected void drink( Char hero ) {
 		
 		detach( hero.belongings.backpack );
 		
@@ -250,7 +250,7 @@ public class Potion extends Item {
 		}
 	}
 	
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		shatter( hero.pos );
 	}
 	
@@ -263,7 +263,7 @@ public class Potion extends Item {
 	}
 
 	@Override
-	public void cast( final Hero user, int dst ) {
+	public void cast( final Char user, int dst ) {
 			super.cast(user, dst);
 	}
 	
@@ -285,7 +285,7 @@ public class Potion extends Item {
 	}
 
 	public void knownByUse(){
-		if (!isKnown()) {
+		if (!isKnown() && !ownedByFruit) {
 			GLog.i(Messages.get(this,"identify",this.name));
 		}
 		setKnown();

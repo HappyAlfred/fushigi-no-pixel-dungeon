@@ -52,7 +52,7 @@ public class FlareDragon extends Dragon {
 		spriteClass = FlareDragonSprite.class;
 
 		HP = HT = 500;
-		defenseSkill = 54;
+		//defenseSkill = 54;
 		viewDistance = 16;
 
 		EXP = 30;
@@ -70,10 +70,12 @@ public class FlareDragon extends Dragon {
 		return Random.NormalIntRange( 60, 100 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 85;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -258,7 +260,7 @@ public class FlareDragon extends Dragon {
 					} else {
 						zap(shot);
 					}
-					return true;
+					return !visible;
 				}
 				else return doAttack( enemy );
 
@@ -274,7 +276,7 @@ public class FlareDragon extends Dragon {
 						} else {
 							zap(shot);
 						}
-						return true;
+						return !visible;
 					}
 					target = enemy.pos;
 				} else if (enemy == null) {

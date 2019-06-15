@@ -31,6 +31,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.BlobEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 
 public class CorrosiveGas extends Blob {
 
@@ -50,8 +51,15 @@ public class CorrosiveGas extends Blob {
 				for (int j = area.top; j < area.bottom; j++){
 					cell = i + j*Dungeon.level.width();
 					if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
-						if (!ch.isImmune(this.getClass(), new EffectType(EffectType.BLOB,EffectType.CORRROSION)))
-							Buff.affect(ch, Corrosion.class, new EffectType(EffectType.BLOB,EffectType.CORRROSION)).set(2f, strength);
+						if (!ch.isImmune(this.getClass(), new EffectType(EffectType.BLOB,EffectType.CORRROSION))) {
+							float mul = 1 + Math.min(cur[cell] / 50f, 2f);
+							int str = (int) (mul * strength);
+							if (Random.Float( mul * strength % 1f ) < 1) {
+								str++;
+							}
+
+							Buff.affect(ch, Corrosion.class, new EffectType(EffectType.BLOB, EffectType.CORRROSION)).set(2f, str);
+						}
 					}
 				}
 			}
@@ -85,7 +93,8 @@ public class CorrosiveGas extends Blob {
 	}
 
 	@Override
-	public String tileDesc() {
-		return Messages.get(this, "desc");
+	public String tileDesc(int cell) {
+		int m = (int) (strength * (1 + Math.min(cur[cell] / 50f, 2f)));
+		return Messages.get(this, "desc", m);
 	}
 }

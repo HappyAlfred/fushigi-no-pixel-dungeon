@@ -42,7 +42,8 @@ public class PotOfTradeGold extends InventoryPot {
 		if(item.isUnique()){
 			return;
 		}
-		Item newItem = new Gold(item.price() * (Dungeon.depth / 5 + 1));
+		//Item newItem = new Gold(item.price() * (Dungeon.depth / 5 + 1));
+		Item newItem = new Gold(item.price() * 3);
 		if(newItem != item){
 			items.remove(item);
 			items.add(newItem);

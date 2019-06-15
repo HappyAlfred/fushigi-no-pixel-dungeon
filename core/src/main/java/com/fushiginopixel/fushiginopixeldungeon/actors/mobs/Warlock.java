@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfHealing;
+import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Grim;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -46,7 +47,7 @@ public class Warlock extends Mob implements Callback {
 		spriteClass = WarlockSprite.class;
 		
 		HP = HT = 150;
-		defenseSkill = 27;
+		//defenseSkill = 27;
 		
 		EXP = 20;
 		
@@ -60,11 +61,13 @@ public class Warlock extends Mob implements Callback {
 	public int damageRoll() {
 		return Random.NormalIntRange( 26, 43 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 50;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -129,7 +132,7 @@ public class Warlock extends Mob implements Callback {
 	public Item createLoot(){
 		Item loot = super.createLoot();
 
-		if (loot instanceof PotionOfHealing){
+		if (loot instanceof PotionOfHealing || loot instanceof PotionOfStrength){
 
 			return null;
 

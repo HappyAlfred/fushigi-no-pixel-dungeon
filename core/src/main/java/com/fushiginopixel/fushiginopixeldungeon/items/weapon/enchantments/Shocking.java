@@ -54,7 +54,11 @@ public class Shocking extends Weapon.Enchantment {
 			//arcs.add(new Lightning.Arc(attacker.sprite.center(), defender.sprite.center()));
 			hit(defender, Random.Int(1, damage / 3), type);
 
-			attacker.sprite.parent.addToFront( new Lightning( arcs, null ) );
+			if(type.isExistAttachType(EffectType.MELEE)) {
+				attacker.sprite.parent.addToFront(new Lightning(arcs, null));
+			}else{
+				defender.sprite.parent.addToFront(new Lightning(arcs, null));
+			}
 			
 		}
 

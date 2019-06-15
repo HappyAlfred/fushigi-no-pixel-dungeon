@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.ClothArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.GoldArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.LeafArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.LeatherArmor;
+import com.fushiginopixel.fushiginopixeldungeon.items.armor.LightningConchShell;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.MailArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.PlateArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.SamuraiArmor;
@@ -126,8 +127,11 @@ import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfDisintegration
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFireblast;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFrost;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfHoly;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfKaleidoscope;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfLightning;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagicMissile;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagician;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfNightmare;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfPrismaticLight;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfTransfusion;
@@ -168,9 +172,11 @@ import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.FishingSpe
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Javelin;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Shuriken;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.TestingShuriken;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingHammer;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingSpear;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Tomahawk;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Trident;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.Dart;
@@ -229,7 +235,7 @@ public class Generator {
 		
 		SEED	( 0,    Plant.Seed.class ),
 		
-		FOOD	( 20,    Food.class ),
+		FOOD	( 15,    Food.class ),
 
 		BOMBS(1, 	Bombs.class),
 		
@@ -330,17 +336,20 @@ public class Generator {
 					WandOfCorrosion.class,
 					WandOfBlastWave.class,
 					//WandOfLivingEarth.class,
-					WandOfFrost.class,
+					//WandOfFrost.class,
 					WandOfPrismaticLight.class,
 					//WandOfWarding.class,
-					WandOfTransfusion.class,
+					//WandOfTransfusion.class,
+					WandOfHoly.class,
 					WandOfCorruption.class,
 					//WandOfRegrowth.class
 
 					WandOfElements.class,
-					WandOfNightmare.class
+					WandOfNightmare.class,
+					WandOfKaleidoscope.class,
+					WandOfMagician.class,
 					};
-			WAND.probs = new float[]{ 5, 4, 4, 4, 4, 3, /*3,*/ 3, 3, /*3,*/ 3, 3/*, 3*/, 4, 4 };
+			WAND.probs = new float[]{ 5, 4, 4, 4, 4, 3, /*3, 3,*/ 3, /*3, 3,*/ 3/*, 3*/, 4, 4, 4, 4, 4 };
 			
 			//see generator.randomWeapon
 			WEAPON.classes = new Class<?>[]{};
@@ -431,9 +440,10 @@ public class Generator {
 
 			ARM_T4.classes = new Class<?>[]{
 					ScaleArmor.class,
-					SamuraiArmor.class
+					SamuraiArmor.class,
+					LightningConchShell.class
 			};
-			ARM_T4.probs = new float[]{6, 3};
+			ARM_T4.probs = new float[]{6, 3, 2};
 
 			ARM_T5.classes = new Class<?>[]{
 					PlateArmor.class,
@@ -446,7 +456,8 @@ public class Generator {
 			
 			MIS_T1.classes = new Class<?>[]{
 					Dart.class,
-					ThrowingKnife.class
+					ThrowingKnife.class,
+					ThrowingStone.class
 			};
 			MIS_T1.probs = new float[]{ 1, 1 };
 			
@@ -458,9 +469,10 @@ public class Generator {
 			
 			MIS_T3.classes = new Class<?>[]{
 					ThrowingSpear.class,
-					Bolas.class
+					Bolas.class,
+					TestingShuriken.class
 			};
-			MIS_T3.probs = new float[]{ 4, 3 };
+			MIS_T3.probs = new float[]{ 4, 3 ,1};
 			
 			MIS_T4.classes = new Class<?>[]{
 					Javelin.class,

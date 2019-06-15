@@ -61,19 +61,20 @@ public class Mattock extends MeleeWeapon {
 		image = ItemSpriteSheet.MATTOCK;
 
 		tier = 3;
+		LIMIT = 3;
 		
 		defaultAction = AC_DIG;
 
 	}
 
-	/*@Override
+	@Override
 	public int min(int lvl) {
-		return 2;   //tier 2
-	}*/
+		return 1;
+	}
 
 	@Override
 	public int max(int lvl) {
-		return  15 +
+		return  20 +
 				lvl*UPGRADE_ATTACK;
 	}
 
@@ -91,16 +92,16 @@ public class Mattock extends MeleeWeapon {
 		return actions;
 	}
 
-	public void doDig( Hero hero ) {
+	public void doDig( Char hero ) {
 		GameScene.selectCell( dig );
 	}
 	
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute( final Char hero, String action ) {
 
 		super.execute( hero, action );
 		
-		if (action.equals(AC_DIG)) {
+		if (action.equals(AC_DIG) && hero instanceof Hero) {
 
 			if (!isEquipped(hero)) {
 				GLog.i(Messages.get(Weapon.class, "need_to_equip"));
@@ -153,7 +154,7 @@ public class Mattock extends MeleeWeapon {
 		}
 	}
 
-	public void dig( final Hero user, final int dst ) {
+	public void dig( final Char user, final int dst ) {
 		final Ballistica chainDig = new Ballistica(user.pos, dst, Ballistica.WONT_STOP );
 
 		float digDelay = digDelay(user, dst);
@@ -235,7 +236,7 @@ public class Mattock extends MeleeWeapon {
 
 	}
 
-	public void broken(Hero user) {
+	public void broken(Char user) {
 		GLog.w( Messages.get(Mattock.class, "broken") );
 		if(!isUnique() && isEquipped(user)){
 			doUnequip( user, false );

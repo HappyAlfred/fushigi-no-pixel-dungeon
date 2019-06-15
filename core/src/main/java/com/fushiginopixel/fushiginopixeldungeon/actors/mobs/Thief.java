@@ -48,7 +48,7 @@ public class Thief extends Mob {
 		spriteClass = ThiefSprite.class;
 		
 		HP = HT = 30;
-		defenseSkill = 17;
+		//defenseSkill = 17;
 		
 		EXP = 7;
 		
@@ -86,7 +86,7 @@ public class Thief extends Mob {
 	}
 
 	@Override
-	protected float attackDelay() {
+	public float attackDelay() {
 		return 0.5f;
 	}
 	
@@ -110,10 +110,12 @@ public class Thief extends Mob {
 			return new Gold(Random.NormalIntRange(100, 250));
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 20;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

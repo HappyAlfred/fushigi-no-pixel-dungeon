@@ -31,7 +31,7 @@ public class GoldArmor extends Armor {
 	{
 		image = ItemSpriteSheet.ARMOR_GOLD;
 
-		LIMIT = 6;
+		LIMIT = 5;
 		tier = 2;
 		properties = new ArrayList<Glyph>(){
 			{
@@ -42,13 +42,17 @@ public class GoldArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  4 +
+		return  10 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 1 + lvl;
+		return 2 + lvl;
 	}
 
+	@Override
+	public int price() {
+		return super.price() * 2;
+	}
 }

@@ -33,12 +33,12 @@ abstract public class KindOfWeapon extends EquipableItem {
 	protected static final float TIME_TO_EQUIP = 1f;
 	
 	@Override
-	public boolean isEquipped( Hero hero ) {
+	public boolean isEquipped( Char hero ) {
 		return hero.belongings.weapon == this;
 	}
 	
 	@Override
-	public boolean doEquip( Hero hero ) {
+	public boolean doEquip( Char hero ) {
 
 		detachAll( hero.belongings.backpack ,true );
 		
@@ -66,7 +66,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	}
 
 	@Override
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
 			hero.belongings.weapon = null;

@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.food;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Recharging;
@@ -87,7 +88,7 @@ public class BigOnigiri extends Food {
 	}
 	
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 		super.execute(hero, action);
 
 		if (action.equals(AC_EAT)){

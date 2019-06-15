@@ -76,9 +76,9 @@ public class ImpShopRoom extends ShopRoom {
 
 		int pos = level.pointToCell(center());
 
-		Mob shopkeeper = new ImpShopkeeper();
-		shopkeeper.pos = pos;
-		level.mobs.add( shopkeeper );
+		shopKeeper = new ImpShopkeeper();
+		shopKeeper.pos = pos;
+		level.mobs.add( shopKeeper );
 
 	}
 

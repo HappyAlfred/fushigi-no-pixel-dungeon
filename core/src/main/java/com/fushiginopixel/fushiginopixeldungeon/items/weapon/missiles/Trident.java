@@ -21,22 +21,30 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles;
 
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Critical;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
+
+import java.util.ArrayList;
 
 public class Trident extends MissileWeapon {
 	
 	{
 		image = ItemSpriteSheet.TRIDENT;
+		properties = new ArrayList<Enchantment>(){
+			{
+				add(new Critical());
+			}
+		};
 	}
 	
 	@Override
 	public int min(int lvl) {
-		return 10;
+		return 5;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 25;
+		return 46;
 	}
 	
 	@Override

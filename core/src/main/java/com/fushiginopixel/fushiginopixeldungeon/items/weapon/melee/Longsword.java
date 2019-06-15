@@ -29,7 +29,7 @@ public class Longsword extends MeleeWeapon {
 		image = ItemSpriteSheet.LONGSWORD;
 
 		tier = 1;
-		LIMIT = 3;
+		LIMIT = 4;
 	}
 	@Override
 	public int min(int lvl) {
@@ -39,7 +39,7 @@ public class Longsword extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  24 +
+		return  30 +
 				lvl*UPGRADE_ATTACK;
 	}
 

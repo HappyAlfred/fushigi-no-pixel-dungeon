@@ -32,7 +32,7 @@ public class ZombieSoldier extends Zombie {
 		spriteClass = ZombieSoldierSprite.class;
 		
 		HP = HT = 100;
-		defenseSkill = 17;
+		//defenseSkill = 17;
 
 		EXP = 15;
 	}
@@ -41,11 +41,13 @@ public class ZombieSoldier extends Zombie {
 	public int damageRoll() {
 		return Random.NormalIntRange( 22, 36 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 42;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Fireball;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.ui.Archs;
 import com.fushiginopixel.fushiginopixeldungeon.ui.ChangesButton;
+import com.fushiginopixel.fushiginopixeldungeon.ui.CrashReportButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.ExitButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.LanguageButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.PrefsButton;
@@ -155,6 +156,10 @@ public class TitleScene extends PixelScene {
 		Button changes = new ChangesButton();
 		changes.setPos( w-changes.width(), h - version.height() - changes.height());
 		add( changes );
+
+		Button crash = new CrashReportButton();
+        crash.setPos( changes.left()-crash.width(), h - version.height() - crash.height());
+		add( crash );
 		
 		int pos = 0;
 		

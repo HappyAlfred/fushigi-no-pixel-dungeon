@@ -112,7 +112,7 @@ public class Bomb extends Bombs {
 		}
 
 		@Override
-		public boolean doPickUp(Hero hero) {
+		public boolean doPickUp(Char hero) {
 			Bomb bomb = new Bomb();
 			bomb.quantity(2);
 			if (bomb.doPickUp(hero)) {

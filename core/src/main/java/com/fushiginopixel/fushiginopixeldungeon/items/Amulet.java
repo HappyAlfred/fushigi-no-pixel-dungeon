@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.AmuletScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
@@ -54,18 +55,18 @@ public class Amulet extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
-		if (!Statistics.overed && action.equals(AC_END)) {
+		if (!Statistics.overed && action.equals(AC_END) && hero instanceof Hero) {
 			showAmuletScene( false );
 		}
 	}
 	
 	@Override
-	public boolean doPickUp( Hero hero ) {
-		if (super.doPickUp( hero )) {
+	public boolean doPickUp( Char hero ) {
+		if (super.doPickUp( hero ) && hero instanceof Hero) {
 			
 			if (!Statistics.amuletObtained) {
 				Dungeon.setEarthquake();

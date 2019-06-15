@@ -28,10 +28,13 @@ public class WebBuilder extends RegularBuilder {
         entrance.setSize();
         entrance.setPos(0, 0);
 
+        //rooms will place
         ArrayList<Room> web = new ArrayList<>();
         int webCore = multiConnections.size();
 
         float[] pathTunnels = pathTunnelChances.clone();
+
+        //start at the entrance room
         for (int i = 0; i < webCore; i++){
             if (i == 0)
                 web.add(entrance);
@@ -39,31 +42,41 @@ public class WebBuilder extends RegularBuilder {
                 web.add(multiConnections.remove(0));
         }
 
+        //end at the exit room
         if(exit != null && !web.contains(exit)) {
             web.add(exit);
         }
 
         Room prev;
+        //placed rooms
         ArrayList<Room> placed = new ArrayList<>();
         for (int i = 0; i < web.size(); i++){
+            //current room
             prev = web.get(i);
             float targetAngle = Random.Float(0, 360);
-            int rotate = Random.Int(4,8);
+            //2~6 rotate branch
+            int rotate = Random.Int(2,7);
             if(prev.isEmpty()){
                 return null;
             }
             for(int j = 0, k = 1; j < rotate; j++){
+                //next room oversize or placed rooms already has next room, stop place
                 if(i + k >= web.size() || (!placed.isEmpty() && placed.contains(web.get(i + k))))break;
-                Room r = web.get(i + k);
-                targetAngle += 360/rotate;
-                if (placeRoom(rooms, prev, r, targetAngle) != -1) {
-                    placed.add(r);
-                    if (!rooms.contains(r)) {
-                        rooms.add(r);
+                for(int curRotate = 0; curRotate < rotate; curRotate++) {
+                    //next room
+                    Room r = web.get(i + k);
+                    targetAngle += 360 / rotate;
+                    if (placeRoom(rooms, prev, r, targetAngle) != -1) {
+                        placed.add(r);
+                        if (!rooms.contains(r)) {
+                            rooms.add(r);
+                        }
                         k++;
+                        break;
+                    } else if (!r.isEmpty()) {//not empty but not connected
+                        r.setEmpty();
+                        break;
                     }
-                } else if(!r.isEmpty()){//not empty but not connected
-                    r.setEmpty();
                 }
             }
         }

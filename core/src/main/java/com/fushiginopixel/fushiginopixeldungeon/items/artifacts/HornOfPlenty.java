@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Recharging;
@@ -78,7 +79,7 @@ public class HornOfPlenty extends Artifact {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute(hero, action);
 
@@ -86,14 +87,14 @@ public class HornOfPlenty extends Artifact {
 
 			if (!isEquipped(hero)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (charge == 0)  GLog.i( Messages.get(this, "no_food") );
-			else {
+			else if( hero instanceof Hero){
 				//consume as many
 				int chargesToUse = Math.max( 1, hero.buff(Hunger.class).hunger() / (int)(Hunger.STARVING/10));
 				if (chargesToUse > charge) chargesToUse = charge;
 				hero.buff(Hunger.class).satisfy((Hunger.STARVING/10) * chargesToUse);
 
 				//if you get at least 80 food energy from the horn
-				switch (hero.heroClass) {
+				switch (((Hero)hero).heroClass) {
 					case WARRIOR:
 						if (hero.HP < hero.HT) {
 							hero.HP = Math.min(hero.HP + 5, hero.HT);

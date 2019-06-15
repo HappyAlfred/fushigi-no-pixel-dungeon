@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.MasterThievesArmband;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -59,23 +60,25 @@ public class Gold extends Item {
 	}
 	
 	@Override
-	public boolean doPickUp( Hero hero ) {
+	public boolean doPickUp( Char hero ) {
+		if(hero instanceof Hero) {
 		
-		Dungeon.gold += quantity;
-		Statistics.goldCollected += quantity;
-		Badges.validateGoldCollected();
+			Dungeon.gold += quantity;
+			Statistics.goldCollected += quantity;
+			Badges.validateGoldCollected();
 
-		MasterThievesArmband.Thievery thievery = hero.buff(MasterThievesArmband.Thievery.class);
-		if (thievery != null)
-			thievery.collect(quantity);
+			MasterThievesArmband.Thievery thievery = hero.buff(MasterThievesArmband.Thievery.class);
+			if (thievery != null)
+				thievery.collect(quantity);
 
-		GameScene.pickUp( this, hero.pos );
-		hero.sprite.showStatus( CharSprite.NEUTRAL, TXT_VALUE, quantity );
-		hero.spendAndNext( TIME_TO_PICK_UP );
-		
-		Sample.INSTANCE.play( Assets.SND_GOLD, 1, 1, Random.Float( 0.9f, 1.1f ) );
-		
-		return true;
+			GameScene.pickUp( this, hero.pos );
+			hero.sprite.showStatus( CharSprite.NEUTRAL, TXT_VALUE, quantity );
+			hero.spendAndNext( TIME_TO_PICK_UP );
+
+			Sample.INSTANCE.play( Assets.SND_GOLD, 1, 1, Random.Float( 0.9f, 1.1f ) );
+
+			return true;
+		}return super.doPickUp(hero);
 	}
 	
 	@Override
@@ -90,7 +93,8 @@ public class Gold extends Item {
 	
 	@Override
 	public Item random() {
-		quantity = Random.Int( 30 + Dungeon.depth * 10, 60 + Dungeon.depth * 20 );
+		//quantity = Random.Int( 30 + Dungeon.depth * 10, 60 + Dungeon.depth * 20 );
+		quantity = Random.Int( 1, 50 );
 		return this;
 	}
 	

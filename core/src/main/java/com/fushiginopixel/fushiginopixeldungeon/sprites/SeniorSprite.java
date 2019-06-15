@@ -28,9 +28,9 @@ import com.watabou.utils.Random;
 public class SeniorSprite extends MobSprite {
 	
 	private Animation kick;
-	
-	public SeniorSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.MONK );
 		

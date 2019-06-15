@@ -28,9 +28,8 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 
 public class BurningFistSprite extends MobSprite {
-	
-	public BurningFistSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.BURNING );
 		

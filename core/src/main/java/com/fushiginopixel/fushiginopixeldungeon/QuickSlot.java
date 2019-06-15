@@ -75,15 +75,31 @@ public class QuickSlot {
 			return;
 		}
 
+		/*
 		clearItem(item); //we don't want to allow the same item in multiple slots.
+		*/ //now we want
 		slots[slot] = item;
 		if(action != null)
 			slotsAction[slot] = action;
 	}
 
+	public void setSlots(ArrayList<Integer> slotList, Item item, String action){
+
+		for(int i : slotList){
+			setSlot(i, item, action);
+		}
+	}
+
 	public void clearSlot(int slot){
 		slots[slot] = null;
 		slotsAction[slot] = null;
+	}
+
+	public void clearSlots(ArrayList<Integer> slotList){
+		for(int i : slotList) {
+			slots[i] = null;
+			slotsAction[i] = null;
+		}
 	}
 
 	public void reset(){
@@ -99,6 +115,14 @@ public class QuickSlot {
 		return slotsAction[slot];
 	}
 
+	public ArrayList<String> getActions(ArrayList<Integer> slotList){
+		ArrayList<String> actionList = new ArrayList<>();
+		for (int i : slotList) {
+			actionList.add(getAction(i));
+		}
+		return actionList;
+	}
+
 
 	//utility methods, for easier use of the internal array.
 	public int getSlot(Item item) {
@@ -106,6 +130,16 @@ public class QuickSlot {
 			if (getItem(i) == item)
 				return i;
 		return -1;
+	}
+
+	public ArrayList<Integer> getSlots(Item item) {
+		ArrayList<Integer> slotList = new ArrayList<>();
+		for (int i = 0; i < SIZE; i++) {
+			if (getItem(i) == item) {
+				slotList.add(i);
+			}
+		}
+		return slotList;
 	}
 
 	public Boolean isPlaceholder(int slot){
@@ -117,8 +151,13 @@ public class QuickSlot {
 	}
 
 	public void clearItem(Item item){
+		/*
 		if (contains(item))
 			clearSlot(getSlot(item));
+		*/
+		if (contains(item)) {
+			clearSlots(getSlots(item));
+		}
 	}
 
 	public boolean contains(Item item){

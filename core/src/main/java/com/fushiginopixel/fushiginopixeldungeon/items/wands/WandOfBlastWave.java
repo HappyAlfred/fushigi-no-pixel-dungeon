@@ -105,7 +105,7 @@ public class WandOfBlastWave extends DamageWand {
 			}
 		}
 
-		if (!curUser.isAlive()) {
+		if (!Dungeon.hero.isAlive()) {
 			Dungeon.fail( getClass() );
 			GLog.n( Messages.get( this, "ondeath") );
 		}

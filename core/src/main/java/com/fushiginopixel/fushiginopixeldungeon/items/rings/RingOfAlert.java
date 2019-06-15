@@ -43,13 +43,13 @@ public class RingOfAlert extends Ring {
 	}
 
 	@Override
-	public boolean doEquip(final Hero hero){
+	public boolean doEquip(final Char hero){
 		Dungeon.viewUpdate();
 		return super.doEquip(hero);
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single){
+	public boolean doUnequip(Char hero, boolean collect, boolean single){
 		Dungeon.viewUpdate();
 		return super.doUnequip(hero, collect, single);
 	}

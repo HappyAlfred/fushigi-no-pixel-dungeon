@@ -83,7 +83,7 @@ public class CursedWand {
 	private static float RARE_CHANCE = 0.09f;
 	private static float VERY_RARE_CHANCE = 0.01f;
 
-	public static void cursedZap(final Wand wand, final Hero user, final Ballistica bolt){
+	public static void cursedZap(final Wand wand, final Char user, final Ballistica bolt){
 		switch (Random.chances(new float[]{COMMON_CHANCE, UNCOMMON_CHANCE, RARE_CHANCE, VERY_RARE_CHANCE})){
 			case 0:
 			default:
@@ -101,7 +101,7 @@ public class CursedWand {
 		}
 	}
 
-	private static void commonEffect(final Wand wand, final Hero user, final Ballistica bolt){
+	private static void commonEffect(final Wand wand, final Char user, final Ballistica bolt){
 		switch(Random.Int(4)){
 
 			//anti-entropy
@@ -205,7 +205,7 @@ public class CursedWand {
 
 	}
 
-	private static void uncommonEffect(final Wand wand, final Hero user, final Ballistica bolt){
+	private static void uncommonEffect(final Wand wand, final Char user, final Ballistica bolt){
 		switch(Random.Int(4)){
 
 			//Random plant
@@ -236,7 +236,7 @@ public class CursedWand {
 				if (target != null) {
 					cursedFX(user, bolt, new Callback() {
 						public void call() {
-							int damage = user.lvl * 2;
+							int damage = (user instanceof Hero ? ((Hero)user).lvl : user instanceof Mob ? ((Mob) user).EXP : 1) * 2;
 							switch (Random.Int(2)) {
 								case 0:
 									user.HP = Math.min(user.HT, user.HP + damage);
@@ -250,7 +250,7 @@ public class CursedWand {
 									target.HP = Math.min(target.HT, target.HP + damage);
 									target.sprite.emitter().burst(Speck.factory(Speck.HEALING), 3);
 									Sample.INSTANCE.play(Assets.SND_CURSED);
-									if (!user.isAlive()) {
+									if (!Dungeon.hero.isAlive()) {
 										Dungeon.fail( wand.getClass() );
 										GLog.n(Messages.get(CursedWand.class, "ondeath", wand.name()));
 									}
@@ -287,7 +287,7 @@ public class CursedWand {
 
 	}
 
-	private static void rareEffect(final Wand wand, final Hero user, final Ballistica bolt){
+	private static void rareEffect(final Wand wand, final Char user, final Ballistica bolt){
 		switch(Random.Int(4)){
 
 			//sheep transformation
@@ -324,7 +324,7 @@ public class CursedWand {
 
 			//inter-level teleportation
 			case 2:
-				if (Dungeon.depth > 1 && !Dungeon.bossLevel() && Statistics.amuletObtained) {
+				if (Dungeon.depth > 1 && !Dungeon.bossLevel() && Statistics.amuletObtained && user instanceof Hero) {
 
 					//each depth has 1 more weight than the previous depth.
 					float[] depths = new float[Dungeon.depth-1];
@@ -353,7 +353,7 @@ public class CursedWand {
 		}
 	}
 
-	private static void veryRareEffect(final Wand wand, final Hero user, final Ballistica bolt){
+	private static void veryRareEffect(final Wand wand, final Char user, final Ballistica bolt){
 		switch(Random.Int(4)){
 
 			//great forest fire!
@@ -453,7 +453,7 @@ public class CursedWand {
 		}
 	}
 
-	private static void cursedFX(final Hero user, final Ballistica bolt, final Callback callback){
+	private static void cursedFX(final Char user, final Ballistica bolt, final Callback callback){
 		MagicMissile.boltFromChar( user.sprite.parent,
 				MagicMissile.RAINBOW,
 				user.sprite,

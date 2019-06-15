@@ -48,7 +48,7 @@ public class Warden extends Mob {
 		spriteClass = WardenSprite.class;
 
 		HP = HT = 200;
-		defenseSkill = 18;
+		//defenseSkill = 18;
 
 		EXP = 30;
 
@@ -97,7 +97,7 @@ public class Warden extends Mob {
 		}
 
 		if(jumpFlag && jump()){
-			return true;
+			return false;
 		}
 
 
@@ -109,10 +109,12 @@ public class Warden extends Mob {
 		return Random.NormalIntRange(15, 25);
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 28;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -131,22 +133,22 @@ public class Warden extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src, EffectType type) {
+	public int damage(int dmg, Object src, EffectType type) {
 
 		int beforeHitHP = HP;
-		super.damage(dmg, src, type);
+		int damage = super.damage( dmg, src ,type );
 		dmg = beforeHitHP - HP;
 
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
 		if (lock != null) {
 			int multiple = beforeHitHP > HT/2 ? 1 : 4;
-			lock.addTime(dmg*multiple);
+			lock.addTime(damage*multiple);
 		}
 
 		//phase 2 of the fight is over
 		if (HP == 0 && beforeHitHP <= HT/2) {
 			((PrisonMidBossLevel)Dungeon.level).progress();
-			return;
+			return 0;
 		}
 
 		int hpBracket = beforeHitHP > HT/2 ? 12 : 20;
@@ -163,6 +165,7 @@ public class Warden extends Mob {
 		} else if (beforeHitHP / hpBracket != HP / hpBracket) {
 			jumpFlag = true;
 		}
+		return damage;
 	}@Override
 	public boolean isAlive() {
 		return Dungeon.level.mobs.contains(this); //Tengu has special death rules, see prisonbosslevel.progress()
@@ -232,18 +235,14 @@ public class Warden extends Mob {
 		final Char warden = this;
 		sprite.parent.add(new Chains(this.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(newPos), new Callback() {
 			public void call() {
-				Actor.addDelayed(new Pushing(warden, pos, newPosFinal, new Callback(){
-					public void call() {
-						pos = newPosFinal;
-						Dungeon.level.press(newPosFinal, warden, true);
-						((Warden)warden).spend( 1 / speed() );
-						warden.next();
-
-					}
-				}),-1);
+				Actor.addDelayed(new Pushing(warden, pos, newPosFinal), -1);
+				pos = newPosFinal;
+				Dungeon.level.press(newPosFinal, warden, true);
+				((Warden)warden).spend( 1 / speed() );
+				warden.next();
 			}
 			}));
-		return false;
+		return true;
 	}
 
 	@Override

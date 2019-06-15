@@ -208,7 +208,11 @@ public class PixelScene extends Scene {
 	}
 
 	public static RenderedTextMultiline renderMultiline( String text, int size ){
-		RenderedTextMultiline result = new RenderedTextMultiline( text, size*defaultZoom);
+		return renderMultiline( text, size, false );
+	}
+
+	public static RenderedTextMultiline renderMultiline( String text, int size, boolean strongSplit ){
+		RenderedTextMultiline result = new RenderedTextMultiline( text, size*defaultZoom, strongSplit);
 		result.zoom(1/(float)defaultZoom);
 		return result;
 	}

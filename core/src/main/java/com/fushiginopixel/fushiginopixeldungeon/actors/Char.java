@@ -43,6 +43,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.EarthImbue;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.FireImbue;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Frost;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.MagicalSleep;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Ooze;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Paralysis;
@@ -51,13 +52,18 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Preparation;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Slow;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Speed;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Belongings;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DeathEye;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
+import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
+import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfMight;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfTenacity;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSelfDestruct;
@@ -107,6 +113,10 @@ public abstract class Char extends Actor {
 	public boolean flying		= false;
 	public boolean passWall		= false;
 	public int invisible		= 0;
+
+	public Belongings belongings;
+
+	protected Char enemy;
 	
 	//these are relative to the hero
 	public enum Alignment{
@@ -121,6 +131,23 @@ public abstract class Char extends Actor {
 	protected boolean[] fieldOfView = null;
 	
 	private HashSet<Buff> buffs = new HashSet<>();
+
+	public Char() {
+		super();
+		belongings = new Belongings( this );
+	}
+
+	public void updateHT( boolean boostHP ){
+		int curHT = HT;
+
+		float multiplier = RingOfMight.HTMultiplier(this);
+		HT = Math.round(multiplier * HT);
+
+		if (boostHP){
+			HP += Math.max(HT - curHT, 0);
+		}
+		HP = Math.min(HP, HT);
+	}
 	
 	@Override
 	protected boolean act() {
@@ -155,6 +182,8 @@ public abstract class Char extends Actor {
 		bundle.put( TAG_HT, HT );
 		bundle.put( TAG_SHLD, SHLD );
 		bundle.put( BUFFS, buffs );
+
+		belongings.storeInBundle( bundle );
 	}
 	
 	@Override
@@ -172,6 +201,23 @@ public abstract class Char extends Actor {
 				((Buff)b).attachTo( this );
 			}
 		}
+	}
+	//this variable is only needed because of the boomerang, remove if/when it is no longer equippable
+	protected boolean rangedAttack = false;
+
+	public boolean shoot( Char enemy, MissileWeapon wep ) {
+
+		//temporarily set the hero's weapon to the missile weapon being used
+		KindOfWeapon equipped = belongings.weapon;
+		belongings.weapon = wep;
+		rangedAttack = true;
+		this.enemy = enemy;
+		boolean result = attack( enemy ,new EffectType(EffectType.MISSILE ,0));
+		Invisibility.dispel();
+		belongings.weapon = equipped;
+		rangedAttack = false;
+
+		return result;
 	}
 
 	public boolean attack( Char enemy ) {
@@ -208,7 +254,7 @@ public abstract class Char extends Actor {
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
 			if(canCriticalAttack( enemy, effectiveDamage ,type)){
 				if(enemy != null)
-					enemy.sprite.emitter().burst(Speck.factory(Speck.CRIT), 12);
+					enemy.sprite.centerEmitter().burst(Speck.factory(Speck.CRIT), 12);
 				effectiveDamage *= criticalAttack();
 			}
 			effectiveDamage = attackProc( enemy, effectiveDamage ,type);
@@ -277,7 +323,14 @@ public abstract class Char extends Actor {
 	public float criticalAttack(){
 		return 2;
 	}
-	
+
+	/*
+	Attacker acc = A
+	Defender def = E
+	Percent of hit C is
+	if A > E, C = (A - E) / A + E / (2 * A)
+	else C = A / (2 * E)
+	*/
 	public static boolean hit( Char attacker, Char defender, boolean magic ) {
 		float acuRoll = Random.Float( attacker.attackSkill( defender ) );
 		float defRoll = Random.Float( defender.defenseSkill( attacker ) );
@@ -318,14 +371,14 @@ public abstract class Char extends Actor {
 		return buff( Cripple.class ) == null ? baseSpeed : baseSpeed * 0.5f;
 	}
 
-	public void damage( int dmg, Object src ) {
-		damage(dmg, src, new EffectType(0,0));
+	public int damage( int dmg, Object src ) {
+		return damage(dmg, src, new EffectType(0,0));
 	}
 	
-	public void damage( int dmg, Object src ,EffectType type) {
+	public int damage( int dmg, Object src ,EffectType type) {
 		
 		if (!isAlive() || dmg < 0) {
-			return;
+			return 0;
 		}
 		if (this.buff(Frost.class) != null){
 			Buff.detach( this, Frost.class );
@@ -368,6 +421,8 @@ public abstract class Char extends Actor {
 		if (!isAlive()) {
 			die( src ,type );
 		}
+
+		return dmg;
 	}
 
 	public void onMissed(Char enemy) {
@@ -399,9 +454,16 @@ public abstract class Char extends Actor {
 	public boolean isAlive() {
 		return HP > 0;
 	}
-	
+
+	public void busy(){}
+	public void spendAndNext( float time ) {
+		busy();
+		spend( time );
+		next();
+	}
+
 	@Override
-	protected void spend( float time ) {
+	public void spend( float time ) {
 		
 		float timeScale = 1f;
 		if (buff( Slow.class ) != null) {
@@ -415,6 +477,10 @@ public abstract class Char extends Actor {
 		}
 		
 		super.spend( time / timeScale );
+	}
+
+	public boolean catchItem(Item item) {
+		return false;
 	}
 	
 	public synchronized HashSet<Buff> buffs() {
@@ -548,6 +614,19 @@ public abstract class Char extends Actor {
 	public void onAttackComplete() {
 		next();
 	}
+
+	public float attackDelay() {
+		if (belongings.weapon != null) {
+
+			return belongings.weapon.speedFactor( this );
+
+		} else {
+			//Normally putting furor speed on unarmed attacks would be unnecessary
+			//But there's going to be that one guy who gets a furor+force ring combo
+			//This is for that one guy, you shall get your fists of fury!
+			return RingOfFuror.modifyAttackDelay(1f, this);
+		}
+	}
 	
 	public void onOperateComplete() {
 		next();
@@ -634,7 +713,7 @@ public abstract class Char extends Actor {
 		MACHANIC ( new HashSet<EffectType>(Arrays.asList(new EffectType(EffectType.BURST,0))),
 				new HashSet<EffectType>(Arrays.asList(new EffectType(0,EffectType.SPIRIT)))),
 		ANGEL ( new HashSet<EffectType>( Arrays.asList(new EffectType(0,EffectType.LIGHT))),
-				new HashSet<EffectType>(Arrays.asList(new EffectType(EffectType.BEAM,0)))),
+				new HashSet<EffectType>()),
 		IMMOVABLE;
 
 		private HashSet<EffectType> resistances;

@@ -34,7 +34,8 @@ import com.fushiginopixel.fushiginopixeldungeon.windows.WndBag;
 public class StoneOfEnchantment extends InventoryStone {
 	
 	{
-		mode = WndBag.Mode.ENCHANTABLE;
+		//mode = WndBag.Mode.ENCHANTABLE;
+		mode = WndBag.Mode.EQUIPMENT;
 		image = ItemSpriteSheet.STONE_TIWAZ;
 	}
 

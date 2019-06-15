@@ -40,7 +40,7 @@ public class PoisonSpinner extends Spinner {
 		spriteClass = PoisonSpinnerSprite.class;
 
 		HP = HT = 80;
-		defenseSkill = 18;
+		//defenseSkill = 18;
 
 		EXP = 14;
 
@@ -53,10 +53,12 @@ public class PoisonSpinner extends Spinner {
 		return Random.NormalIntRange(20, 27);
 	}
 
+	/*
 	@Override
 	public int attackSkill(Char target) {
 		return 36;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

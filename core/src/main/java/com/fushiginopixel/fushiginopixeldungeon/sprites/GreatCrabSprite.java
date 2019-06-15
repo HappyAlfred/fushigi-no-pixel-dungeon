@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class GreatCrabSprite extends MobSprite {
 
-	public GreatCrabSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.CRAB );
 

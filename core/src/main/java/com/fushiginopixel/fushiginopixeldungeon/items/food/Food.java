@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.food;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Recharging;
@@ -65,44 +66,46 @@ public class Food extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
 		if (action.equals( AC_EAT )) {
 			
 			detach( hero.belongings.backpack );
-			
-			(hero.buff( Hunger.class )).satisfy( energy );
-			GLog.i( message );
-			
-			switch (hero.heroClass) {
-			case WARRIOR:
-				if (hero.HP < hero.HT) {
-					hero.HP = Math.min( hero.HP + 5, hero.HT );
-					hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+
+			if(hero instanceof Hero) {
+				(hero.buff(Hunger.class)).satisfy(energy);
+				GLog.i(message);
+
+				switch (((Hero)hero).heroClass) {
+					case WARRIOR:
+						if (hero.HP < hero.HT) {
+							hero.HP = Math.min(hero.HP + 5, hero.HT);
+							hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+						}
+						break;
+					case MAGE:
+						//1 charge
+						Buff.affect(hero, Recharging.class, 4f);
+						ScrollOfRecharging.charge(hero);
+						break;
+					case ROGUE:
+					case HUNTRESS:
+						break;
 				}
-				break;
-			case MAGE:
-				//1 charge
-				Buff.affect( hero, Recharging.class, 4f );
-				ScrollOfRecharging.charge( hero );
-				break;
-			case ROGUE:
-			case HUNTRESS:
-				break;
+
+				hero.sprite.operate(hero.pos);
+				hero.busy();
+				SpellSprite.show(hero, SpellSprite.FOOD);
+				Sample.INSTANCE.play(Assets.SND_EAT);
+
+				hero.spend(TIME_TO_EAT);
+
+				Statistics.foodEaten++;
+				Badges.validateFoodEaten();
+
 			}
-			
-			hero.sprite.operate( hero.pos );
-			hero.busy();
-			SpellSprite.show( hero, SpellSprite.FOOD );
-			Sample.INSTANCE.play( Assets.SND_EAT );
-			
-			hero.spend( TIME_TO_EAT );
-			
-			Statistics.foodEaten++;
-			Badges.validateFoodEaten();
-			
 		}
 	}
 	

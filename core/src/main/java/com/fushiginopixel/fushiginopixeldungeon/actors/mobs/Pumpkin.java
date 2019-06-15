@@ -42,7 +42,7 @@ public class Pumpkin extends Mob {
 		spriteClass = PumpkinSprite.class;
 		
 		HP = HT = 50;
-		defenseSkill = 16;
+		//defenseSkill = 16;
         EXP = 8;
 		flying = true;
 		passWall = true;
@@ -56,11 +56,13 @@ public class Pumpkin extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 10, 22 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 24;
 	}
+	*/
 
     @Override
     public int defenseSkill( Char enemy ) {

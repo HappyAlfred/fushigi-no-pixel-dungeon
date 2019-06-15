@@ -44,16 +44,17 @@ public class ThrowingKnife extends MissileWeapon {
 				add(new Assassination());
 			}
 		};
+		LIMIT = 3;
 	}
 	
 	@Override
 	public int min(int lvl) {
-		return 2;
+		return 1;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 6;
+		return 13;
 	}
 	
 	private Char enemy;

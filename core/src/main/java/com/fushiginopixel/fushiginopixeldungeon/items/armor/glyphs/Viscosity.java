@@ -42,28 +42,31 @@ public class Viscosity extends Glyph {
 	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x8844CC );
 	
 	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
+	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
 
 		//FIXME this glyph should really just proc after DR is accounted for.
 		//should build in functionality for that, but this works for now
-		int realDamage = damage - Random.NormalIntRange( armor.min(), armor.max());
 
-		if (realDamage <= 0) {
-			return 0;
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			int realDamage = damage - Random.NormalIntRange(armor.min(), armor.max());
+
+			if (realDamage <= 0) {
+				return 0;
+			}
+
+			int level = Math.max(0, armor.level());
+
+			float percent = (level + 1) / (float) (level + 6);
+			int amount = (int) Math.ceil(realDamage * percent);
+
+			DeferedDamage deferred = Buff.affect(defender, DeferedDamage.class);
+			deferred.prolong(amount);
+
+			defender.sprite.showStatus(CharSprite.WARNING, Messages.get(this, "deferred", amount));
+
+			return ((float) (damage - amount)) / damage;
 		}
-
-		int level = Math.max( 0, armor.level() );
-		
-		float percent = (level+1)/(float)(level+6);
-		int amount = (int)Math.ceil(realDamage * percent);
-
-		DeferedDamage deferred = Buff.affect( defender, DeferedDamage.class );
-		deferred.prolong( amount );
-		
-		defender.sprite.showStatus( CharSprite.WARNING, Messages.get(this, "deferred", amount) );
-		
-		return ((float)(damage - amount))/damage;
-		
+		return 1f;
 	}
 
 	@Override

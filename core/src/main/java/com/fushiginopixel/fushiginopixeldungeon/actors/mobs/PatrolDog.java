@@ -50,7 +50,7 @@ public class PatrolDog extends Mob {
 		spriteClass = PatrolDogSprite.class;
 		
 		HP = HT = 50;
-		defenseSkill = 18;
+		//defenseSkill = 18;
         EXP = 9;
 
         loot = new MysteryMeat();
@@ -67,11 +67,13 @@ public class PatrolDog extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 11, 25 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 25;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

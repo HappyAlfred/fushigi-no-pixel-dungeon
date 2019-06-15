@@ -138,7 +138,7 @@ public class Yog extends Mob {
 	}
 
 	@Override
-	public void damage( int dmg, Object src, EffectType type ) {
+	public int damage( int dmg, Object src, EffectType type ) {
 
 		HashSet<Mob> fists = new HashSet<>();
 
@@ -147,12 +147,13 @@ public class Yog extends Mob {
 				fists.add( mob );
 
 		dmg >>= fists.size();
-		
-		super.damage( dmg, src ,type);
+
+		int damage = super.damage(dmg, src, type);
 
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null) lock.addTime(dmg*0.5f);
+		if (lock != null) lock.addTime(damage*0.5f);
 
+		return damage;
 	}
 	
 	@Override
@@ -239,7 +240,7 @@ public class Yog extends Mob {
 			spriteClass = RottingFistSprite.class;
 			
 			HP = HT = 600;
-			defenseSkill = 50;
+			//defenseSkill = 50;
 			
 			EXP = 0;
 			
@@ -249,11 +250,13 @@ public class Yog extends Mob {
 			properties.add(Property.DEMONIC);
 			properties.add(Property.ACIDIC);
 		}
-		
+
+		/*
 		@Override
 		public int attackSkill( Char target ) {
 			return 100;
 		}
+		*/
 		
 		@Override
 		public int damageRoll() {
@@ -289,10 +292,11 @@ public class Yog extends Mob {
 		}
 
 		@Override
-		public void damage(int dmg, Object src, EffectType type) {
-			super.damage(dmg, src, type);
+		public int damage(int dmg, Object src, EffectType type) {
+			int damage = super.damage(dmg, src, type);
 			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-			if (lock != null) lock.addTime(dmg*0.5f);
+			if (lock != null) lock.addTime(damage*0.5f);
+			return damage;
 		}
 		
 		{
@@ -311,7 +315,7 @@ public class Yog extends Mob {
 			spriteClass = BurningFistSprite.class;
 			
 			HP = HT = 400;
-			defenseSkill = 50;
+			//defenseSkill = 50;
 			
 			EXP = 0;
 			
@@ -321,11 +325,13 @@ public class Yog extends Mob {
 			properties.add(Property.DEMONIC);
 			properties.add(Property.FIERY);
 		}
-		
+
+		/*
 		@Override
 		public int attackSkill( Char target ) {
 			return 100;
 		}
+		*/
 		
 		@Override
 		public int damageRoll() {
@@ -383,10 +389,11 @@ public class Yog extends Mob {
 		}
 
 		@Override
-		public void damage(int dmg, Object src,EffectType type) {
-			super.damage(dmg, src, type);
+		public int damage(int dmg, Object src,EffectType type) {
+			int damage = super.damage(dmg, src, type);
 			LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-			if (lock != null) lock.addTime(dmg*0.5f);
+			if (lock != null) lock.addTime(damage*0.5f);
+			return damage;
 		}
 		
 		{
@@ -407,7 +414,7 @@ public class Yog extends Mob {
 			spriteClass = LarvaSprite.class;
 			
 			HP = HT = 50;
-			defenseSkill = 40;
+			//defenseSkill = 40;
 			
 			EXP = 0;
 			
@@ -415,11 +422,13 @@ public class Yog extends Mob {
 
 			properties.add(Property.DEMONIC);
 		}
-		
+
+		/*
 		@Override
 		public int attackSkill( Char target ) {
 			return 60;
 		}
+		*/
 		
 		@Override
 		public int damageRoll() {

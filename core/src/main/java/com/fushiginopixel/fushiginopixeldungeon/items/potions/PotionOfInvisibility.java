@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.potions;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
@@ -37,7 +38,7 @@ public class PotionOfInvisibility extends Potion {
 	}
 
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
 		Buff.affect( hero, Invisibility.class, Invisibility.DURATION, new EffectType(EffectType.INSIDE,0) );
 		GLog.i( Messages.get(this, "invisible") );

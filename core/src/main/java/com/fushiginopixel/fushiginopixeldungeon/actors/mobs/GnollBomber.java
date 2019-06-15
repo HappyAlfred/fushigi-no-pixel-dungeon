@@ -49,7 +49,7 @@ public class GnollBomber extends Gnoll {
 		spriteClass = GnollBomberSprite.class;
 
 		HP = HT = 35;
-		defenseSkill = 5;
+		//defenseSkill = 5;
 
 		EXP = 6;
 
@@ -146,33 +146,33 @@ public class GnollBomber extends Gnoll {
 					target = Dungeon.level.randomDestination();
 					return true;
 				}
-				if(distance(enemy) > 2 && Random.Int(5) == 0){
-
-					ArrayList<Integer> candidates = new ArrayList<>();
-					for (int i = 0; i < PathFinder.NEIGHBOURS9.length; i++) {
-						int p = enemy.pos + PathFinder.NEIGHBOURS9[i];
-						if (new Ballistica( pos, p, Ballistica.PROJECTILE).collisionPos == p && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
-							candidates.add( p );
-						}
+				ArrayList<Integer> candidates = new ArrayList<>();
+				for (int i = 0; i < PathFinder.NEIGHBOURS9.length; i++) {
+					int p = enemy.pos + PathFinder.NEIGHBOURS9[i];
+					if (new Ballistica( pos, p, Ballistica.PROJECTILE).collisionPos == p && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
+						candidates.add( p );
 					}
+				}
+				if(distance(enemy) > 2 && Random.Int(5) == 0 && candidates.size() > 0){
+
+					spend(spend);
 					for(int i=0;i<3 && candidates.size() > 0;i++){
 						int index = Random.index( candidates );
 						firework(candidates.remove( index ));
 					}
-					spend(spend);
-					return true;
+					return false;
 				}
 				else{
 					firework(enemy.pos);
 					spend(spend);
-					return true;
+					return false;
 				}
 			} else if (target != -1 && lastBomb && Dungeon.level.distance( pos, target ) > 2 && new Ballistica( pos, target, Ballistica.PROJECTILE).collisionPos == target) {
 
 					spend(2f);
 					firework(target);
 					lastBomb = false;
-					return true;
+					return false;
 
 				}
 				else {

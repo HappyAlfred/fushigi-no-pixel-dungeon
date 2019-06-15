@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.artifacts;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Awareness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
@@ -64,7 +65,7 @@ public class TalismanOfForesight extends Artifact {
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 		super.execute(hero, action);
 
 		if (action.equals(AC_SCRY)){

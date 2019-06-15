@@ -40,7 +40,7 @@ public class IronScorpio extends Scorpio {
 		spriteClass = IronScorpioSprite.class;
 
 		HP = HT = 90;
-		defenseSkill = 21;
+		//defenseSkill = 21;
 		//viewDistance = Light.DISTANCE;
 
 		EXP = 17;
@@ -55,10 +55,12 @@ public class IronScorpio extends Scorpio {
 		return Random.NormalIntRange( 27, 42 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 47;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

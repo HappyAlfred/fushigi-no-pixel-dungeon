@@ -74,7 +74,7 @@ public class CannonBall extends Bombs {
 		return actions;
 	}
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		if (action.equals(AC_LIGHTTHROW) && false) {
 			lightingFuse = true;

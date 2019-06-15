@@ -34,9 +34,9 @@ import com.watabou.utils.Callback;
 public class TenguSprite extends MobSprite {
 	
 	private Animation cast;
-	
-	public TenguSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.TENGU );
 		

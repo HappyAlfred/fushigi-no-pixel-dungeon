@@ -70,9 +70,15 @@ public class Electricity extends Blob {
 				if (cur[cell] > 0) {
 					Char ch = Actor.findChar( cell );
 					if (ch != null && !ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB,EffectType.ELETRIC))) {
+						/*
 						Buff.prolong( ch, Paralysis.class, 1f,new EffectType(EffectType.BLOB,EffectType.ELETRIC));
 						if (cur[cell] % 2 == 1) {
 							ch.damage(Math.round(Random.Float(2 + Dungeon.depth / 5f)), this,new EffectType(EffectType.BLOB,EffectType.ELETRIC));
+						}
+						*/
+						int damage = ch.damage(Math.round(Random.Float(2 + Dungeon.depth / 5f)), this,new EffectType(EffectType.BLOB,EffectType.ELETRIC));
+						if(ch.isAlive() && damage > ch.HT/50){
+							Buff.affect( ch, Paralysis.class, 3f,new EffectType(EffectType.BLOB,EffectType.ELETRIC));
 						}
 					}
 
@@ -118,7 +124,7 @@ public class Electricity extends Blob {
 	}
 	
 	@Override
-	public String tileDesc() {
+	public String tileDesc(int cell) {
 		return Messages.get(this, "desc");
 	}
 	

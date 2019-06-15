@@ -52,7 +52,7 @@ public class Statue extends Mob {
 		super();
 		addWeapon();
 		HP = HT = 15 + Dungeon.depth * 5;
-		defenseSkill = 4 + Dungeon.depth;
+		//defenseSkill = 4 + Dungeon.depth;
 	}
 
 	public void addWeapon(){
@@ -102,16 +102,18 @@ public class Statue extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
+		int attack = super.attackSkill(target);
+		//attack = 9 + Dungeon.depth;
 		if (weapon != null){
-			return (int)((9 + Dungeon.depth) * weapon.accuracyFactor(this , target));
+			return (int)(attack * weapon.accuracyFactor(this , target));
 		}
 		else{
-			return 9 + Dungeon.depth;
+			return attack;
 		}
 	}
 	
 	@Override
-	protected float attackDelay() {
+	public float attackDelay() {
 		return weapon != null ? weapon.speedFactor( this ) : super.attackDelay();
 	}
 
@@ -143,13 +145,13 @@ public class Statue extends Mob {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src ,EffectType type) {
+	public int damage( int dmg, Object src ,EffectType type) {
 
 		if (state == PASSIVE) {
 			state = HUNTING;
 		}
-		
-		super.damage( dmg, src ,type);
+
+		return super.damage( dmg, src ,type);
 	}
 
 	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
@@ -179,9 +181,9 @@ public class Statue extends Mob {
 	}
 	
 	@Override
-	public void destroy() {
+	public void destroy(Object src, EffectType type ) {
 		Notes.remove( Notes.Landmark.STATUE );
-		super.destroy();
+		super.destroy(src, type);
 	}
 	
 	@Override

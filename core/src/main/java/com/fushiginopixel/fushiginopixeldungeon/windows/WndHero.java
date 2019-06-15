@@ -120,6 +120,7 @@ public class WndHero extends WndTabbed {
 			if(Dungeon.hero.buff(Hunger.class) != null){
 				statSlot( Messages.get(this, "hunger"), Dungeon.hero.buff(Hunger.class).hunger() + "/" + Hunger.STARVING);
 			}
+			statSlot( Messages.get(this, "basedamage"), hero.baseDamageMin() + "~" + hero.baseDamageMax() );
 
 			pos += GAP;
 

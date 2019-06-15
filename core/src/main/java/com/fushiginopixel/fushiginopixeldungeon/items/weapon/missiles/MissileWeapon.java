@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.PinCushion;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.SnipersMark;
@@ -76,7 +77,7 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public int throwPos(Hero user, int dst) {
+	public int throwPos(Char user, int dst) {
 		if (hasEnchant(Projecting.class)
 				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
 			return dst;
@@ -163,6 +164,8 @@ abstract public class MissileWeapon extends Weapon {
 					p.stick(this);
 					return;
 				}
+			} else if (pierceThrow){
+				return;
 			}
 			Dungeon.level.drop( this, enemy.pos ).sprite.drop();
 		}
@@ -189,12 +192,14 @@ abstract public class MissileWeapon extends Weapon {
 		int damage = augment.damageFactor(super.damageRoll( owner ));
 		damage = Math.round( damage * RingOfSharpshooting.damageMultiplier( owner ));
 
+		/*
 		if (owner instanceof Hero &&
 				((Hero)owner).heroClass == HeroClass.HUNTRESS) {
 			damage *= ((Hero)owner).strengthMultiplier(0.1f);
 		}else if(owner instanceof Hero){
 			damage *= ((Hero)owner).strengthMultiplier();
 		}
+		*/
 		
 		return damage;
 	}
@@ -235,7 +240,7 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public boolean doPickUp(Hero hero) {
+	public boolean doPickUp(Char hero) {
 		parent = null;
 		return super.doPickUp(hero);
 	}
@@ -259,7 +264,7 @@ abstract public class MissileWeapon extends Weapon {
 				Math.round(augment.damageFactor(min()) * RingOfSharpshooting.damageMultiplier( Dungeon.hero )),
 				Math.round(augment.damageFactor(max()) * RingOfSharpshooting.damageMultiplier( Dungeon.hero )));
 
-		float strengthAttack = Dungeon.hero.heroClass == HeroClass.HUNTRESS ? Dungeon.hero.strengthMultiplier(0.1f) : Dungeon.hero.strengthMultiplier();
+		float strengthAttack = Dungeon.hero.strengthMultiplier(new EffectType(EffectType.MISSILE, 0));//Dungeon.hero.heroClass == HeroClass.HUNTRESS ? Dungeon.hero.strengthMultiplier(0.1f) : Dungeon.hero.strengthMultiplier();
 		if (strengthAttack < 1) {
 			info += " " + Messages.get(Weapon.class, "too_heavy", Math.round((1 - strengthAttack) * 100));
 		} else if (strengthAttack > 1){

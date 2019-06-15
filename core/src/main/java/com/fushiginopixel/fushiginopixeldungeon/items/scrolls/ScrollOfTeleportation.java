@@ -81,7 +81,7 @@ public class ScrollOfTeleportation extends Scroll {
 		});
 	}
 	
-	public static void teleportToLocation(Hero hero, int pos){
+	public static void teleportToLocation(Char hero, int pos){
 		PathFinder.buildDistanceMap(pos, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
 		if (PathFinder.distance[hero.pos] == Integer.MAX_VALUE
 				|| (!Dungeon.level.passable[pos] && !Dungeon.level.avoid[pos])
@@ -98,7 +98,7 @@ public class ScrollOfTeleportation extends Scroll {
 		GLog.i( Messages.get(ScrollOfTeleportation.class, "tele") );
 	}
 	
-	public static void teleportHero(Hero  hero ) {
+	public static void teleportHero(Char  hero ) {
 
 		int count = 10;
 		int pos;

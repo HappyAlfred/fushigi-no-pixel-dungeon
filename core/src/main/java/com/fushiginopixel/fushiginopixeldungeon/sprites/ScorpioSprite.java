@@ -34,9 +34,9 @@ public class ScorpioSprite extends MobSprite {
 	
 	private int cellToAttack;
 	private Char enemy;
-	
-	public ScorpioSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SCORPIO );
 		

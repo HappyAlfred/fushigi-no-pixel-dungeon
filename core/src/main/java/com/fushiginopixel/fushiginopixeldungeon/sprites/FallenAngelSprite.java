@@ -37,8 +37,7 @@ public class FallenAngelSprite extends MobSprite {
 
 	private int zapPos;
 
-	public FallenAngelSprite() {
-		super();
+	public void init() {
 		
 		texture( Assets.FALLEN_ANGEL );
 		

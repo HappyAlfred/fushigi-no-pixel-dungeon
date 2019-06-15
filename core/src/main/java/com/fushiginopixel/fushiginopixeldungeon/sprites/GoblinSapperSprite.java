@@ -31,8 +31,8 @@ public class GoblinSapperSprite extends MobSprite {
 
 	protected Animation explode;
 	public boolean explodeFlag = false;
-	public GoblinSapperSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.GOBLIN_SAPPER );
 		

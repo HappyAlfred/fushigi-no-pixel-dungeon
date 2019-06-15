@@ -35,13 +35,13 @@ public class ClothArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  4 +
+		return  3 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 2 + lvl;
+		return 1 + lvl;
 	}
 
 }

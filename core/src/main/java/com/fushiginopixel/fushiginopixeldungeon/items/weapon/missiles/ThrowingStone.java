@@ -31,7 +31,7 @@ public class ThrowingStone extends MissileWeapon {
 		sticky = false;
 		
 		//bones = false;
-		
+		LIMIT = 5;
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class ThrowingStone extends MissileWeapon {
 	
 	@Override
 	public int max(int lvl) {
-		return 5;
+		return 10;
 	}
 	
 	@Override

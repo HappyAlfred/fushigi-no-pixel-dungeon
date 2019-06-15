@@ -111,7 +111,7 @@ public class Boomerang extends MissileWeapon {
 		circleBack( cell, curUser );
 	}
 
-	private void circleBack( int from, Hero owner ) {
+	private void circleBack( int from, Char owner ) {
 
 		((MissileSprite)curUser.sprite.parent.recycle( MissileSprite.class )).
 				reset( from, owner.sprite, curItem, owner, null );
@@ -130,7 +130,7 @@ public class Boomerang extends MissileWeapon {
 	private boolean throwEquiped;
 
 	@Override
-	public void cast( Hero user, int dst ) {
+	public void cast( Char user, int dst ) {
 		throwEquiped = isEquipped( user ) && !cursed;
 		if (throwEquiped) Dungeon.quickslot.convertToPlaceholder(this);
 		super.cast( user, dst );

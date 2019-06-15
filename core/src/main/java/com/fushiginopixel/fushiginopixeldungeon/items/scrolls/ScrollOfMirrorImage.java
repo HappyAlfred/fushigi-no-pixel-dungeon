@@ -48,11 +48,13 @@ public class ScrollOfMirrorImage extends Scroll {
 	
 	@Override
 	public void doRead() {
-		int spawnedImages = spawnImages(curUser, NIMAGES);
-		
-		if (spawnedImages > 0) {
-			knownByUse();
+		if(curUser instanceof Hero) {
+			int spawnedImages = spawnImages((Hero)curUser, NIMAGES);
+			if (spawnedImages > 0) {
+				knownByUse();
+			}
 		}
+
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
 		Invisibility.dispel();
@@ -63,8 +65,10 @@ public class ScrollOfMirrorImage extends Scroll {
 	@Override
 	public void empoweredRead() {
 		//spawns 2 images right away, delays 4 of them, 6 total.
-		new DelayedImageSpawner(6 - spawnImages(curUser, 2), 2, 3).attachTo(curUser);
 
+		if(curUser instanceof Hero) {
+			new DelayedImageSpawner(6 - spawnImages((Hero)curUser, 2), 2, 3).attachTo(curUser);
+		}
 		knownByUse();
 		
 		Sample.INSTANCE.play( Assets.SND_READ );
@@ -74,7 +78,7 @@ public class ScrollOfMirrorImage extends Scroll {
 	}
 	
 	//returns the number of images spawned
-	public static int spawnImages( Hero hero, int nImages ){
+	public static int spawnImages( Char hero, int nImages ){
 		
 		ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
 		
@@ -89,17 +93,33 @@ public class ScrollOfMirrorImage extends Scroll {
 		while (nImages > 0 && respawnPoints.size() > 0) {
 			int index = Random.index( respawnPoints );
 			
-			MirrorImage mob = new MirrorImage();
+			/*MirrorImage mob = new MirrorImage();
 			mob.duplicate( hero );
 			GameScene.add( mob );
-			ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
-			
+			ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );*/
+			singleSummonToCell(hero, respawnPoints.get( index ));
+
 			respawnPoints.remove( index );
 			nImages--;
 			spawned++;
 		}
 		
 		return spawned;
+	}
+
+	public static MirrorImage singleSummonToCell(Char user, int cell){
+
+		if(Actor.findChar( cell ) != null){
+			return null;
+		}else if(user instanceof Hero) {
+			MirrorImage mob = new MirrorImage();
+			mob.duplicate((Hero)user);
+			GameScene.add(mob);
+			ScrollOfTeleportation.appear(mob, cell);
+			return mob;
+		}
+
+		return null;
 	}
 	
 	public static class DelayedImageSpawner extends Buff{

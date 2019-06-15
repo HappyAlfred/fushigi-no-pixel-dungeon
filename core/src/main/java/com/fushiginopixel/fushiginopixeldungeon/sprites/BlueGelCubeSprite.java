@@ -30,8 +30,8 @@ import com.watabou.utils.Callback;
 
 public class BlueGelCubeSprite extends GelCubeSprite {
 
-	public BlueGelCubeSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.GELCUBE );
 		
@@ -70,14 +70,6 @@ public class BlueGelCubeSprite extends GelCubeSprite {
 						((GelCube)ch).onZapComplete(shot);
 					}
 				} );
-	}
-
-	@Override
-	public void onComplete( Animation anim ) {
-		if (anim == zap) {
-			idle();
-		}
-		super.onComplete( anim );
 	}
 
 	@Override

@@ -281,7 +281,7 @@ public class PotionOfLiquidFlame extends Potion {
 					continue;
 				}
 
-				if(ingredients.get(i).getClass() == PotionOfLiquidFlame.class && ingredients.get(i).quantity() > 0 && frostPotion > 0){
+				if(ingredients.get(i).getClass() == PotionOfFrost.class && ingredients.get(i).quantity() > 0 && frostPotion > 0){
 					ingredients.get(i).quantity(ingredients.get(i).quantity() - 1);
 					frostPotion --;
 					i--;

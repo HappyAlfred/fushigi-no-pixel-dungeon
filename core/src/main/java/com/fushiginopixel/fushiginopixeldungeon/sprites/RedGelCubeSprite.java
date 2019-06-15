@@ -30,8 +30,8 @@ import com.watabou.utils.Callback;
 
 public class RedGelCubeSprite extends GelCubeSprite {
 
-	public RedGelCubeSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.GELCUBE );
 		

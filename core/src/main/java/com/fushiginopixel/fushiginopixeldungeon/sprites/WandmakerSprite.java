@@ -34,9 +34,9 @@ import com.watabou.utils.PointF;
 public class WandmakerSprite extends MobSprite {
 	
 	private Shield shield;
-	
-	public WandmakerSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.MAKER );
 		

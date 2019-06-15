@@ -63,7 +63,7 @@ public class Lich extends Skeleton {
 		spriteClass = LichSprite.class;
 
 		HP = HT = 210;
-		defenseSkill = 32;
+		//defenseSkill = 32;
 		
 		EXP = 21;
 
@@ -85,10 +85,12 @@ public class Lich extends Skeleton {
 		return Random.NormalIntRange( 26, 48 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 62;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

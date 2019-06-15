@@ -50,7 +50,7 @@ public class BlueSlime extends Slime {
 		spriteClass = RedSlimeSprite.class;
 		
 		HP = HT = 250;
-		defenseSkill = 44;
+		//defenseSkill = 44;
 
 		EXP = 30;
 
@@ -62,10 +62,12 @@ public class BlueSlime extends Slime {
 		return Random.NormalIntRange( 3, 9 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 85;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

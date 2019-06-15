@@ -28,8 +28,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class GuardSprite extends MobSprite {
 
-	public GuardSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.GUARD );
 

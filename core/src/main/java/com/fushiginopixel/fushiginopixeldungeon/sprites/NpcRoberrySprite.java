@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 public class NpcRoberrySprite extends MobSprite {
 
 
-	public NpcRoberrySprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCROBERRY );
 		

@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee;
 
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Stunning;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Thumping;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;
@@ -33,18 +34,26 @@ public class WarHammer extends MeleeWeapon {
 
 		tier = 4;
 		ACC = 1.20f; //20% boost to accuracy
-		LIMIT = 2;
+		DLY = 2f;
+		LIMIT = 4;
 		properties = new ArrayList<Enchantment>(){
 			{
 				add(new Stunning());
+				add(new Thumping());
 			}
 		};
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  10 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  30 +    //24 base, down from 30
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  60 +
+				lvl*(UPGRADE_ATTACK+2);
 	}
 
 }

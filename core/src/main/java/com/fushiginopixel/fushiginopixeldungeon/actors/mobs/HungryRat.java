@@ -43,7 +43,7 @@ public class HungryRat extends Rat {
 		loot = MysteryMeat.class;
 		lootChance = 0.167f;
 		EXP = 5;
-		defenseSkill = 5;
+		//defenseSkill = 5;
 	}
 
 	@Override
@@ -51,10 +51,12 @@ public class HungryRat extends Rat {
 		return Random.NormalIntRange( 2, 10 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 12;
 	}
+	*/
 
 	@Override
 	public int attackProc( Char enemy, int damage, EffectType type ) {

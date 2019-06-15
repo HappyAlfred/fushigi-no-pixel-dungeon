@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 public class NpcRenSprite extends MobSprite {
 
 
-	public NpcRenSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCREN );
 		

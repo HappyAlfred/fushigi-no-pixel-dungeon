@@ -32,8 +32,7 @@ import com.watabou.utils.Callback;
 
 public class FlareDragonSprite extends MobSprite {
 
-	public FlareDragonSprite() {
-		super();
+	public void init() {
 
 		int ofs = 28;
 		

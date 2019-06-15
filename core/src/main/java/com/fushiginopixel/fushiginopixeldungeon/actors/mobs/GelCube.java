@@ -55,7 +55,7 @@ public class GelCube extends Mob {
 		spriteClass = GelCubeSprite.class;
 		
 		HP = HT = 30;
-		defenseSkill = 7;
+		//defenseSkill = 7;
 		
 		EXP = 5;
 
@@ -75,11 +75,13 @@ public class GelCube extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 11 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 13;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -113,10 +115,11 @@ public class GelCube extends Mob {
 
 	public boolean shootGel(Hero hero){
 		ArrayList<Item> canShoot = new ArrayList<>();
+		Item gel = new SlimyGel();
 		for(Item itemhad : hero.belongings) {
 			if(itemhad instanceof Bag) {
 				for (Item item : hero.belongings.backpack.items) {
-					if (item instanceof InventoryPot && !((InventoryPot)item).isFull()) {
+					if (item instanceof InventoryPot && ((InventoryPot)item).canInput(gel)) {
 						canShoot.add(item);
 					}
 				}
@@ -152,7 +155,7 @@ public class GelCube extends Mob {
 					} else {
 						zap(shot);
 					}
-					return true;
+					return !visible;
 				}
 				else return doAttack( enemy );
 
@@ -168,7 +171,7 @@ public class GelCube extends Mob {
 						} else {
 							zap(shot);
 						}
-						return true;
+						return !visible;
 					}
 					target = enemy.pos;
 				} else if (enemy == null) {

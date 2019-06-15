@@ -43,13 +43,13 @@ public class WoodenArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  10 +
+		return  19 +
 				lvl*UPGRADE_DEFENSE;
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 1 + lvl;
+		return 2 + lvl;
 	}
 
 }

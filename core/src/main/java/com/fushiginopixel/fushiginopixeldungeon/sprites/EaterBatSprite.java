@@ -24,10 +24,10 @@ package com.fushiginopixel.fushiginopixeldungeon.sprites;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
-public class EaterBatSprite extends MobSprite {
+public class EaterBatSprite extends BatSprite {
 
-	public EaterBatSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.BAT );
 		

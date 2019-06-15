@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class GoblinKamikazeSprite extends GoblinSapperSprite {
 
-	public GoblinKamikazeSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.GOBLIN_SAPPER );
 		

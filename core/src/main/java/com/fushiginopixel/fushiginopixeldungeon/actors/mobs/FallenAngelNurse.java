@@ -49,7 +49,7 @@ public class FallenAngelNurse extends FallenAngel {
 		spriteClass = FallenAngelNurseSprite.class;
 
 		HP = HT = 220;
-		defenseSkill = 38;
+		//defenseSkill = 38;
 
 		EXP = 23;
 	}
@@ -62,10 +62,12 @@ public class FallenAngelNurse extends FallenAngel {
 		return Random.NormalIntRange( 20, 40 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 60;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -178,16 +180,17 @@ public class FallenAngelNurse extends FallenAngel {
 	}
 
 	@Override
-	public void cure(Char cureTarget){
+	public boolean cure(Char cureTarget){
 		spend(TICK);
-		if(cureTarget == null) return;
 		Ballistica beam = new Ballistica(pos, cureTarget.pos, Ballistica.PROJECTILE);
-		if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[beam.collisionPos] ) {
+		boolean visible = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[beam.collisionPos];
+		if (visible) {
 			sprite.zap( beam.collisionPos );
 			((FallenAngelNurseSprite)sprite).cure( cureTarget.pos );
 		} else {
 			cureBeam(cureTarget);
 		}
+		return !visible;
 
 	}
 

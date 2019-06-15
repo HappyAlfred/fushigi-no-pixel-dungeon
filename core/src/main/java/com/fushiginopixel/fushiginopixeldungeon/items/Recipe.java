@@ -122,7 +122,19 @@ public abstract class Recipe {
 			}
 
 			//sample output and real output are identical in this case.
-			return sampleOutput(null);
+			return itemOutput(null);
+		}
+
+		//ingredients are ignored, as output doesn't vary
+		public Item itemOutput(ArrayList<Item> ingredients){
+			try {
+				Item result = output.newInstance();
+				result.quantity(outQuantity);
+				return result;
+			} catch (Exception e) {
+				Fushiginopixeldungeon.reportException( e );
+				return null;
+			}
 		}
 
 		//ingredients are ignored, as output doesn't vary

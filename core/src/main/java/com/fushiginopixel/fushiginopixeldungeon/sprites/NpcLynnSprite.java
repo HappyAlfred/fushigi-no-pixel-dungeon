@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 public class NpcLynnSprite extends MobSprite {
 
 
-	public NpcLynnSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCLYNN );
 		

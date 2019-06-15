@@ -27,6 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Paralysis;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -50,7 +51,7 @@ public class ScrollOfPsionicBlast extends Scroll {
 
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
 			if (Dungeon.level.heroFOV[mob.pos]) {
-				int dmg = Math.round((40 + curUser.lvl / 3) * (Random.Float(0.2f) + 1));
+				int dmg = Math.round((40 + (curUser instanceof Hero ?((Hero)curUser).lvl / 3 : 0)) * (Random.Float(0.2f) + 1));
 				mob.damage(dmg, this);
 			}
 		}

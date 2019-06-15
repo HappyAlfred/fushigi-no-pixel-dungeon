@@ -27,6 +27,7 @@ import com.watabou.noosa.ui.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class RenderedTextMultiline extends Component {
@@ -48,12 +49,20 @@ public class RenderedTextMultiline extends Component {
 
 	private boolean chinese = false;
 
+	private boolean strongSplit = false;
+
 	public RenderedTextMultiline(int size){
 		this.size = size;
 	}
 
 	public RenderedTextMultiline(String text, int size){
 		this.size = size;
+		text(text);
+	}
+
+	public RenderedTextMultiline(String text, int size, boolean strongSplit){
+		this.size = size;
+		this.strongSplit = strongSplit;
 		text(text);
 	}
 
@@ -68,7 +77,7 @@ public class RenderedTextMultiline extends Component {
 			if (chinese){
 				tokens = Arrays.asList(text.split(""));
 			} else {
-				tokens = Arrays.asList(text.split("(?<= )|(?= )|(?<=\n)|(?=\n)"));
+				tokens = strongSplit ? Arrays.asList(text.split("")) : Arrays.asList(text.split("(?<= )|(?= )|(?<=\n)|(?=\n)"));
 			}
 			build();
 		}
@@ -94,7 +103,7 @@ public class RenderedTextMultiline extends Component {
 		return maxWidth;
 	}
 
-	private synchronized void build(){
+	protected synchronized void build(){
 		clear();
 		words = new ArrayList<>();
 		boolean highlighting = false;
@@ -103,7 +112,7 @@ public class RenderedTextMultiline extends Component {
 				highlighting = !highlighting;
 			} else if (str.equals(NEWLINE)){
 				words.add(null);
-			} else if (!str.equals(SPACE)){
+			} else if (!str.equals(SPACE) || strongSplit || chinese){
 				RenderedText word;
 				if (str.startsWith(UNDERSCORE) && str.endsWith(UNDERSCORE)){
 					word = new RenderedText(str.substring(1, str.length()-1), size);
@@ -189,7 +198,7 @@ public class RenderedTextMultiline extends Component {
 				word.y = y;
 				PixelScene.align(word);
 				x += word.width();
-				if (!chinese) x ++;
+				if (!chinese && !strongSplit) x ++;
 				else x--;
 
 				if ((x - this.x) > width) width = (x - this.x);
@@ -197,5 +206,7 @@ public class RenderedTextMultiline extends Component {
 			}
 		}
 		this.height = (y - this.y) + height+0.5f;
+
+
 	}
 }

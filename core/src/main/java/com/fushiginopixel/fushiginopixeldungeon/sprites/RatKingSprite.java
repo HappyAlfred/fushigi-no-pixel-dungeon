@@ -29,9 +29,9 @@ import java.util.Calendar;
 public class RatKingSprite extends MobSprite {
 
 	public boolean festive;
-	
-	public RatKingSprite() {
-		super();
+
+	public void init() {
+		super.init();
 
 		final Calendar calendar = Calendar.getInstance();
 		//once a year the rat king feels a bit festive!

@@ -58,7 +58,7 @@ public class ScrollOfOnigiri extends InventoryScroll {
 			if (!((EquipableItem) item).doUnequip(Dungeon.hero, false))
 				return;
 		}
-		item.detachAll((curUser).belongings.backpack);
+		item.detachAll(curUser.belongings.backpack);
 
 		Item onigiri = new Item();
 		if(Random.Int(100) < 12){
@@ -67,10 +67,10 @@ public class ScrollOfOnigiri extends InventoryScroll {
 			onigiri = new Food();
 		}
 		if (!Challenges.isItemBlocked(onigiri) && onigiri instanceof Food) {
-			onigiri.collect();
+			onigiri.collect(curUser.belongings.backpack);
 		}else{
 			onigiri = new SpecialOnigiri();
-			onigiri.collect();
+			onigiri.collect(curUser.belongings.backpack);
 		}
 		GLog.i(Messages.get(this, "trans_to", onigiri));
 	}

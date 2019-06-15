@@ -34,7 +34,7 @@ public class Spear extends MeleeWeapon {
 		tier = 2;
 		DLY = 1.5f; //0.67x speed
 		RCH = 2;    //extra reach
-		LIMIT = 3;
+		LIMIT = 2;
 		properties = new ArrayList<Enchantment>(){
 			{
 				add(new Assault());
@@ -44,7 +44,7 @@ public class Spear extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  20 +    //20 base, up from 15
+		return  24 +    //20 base, up from 15
 				lvl*(UPGRADE_ATTACK+1); //+4 per level, up from +3
 	}
 

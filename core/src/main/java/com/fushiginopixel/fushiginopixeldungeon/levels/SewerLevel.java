@@ -72,10 +72,12 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected Painter painter() {
+		LevelTraps levelTraps = new LevelTraps(trapClasses(), trapChances());
+		this.levelTraps = levelTraps;
 		return new SewerPainter()
 				.setWater(feeling == Feeling.WATER ? 0.85f : 0.30f, 5)
 				.setGrass(feeling == Feeling.GRASS ? 0.80f : 0.20f, 4)
-				.setTraps(nTraps(), trapClasses(), trapChances());
+				.setTraps(nTraps(), levelTraps);
 	}
 	
 	@Override

@@ -27,9 +27,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.watabou.noosa.TextureFilm;
 
 public class SkeletonSprite extends MobSprite {
-	
-	public SkeletonSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SKELETON );
 		

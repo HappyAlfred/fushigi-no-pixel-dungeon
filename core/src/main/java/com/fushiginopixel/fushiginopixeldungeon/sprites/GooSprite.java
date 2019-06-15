@@ -37,8 +37,8 @@ public class GooSprite extends MobSprite {
 
 	private Emitter spray;
 
-	public GooSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.GOO );
 		

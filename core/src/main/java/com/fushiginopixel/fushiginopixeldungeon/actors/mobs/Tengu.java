@@ -27,6 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
+import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
@@ -65,7 +66,7 @@ public class Tengu extends Mob {
 		
 		HP = HT = 250;
 		EXP = 40;
-		defenseSkill = 25;
+		//defenseSkill = 25;
 
 		HUNTING = new Hunting();
 
@@ -86,11 +87,13 @@ public class Tengu extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 18, 35 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 32;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -98,22 +101,22 @@ public class Tengu extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src,EffectType type) {
+	public int damage(int dmg, Object src,EffectType type) {
 
 		int beforeHitHP = HP;
-		super.damage(dmg, src,type);
+		int damage = super.damage( dmg, src ,type );
 		dmg = beforeHitHP - HP;
 
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
 		if (lock != null) {
 			int multiple = beforeHitHP > HT/2 ? 1 : 4;
-			lock.addTime(dmg*multiple);
+			lock.addTime(damage*multiple);
 		}
 
 		//phase 2 of the fight is over
 		if (HP == 0 && beforeHitHP <= HT/2) {
 			((PrisonBossLevel)Dungeon.level).progress();
-			return;
+			return 0;
 		}
 
 		int hpBracket = beforeHitHP > HT/2 ? 24 : 40;
@@ -129,6 +132,7 @@ public class Tengu extends Mob {
 		} else if (beforeHitHP / hpBracket != HP / hpBracket) {
 			jump();
 		}
+		return damage;
 	}
 
 	@Override
@@ -150,7 +154,7 @@ public class Tengu extends Mob {
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
-			beacon.upgrade();
+			beacon.toUpgrade();
 		}
 		
 		yell( Messages.get(this, "defeated") );
@@ -169,6 +173,17 @@ public class Tengu extends Mob {
 		sprite.attack( enemy.pos );
 		spend( attackDelay() );
 		return true;
+	}
+
+	@Override
+	public boolean attack(Char enemy, EffectType type) {
+		if(type.isExistAttachType(EffectType.MISSILE)) {
+			Ballistica throwing = new Ballistica(pos, enemy.pos, Ballistica.PROJECTILE);
+			for (int c : throwing.subPath(1, throwing.dist)) {
+				GameScene.add(Blob.seed(c, 3, ToxicGas.class));
+			}
+		}
+		return super.attack(enemy, type);
 	}
 
 	private void jump() {
@@ -228,7 +243,7 @@ public class Tengu extends Mob {
 				newPos = Random.Int(level.length());
                 for (int i = 0; i < PathFinder.NEIGHBOURS9.length; i++) {
                     int p = newPos + PathFinder.NEIGHBOURS9[i];
-                    if (Dungeon.level.heaps.get(p) != null &&!Dungeon.level.heaps.get( p ).items.isEmpty() && Dungeon.level.heaps.get( p ).items.getFirst() instanceof Firework) {
+                    if (Dungeon.level.heaps.get(p) != null &&!Dungeon.level.heaps.get( p ).items.isEmpty() && Dungeon.level.heaps.get( p ).items.getFirst() instanceof Bombs) {
                         bomb = true;
                         break;
                     }else{
@@ -267,6 +282,7 @@ public class Tengu extends Mob {
 	
 	{
 		//resistances.add( ToxicGas.class );
+		resistances.add( new EffectType(EffectType.GAS,0) );
 		resistances.add( new EffectType(0,EffectType.POISON) );
 	}
 

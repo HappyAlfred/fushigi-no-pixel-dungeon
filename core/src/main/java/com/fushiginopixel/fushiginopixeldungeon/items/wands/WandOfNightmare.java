@@ -106,11 +106,10 @@ public class WandOfNightmare extends Wand {
 			}
 		}
 
-		//all buffs with a > 0 chance are flavor buffs
 		Class<?extends FlavourBuff> debuffCls = (Class<? extends FlavourBuff>) Random.element(debuffs);
 
 		if (debuffCls != null){
-			Buff.prolong(enemy, debuffCls, 10 * (level() + 2)/2,new EffectType(type.attachType,EffectType.SPIRIT));
+			Buff.prolong(enemy, debuffCls, 10 + level() / 2,new EffectType(type.attachType,EffectType.SPIRIT));
 		}
 	}
 

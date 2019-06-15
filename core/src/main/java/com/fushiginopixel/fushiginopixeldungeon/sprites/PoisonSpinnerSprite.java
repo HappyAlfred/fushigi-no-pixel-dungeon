@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class PoisonSpinnerSprite extends MobSprite {
 
-	public PoisonSpinnerSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		perspectiveRaise = 0f;
 

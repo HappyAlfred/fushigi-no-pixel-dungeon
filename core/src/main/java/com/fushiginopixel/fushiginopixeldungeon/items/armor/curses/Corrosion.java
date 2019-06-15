@@ -34,30 +34,30 @@ import com.watabou.utils.Random;
 
 public class Corrosion extends Armor.Glyph {
 
+	{
+		curse = true;
+	}
+
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
 
-		if (Random.Int(10) == 0){
-			int pos = defender.pos;
-			for (int i : PathFinder.NEIGHBOURS9){
-				Splash.at(pos+i, 0x000000, 5);
-				if (Actor.findChar(pos+i) != null)
-					Buff.affect(Actor.findChar(pos+i), Ooze.class, new EffectType(EffectType.BLOB,EffectType.CORRROSION));
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(10) == 0) {
+				int pos = defender.pos;
+				for (int i : PathFinder.NEIGHBOURS9) {
+					Splash.at(pos + i, 0x000000, 5);
+					if (Actor.findChar(pos + i) != null)
+						Buff.affect(Actor.findChar(pos + i), Ooze.class, new EffectType(EffectType.BLOB, EffectType.CORRROSION));
+				}
 			}
 		}
-
 		return 1;
 	}
 
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

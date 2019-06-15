@@ -41,6 +41,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Terror;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Flare;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Surprise;
@@ -91,8 +92,10 @@ public abstract class Mob extends Char {
 	public Class<? extends CharSprite> spriteClass;
 	
 	protected int target = -1;
-	
-	protected int defenseSkill = 0;
+
+	protected static final int ATTACK_SKILL = 100;
+	protected static final int DEFENSE_SKILL = 25;
+	protected int defenseSkill = DEFENSE_SKILL;
 	
 	public int EXP = 1;
 	public int maxLvl = Hero.MAX_LEVEL;
@@ -152,10 +155,22 @@ public abstract class Mob extends Char {
 		enemySeen = bundle.getBoolean( SEEN );
 
 		target = bundle.getInt( TARGET );
+
+		belongings.restoreFromBundle( bundle );
 	}
 	
 	public CharSprite sprite() {
 		CharSprite sprite = null;
+		try {
+			sprite = spriteClass.newInstance();
+		} catch (Exception e) {
+			Fushiginopixeldungeon.reportException(e);
+		}
+		return sprite;
+	}
+
+	public CharSprite changeSprite(Class<? extends CharSprite> spriteClass) {
+		CharSprite sprite = this.sprite;
 		try {
 			sprite = spriteClass.newInstance();
 		} catch (Exception e) {
@@ -448,7 +463,7 @@ public abstract class Mob extends Char {
 			sprite.add( CharSprite.State.PARALYSED );
 	}
 	
-	protected float attackDelay() {
+	public float attackDelay() {
 		return 1f;
 	}
 	
@@ -481,6 +496,11 @@ public abstract class Mob extends Char {
 		}
 		return damage;
 	}
+
+	@Override
+	public int attackSkill( Char enemy ) {
+		return ATTACK_SKILL;
+	}
 	
 	@Override
 	public int defenseSkill( Char enemy ) {
@@ -512,6 +532,10 @@ public abstract class Mob extends Char {
 		if (this.enemy == null
 				|| (enemy != this.enemy && (Dungeon.level.distance(pos, enemy.pos) < Dungeon.level.distance(pos, this.enemy.pos)))) {
 			aggro(enemy);
+			//shit
+			//target = enemy.pos;
+		}
+		if(enemy != null) {
 			target = enemy.pos;
 		}
 
@@ -537,7 +561,7 @@ public abstract class Mob extends Char {
 	}
 
 	@Override
-	public void damage( int dmg, Object src, EffectType type ) {
+	public int damage( int dmg, Object src, EffectType type ) {
 
 		if(Random.Int(6) == 0) {
 			Terror.recover(this);
@@ -550,7 +574,7 @@ public abstract class Mob extends Char {
 			alerted = true;
 		}
 		
-		super.damage( dmg, src, type );
+		return super.damage( dmg, src, type );
 	}
 	
 	
@@ -560,6 +584,7 @@ public abstract class Mob extends Char {
 		super.destroy(cause, type );
 
 		destroying(cause, type );
+		dropInventory();
 		/*Dungeon.level.mobs.remove( this );
 
 		if (Dungeon.hero.isAlive()) {
@@ -592,6 +617,9 @@ public abstract class Mob extends Char {
 
 				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
 				exp = RingOfKnowledge.expAdapt(Dungeon.hero , exp);
+				if(Dungeon.hero.heroClass == HeroClass.FUURAI){
+					exp *= 1 + (Math.max(11 - Dungeon.hero.lvl , 0) * 0.3f);
+				}
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 					Dungeon.hero.earnExp(exp);
@@ -617,6 +645,13 @@ public abstract class Mob extends Char {
 		
 		if (Dungeon.hero.isAlive() && !Dungeon.level.heroFOV[pos]) {
 			GLog.i( Messages.get(this, "died") );
+		}
+	}
+
+	public void dropInventory(){
+		ArrayList<Item> items = new ArrayList<Item>(belongings.backpack.items);
+		for(Item item:items.toArray(new Item[items.size()])){
+			Dungeon.level.drop(item.detachAll(belongings.backpack), pos).sprite.drop();
 		}
 	}
 	

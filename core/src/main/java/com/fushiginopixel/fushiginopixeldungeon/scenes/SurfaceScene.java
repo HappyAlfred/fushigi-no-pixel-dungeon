@@ -337,8 +337,8 @@ public class SurfaceScene extends PixelScene {
 
 	private static class Koppa extends Pet {
 
-		public Koppa() {
-			super();
+		public void init() {
+			super.init();
 
 			texture( Assets.RAT );
 

@@ -77,13 +77,16 @@ public abstract class Wand extends Item {
 			WandOfDisintegration.class,
 			WandOfElements.class,
 			WandOfFireblast.class,
-			WandOfFrost.class,
+			//WandOfFrost.class,
+			WandOfMagician.class,
 			WandOfLightning.class,
 			WandOfMagicMissile.class,
 			WandOfNightmare.class,
 			WandOfPrismaticLight.class,
-			WandOfRegrowth.class,
-			WandOfTransfusion.class,
+			//WandOfRegrowth.class,
+			WandOfKaleidoscope.class,
+			//WandOfTransfusion.class,
+			WandOfHoly.class,
 	};
 
 	private static final HashMap<String, Integer> spells = new HashMap<String, Integer>() {
@@ -157,7 +160,7 @@ public abstract class Wand extends Item {
 			image = handler.image(this);
 			spell = handler.label(this);
 		}
-	};
+	}
 	
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
@@ -170,7 +173,7 @@ public abstract class Wand extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -233,7 +236,7 @@ public abstract class Wand extends Item {
 	}
 
 	@Override
-	public void onDetach( ) {
+	public void onDetach(Bag container ) {
 		stopCharging();
 	}
 
@@ -313,7 +316,7 @@ public abstract class Wand extends Item {
 	public String info() {
 		String desc = "";
 		if(isKnown()) {
-			desc += desc();
+			//desc += desc();
 			desc += "\n\n" + statsDesc();
 		}else {
 			desc += Messages.get(Wand.class, "unknown_desc");
@@ -430,7 +433,7 @@ public abstract class Wand extends Item {
 			GLog.w( Messages.get(Wand.class, "identify", name()) );
 		} else {
 			//if (curUser.heroClass == HeroClass.MAGE) levelKnown = true;
-			if(curUser.heroClass == HeroClass.MAGE && !isIdentified()){
+			if(((Hero)curUser).heroClass == HeroClass.MAGE && !isIdentified()){
 				identify();
 			}
 			updateQuickslot();
@@ -464,7 +467,8 @@ public abstract class Wand extends Item {
 	
 	@Override
 	public int price() {
-		int price = 75;
+		//int price = 75;
+		int price = 30;
 		if (cursed && cursedKnown) {
 			price /= 2;
 		}
@@ -557,7 +561,7 @@ public abstract class Wand extends Item {
 						});
 					}
 					
-					Invisibility.dispel();
+					Invisibility.dispel(curUser);
 					
 				} else {
 

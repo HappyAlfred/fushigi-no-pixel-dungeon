@@ -51,7 +51,7 @@ public class Succubus extends Mob {
 		spriteClass = SuccubusSprite.class;
 		
 		HP = HT = 250;
-		defenseSkill = 40;
+		//defenseSkill = 40;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 22;
@@ -125,11 +125,13 @@ public class Succubus extends Mob {
 		
 		delay = BLINK_DELAY;
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 70;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

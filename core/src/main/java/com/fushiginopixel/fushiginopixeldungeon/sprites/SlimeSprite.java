@@ -29,8 +29,8 @@ public class SlimeSprite extends MobSprite {
 
 	private Animation knocked;
 	public boolean knockedFlag = false;
-	public SlimeSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.SLIME );
 		

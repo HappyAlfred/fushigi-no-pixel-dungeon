@@ -25,9 +25,8 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class BruteSprite extends MobSprite {
-	
-	public BruteSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.BRUTE );
 		

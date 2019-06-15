@@ -72,7 +72,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 	private static final int HITS_TO_KNOW    = 10;
 
-	protected static final int UPGRADE_ATTACK    = 4;
+	protected static final int UPGRADE_ATTACK    = 3;
 
 	protected static final String AC_ENCHANTMENTLIST       = "ENCHANTMENTLIST";
 	protected static final String AC_PROPERTYLIST       = "PROPERTYLIST";
@@ -299,7 +299,7 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
@@ -451,11 +451,13 @@ abstract public class Weapon extends KindOfWeapon {
 			Weapon weapon = (Weapon) item;
 			if (weapon.enchantmentCount() != 0 || weapon.properties.size() != 0) {
 				for (Weapon.Enchantment e : weapon.properties) {
+					e.curseToEnchantment();
 					if (canEnchant(e.getClass()))
 						enchantment.add(e);
 					else if(enchantmentCount() >= LIMIT)break;
 				}
 				for (Weapon.Enchantment e : weapon.enchantment) {
+					e.curseToEnchantment();
 					if (canEnchant(e.getClass()))
 						enchantment.add(e);
 					else if(enchantmentCount() >= LIMIT)break;
@@ -624,16 +626,29 @@ abstract public class Weapon extends KindOfWeapon {
 			return;
 		}
 
+		public boolean curse = false;
 		public boolean curse() {
-			return false;
+			return curse;
+		}
+
+		public boolean curseToEnchantment() {
+			if(curse){
+				curse = false;
+				return true;
+			}
+			else return false;
+		}
+
+		private static final String CURSE	= "curse";
+
+		@Override
+		public void storeInBundle( Bundle bundle ) {
+			bundle.put(CURSE, curse);
 		}
 
 		@Override
 		public void restoreFromBundle( Bundle bundle ) {
-		}
-
-		@Override
-		public void storeInBundle( Bundle bundle ) {
+			curse = bundle.getBoolean(CURSE);
 		}
 		
 		public abstract ItemSprite.Glowing glowing();

@@ -32,8 +32,9 @@ public class Mace extends MeleeWeapon {
 		image = ItemSpriteSheet.MACE;
 
 		tier = 2;
-		//ACC = 1.28f; //28% boost to accuracy
-		LIMIT = 3;
+		ACC = 1.2f; //28% boost to accuracy
+		DLY = 2f;
+		LIMIT = 5;
 
 		properties = new ArrayList<Enchantment>(){
 			{
@@ -43,9 +44,15 @@ public class Mace extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  5 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  18 +    //16 base, down from 20
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  45 +
+				lvl*(UPGRADE_ATTACK+2);
 	}
 
 }

@@ -43,17 +43,12 @@ public class LogTrap extends Trap {
 		color = RED;
 		shape = CROSSHAIR;
 		durability = MULTIPLE;
-	}
-
-	@Override
-	public Trap hide() {
-		//this one can't be hidden
-		return reveal();
+		alwaysVisible = true;
 	}
 
 	private int damageRoll(){
 		//return Random.Int(2 + Dungeon.depth , 12 + Dungeon.depth * 2);
-		return (int)(7 + Dungeon.depth * 2.5);
+		return (int)(7 + Dungeon.depth * 2);
 	}
 
 	@Override

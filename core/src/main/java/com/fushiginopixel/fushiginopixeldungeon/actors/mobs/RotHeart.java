@@ -56,13 +56,14 @@ public class RotHeart extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src,EffectType type) {
+	public int damage(int dmg, Object src,EffectType type) {
 		//TODO: when effect properties are done, change this to FIRE
 		if (src instanceof Burning) {
 			destroy(src, type);
 			sprite.die();
+			return 0;
 		} else {
-			super.damage(dmg, src, type);
+			return super.damage(dmg, src, type);
 		}
 	}
 

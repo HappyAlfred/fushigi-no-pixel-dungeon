@@ -50,7 +50,7 @@ public class SkeletonArcher extends Skeleton {
 	{
 		spriteClass = SkeletonArcherSprite.class;
 
-		defenseSkill = 11;
+		//defenseSkill = 11;
 		
 		EXP = 9;
 
@@ -97,7 +97,8 @@ public class SkeletonArcher extends Skeleton {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return distance(target) > 1 ?  26 : 13;
+		int attack = super.attackSkill(target);
+		return distance(target) > 1 ?  attack : attack/2;
 	}
 
 }

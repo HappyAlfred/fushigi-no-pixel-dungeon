@@ -35,8 +35,7 @@ public class GnollTricksterSprite extends MobSprite {
 
 	private Animation cast;
 
-	public GnollTricksterSprite() {
-		super();
+	public void init() {
 
 		texture( Assets.GNOLL );
 

@@ -88,7 +88,7 @@ public class PotionOfExplode extends Potion {
 					int dmg = Random.NormalIntRange( c==cell ? (Dungeon.depth+2) : 1, (Dungeon.depth+2) * 2 );
 					dmg -= ch.drRoll();
 					if (dmg > 0) {
-						ch.damage( dmg, Firework.class ,new EffectType(EffectType.BURST,0));
+						ch.damage( dmg, this ,new EffectType(EffectType.BURST,0));
 					}
 
 					if (ch == Dungeon.hero && !ch.isAlive())

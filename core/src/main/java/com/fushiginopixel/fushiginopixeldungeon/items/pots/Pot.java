@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.pots;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Splash;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -159,7 +160,7 @@ public abstract class Pot extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -197,7 +198,7 @@ public abstract class Pot extends Item {
 
 	public boolean isExpandable() {
 
-		return (size < 5);
+		return (size < 10);
 	}
 
 	public Item expand() {
@@ -268,11 +269,6 @@ public abstract class Pot extends Item {
 		return this;
 	}
 
-	@Override
-	public void cast( final Hero user, int dst ) {
-		super.cast(user, dst);
-	}
-
 	public boolean isEmpty() {
 
 		return items.size() == 0;
@@ -282,11 +278,11 @@ public abstract class Pot extends Item {
 
     );
 
-	public boolean clickAble( Hero curuser,Ballistica shot ,int cell) {
+	public boolean clickAble( Char curuser,Ballistica shot ,int cell) {
 		return false;
 	}
 
-    public boolean click( Hero curuser,Ballistica shot ,int cell) {
+    public boolean click(Char curuser, Ballistica shot , int cell) {
     	if(!clickAble(curuser, shot, cell)){
     		return false;
 		}
@@ -453,7 +449,7 @@ public abstract class Pot extends Item {
 
                 curUser.busy();
                 if (!curPot.click(curUser, shot , cell)){
-					GLog.i(Messages.get(this,"nothing"));
+					GLog.i(Messages.get(curPot,"nothing"));
 					curUser.spendAndNext( TIME_TO_ZAP );
 
 				}

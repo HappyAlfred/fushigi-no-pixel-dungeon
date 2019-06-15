@@ -25,9 +25,9 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
 public class StatueSprite extends MobSprite {
-	
-	public StatueSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.STATUE );
 		

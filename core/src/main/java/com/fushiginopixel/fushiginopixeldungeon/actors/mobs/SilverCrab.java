@@ -40,7 +40,7 @@ public class SilverCrab extends Crab {
 		spriteClass = SilverCrabSprite.class;
 
 		HP = HT = 100;
-		defenseSkill = 27; //see damage()
+		//defenseSkill = 27; //see damage()
 		baseSpeed = 1f;
 
 		EXP = 16;
@@ -54,10 +54,12 @@ public class SilverCrab extends Crab {
 		return Random.NormalIntRange( 24, 37 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 39;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

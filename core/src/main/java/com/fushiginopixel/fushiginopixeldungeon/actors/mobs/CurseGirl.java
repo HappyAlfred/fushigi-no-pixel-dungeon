@@ -52,7 +52,7 @@ public class CurseGirl extends Mob {
 		spriteClass = CurseGirlSprite.class;
 		
 		HP = HT = 36;
-		defenseSkill = 7;
+		//defenseSkill = 7;
 		
 		EXP = 5;
 		
@@ -69,11 +69,13 @@ public class CurseGirl extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 9 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 10;
 	}
+	*/
 
 	public void cursing( Char enemy ) {
 		this.sprite.zap( enemy.pos );

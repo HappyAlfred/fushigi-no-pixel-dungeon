@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -33,9 +34,9 @@ public abstract class KindofMisc extends EquipableItem {
 	private static final float TIME_TO_EQUIP = 1f;
 
 	@Override
-	public boolean doEquip(final Hero hero) {
+	public boolean doEquip(final Char hero) {
 
-		if (hero.belongings.misc1 != null && hero.belongings.misc2 != null) {
+		if (hero.belongings.misc1 != null && hero.belongings.misc2 != null && hero instanceof Hero) {
 
 			final KindofMisc m1 = hero.belongings.misc1;
 			final KindofMisc m2 = hero.belongings.misc2;
@@ -54,7 +55,7 @@ public abstract class KindofMisc extends EquipableItem {
 							hero.belongings.backpack.size++;
 							if (equipped.doUnequip(hero, true, false)) {
 								//fully re-execute rather than just call doEquip as we want to preserve quickslot
-								execute(hero, AC_EQUIP);
+								execute((Hero)hero, AC_EQUIP);
 							}
 							hero.belongings.backpack.size--;
 						}
@@ -88,7 +89,7 @@ public abstract class KindofMisc extends EquipableItem {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
+	public boolean doUnequip(Char hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 
 			if (hero.belongings.misc1 == this) {
@@ -107,7 +108,7 @@ public abstract class KindofMisc extends EquipableItem {
 	}
 
 	@Override
-	public boolean isEquipped( Hero hero ) {
+	public boolean isEquipped( Char hero ) {
 		return hero.belongings.misc1 == this || hero.belongings.misc2 == this;
 	}
 

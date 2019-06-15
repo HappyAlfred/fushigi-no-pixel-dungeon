@@ -44,7 +44,7 @@ public class LeafArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  8 +
+		return  14 +
 				lvl*UPGRADE_DEFENSE;
 	}
 

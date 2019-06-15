@@ -27,10 +27,7 @@ import com.watabou.noosa.TextureFilm;
 
 public class DM450Sprite extends MobSprite {
 
-	private Animation rightshot;
-
-	public DM450Sprite() {
-		super();
+	public void init() {
 		
 		texture( Assets.DM450 );
 		

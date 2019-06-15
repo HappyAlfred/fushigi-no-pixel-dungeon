@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.journal;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.journal.Document;
@@ -50,14 +51,16 @@ public abstract class DocumentPage extends Item {
 	}
 	
 	@Override
-	public final boolean doPickUp(Hero hero) {
-		GameScene.pickUpJournal(this, hero.pos);
-		GameScene.flashJournal();
-		WndJournal.last_index = 0;
-		document().addPage(page);
-		Sample.INSTANCE.play( Assets.SND_ITEM );
-		hero.spendAndNext( TIME_TO_PICK_UP );
-		return true;
+	public final boolean doPickUp(Char hero) {
+		if(hero instanceof Hero) {
+			GameScene.pickUpJournal(this, hero.pos);
+			GameScene.flashJournal();
+			WndJournal.last_index = 0;
+			document().addPage(page);
+			Sample.INSTANCE.play(Assets.SND_ITEM);
+			hero.spendAndNext(TIME_TO_PICK_UP);
+			return true;
+		}return super.doPickUp(hero);
 	}
 	
 	private static final String PAGE = "page";

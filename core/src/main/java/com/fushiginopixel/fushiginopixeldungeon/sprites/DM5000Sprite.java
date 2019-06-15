@@ -29,8 +29,7 @@ public class DM5000Sprite extends MobSprite {
 
 	private Animation rightshot;
 
-	public DM5000Sprite() {
-		super();
+	public void init() {
 		
 		texture( Assets.DM5000 );
 		

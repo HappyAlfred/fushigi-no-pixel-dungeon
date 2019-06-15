@@ -41,7 +41,7 @@ public class PumpkinKing extends Pumpkin {
 		spriteClass = PumpkinKingSprite.class;
 		
 		HP = HT = 160;
-		defenseSkill = 25;
+		//defenseSkill = 25;
         EXP = 19;
 	}
 	
@@ -49,7 +49,8 @@ public class PumpkinKing extends Pumpkin {
 	public int damageRoll() {
 		return Random.NormalIntRange( 28, 43 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 52;
@@ -60,6 +61,7 @@ public class PumpkinKing extends Pumpkin {
         int defenseSkill = super.defenseSkill(enemy);
         return Dungeon.level.solid[pos] ? defenseSkill * 2 : defenseSkill;
     }
+    */
 	
 	@Override
 	public int drRoll() {

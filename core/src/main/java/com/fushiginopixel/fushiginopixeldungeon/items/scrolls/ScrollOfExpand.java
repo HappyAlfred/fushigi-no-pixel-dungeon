@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.scrolls;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
@@ -64,8 +65,8 @@ public class ScrollOfExpand extends InventoryScroll {
 		}
 	}
 	
-	public static void upgrade( Hero hero ) {
-		hero.sprite.emitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
+	public static void upgrade( Char hero ) {
+		hero.sprite.centerEmitter().start( Speck.factory( Speck.KIT ), 0.05f, 10 );
 	}
 	
 	@Override

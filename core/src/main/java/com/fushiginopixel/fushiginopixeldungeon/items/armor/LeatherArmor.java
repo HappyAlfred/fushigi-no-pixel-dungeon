@@ -27,14 +27,14 @@ public class LeatherArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_LEATHER;
-		LIMIT = 3;
+		LIMIT = 5;
 
 		tier = 2;
 	}
 
 	@Override
 	public int DRMax(int lvl){
-		return  8 +
+		return  9 +
 				lvl*UPGRADE_DEFENSE;
 	}
 

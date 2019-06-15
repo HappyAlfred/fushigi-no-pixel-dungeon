@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.hero;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.GamesInProgress;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindofMisc;
@@ -39,13 +40,14 @@ import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Belongings implements Iterable<Item> {
 
 	public static final int BACKPACK_SIZE	= 20;
 	
-	private com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero owner;
+	private com.fushiginopixel.fushiginopixeldungeon.actors.Char owner;
 	
 	public Bag backpack;
 
@@ -54,7 +56,7 @@ public class Belongings implements Iterable<Item> {
 	public KindofMisc misc1 = null;
 	public KindofMisc misc2 = null;
 	
-	public Belongings( Hero owner ) {
+	public Belongings( Char owner ) {
 		this.owner = owner;
 		
 		backpack = new Bag() {{
@@ -147,6 +149,18 @@ public class Belongings implements Iterable<Item> {
 		
 		return null;
 	}
+
+	public ArrayList<Item> getItems(Class<? extends Item> itemClass ) {
+
+		ArrayList<Item> items = new ArrayList<>();
+		for (Item item : this) {
+			if (itemClass.isInstance( item )) {
+				items.add(item);
+			}
+		}
+
+		return items;
+	}
 	
 	public Item getSimilar( Item similar ){
 		
@@ -208,7 +222,7 @@ public class Belongings implements Iterable<Item> {
 				if (item instanceof Bag){
 					((Bag)item).resurrect();
 				}
-				item.collect();
+				item.collect(backpack);
 			} else if (!item.isEquipped( owner )) {
 				item.detachAll( backpack );
 			}

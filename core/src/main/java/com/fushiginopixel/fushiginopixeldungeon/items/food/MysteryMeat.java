@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.food;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
@@ -43,7 +44,7 @@ public class MysteryMeat extends Food {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 		
 		super.execute( hero, action );
 		
@@ -56,7 +57,7 @@ public class MysteryMeat extends Food {
 		return 5 * quantity;
 	}
 
-	public static void effect(Hero hero){
+	public static void effect(Char hero){
 		switch (Random.Int( 5 )) {
 			case 0:
 				GLog.w( Messages.get(MysteryMeat.class, "hot") );

@@ -28,8 +28,7 @@ public class CannibalFlowerSprite extends MobSprite {
 
 	public Animation grow;
 
-	public CannibalFlowerSprite() {
-		super();
+	public void init() {
 		
 		texture( Assets.CANNIBAL_FLOWER );
 		

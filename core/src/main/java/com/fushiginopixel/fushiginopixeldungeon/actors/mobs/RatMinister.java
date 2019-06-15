@@ -53,7 +53,7 @@ public class RatMinister extends Rat {
 	{
 		HP = HT = 80;
 		EXP = 10;
-		defenseSkill = 7;
+		//defenseSkill = 7;
 		spriteClass = RatMinisterSprite.class;
 
 		lootChance = 1;
@@ -80,11 +80,13 @@ public class RatMinister extends Rat {
 	public int damageRoll() {
 		return Random.NormalIntRange( 2, 9 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 10;
 	}
+	*/
 
 	@Override
 	protected boolean canAttack( Char enemy ) {
@@ -161,10 +163,11 @@ public class RatMinister extends Rat {
 	}
 
 	@Override
-	public void damage(int dmg, Object src, EffectType type) {
-		super.damage(dmg, src, type);
+	public int damage(int dmg, Object src, EffectType type) {
+		int damage = super.damage( dmg, src ,type );
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null && !isImmune(src.getClass(), new EffectType(0,0))) lock.addTime(dmg*1.5f);
+		if (lock != null && !isImmune(src.getClass(), new EffectType(0,0))) lock.addTime(damage*1.5f);
+		return damage;
 	}
 
 	@Override

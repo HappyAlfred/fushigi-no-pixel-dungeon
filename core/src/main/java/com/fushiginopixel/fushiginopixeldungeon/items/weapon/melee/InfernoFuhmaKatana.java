@@ -32,7 +32,7 @@ public class InfernoFuhmaKatana extends MeleeWeapon {
 		image = ItemSpriteSheet.INFERNO_FUHMA_KATANA;
 
 		tier = 5;
-		LIMIT = 4;
+		LIMIT = 5;
 		ACC = 1.25f;
 
 		properties = new ArrayList<Enchantment>(){
@@ -43,8 +43,14 @@ public class InfernoFuhmaKatana extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  11 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  28 +
+		return  38 +
 				lvl*UPGRADE_ATTACK;
 	}
 

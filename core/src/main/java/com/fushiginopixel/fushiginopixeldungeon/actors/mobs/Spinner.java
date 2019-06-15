@@ -39,7 +39,7 @@ public class Spinner extends Mob {
 		spriteClass = SpinnerSprite.class;
 
 		HP = HT = 45;
-		defenseSkill = 9;
+		//defenseSkill = 9;
 
 		EXP = 6;
 
@@ -54,10 +54,12 @@ public class Spinner extends Mob {
 		return Random.NormalIntRange(2, 9);
 	}
 
+	/*
 	@Override
 	public int attackSkill(Char target) {
 		return 12;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

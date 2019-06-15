@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
@@ -79,7 +80,7 @@ public class DewVial extends Item {
 	}
 
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute(final Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -88,7 +89,12 @@ public class DewVial extends Item {
 			if (volume > 0) {
 				
 				//20 drops for a full heal normally, 15 for the warden
-				float dropHealPercent = hero.subClass == HeroSubClass.WARDEN ? 0.0667f : 0.05f;
+				//float dropHealPercent = (hero instanceof Hero && ((Hero)hero).subClass == HeroSubClass.WARDEN) ? 0.0667f : 0.05f;
+
+				int dropNeed = MAX_VOLUME;
+				if (hero instanceof Hero && ((Hero)hero).subClass == HeroSubClass.WARDEN)
+					dropNeed *= 0.75f;
+				float dropHealPercent = 1f/dropNeed;
 				float missingHealthPercent = 1f - (hero.HP / (float)hero.HT);
 				
 				//trimming off 0.01 drops helps with floating point errors

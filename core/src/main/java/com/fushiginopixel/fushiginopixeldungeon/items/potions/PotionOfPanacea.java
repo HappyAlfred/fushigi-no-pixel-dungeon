@@ -51,10 +51,10 @@ public class PotionOfPanacea extends Potion {
 	}
 
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
-		if(hero.STR < hero.STRMAX)
-			hero.STR = hero.STRMAX;
+		if(hero instanceof Hero && ((Hero)hero).STR < ((Hero)hero).STRMAX)
+			((Hero)hero).STR = ((Hero)hero).STRMAX;
 		cure( hero );
 		GLog.p( Messages.get(this, "heal") );
 	}

@@ -21,7 +21,10 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee;
 
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Thumping;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
+
+import java.util.ArrayList;
 
 public class Flail extends MeleeWeapon {
 
@@ -29,14 +32,26 @@ public class Flail extends MeleeWeapon {
 		image = ItemSpriteSheet.FLAIL;
 
 		tier = 3;
-		ACC = 0.9f; //0.9x accuracy
+		ACC = 0.8f; //0.9x accuracy
 		//also cannot surprise attack, see Hero.canSurpriseAttack
 		LIMIT = 3;
+
+		properties = new ArrayList<Enchantment>(){
+			{
+				add(new Thumping());
+			}
+		};
+	}
+
+	@Override
+	public int min(int lvl) {
+		return  5 +
+				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  35 +        //35 base, up from 25
+		return  63 +        //35 base, up from 25
 				lvl*(UPGRADE_ATTACK+1);  //+8 per level, up from +5
 	}
 }

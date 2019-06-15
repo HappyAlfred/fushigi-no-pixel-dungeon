@@ -56,8 +56,12 @@ public abstract class InventoryPot extends Pot {
 		}else GameScene.selectItem( itemSelector, mode, inventoryTitle );
 	}
 
+	public boolean canInput(Item item){
+		return !isFull() && !(item instanceof Pot);
+	}
+
 	public void input(Item item){
-		if(!isFull()) {
+		if(canInput(item)) {
 			items.add(item);
 			onItemSelected(item);
 			updateQuickslot();
@@ -89,8 +93,8 @@ public abstract class InventoryPot extends Pot {
 						@Override
 						protected void onSelect( int index ) {
 							Item oldItem = item;
-							if (oldItem.isEquipped(Dungeon.hero)) {
-								if (!((EquipableItem) oldItem).doUnequip(Dungeon.hero, false))
+							if (oldItem.isEquipped(curUser)) {
+								if (!((EquipableItem) oldItem).doUnequip(curUser, false))
 									return;
 								((InventoryPot) curItem).items.add(oldItem);
 							} else {

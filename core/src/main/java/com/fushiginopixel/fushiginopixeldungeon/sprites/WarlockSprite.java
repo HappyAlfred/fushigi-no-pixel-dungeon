@@ -29,9 +29,9 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 
 public class WarlockSprite extends MobSprite {
-	
-	public WarlockSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.WARLOCK );
 		

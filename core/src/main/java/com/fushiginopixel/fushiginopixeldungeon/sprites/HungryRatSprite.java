@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class HungryRatSprite extends MobSprite {
 
-	public HungryRatSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.RAT );
 		

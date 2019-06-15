@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.pots;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Freezing;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
@@ -49,10 +50,10 @@ public class PotOfStorge extends InventoryPot {
 	}
 
 	@Override
-	public void execute(Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 
-		if (action.equals(AC_LOOK) && items.size() > 0){
+		if (action.equals(AC_LOOK) && items.size() > 0 && hero instanceof Hero){
 			GameScene.show(new WndPotTab(this , null, WndPotTab.Mode.USE, Messages.get(WndPotTab.class, "pot")));
 			knownByUse();
 			return;

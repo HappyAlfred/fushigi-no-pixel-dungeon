@@ -21,7 +21,10 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles;
 
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Stunning;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
+
+import java.util.ArrayList;
 
 public class ThrowingHammer extends MissileWeapon {
 	
@@ -29,16 +32,22 @@ public class ThrowingHammer extends MissileWeapon {
 		image = ItemSpriteSheet.THROWING_HAMMER;
 		
 		sticky = false;
+		LIMIT = 3;
+		properties = new ArrayList<Enchantment>(){
+			{
+				add(new Stunning());
+			}
+		};
 	}
 	
 	@Override
 	public int min(int lvl) {
-		return 8;
+		return 1;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 20;
+		return 35;
 	}
 	
 	@Override

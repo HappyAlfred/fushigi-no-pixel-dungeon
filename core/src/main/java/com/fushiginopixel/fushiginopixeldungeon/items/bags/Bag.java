@@ -53,11 +53,11 @@ public class Bag extends Item implements Iterable<Item> {
 	public int size = 1;
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute( Char hero, String action ) {
 
 		super.execute( hero, action );
 
-		if (action.equals( AC_OPEN )) {
+		if (action.equals( AC_OPEN ) && hero instanceof Hero) {
 			
 			GameScene.show( new WndBag( this, null, WndBag.Mode.ALL, null ) );
 			
@@ -69,14 +69,20 @@ public class Bag extends Item implements Iterable<Item> {
 
 		for (Item item : container.items.toArray( new Item[0] )) {
 			if (grab( item )) {
-				int slot = Dungeon.quickslot.getSlot(item);
+				//int slot = Dungeon.quickslot.getSlot(item);
+				ArrayList<Integer> slots = Dungeon.quickslot.getSlots(item);
 				item.detachAll(container,true);
 				if (!item.collect(this)) {
 					item.collect(container);
 				}
+				if (!slots.isEmpty()) {
+					Dungeon.quickslot.setSlots(slots, item, null);
+				}
+				/*
 				if (slot != -1) {
 					Dungeon.quickslot.setSlot(slot, item, null);
 				}
+				*/
 			}
 		}
 
@@ -93,7 +99,7 @@ public class Bag extends Item implements Iterable<Item> {
 	}
 
 	@Override
-	public void onDetach( ) {
+	public void onDetach(Bag container ) {
 		this.owner = null;
 		for (Item item : items)
 			Dungeon.quickslot.clearItem(item);

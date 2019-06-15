@@ -31,18 +31,20 @@ public class Rat extends Mob {
 		spriteClass = RatSprite.class;
 		
 		HP = HT = 8;
-		defenseSkill = 2;
+		//defenseSkill = 2;
 	}
 	
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 1, 4 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 8;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {

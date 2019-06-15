@@ -42,7 +42,7 @@ public class Crab extends Mob {
 		spriteClass = CrabSprite.class;
 		
 		HP = HT = 40;
-		defenseSkill = 10;
+		//defenseSkill = 10;
 		baseSpeed = 1f;
 		
 		EXP = 6;
@@ -55,11 +55,13 @@ public class Crab extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 4, 11 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 13;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -74,15 +76,15 @@ public class Crab extends Mob {
 	}
 
 	@Override
-	public void damage( int dmg, Object src ,EffectType type){
+	public int damage( int dmg, Object src ,EffectType type){
 		//crab blocks all attacks originating from the hero or enemy characters or traps if it is alerted.
 		//All direct damage from these sources is negated, no exceptions. blob/debuff effects go through as normal.
 		if ((src instanceof Wand || src instanceof Blob) && dmg > 1){
 			if(Dungeon.level.heroFOV[pos] && (type.isExistAttachType(EffectType.MAGICAL_BOLT) || type.isExistAttachType(EffectType.BEAM)))
 			GLog.n( Messages.get(this, "guard") );
-			super.damage( 2, src ,type);
+			return super.damage( 2, src ,type);
 		} else {
-			super.damage( dmg, src ,type);
+			return super.damage( dmg, src ,type);
 		}
 	}
 }

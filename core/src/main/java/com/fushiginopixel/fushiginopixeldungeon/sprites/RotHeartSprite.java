@@ -32,8 +32,8 @@ public class RotHeartSprite extends MobSprite {
 
 	private Emitter cloud;
 
-	public RotHeartSprite(){
-		super();
+	public void init() {
+		super.init();
 
 		perspectiveRaise = 0.2f;
 

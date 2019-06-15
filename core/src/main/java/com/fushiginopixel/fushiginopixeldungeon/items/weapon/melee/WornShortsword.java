@@ -31,7 +31,7 @@ public class WornShortsword extends MeleeWeapon {
 		tier = 1;
 		
 		//bones = false;
-		LIMIT = 5;
+		LIMIT = 4;
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class WornShortsword extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  8 +    //12 base, down from 15
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  10 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 }

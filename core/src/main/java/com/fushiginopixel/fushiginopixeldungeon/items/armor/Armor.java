@@ -76,7 +76,7 @@ public class Armor extends EquipableItem {
 
 	private static final int HITS_TO_KNOW    = 5;
 
-	protected static final int UPGRADE_DEFENSE    = 4;
+	protected static final int UPGRADE_DEFENSE    = 3;
 
 	protected static final String AC_DETACH       = "DETACH";
 	protected static final String AC_GLYPHLIST       = "GLYPHLIST";
@@ -170,7 +170,7 @@ public class Armor extends EquipableItem {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
@@ -183,20 +183,20 @@ public class Armor extends EquipableItem {
 			}
 			GLog.i( Messages.get(Armor.class, "detach_seal") );
 			hero.sprite.operate(hero.pos);
-			if (!seal.collect()){
+			if (!seal.collect(hero.belongings.backpack)){
 				Dungeon.level.drop(seal, hero.pos);
 			}
 			seal = null;
 		}
-		else if (action.equals(AC_GLYPHLIST) && glyphCount() != 0){
+		else if (action.equals(AC_GLYPHLIST) && glyphCount() != 0 && hero instanceof Hero){
 			GameScene.show(new WndEnchantmentsTab(this , null , WndEnchantmentsTab.Mode.ENCHANTMENT , Messages.get(WndEnchantmentsTab.class, "glyph")));
-		}else if(properties.size() > 0 && action.equals(AC_PROPERTYLIST)){
+		}else if(properties.size() > 0 && action.equals(AC_PROPERTYLIST) && hero instanceof Hero){
 			GameScene.show(new WndEnchantmentsTab(this , null, WndEnchantmentsTab.Mode.PROPERTY, Messages.get(Item.class, "properties")));
 		}
 	}
 
 	@Override
-	public boolean doEquip( Hero hero ) {
+	public boolean doEquip( Char hero ) {
 		
 		detach(hero.belongings.backpack);
 
@@ -254,16 +254,18 @@ public class Armor extends EquipableItem {
 	}
 
 	@Override
-	protected float time2equip( Hero hero ) {
+	protected float time2equip( Char hero ) {
 		return 2 / hero.speed();
 	}
 
 	@Override
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
+	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
 			hero.belongings.armor = null;
-			((HeroSprite)hero.sprite).updateArmor();
+			if(hero instanceof Hero) {
+				((HeroSprite) hero.sprite).updateArmor();
+			}
 
 			BrokenSeal.WarriorShield sealBuff = hero.buff(BrokenSeal.WarriorShield.class);
 			if (sealBuff != null) sealBuff.setArmor(null);
@@ -278,7 +280,7 @@ public class Armor extends EquipableItem {
 	}
 	
 	@Override
-	public boolean isEquipped( Hero hero ) {
+	public boolean isEquipped( Char hero ) {
 		return hero.belongings.armor == this;
 	}
 
@@ -298,7 +300,7 @@ public class Armor extends EquipableItem {
 	}
 
 	public int min(int lvl){
-		int max = max();
+		int max = max(lvl);
 		int min = DRMin(lvl);
 		if (hasGlyph(Balance.class))
 			min = max;
@@ -415,17 +417,22 @@ public class Armor extends EquipableItem {
 
 		return super.upgrade();
 	}
+
+	public static final int EVENT_SUFFER_ATTACK = 0;
+	public static final int EVENT_BEFORE_DAMAGE = 1;
+	public static final int EVENT_AFTER_DAMAGE = 2;
+	public static final int EVENT_DEATH = 3;
 	
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int proc(Object attacker, Char defender, int damage, EffectType type, int event) {
 
 		for(Glyph e : properties){
-			damage *= e.proc(this, attacker, defender, damage, type);
+			damage *= e.proc(this, attacker, defender, damage, type, event);
 		}
 		for(Glyph e : glyph){
-			damage *= e.proc(this, attacker, defender, damage, type);
+			damage *= e.proc(this, attacker, defender, damage, type, event);
 		}
 		
-		if (!levelKnown) {
+		if (event == EVENT_SUFFER_ATTACK && !levelKnown) {
 			if (--hitsToKnow <= 0) {
 				identify();
 				GLog.w( Messages.get(Armor.class, "identify") );
@@ -648,11 +655,13 @@ public class Armor extends EquipableItem {
 			Armor armor = (Armor)item;
 			if (armor.glyphCount() != 0 || armor.properties.size() != 0) {
 				for (Armor.Glyph e : armor.properties) {
+					e.curseToGlyph();
 					if (canInscribe(e.getClass()))
 						glyph.add(e);
 					else if(glyphCount() >= LIMIT) break;
 				}
 				for (Armor.Glyph e : armor.glyph) {
+					e.curseToGlyph();
 					//LIMIT-count = enchantAble
 					if (canInscribe(e.getClass()))
 						glyph.add(e);
@@ -747,7 +756,9 @@ public class Armor extends EquipableItem {
 				Multiplicity.class, Stench.class, Overgrowth.class, Bulk.class
 		};
 			
-		public abstract float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type );
+		public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ){
+			return 1f;
+		};
 
         public float evasionFactor( Armor armor, Char attacker, Char defender, float evasion){
             return 1;
@@ -780,16 +791,28 @@ public class Armor extends EquipableItem {
 			return Messages.get(this, "desc");
 		}
 
+		public boolean curse = false;
 		public boolean curse() {
-			return false;
+			return curse;
 		}
-		
-		@Override
-		public void restoreFromBundle( Bundle bundle ) {
+		public boolean curseToGlyph(){
+			if(curse){
+				curse = false;
+				return true;
+			}
+			else return false;
 		}
+
+		private static final String CURSE	= "curse";
 
 		@Override
 		public void storeInBundle( Bundle bundle ) {
+			bundle.put(CURSE, curse);
+		}
+
+		@Override
+		public void restoreFromBundle( Bundle bundle ) {
+			curse = bundle.getBoolean(CURSE);
 		}
 		
 		public abstract ItemSprite.Glowing glowing();

@@ -48,7 +48,7 @@ public class Dragon extends Mob {
 		spriteClass = DragonSprite.class;
 		
 		HP = HT = 120;
-		defenseSkill = 16;
+		//defenseSkill = 16;
 		
 		EXP = 19;
 
@@ -66,11 +66,13 @@ public class Dragon extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 25, 35 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 42;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -134,7 +136,7 @@ public class Dragon extends Mob {
 					} else {
 						zap(shot);
 					}
-					return true;
+					return !visible;
 				}
 				else return doAttack( enemy );
 
@@ -150,7 +152,7 @@ public class Dragon extends Mob {
 						} else {
 							zap(shot);
 						}
-						return true;
+						return !visible;
 					}
 					target = enemy.pos;
 				} else if (enemy == null) {

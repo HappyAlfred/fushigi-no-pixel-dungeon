@@ -28,8 +28,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class CurseGirlSisterSprite extends CurseGirlSprite {
 
-	public CurseGirlSisterSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.CURSEGIRL );
 		

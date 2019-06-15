@@ -32,13 +32,19 @@ public class Knuckles extends MeleeWeapon {
 		DLY = 0.5f; //2x speed
 		
 		//bones = false;
-		LIMIT = 4;
+		LIMIT = 3;
+	}
+
+	@Override
+	public int min(int lvl) {
+		return  3 +
+				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  5 +  //5 base, down from 10
-				lvl*(UPGRADE_ATTACK/2);               //+1 per level, down from +2
+		return  6 +
+				lvl*(UPGRADE_ATTACK-1);
 	}
 
 }

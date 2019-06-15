@@ -47,7 +47,7 @@ public class Swarm extends Mob {
 		spriteClass = SwarmSprite.class;
 		
 		HP = HT = 50;
-		defenseSkill = 6;
+		//defenseSkill = 6;
 
 		EXP = 5;
 		
@@ -114,11 +114,13 @@ public class Swarm extends Mob {
 		
 		return super.defenseProc(enemy, damage, type);
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 12;
 	}
+	*/
 	
 	private Swarm split() {
 		Swarm clone = new Swarm();

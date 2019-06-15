@@ -29,8 +29,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class NewbornElementalSprite extends MobSprite{
 
-	public NewbornElementalSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.ELEMENTAL );
 

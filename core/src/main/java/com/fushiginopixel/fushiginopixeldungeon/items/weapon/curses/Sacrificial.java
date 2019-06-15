@@ -31,20 +31,28 @@ import com.watabou.utils.Random;
 
 public class Sacrificial extends Weapon.Enchantment {
 
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
 	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 
+		int level = Math.max( 0, weapon.level() );
+		/*
 		if (Random.Int(12) == 0){
 			Buff.affect(attacker, Bleeding.class).set(Math.max(1, attacker.HP/6));
 		}
+		*/
+		Buff.affect(attacker, Bleeding.class).set(Math.max(1, level/12 + 1));
 
 		return 1;
 	}
 
 	@Override
-	public boolean curse() {
+	public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+
 		return true;
 	}
 

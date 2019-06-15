@@ -30,12 +30,6 @@ import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite.Glowing;
 public class LightWeight extends Glyph {
 
 	private static Glowing BLUE = new Glowing( 0x0000FF );
-	
-	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
-		
-		return 1;
-	}
 
 	@Override
 	public float evasionFactor( Armor armor, Char attacker, Char defender, float evasion) {

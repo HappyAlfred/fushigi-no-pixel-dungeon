@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.potions;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
@@ -35,20 +36,21 @@ public class PotionOfStrength extends Potion {
 	}
 	
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
 
-		if(hero.STR < hero.STRMAX) {
-			hero.STR++;
+		if(hero instanceof Hero) {
+			if (((Hero)hero).STR < ((Hero)hero).STRMAX) {
+				((Hero)hero).STR++;
+			} else {
+				((Hero)hero).STR++;
+				((Hero)hero).STRMAX++;
+			}
+			hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "msg_1"));
+			GLog.p(Messages.get(this, "msg_2"));
+
+			Badges.validateStrengthAttained();
 		}
-		else{
-			hero.STR++;
-			hero.STRMAX++;
-		}
-		hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "msg_1") );
-		GLog.p( Messages.get(this, "msg_2") );
-		
-		Badges.validateStrengthAttained();
 	}
 
 	@Override

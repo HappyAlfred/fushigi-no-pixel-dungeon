@@ -29,7 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 public class RingOfMight extends Ring {
 
 	@Override
-	public boolean doEquip(Hero hero) {
+	public boolean doEquip(Char hero) {
 		if (super.doEquip(hero)){
 			hero.updateHT( false );
 			return true;
@@ -39,7 +39,7 @@ public class RingOfMight extends Ring {
 	}
 
 	@Override
-	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
+	public boolean doUnequip(Char hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 			hero.updateHT( false );
 			return true;

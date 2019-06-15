@@ -26,9 +26,8 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.watabou.noosa.TextureFilm;
 
 public class DM300Sprite extends MobSprite {
-	
-	public DM300Sprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.DM300 );
 		

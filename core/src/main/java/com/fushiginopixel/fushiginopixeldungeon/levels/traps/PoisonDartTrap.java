@@ -41,12 +41,7 @@ public class PoisonDartTrap extends Trap {
 	{
 		color = GREEN;
 		shape = CROSSHAIR;
-	}
-	
-	@Override
-	public Trap hide() {
-		//this one can't be hidden
-		return reveal();
+		alwaysVisible = true;
 	}
 	
 	@Override

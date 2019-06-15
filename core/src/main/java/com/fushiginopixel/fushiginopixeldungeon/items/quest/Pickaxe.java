@@ -99,16 +99,16 @@ public class Pickaxe extends MeleeWeapon {
 		return actions;
 	}
 
-	public void doDig( Hero hero ) {
+	public void doDig( Char hero ) {
 		GameScene.selectCell( dig );
 	}
 	
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute( final Char hero, String action ) {
 
 		super.execute( hero, action );
 		
-		if (action.equals(AC_DIG)) {
+		if (action.equals(AC_DIG) && hero instanceof Hero) {
 
 			if (!isEquipped(hero)) {
 				GLog.i(Messages.get(Weapon.class, "need_to_equip"));
@@ -161,7 +161,7 @@ public class Pickaxe extends MeleeWeapon {
 		}
 	}
 
-	public void dig( final Hero user, final int dst ) {
+	public void dig( final Char user, final int dst ) {
 		final Ballistica chainDig = new Ballistica(user.pos, dst, Ballistica.WONT_STOP );
 
 		float digDelay = digDelay(user, dst);
@@ -221,7 +221,7 @@ public class Pickaxe extends MeleeWeapon {
 
 	}
 
-	public void broken(Hero user) {
+	public void broken(Char user) {
 		GLog.w( Messages.get(Pickaxe.class, "broken") );
 		if(!isUnique()){
 			detach(user.belongings.backpack);

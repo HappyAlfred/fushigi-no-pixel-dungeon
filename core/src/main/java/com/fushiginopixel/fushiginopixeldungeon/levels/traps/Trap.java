@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.traps;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.CorrosiveGas;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -59,6 +60,7 @@ public abstract class Trap implements Bundlable {
 	public static final int   PERPETUAL     	= 2;  //can't broken
 
 	public int durability = SINGLE;
+	public boolean alwaysVisible = false;
 
 	public String name = Messages.get(this, "name");
 
@@ -82,9 +84,13 @@ public abstract class Trap implements Bundlable {
 	}
 
 	public Trap hide() {
-		visible = false;
-		GameScene.updateMap(pos);
-		return this;
+		if(alwaysVisible){
+			return reveal();
+		}else {
+			visible = false;
+			GameScene.updateMap(pos);
+			return this;
+		}
 	}
 
 	public void trigger() {
@@ -157,5 +163,17 @@ public abstract class Trap implements Bundlable {
 			case (PERPETUAL) : info += "\n\n" + Messages.get(Trap.class, "perpetual");break;
 		}
 		return info;
+	}
+
+	public static final Class<?>[] traps(){
+		return new Class[]{
+				AlarmTrap.class, BurningTrap.class, ShockingTrap.class, OozeTrap.class, TeleportationTrap.class, ChillingTrap.class, GrippingTrap.class,
+				WeakeningTrap.class, SummoningTrap.class, CursingTrap.class, FlockTrap.class,
+				ToxicTrap.class, ConfusionTrap.class, CorrosiveGas.class,
+				GuardianTrap.class, BlazingTrap.class, StormTrap.class, MucusTrap.class, WarpingTrap.class, FrostTrap.class, FlashingTrap.class,
+				PitfallTrap.class, ExplosiveTrap.class, MultiplicationTrap.class, RockfallTrap.class,
+				LogTrap.class, PoisonDartTrap.class, DisintegrationTrap.class, WornDartTrap.class,
+				DisarmingTrap.class, DistortionTrap.class, GrimTrap.class
+		};
 	}
 }

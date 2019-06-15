@@ -31,26 +31,26 @@ import com.watabou.utils.Random;
 
 public class Displacement extends Armor.Glyph {
 
+	{
+		curse = true;
+	}
+
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type  ) {
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event  ) {
 
-		if (defender == Dungeon.hero && Random.Int(20) == 0){
-			ScrollOfTeleportation.teleportHero(Dungeon.hero);
-			return 0;
+		if (event == Armor.EVENT_SUFFER_ATTACK) {
+			if (defender == Dungeon.hero && Random.Int(20) == 0) {
+				ScrollOfTeleportation.teleportHero(Dungeon.hero);
+				return 0;
+			}
 		}
-
 		return 1;
 	}
 
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

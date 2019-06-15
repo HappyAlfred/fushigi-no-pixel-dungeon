@@ -26,8 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class SpiritBatSprite extends MobSprite {
 
-	public SpiritBatSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.BAT );
 		

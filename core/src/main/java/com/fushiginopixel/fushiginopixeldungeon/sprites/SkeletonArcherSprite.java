@@ -31,8 +31,8 @@ import com.watabou.utils.Callback;
 public class SkeletonArcherSprite extends MobSprite {
 	private Animation cast;
 
-	public SkeletonArcherSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		int ofs = 21;
 		texture( Assets.SKELETON );

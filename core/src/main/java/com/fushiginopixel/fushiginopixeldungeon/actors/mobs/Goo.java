@@ -54,7 +54,7 @@ public class Goo extends Mob {
 	{
 		HP = HT = 150;
 		EXP = 20;
-		defenseSkill = 16;
+		//defenseSkill = 16;
 		spriteClass = GooSprite.class;
 
 		loot = new LloydsBeacon();
@@ -87,8 +87,8 @@ public class Goo extends Mob {
 
 	@Override
 	public int attackSkill( Char target ) {
-		int attack = 20;
-		if (HP*2 <= HT) attack = 30;
+		int attack = super.attackSkill(target);
+		if (HP*2 <= HT) attack *= 1.5f;
 		if (pumpedUp > 0) attack *= 2;
 		return attack;
 	}
@@ -214,9 +214,9 @@ public class Goo extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src, EffectType type) {
+	public int damage(int dmg, Object src, EffectType type) {
 		boolean bleeding = (HP*2 <= HT);
-		super.damage(dmg, src, type);
+		int damage = super.damage( dmg, src ,type );
 		if ((HP*2 <= HT) && !bleeding){
 			BossHealthBar.bleed(true);
 			sprite.showStatus(CharSprite.NEGATIVE, Messages.get(this, "enraged"));
@@ -224,7 +224,8 @@ public class Goo extends Mob {
 			yell(Messages.get(this, "gluuurp"));
 		}
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null) lock.addTime(dmg*2);
+		if (lock != null) lock.addTime(damage*2);
+		return damage;
 	}
 
 	@Override

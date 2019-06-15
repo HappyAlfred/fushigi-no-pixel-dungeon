@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Challenges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Statistics;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Healing;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Hunger;
@@ -54,11 +55,13 @@ public class PotionOfBeverage extends Potion {
 	}
 	
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
-		(hero.buff( Hunger.class )).satisfy( Math.round(Hunger.STARVING / 10) );
-		GLog.p( Messages.get(this, "drinks") );
-		SpellSprite.show( hero, SpellSprite.FOOD );
+		if(hero instanceof Hero) {
+			(hero.buff(Hunger.class)).satisfy(Math.round(Hunger.STARVING / 10));
+			GLog.p(Messages.get(this, "drinks"));
+			SpellSprite.show(hero, SpellSprite.FOOD);
+		}
 	}
 
 

@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.potions;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.MindVision;
@@ -36,7 +37,7 @@ public class PotionOfMindVision extends Potion {
 	}
 
 	@Override
-	public void apply( Hero hero ) {
+	public void apply( Char hero ) {
 		knownByUse();
 		Buff.affect( hero, MindVision.class, MindVision.DURATION, new EffectType(EffectType.INSIDE,EffectType.SPIRIT) );
 		Dungeon.observe();

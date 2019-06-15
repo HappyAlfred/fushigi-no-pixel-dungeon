@@ -26,9 +26,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Splash;
 import com.watabou.noosa.TextureFilm;
 
 public class LarvaSprite extends MobSprite {
-	
-	public LarvaSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.LARVA );
 		

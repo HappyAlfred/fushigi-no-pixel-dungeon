@@ -320,7 +320,7 @@ public class InterlevelScene extends PixelScene {
 
 		} else {
 			DriedRose.holdGhostHero( Dungeon.level );
-			Dungeon.guardOff(Dungeon.level );
+			//Dungeon.guardOff(Dungeon.level );
 			Dungeon.saveAll();
 		}
 
@@ -340,7 +340,7 @@ public class InterlevelScene extends PixelScene {
 
 		Actor.fixTime();
 		DriedRose.holdGhostHero( Dungeon.level );
-		Dungeon.guardOff(Dungeon.level );
+		//Dungeon.guardOff(Dungeon.level );
 		
 		Buff.affect( Dungeon.hero, Chasm.Falling.class );
 		Dungeon.saveAll();
@@ -361,7 +361,7 @@ public class InterlevelScene extends PixelScene {
 		
 		Actor.fixTime();
 		DriedRose.holdGhostHero( Dungeon.level );
-		Dungeon.guardOff(Dungeon.level );
+		//Dungeon.guardOff(Dungeon.level );
 
 		Dungeon.saveAll();
 		Dungeon.depth--;
@@ -374,7 +374,7 @@ public class InterlevelScene extends PixelScene {
 		
 		Actor.fixTime();
 		DriedRose.holdGhostHero( Dungeon.level );
-		Dungeon.guardOff(Dungeon.level );
+		//Dungeon.guardOff(Dungeon.level );
 
 		Dungeon.saveAll();
 		Dungeon.depth = returnDepth;
@@ -421,7 +421,7 @@ public class InterlevelScene extends PixelScene {
 
 		Actor.fixTime();
 		DriedRose.holdGhostHero( Dungeon.level );
-		Dungeon.guardOff(Dungeon.level );
+		//Dungeon.guardOff(Dungeon.level );
 		Dungeon.setEarthquake();
 
 		SpecialRoom.resetPitRoom(Dungeon.depth+1);
@@ -429,6 +429,21 @@ public class InterlevelScene extends PixelScene {
 		//Dungeon.depth--;
 		Level level = Dungeon.newLevel();
 		Dungeon.switchLevel( level, level.entrance );
+	}
+
+	protected void beforeSwitch(){
+		switch (mode) {
+			case DESCEND:
+			case ASCEND:
+			case RETURN:
+			case FALL:
+			case RESET:
+				Dungeon.guardOff(Dungeon.level );break;
+			case CONTINUE:
+				break;
+			case RESURRECT:
+				break;
+		}
 	}
 	
 	@Override

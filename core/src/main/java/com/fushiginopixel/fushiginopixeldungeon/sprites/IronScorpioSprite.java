@@ -27,8 +27,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class IronScorpioSprite extends ScorpioSprite {
 
-	public IronScorpioSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.SCORPIO );
 

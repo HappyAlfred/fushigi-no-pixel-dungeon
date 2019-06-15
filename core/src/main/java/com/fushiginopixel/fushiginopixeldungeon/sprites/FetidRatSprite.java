@@ -31,8 +31,7 @@ public class FetidRatSprite extends MobSprite {
 	
 	private Emitter cloud;
 
-	public FetidRatSprite() {
-		super();
+	public void init() {
 
 		texture( Assets.RAT );
 

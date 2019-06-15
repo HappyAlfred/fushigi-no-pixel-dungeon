@@ -33,7 +33,7 @@ public class SamuraiArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_SAMURAI;
 
 		LIMIT = 3;
-		tier = 3;
+		tier = 4;
 
 		properties = new ArrayList<Glyph>(){
 			{
@@ -44,7 +44,13 @@ public class SamuraiArmor extends Armor {
 
 	@Override
 	public int DRMax(int lvl){
-		return  10 +
+		return  17 +
+				lvl*UPGRADE_DEFENSE;
+	}
+
+	@Override
+	public int DRMin(int lvl){
+		return  3 +
 				lvl*UPGRADE_DEFENSE;
 	}
 

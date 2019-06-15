@@ -78,4 +78,9 @@ public class Scene extends Group {
 		
 	}
 
+	//to prevent something cause crash in InterlevelScene
+	protected void beforeSwitch(){
+
+	}
+
 }

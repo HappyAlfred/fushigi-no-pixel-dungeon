@@ -81,7 +81,7 @@ public class EffectType {
         if(isExistType(typeToCheck.attachType,type.attachType) && isExistType(typeToCheck.effectType , type.effectType)){
             if(type.attachClass == null){
                 return true;
-            }else if(type.attachClass.isAssignableFrom(typeToCheck.attachClass)){
+            }else if(typeToCheck.attachClass != null && type.attachClass.isAssignableFrom(typeToCheck.attachClass)){
                 return true;
             }
         }

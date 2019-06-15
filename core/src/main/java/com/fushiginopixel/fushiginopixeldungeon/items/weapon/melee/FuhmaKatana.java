@@ -32,7 +32,7 @@ public class FuhmaKatana extends MeleeWeapon {
 		image = ItemSpriteSheet.FUHMA_KATANA;
 
 		tier = 4;
-		LIMIT = 2;
+		LIMIT = 3;
 		ACC = 1.25f;
 
 		properties = new ArrayList<Enchantment>(){
@@ -43,8 +43,14 @@ public class FuhmaKatana extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  10 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  28 +
+		return  35 +
 				lvl*UPGRADE_ATTACK;
 	}
 

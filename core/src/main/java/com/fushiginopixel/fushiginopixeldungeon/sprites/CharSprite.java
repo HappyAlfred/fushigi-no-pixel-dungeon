@@ -24,6 +24,8 @@ package com.fushiginopixel.fushiginopixeldungeon.sprites;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
+import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.effects.DarkBlock;
 import com.fushiginopixel.fushiginopixeldungeon.effects.EmoIcon;
 import com.fushiginopixel.fushiginopixeldungeon.effects.FloatingText;
@@ -87,6 +89,8 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	protected Animation operate;
 	protected Animation zap;
 	protected Animation die;
+
+	protected Animation read;
 	
 	protected Callback animCallback;
 	
@@ -121,9 +125,32 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	
 	public CharSprite() {
 		super();
+		init();
+		addition();
 		listener = this;
 	}
-	
+
+	public void init() {
+	}
+	public void addition() {
+		if(idle != null){
+			if(attack == null){
+				attack = idle.clone();
+			}
+		}
+		if (attack != null) {
+			if (operate == null) {
+				operate = attack.clone();
+			}
+			if (zap == null) {
+				zap = attack.clone();
+			}
+			if (read == null) {
+				zap = attack.clone();
+			}
+		}
+	}
+
 	@Override
 	public void play(Animation anim) {
 		//Shouldn't interrupt the dieing animation
@@ -324,8 +351,13 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				invisible = new AlphaTweener( this, 0.4f, 0.4f );
 				if (parent != null){
 					parent.add(invisible);
-				} else
-					alpha( 0.4f );
+				} else {
+					if(ch != null && (ch instanceof Hero || ch.alignment != Char.Alignment.ENEMY)) {
+						alpha(0.4f);
+					}else{
+						alpha(0);
+					}
+				}
 				break;
 			case PARALYSED:
 				paused = true;

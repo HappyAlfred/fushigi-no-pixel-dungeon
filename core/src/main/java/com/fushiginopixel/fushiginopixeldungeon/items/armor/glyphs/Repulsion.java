@@ -34,18 +34,21 @@ public class Repulsion extends Armor.Glyph {
 	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF );
 	
 	@Override
-	public float proc( Armor armor, Char attacker, Char defender, int damage , EffectType type ) {
+	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type,int event ) {
 
 		int level = Math.max( 0, armor.level() );
 
-		if (Random.Int( level + 10 ) >= 8 && type.isExistAttachType(EffectType.MELEE)){
+		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
+			if (Random.Int(level + 10) >= 8 && type.isExistAttachType(EffectType.MELEE)) {
+				Char at = (Char) attacker;
 			/*
 			int oppositeHero = attacker.pos + (attacker.pos - defender.pos);
 			Ballistica trajectory = new Ballistica(attacker.pos, oppositeHero, Ballistica.MAGIC_BOLT);
 			WandOfBlastWave.throwChar(attacker, trajectory, 2);
 			*/
 
-			WandOfBlastWave.knockBack(defender,attacker,2);
+				WandOfBlastWave.knockBack(defender, at, 2);
+			}
 		}
 		
 		return 1;

@@ -65,7 +65,7 @@ public class TearGas extends Blob {
 	}
 	
 	@Override
-	public String tileDesc() {
+	public String tileDesc(int cell) {
 		return Messages.get(this, "desc");
 	}
 }

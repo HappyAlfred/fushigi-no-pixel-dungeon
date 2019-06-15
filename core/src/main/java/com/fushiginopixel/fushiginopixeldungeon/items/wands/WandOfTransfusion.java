@@ -175,7 +175,7 @@ public class WandOfTransfusion extends Wand {
 		int damage = (int)Math.ceil(curUser.HT*0.10f);
 		curUser.damage(damage, this);
 
-		if (!curUser.isAlive()){
+		if (!Dungeon.hero.isAlive()){
 			Dungeon.fail( getClass() );
 			GLog.n( Messages.get(this, "ondeath") );
 		}

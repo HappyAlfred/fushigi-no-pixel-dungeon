@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
@@ -61,14 +62,14 @@ public class BrokenSeal extends Item {
 	}
 
 	@Override
-	public void execute(Hero hero, String action) {
+	public void execute(Char hero, String action) {
 
 		super.execute(hero, action);
 
-		if (action.equals(AC_AFFIX)){
+		if (action.equals(AC_AFFIX) && hero instanceof Hero){
 			curItem = this;
 			GameScene.selectItem(armorSelector, WndBag.Mode.ARMOR, Messages.get(this, "prompt"));
-		} else if (action.equals(AC_INFO)) {
+		} else if (action.equals(AC_INFO) && hero instanceof Hero) {
 			GameScene.show(new WndItem(null, this, true));
 		}
 	}
@@ -107,7 +108,7 @@ public class BrokenSeal extends Item {
 		@Override
 		public synchronized boolean act() {
 			if (armor == null) detach();
-			else if (armor.isEquipped((Hero)target)) {
+			else if (armor.isEquipped(target)) {
 				if (target.SHLD < maxShield()){
 					//shit
 					//partialShield += 1/(35*Math.pow(0.885f, (maxShield() - target.SHLD - 1)));

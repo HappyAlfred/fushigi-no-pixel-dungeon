@@ -50,8 +50,12 @@ public class Brimstone extends Armor.Glyph {
 	}
 
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		//no proc effect, see Burning.act
+	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+		if(event == Armor.EVENT_BEFORE_DAMAGE){
+			if(EffectType.isExistType(type, RESISTSTYPE)){
+				return 0.5f;
+			}
+		}
 		return 1;
 	}
 

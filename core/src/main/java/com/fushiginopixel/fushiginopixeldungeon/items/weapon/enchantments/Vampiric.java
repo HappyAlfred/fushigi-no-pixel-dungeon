@@ -45,7 +45,7 @@ public class Vampiric extends Weapon.Enchantment {
 		int maxValue = Math.round(damage * (8f / 50));
 		int effValue = Math.min( Random.IntRange( 0, maxValue ), attacker.HT - attacker.HP );
 		
-		if (effValue > 0) {
+		if (effValue > 0 && attacker.isAlive()) {
 		
 			attacker.HP += effValue;
 			attacker.sprite.emitter().start( Speck.factory( Speck.HEALING ), 0.4f, 1 );

@@ -83,7 +83,7 @@ public class WandOfLightning extends DamageWand {
 			ch.sprite.flash();
 		}
 
-		if (!curUser.isAlive()) {
+		if (!Dungeon.hero.isAlive()) {
 			Dungeon.fail( getClass() );
 			GLog.n(Messages.get(this, "ondeath"));
 		}

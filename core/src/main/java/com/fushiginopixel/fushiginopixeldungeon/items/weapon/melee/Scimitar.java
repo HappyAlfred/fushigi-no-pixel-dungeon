@@ -42,6 +42,12 @@ public class Scimitar extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  4 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
 		return  24 +    //16 base, down from 20
 				lvl*UPGRADE_ATTACK;   //scaling unchanged

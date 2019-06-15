@@ -53,9 +53,11 @@ public class MeleeWeapon extends Weapon {
 	public int damageRoll(Char owner) {
 		int damage = augment.damageFactor(super.damageRoll( owner ));
 
+		/*
 		if (owner instanceof Hero) {
 			damage *= ((Hero)owner).strengthMultiplier();
 		}
+		*/
 		
 		return damage;
 	}

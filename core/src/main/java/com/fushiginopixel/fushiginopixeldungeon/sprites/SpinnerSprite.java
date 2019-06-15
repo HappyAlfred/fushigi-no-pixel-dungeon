@@ -26,9 +26,9 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.watabou.noosa.TextureFilm;
 
 public class SpinnerSprite extends MobSprite {
-	
-	public SpinnerSprite() {
-		super();
+
+	public void init() {
+		super.init();
 
 		perspectiveRaise = 0f;
 

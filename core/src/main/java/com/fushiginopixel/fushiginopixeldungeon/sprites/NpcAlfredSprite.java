@@ -29,8 +29,8 @@ import java.util.Calendar;
 public class NpcAlfredSprite extends MobSprite {
 
 
-	public NpcAlfredSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.NPCALFRED );
 		

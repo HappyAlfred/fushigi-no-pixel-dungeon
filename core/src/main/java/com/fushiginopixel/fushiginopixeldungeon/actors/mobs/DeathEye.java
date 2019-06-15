@@ -47,7 +47,7 @@ public class DeathEye extends Mob {
 		spriteClass = EyeSprite.class;
 		
 		HP = HT = 250;
-		defenseSkill = 45;
+		//defenseSkill = 45;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 23;
@@ -67,10 +67,12 @@ public class DeathEye extends Mob {
 		return Random.NormalIntRange(50, 90);
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 75;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -140,9 +142,10 @@ public class DeathEye extends Mob {
 	}
 
 	@Override
-	public void damage(int dmg, Object src , EffectType type) {
+	public int damage(int dmg, Object src , EffectType type) {
 		if (beamCharged) dmg /= 4;
-		super.damage(dmg, src ,type);
+		int damage = super.damage(dmg, src ,type);
+		return damage;
 	}
 
 	public void deathGaze(){

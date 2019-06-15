@@ -38,7 +38,7 @@ public class Brute extends Mob {
 		spriteClass = BruteSprite.class;
 		
 		HP = HT = 100;
-		defenseSkill = 19;
+		//defenseSkill = 19;
 		
 		EXP = 16;
 		
@@ -60,11 +60,13 @@ public class Brute extends Mob {
 			Random.NormalIntRange( 44, 70 ) :
 			Random.NormalIntRange( 22, 35 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 44;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -72,8 +74,8 @@ public class Brute extends Mob {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src,EffectType type ) {
-		super.damage( dmg, src ,type );
+	public int damage( int dmg, Object src,EffectType type ) {
+		int damage = super.damage( dmg, src ,type );
 		
 		if (isAlive() && !enraged && HP < HT / 4) {
 			enraged = true;
@@ -82,6 +84,7 @@ public class Brute extends Mob {
 				sprite.showStatus( CharSprite.NEGATIVE, Messages.get(this, "enraged") );
 			}
 		}
+		return damage;
 	}
 	
 	/*{

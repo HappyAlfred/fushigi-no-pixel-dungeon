@@ -33,7 +33,7 @@ public class Regeneration extends Buff {
 		actPriority = HERO_PRIO - 1;
 	}
 	
-	private static final float REGENERATION_DELAY = 10;
+	//private static final float REGENERATION_DELAY = 10;
 	
 	@Override
 	public boolean act() {
@@ -49,15 +49,20 @@ public class Regeneration extends Buff {
 				}
 			}
 
+			float r_delay = 200f / ((Hero)target).HT;
+
 			ChaliceOfBlood.chaliceRegen regenBuff = Dungeon.hero.buff( ChaliceOfBlood.chaliceRegen.class);
 
 			if (regenBuff != null)
-				if (regenBuff.isCursed())
-					spend( REGENERATION_DELAY * 1.5f );
-				else
-					spend( REGENERATION_DELAY - regenBuff.itemLevel()*0.9f );
+				if (regenBuff.isCursed()) {
+					spend(r_delay * 1.5f);
+				}
+				else {
+					//spend(REGENERATION_DELAY - regenBuff.itemLevel() * 0.9f);
+					spend(r_delay / (1 + regenBuff.itemLevel() * 0.05f));
+				}
 			else
-				spend( REGENERATION_DELAY );
+				spend( r_delay );
 			
 		} else {
 			

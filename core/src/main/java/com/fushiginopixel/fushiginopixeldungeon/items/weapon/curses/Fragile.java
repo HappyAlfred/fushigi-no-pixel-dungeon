@@ -29,6 +29,9 @@ import com.watabou.utils.Bundle;
 
 public class Fragile extends Weapon.Enchantment {
 
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	private int hits = -1;
 
@@ -37,11 +40,6 @@ public class Fragile extends Weapon.Enchantment {
 		//degrades from 100% to 25% damage over 150 hits
 		if (hits < 150) hits++;
 		return (1f - hits*0.005f);
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 
 	@Override

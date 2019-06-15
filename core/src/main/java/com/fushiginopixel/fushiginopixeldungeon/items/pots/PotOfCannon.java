@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.pots;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
@@ -47,7 +48,7 @@ public class PotOfCannon extends InventoryPot {
 	}
 
 	@Override
-	public boolean clickAble(Hero curuser, Ballistica shot, int cell) {
+	public boolean clickAble(Char curuser, Ballistica shot, int cell) {
 		if(items.isEmpty()){
 			return super.clickAble(curuser, shot, cell);
 		}
@@ -55,7 +56,7 @@ public class PotOfCannon extends InventoryPot {
 	}
 
 	@Override
-	public boolean click(final Hero curuser, Ballistica shot , final int cell) {
+	public boolean click(final Char curuser, Ballistica shot , final int cell) {
 		if(!super.click(curuser, shot, cell)) {
 			return false;
 		}
@@ -77,7 +78,7 @@ public class PotOfCannon extends InventoryPot {
 								}else if(ammo instanceof Bombs){
 									((Bombs)ammo.detach(curuser.belongings.backpack)).lightThrow(cell);
 								}else {
-									ammo.detach(curuser.belongings.backpack).throwToCell(cell);
+									ammo.detach(curuser.belongings.backpack).throwTo(cell);
 								}
 
 								curUser.spendAndNext( TIME_TO_ZAP );

@@ -61,8 +61,8 @@ public class MagicalHolster extends Bag {
 	}
 
 	@Override
-	public void onDetach( ) {
-		super.onDetach();
+	public void onDetach(Bag container ) {
+		super.onDetach(container);
 		for (Item item : items) {
 			if (item instanceof Wand) {
 				((Wand)item).stopCharging();

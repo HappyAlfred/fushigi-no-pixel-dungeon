@@ -32,7 +32,7 @@ public class Goldsword extends MeleeWeapon {
 		image = ItemSpriteSheet.GOLDSWORD;
 
 		tier = 2;
-		LIMIT = 6;
+		LIMIT = 5;
 		properties = new ArrayList<Enchantment>(){
 			{
 				add(new GildedWeapon());
@@ -42,14 +42,14 @@ public class Goldsword extends MeleeWeapon {
 
 	@Override
 	public int min(int lvl) {
-		return  2 +
+		return  3 +
 				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  8 +    //12 base, down from 15
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  15 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 	@Override

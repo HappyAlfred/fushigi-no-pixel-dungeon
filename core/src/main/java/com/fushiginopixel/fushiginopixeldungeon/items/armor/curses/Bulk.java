@@ -27,23 +27,15 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 
 public class Bulk extends Armor.Glyph {
+
+	{
+		curse = true;
+	}
 	
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc(Armor armor, Char attacker, Char defender, int damage, EffectType type ) {
-		
-		//no proc effect, see armor.speedfactor
-		return 1;
-	}
-	
-	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;
-	}
-	
-	@Override
-	public boolean curse() {
-		return true;
 	}
 }

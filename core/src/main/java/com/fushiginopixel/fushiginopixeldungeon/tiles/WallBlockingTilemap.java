@@ -60,7 +60,7 @@ public class WallBlockingTilemap extends Tilemap {
 	}
 
 	private int curr;
-	
+
 	@Override
 	public synchronized void updateMapCell(int cell) {
 		

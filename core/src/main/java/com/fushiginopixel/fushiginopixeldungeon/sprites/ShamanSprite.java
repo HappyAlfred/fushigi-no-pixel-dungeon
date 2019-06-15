@@ -27,9 +27,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Lightning;
 import com.watabou.noosa.TextureFilm;
 
 public class ShamanSprite extends MobSprite {
-	
-	public ShamanSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.SHAMAN );
 		

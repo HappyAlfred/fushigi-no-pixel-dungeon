@@ -21,22 +21,30 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles;
 
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Assault;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
+
+import java.util.ArrayList;
 
 public class Javelin extends MissileWeapon {
 
 	{
 		image = ItemSpriteSheet.JAVELIN;
+		properties = new ArrayList<Enchantment>(){
+			{
+				add(new Assault());
+			}
+		};
 	}
 
 	@Override
 	public int min(int lvl) {
-		return 8;
+		return 4;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return 20;
+		return 30;
 	}
 	
 	@Override

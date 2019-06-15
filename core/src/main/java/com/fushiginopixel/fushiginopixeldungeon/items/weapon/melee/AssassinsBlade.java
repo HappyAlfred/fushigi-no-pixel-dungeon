@@ -46,9 +46,15 @@ public class AssassinsBlade extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  1 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  22 +    //20 base, down from 25
-				lvl*UPGRADE_ATTACK;   //scaling unchanged
+		return  30 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 	/*

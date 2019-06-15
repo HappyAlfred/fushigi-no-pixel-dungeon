@@ -148,7 +148,7 @@ public abstract class Plant implements Bundlable {
 		}
 		
 		@Override
-		public void execute( Hero hero, String action ) {
+		public void execute( Char hero, String action ) {
 
 			super.execute (hero, action );
 

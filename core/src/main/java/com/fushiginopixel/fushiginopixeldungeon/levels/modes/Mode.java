@@ -3,8 +3,10 @@ package com.fushiginopixel.fushiginopixeldungeon.levels.modes;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
+import com.fushiginopixel.fushiginopixeldungeon.levels.RegularLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.connection.ConnectionRoom;
 import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.standard.StandardRoom;
+import com.fushiginopixel.fushiginopixeldungeon.levels.traps.Trap;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -68,6 +70,8 @@ public abstract class Mode implements Bundlable {
         return true;
     }
 
+    public boolean setLevelTrap(RegularLevel.LevelTraps levelTrap){return false;}
+    public boolean setTrap(Class<? extends Trap> trapClasses[], float[] trapChances, Level l, int trapPos){return false;}
 
     public String name(){
         return Messages.get(this, "name");

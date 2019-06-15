@@ -32,7 +32,7 @@ public class Greataxe extends MeleeWeapon {
 		image = ItemSpriteSheet.GREATAXE;
 
 		tier = 4;
-		LIMIT = 2;
+		LIMIT = 3;
 		properties = new ArrayList<Enchantment>(){
 			{
 				add(new Exhausting());
@@ -41,8 +41,14 @@ public class Greataxe extends MeleeWeapon {
 	}
 
 	@Override
+	public int min(int lvl) {
+		return  1 +
+				lvl;
+	}
+
+	@Override
 	public int max(int lvl) {
-		return  60 +    //50 base, up from 30
+		return  75 +    //50 base, up from 30
 				lvl*UPGRADE_ATTACK;   //scaling unchanged
 	}
 

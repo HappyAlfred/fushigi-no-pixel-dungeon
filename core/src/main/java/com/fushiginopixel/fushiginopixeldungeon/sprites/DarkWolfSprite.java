@@ -24,10 +24,10 @@ package com.fushiginopixel.fushiginopixeldungeon.sprites;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
-public class DarkWolfSprite extends MobSprite {
+public class DarkWolfSprite extends PatrolDogSprite {
 
-	public DarkWolfSprite() {
-		super();
+	public void init() {
+		super.init();
 		
 		texture( Assets.DOG );
 		

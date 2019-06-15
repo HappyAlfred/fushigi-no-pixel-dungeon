@@ -28,9 +28,8 @@ import com.watabou.glwrap.Blending;
 import com.watabou.noosa.TextureFilm;
 
 public class GhostSprite extends MobSprite {
-	
-	public GhostSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.GHOST );
 		

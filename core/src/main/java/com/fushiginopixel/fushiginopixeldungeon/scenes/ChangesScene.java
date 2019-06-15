@@ -135,9 +135,99 @@ public class ChangesScene extends PixelScene {
 
 
 		//**********************
+		//       v1.3
+		//**********************
+		ChangeInfo changes = new ChangeInfo("v1.3", true, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes = new ChangeInfo(Messages.get(this, "new"), false, null);
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.CHALLENGE_ON), "特殊模式",
+				"新增了特殊模式系统！\n"+
+						"_-_特殊模式与挑战比较相似，但是只能选择1个，通常它的规则与普通模式不同。\n"+
+						"_-_目前新增了一种特殊模式，超不思议地牢，但是尚未完成。\n"+
+						"_-_超不思议地牢有100层深，并且不会生成普通模式里的商店，而是生成一种类似普通房间的商店。\n"+
+						"_-_超不思议地牢会出现更多怪物。怪物的强度与楼层有关。\n"));
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.ALERT), "崩溃报告",
+				"新增了崩溃报告系统！\n"+
+						"_-_当游戏崩溃时，会生成崩溃报告，你可以查看，然后截图发送给我。\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.GUIDE_PAGE, null), "炼金教程",
+				"新增了炼金教程\n"+
+						"_-_你可以了解这个游戏里所拥有的炼金配方。由于比较复杂，我不可能做出Shattered那样的通用UI。\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SOMETHING, null), "很多很多的新事物",
+				"增加了非常多的事物！\n"+
+						"_-_新的商店、新的机制、新的物品、新的怪物甚至新的音效！\n"));
+
+		changes = new ChangeInfo(Messages.get(this, "changes"), false, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+		changes.addButton( new ChangeButton(new Image(Assets.NPCALFRED, 0, 0, 11, 16), Messages.get(this, "super_update"),
+		"英文文本更新！"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.SPINNER,  144, 0, 16, 16), Messages.get(this, "bugfixes"),
+				"修复了bug\n"+
+						"_-_修复了无数的bug，我已经忘记我修复了什么了\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.KATANA, null), Messages.get(this, "装备全面调整"),
+				"几乎所有的关于装备的得到了调整。\n"+
+						"_-_武器、防具、投掷武器的强度、其他属性调整。\n"+
+						"_-_投掷武器可以被附魔符石附魔了。\n"+
+						"_-_新增了新的武器和防具特性，并且新增了一种防具，闪电海螺壳。\n"+
+						"_-_电势刻印改为吸收和传导受到的闪电伤害。\n"+
+						"_-_添加了“暴击”相关的算法。暴击会造成双倍的伤害，但是无法与其他暴击叠加。\n"+
+						"_-_先制特性和冲击特性改为触发时必定暴击，而不是造成额外伤害。\n"+
+						"_-_斩首特性改为对20%生命以下的生物打出致死的伤害而不是造成致死的额外伤害。\n"+
+						"_-_其他附魔、特性的细节调整。\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.WAND_MAGIC_MISSILE, null), "法杖调整",
+				"一些关于法杖的调整\n"+
+						"_-_法师魔杖的在进行“灌注”操作时，被灌注的法杖充能会叠加到魔杖上\n"+
+						"_-_注魂法杖和冰霜法杖移除。\n"+
+						"_-_新增了万花筒法杖、魔术师法杖、神圣法杖。\n"+
+						"_-_法杖的价格降低。\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.SLIME,  0, 0, 16, 16), "生物调整",
+				"_-_现在大多数生物的命中和闪避强度调整为100和25，这样一来命中率一般为87.5%。\n"+
+						"_-_另外还有一些生物，比如怨灵和食人鱼，它们的闪避强度得到一些修正。\n"+
+						"_-_英雄升级时不再获得命中和闪避能力，而是增加基础伤害。\n"+
+						"_-_英雄的基础伤害会直接附加在武器的伤害上，会随等级提升，提升效果会逐渐减弱。\n"+
+						"_-_英雄的生命回复速度调整为英雄生命上限的0.5%，这个速度会被蓄血圣杯增加到0.75%\n"+
+						"_-_史莱姆受到爆炸伤害时必定会分裂。\n"+
+						"_-_堕天使不再免疫一切射线。\n"+
+						"_-_天狗会投掷释放毒气的手里剑。\n"+
+						"_-_新增了一些怪物，但是它们没有在游戏里出现。\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.POTION_JADE, null), "气体调整",
+				"气体相关的调整。\n"+
+						"_-_优化了气体的蔓延机制，使气体的总量尽可能与各个区域的浓度一致。\n"+
+						"_-_电荷每回合会造成伤害。造成的伤害达到一定程度时，才会给目标造成麻痹效果。\n"+
+						"_-_毒气的伤害调整为生物最大生命的5%，这个伤害会随浓度增加，在浓度达到100时最大，为20%\n"+
+						"_-_酸蚀气体的腐蚀强度调整为随着浓度增加，在浓度达到100时最大，为3倍。\n"+
+						"_-_另外，酸蚀buff的伤害每回合会增加10%而不是1。\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.TERRAIN_FEATURES,  48, 16, 16, 16), "陷阱调整",
+				"部分陷阱调整\n"+
+						"_-_毒气陷阱和酸蚀气体陷阱在触发时，气体会瞬间填满房间，但是浓度不高。\n"+
+						"_-_圆木陷阱的伤害降低。\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.GOLD, null), "交易调整",
+				"交易、以及商店相关的调整\n"+
+						"_-_地牢内生成的金币数量不再受到楼层影响，而且数量减少。\n"+
+						"_-_商店内的商品价格也不再受到楼层影响，并且价格降低，一般为原价的3倍。\n"+
+						"_-_在商店出售物品时，被出售的物品会作为商品出现在商店的地板上。商店的物品放满时不能出售物品。\n"+
+						"_-_普通模式中的商店更容易出现法杖和壶了\n"));
+
+
+		//**********************
 		//       v1.2.3
 		//**********************
-		ChangeInfo changes = new ChangeInfo("v1.2.3", true, "");
+		changes = new ChangeInfo("v1.2.3", true, "");
 		changes.hardlight( Window.TITLE_COLOR );
 		infos.add(changes);
 
@@ -2076,6 +2166,7 @@ public class ChangesScene extends PixelScene {
 			float tallest = 0;
 			for (ChangeButton change : buttons){
 
+				//move to left
 				if (posX + change.width() >= right()){
 					posX = x;
 					posY += tallest;

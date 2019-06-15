@@ -28,9 +28,9 @@ import com.watabou.noosa.TextureFilm;
 public class RottingFistSprite extends MobSprite {
 	
 	private static final float FALL_SPEED	= 64;
-	
-	public RottingFistSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.ROTTING );
 		

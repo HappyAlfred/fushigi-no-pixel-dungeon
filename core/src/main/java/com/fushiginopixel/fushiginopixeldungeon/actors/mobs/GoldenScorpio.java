@@ -39,7 +39,7 @@ public class GoldenScorpio extends Scorpio {
 		spriteClass = GoldenScorpioSprite.class;
 
 		HP = HT = 210;
-		defenseSkill = 38;
+		//defenseSkill = 38;
 		//viewDistance = Light.DISTANCE;
 
 		EXP = 23;
@@ -54,10 +54,12 @@ public class GoldenScorpio extends Scorpio {
 		return Random.NormalIntRange( 35, 76 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 65;
 	}
+	*/
 
 	@Override
 	public int drRoll() {

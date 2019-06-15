@@ -119,7 +119,7 @@ public class Bundle {
 			if (aliases.containsKey( clName )) {
 				clName = aliases.get( clName );
 			}
-			
+			//caution: no zero function
 			Class<?> cl = Class.forName( clName );
 			if (cl != null && (!cl.isMemberClass() || Modifier.isStatic(cl.getModifiers()))) {
 				Bundlable object = (Bundlable)cl.newInstance();

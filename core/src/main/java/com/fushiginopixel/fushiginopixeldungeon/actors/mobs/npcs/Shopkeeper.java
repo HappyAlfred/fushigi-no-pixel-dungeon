@@ -72,8 +72,9 @@ public class Shopkeeper extends NPC {
 	}
 	
 	@Override
-	public void damage( int dmg, Object src ,EffectType type) {
+	public int damage( int dmg, Object src ,EffectType type) {
 		flee();
+		return 0;
 	}
 	
 	@Override
@@ -240,6 +241,47 @@ public class Shopkeeper extends NPC {
 		sprite.killAndErase();
 		CellEmitter.get(pos).burst(ElmoParticle.FACTORY,6);
 
+
+	}
+
+	public boolean addItem(Item item){
+		if (Dungeon.level instanceof RegularLevel && (((RegularLevel)Dungeon.level).room(pos) != null)){
+			Room r = ((RegularLevel) Dungeon.level).room(pos);
+			int cell;
+
+			ArrayList<Integer> validCells = new ArrayList<>();
+			for (Point p : r.getPoints()){
+				cell = Dungeon.level.pointToCell(p);
+
+				if(r.inside(p)) {
+                    Heap heap = Dungeon.level.heaps.get(cell);
+                    if (heap == null && Actor.findChar(cell) != this) {
+                        validCells.add(cell);
+                    }
+
+                    if(heap != null && heap.type == Heap.Type.FOR_SALE && item.stackable){
+                    	for(Item sale :heap.items){
+							if (sale.isSimilar( item )) {
+								sale.merge( item );
+								return true;
+							}
+						}
+					}
+                }
+			}
+
+			if(!validCells.isEmpty()) {
+				cell = Random.element(validCells);
+
+				Dungeon.level.drop( item, cell ).type = Heap.Type.FOR_SALE;
+				return true;
+			}else{
+				return false;
+			}
+
+		} else {
+			return true;
+		}
 
 	}
 	

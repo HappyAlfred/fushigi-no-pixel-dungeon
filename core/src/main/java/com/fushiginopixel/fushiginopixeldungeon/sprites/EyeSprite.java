@@ -37,9 +37,8 @@ public class EyeSprite extends MobSprite {
 
 	private Animation charging;
 	private Emitter chargeParticles;
-	
-	public EyeSprite() {
-		super();
+
+	public void init() {
 		
 		texture( Assets.EYE );
 		

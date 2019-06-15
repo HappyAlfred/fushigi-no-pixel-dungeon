@@ -26,10 +26,8 @@ import com.watabou.noosa.TextureFilm;
 
 public class PotFairySprite extends MobSprite {
 
-	private Animation cast;
-
-	public PotFairySprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.POT_FAIRY );
 
@@ -45,8 +43,8 @@ public class PotFairySprite extends MobSprite {
 		attack = new Animation( 12, false );
 		attack.frames( frames, 6+i, 7+i, 0+i );
 
-		zap = new Animation( 12, false );
-		zap.frames( frames, 8+i, 9+i, 9+i, 9+i, 9+i, 8+i, 0+i );
+		zap = new Animation( 4, false );
+		zap.frames( frames, 8+i, 9+i, 9+i, 9+i, 9+i, 9+i, 9+i, 8+i, 0+i );
 
 		die = new Animation( 12, false );
 		die.frames( frames, 10+i, 11+i, 12+i, 13+i, 14+i, 15+i, 16+i, 17+i, 18+i );

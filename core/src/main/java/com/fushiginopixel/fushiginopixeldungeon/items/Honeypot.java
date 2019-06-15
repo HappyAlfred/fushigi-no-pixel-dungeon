@@ -60,7 +60,7 @@ public class Honeypot extends Item {
 	}
 	
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute( final Char hero, String action ) {
 
 		super.execute( hero, action );
 
@@ -161,7 +161,7 @@ public class Honeypot extends Item {
 		}
 
 		@Override
-		public boolean doPickUp(Hero hero) {
+		public boolean doPickUp(Char hero) {
 			if ( super.doPickUp(hero) ){
 				setHolder( hero );
 				return true;
@@ -170,7 +170,7 @@ public class Honeypot extends Item {
 		}
 
 		@Override
-		public void doDrop(Hero hero) {
+		public void doDrop(Char hero) {
 			super.doDrop(hero);
 			updateBee( hero.pos, null );
 		}

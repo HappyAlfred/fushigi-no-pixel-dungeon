@@ -33,6 +33,9 @@ import com.watabou.utils.Random;
 
 public class Displacing extends Weapon.Enchantment {
 
+	{
+		curse = true;
+	}
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
@@ -67,11 +70,6 @@ public class Displacing extends Weapon.Enchantment {
 		}
 
 		return 1;
-	}
-
-	@Override
-	public boolean curse() {
-		return true;
 	}
 
 	@Override

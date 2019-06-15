@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Enchanting;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.PurpleParticle;
@@ -57,11 +58,11 @@ public class Stylus extends Item {
 	}
 	
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Char hero, String action ) {
 
 		super.execute( hero, action );
 
-		if (action.equals(AC_INSCRIBE)) {
+		if (action.equals(AC_INSCRIBE) && hero instanceof Hero) {
 
 			curUser = hero;
 			GameScene.selectItem( itemSelector, WndBag.Mode.ARMOR, Messages.get(this, "prompt") );

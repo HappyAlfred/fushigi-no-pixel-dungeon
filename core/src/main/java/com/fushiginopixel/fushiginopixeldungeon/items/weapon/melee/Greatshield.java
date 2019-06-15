@@ -30,13 +30,19 @@ public class Greatshield extends MeleeWeapon {
 		image = ItemSpriteSheet.GREATSHIELD;
 
 		tier = 4;
-		LIMIT = 2;
+		LIMIT = 4;
+	}
+
+	@Override
+	public int min(int lvl) {
+		return  5 +
+				lvl;
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  20 +     //15 base, down from 30
-				lvl*(UPGRADE_ATTACK/2);                   //+3 per level, down from +6
+		return  22 +
+				lvl*UPGRADE_ATTACK;
 	}
 
 	@Override

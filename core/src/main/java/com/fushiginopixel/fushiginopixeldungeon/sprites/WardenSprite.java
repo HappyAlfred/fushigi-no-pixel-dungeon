@@ -34,8 +34,8 @@ public class WardenSprite extends MobSprite {
 
 	private Animation cast;
 
-	public WardenSprite() {
-		super();
+	public void init() {
+		super.init();
 
 		texture( Assets.GUARD );
 

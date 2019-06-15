@@ -45,6 +45,7 @@ public class Wraith extends Mob {
 		
 		HP = HT = 1;
 		EXP = 0;
+		defenseSkill = 4 * DEFENSE_SKILL;
 		
 		flying = true;
 
@@ -72,15 +73,17 @@ public class Wraith extends Mob {
 	public int damageRoll() {
 		return Random.NormalIntRange( 1 + level/2, 2 + level );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 10 + level;
 	}
+	*/
 	
 	public void adjustStats( int level ) {
 		this.level = level;
-		defenseSkill = attackSkill( null ) * 5;
+		//defenseSkill = attackSkill( null ) * 5;
 		enemySeen = true;
 	}
 

@@ -31,8 +31,7 @@ public class GnollBomberSprite extends MobSprite {
 
 	private Animation cast;
 
-	public GnollBomberSprite() {
-		super();
+	public void init() {
 
 		texture( Assets.GNOLL );
 

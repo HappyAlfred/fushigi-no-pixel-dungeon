@@ -45,12 +45,12 @@ public class SilkSuit extends Armor {
 	@Override
 	public int DRMax(int lvl){
 		return  2 +
-				lvl*UPGRADE_DEFENSE/2;
+				lvl*(UPGRADE_DEFENSE-1);
 	}
 
 	@Override
 	public int DRMin(int lvl){
-		return 1 + lvl;
+		return 0 + lvl;
 	}
 
 }

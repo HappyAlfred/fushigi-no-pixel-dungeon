@@ -31,8 +31,7 @@ import com.watabou.utils.Callback;
 
 public class DragonSprite extends MobSprite {
 
-	public DragonSprite() {
-		super();
+	public void init() {
 		
 		texture( Assets.DRAGON );
 		

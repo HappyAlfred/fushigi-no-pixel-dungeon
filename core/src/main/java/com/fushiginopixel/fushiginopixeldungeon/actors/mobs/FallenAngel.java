@@ -32,7 +32,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Corruption;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Healing;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
-import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfTransfusion;
+import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfHoly;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.plants.Sungrass;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
@@ -49,7 +49,7 @@ public class FallenAngel extends Mob {
 		spriteClass = FallenAngelSprite.class;
 		
 		HP = HT = 80;
-		defenseSkill = 20;
+		//defenseSkill = 20;
 
 		flying = true;
 
@@ -76,10 +76,12 @@ public class FallenAngel extends Mob {
 		return Random.NormalIntRange( 10, 15 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 30;
 	}
+	*/
 
 	@Override
 	public int drRoll() {
@@ -90,7 +92,8 @@ public class FallenAngel extends Mob {
 	protected Item createLoot() {
 		Item loot;
 		if (Random.Int(5) > 3) {
-			loot = new WandOfTransfusion().random();
+			//loot = new WandOfTransfusion().random();
+			loot = new WandOfHoly().random();
 			loot.cursed = false;
 			loot.level(0);
 			return loot;
@@ -227,15 +230,15 @@ public class FallenAngel extends Mob {
 		next();
 	}
 
-	public void cure(Char cureTarget){
+	public boolean cure(Char cureTarget){
 		spend( TICK );
-		if(cureTarget == null) return;
 		boolean visible = Dungeon.level.heroFOV[pos];
 		if (visible) {
 			((FallenAngelSprite)sprite).cure( cureTarget.pos );
 		} else {
 			cureBeam( cureTarget );
 		}
+		return !visible;
 
 	}
 
@@ -274,9 +277,7 @@ public class FallenAngel extends Mob {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
 			if(cureInFOV && buff(Amok.class) == null && canCure( cureTarget )){
-				cure( cureTarget );
-
-				return true;
+				return cure( cureTarget );
 			} else {
 
 				if (cureInFOV) {

@@ -22,7 +22,10 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.PunchBurst;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
+
+import java.util.ArrayList;
 
 public class Gauntlet extends MeleeWeapon {
 	
@@ -30,14 +33,25 @@ public class Gauntlet extends MeleeWeapon {
 		image = ItemSpriteSheet.GAUNTLETS;
 		
 		tier = 4;
-		DLY = 0.5f; //2x speed
-		LIMIT = 2;
+		//DLY = 0.5f;
+		LIMIT = 3;
+		properties = new ArrayList<Enchantment>(){
+			{
+				add(new PunchBurst());
+			}
+		};
+	}
+
+	@Override
+	public int min(int lvl) {
+		return  15 +
+				lvl;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return  18 +     //15 base, down from 30
-				lvl*(UPGRADE_ATTACK / 2);  //+3 per level, down from +6
+		return  30 +
+				lvl*UPGRADE_ATTACK;
 	}
 	
 	@Override

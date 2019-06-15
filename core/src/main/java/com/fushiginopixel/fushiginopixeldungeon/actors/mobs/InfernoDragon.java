@@ -54,7 +54,7 @@ public class InfernoDragon extends Dragon {
 		spriteClass = InfernoDragonSprite.class;
 		
 		HP = HT = 500;
-		defenseSkill = 43;
+		//defenseSkill = 43;
 		
 		EXP = 30;
 
@@ -70,11 +70,13 @@ public class InfernoDragon extends Dragon {
 	public int damageRoll() {
 		return Random.NormalIntRange( 60, 100 );
 	}
-	
+
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 100;
 	}
+	*/
 	
 	@Override
 	public int drRoll() {
@@ -214,7 +216,7 @@ public class InfernoDragon extends Dragon {
 							}
 						});
 					}
-					return true;
+					return !visible;
 				}
 				else return doAttack( enemy );
 
@@ -234,7 +236,7 @@ public class InfernoDragon extends Dragon {
 								}
 							});
 						}
-						return true;
+						return !visible;
 					}
 					target = enemy.pos;
 				} else if (enemy == null) {

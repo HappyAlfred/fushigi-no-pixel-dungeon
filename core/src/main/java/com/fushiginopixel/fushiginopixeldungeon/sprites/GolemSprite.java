@@ -26,9 +26,9 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ElmoParticle;
 import com.watabou.noosa.TextureFilm;
 
 public class GolemSprite extends MobSprite {
-	
-	public GolemSprite() {
-		super();
+
+	public void init() {
+		super.init();
 		
 		texture( Assets.GOLEM );
 		

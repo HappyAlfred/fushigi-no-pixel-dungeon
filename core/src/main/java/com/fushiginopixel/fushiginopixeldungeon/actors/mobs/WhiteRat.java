@@ -34,12 +34,12 @@ public class WhiteRat extends Rat {
 	{
 		spriteClass = WhiteRatSprite.class;
 		
-		HP = HT = 15;
+		HP = HT = 12;
 
 		loot = Generator.Category.SEED;
 		lootChance = 0.2f;
 		EXP = 2;
-		defenseSkill = 3;
+		//defenseSkill = 3;
 	}
 
 	@Override
@@ -47,10 +47,12 @@ public class WhiteRat extends Rat {
 		return Random.NormalIntRange( 1, 5 );
 	}
 
+	/*
 	@Override
 	public int attackSkill( Char target ) {
 		return 10;
 	}
+	*/
 
 	@Override
 	public int attackProc( Char enemy, int damage, EffectType type ) {
