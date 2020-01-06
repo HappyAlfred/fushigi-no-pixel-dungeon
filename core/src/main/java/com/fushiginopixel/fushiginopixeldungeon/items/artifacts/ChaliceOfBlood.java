@@ -99,7 +99,7 @@ public class ChaliceOfBlood extends Artifact {
 			damage = armor.absorb(damage);
 		}
 
-		damage -= hero.drRoll();
+		damage -= hero.totalDR();
 
 		hero.sprite.operate( hero.pos );
 		hero.busy();

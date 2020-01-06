@@ -80,18 +80,18 @@ public class CursingTrap extends Trap {
 
 		if(equiponly) {
 			KindOfWeapon weapon = hero.belongings.weapon;
-			if (weapon instanceof Weapon && !weapon.cursed && !(weapon instanceof Boomerang)) {
+			if (weapon instanceof Weapon && !(weapon instanceof Boomerang)) {
 				if (((Weapon) weapon).enchantmentCount() < ((Weapon) weapon).LIMIT)
 					priorityCurse.add(weapon);
-				else
+				else if(!weapon.cursed)
 					canCurse.add(weapon);
 			}
 
 			Armor armor = hero.belongings.armor;
-			if (armor != null && !armor.cursed) {
+			if (armor != null) {
 				if (armor.glyphCount() < armor.LIMIT)
 					priorityCurse.add(armor);
-				else
+				else if(!armor.cursed)
 					canCurse.add(armor);
 			}
 
@@ -106,32 +106,32 @@ public class CursingTrap extends Trap {
 			}
 		}else{
 			for(Item itemhad : hero.belongings) {
-				if(itemhad instanceof Weapon && !itemhad.cursed && !(itemhad instanceof Boomerang)){
+				if(itemhad instanceof Weapon && !(itemhad instanceof Boomerang)){
 					if (((Weapon) itemhad).enchantmentCount() < ((Weapon) itemhad).LIMIT)
 						priorityCurse.add(itemhad);
-					else
+					else if(!itemhad.cursed)
 						canCurse.add(itemhad);
 				}
-				if(itemhad instanceof Armor && !itemhad.cursed){
+				if(itemhad instanceof Armor){
 					if (((Armor) itemhad).glyphCount() < ((Armor) itemhad).LIMIT)
 						priorityCurse.add(itemhad);
-					else
+					else if(!itemhad.cursed)
 						canCurse.add(itemhad);
 				}
 
 				if(itemhad instanceof Bag) {
 					for (Item item : hero.belongings.backpack.items) {
 
-						if (item instanceof Weapon && !item.cursed && !(item instanceof Boomerang)) {
+						if (item instanceof Weapon && !(item instanceof Boomerang)) {
 							if (((Weapon) item).enchantmentCount() < ((Weapon) item).LIMIT)
 								priorityCurse.add(item);
-							else
+							else if(!item.cursed)
 								canCurse.add(item);
 						}
-						if (item instanceof Armor && !item.cursed) {
+						if (item instanceof Armor) {
 							if (((Armor) item).glyphCount() < ((Armor) item).LIMIT)
 								priorityCurse.add(item);
-							else
+							else if(!item.cursed)
 								canCurse.add(item);
 						}
 						if ((item instanceof Wand || item instanceof KindofMisc) && !item.cursed) {

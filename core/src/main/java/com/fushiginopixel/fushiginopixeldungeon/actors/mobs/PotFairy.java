@@ -58,9 +58,9 @@ public class PotFairy extends Mob {
 	{
 		spriteClass = PotFairySprite.class;
 		
-		HP = HT = 15;
+		HP = HT = 30;
 		//defenseSkill = 1;
-        EXP = 1;
+        EXP = 3;
 
         HUNTING = new Hunting();
 	}
@@ -96,7 +96,7 @@ public class PotFairy extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 1, 6 );
+		return Random.NormalIntRange( 1, 10 );
 	}
 
 	/*
@@ -169,15 +169,17 @@ public class PotFairy extends Mob {
     }
 
     @Override
-    public boolean catchItem(Item item) {
+    public boolean catchItem(Item item, Char form) {
         Pot pot = getPot();
         if(pot != null && pot instanceof InventoryPot && ((InventoryPot) pot).canInput(item)){
-            this.sprite.zap(enemy.pos);
+            if(form != null) {
+                this.sprite.zap(form.pos);
+            }
             ((InventoryPot) pot).input(item);
-            GLog.w(Messages.get(PotFairy.class, "catch", item.name(), pot.name()));
+            GLog.w(Messages.get(PotFairy.class, "catch", name, item.name(), pot.name()));
             return true;
         }
-        return super.catchItem(item);
+        return super.catchItem(item, form);
     }
 
     public void suck(Char enemy ) {
@@ -196,13 +198,24 @@ public class PotFairy extends Mob {
                                     public void call() {
                                     }
                                 });
-                GLog.w(Messages.get(PotFairy.class, "suck", item.name(), pot.name()));
+                GLog.w(Messages.get(PotFairy.class, "suck", name, item.name(), pot.name()));
                 ((InventoryPot) pot).input(item);
             }
         }
         else{
             Buff.affect(enemy , Vertigo.class , Random.NormalIntRange(4, 8), new EffectType(0,0));
         }
+    }
+
+    @Override
+    public String description() {
+        String desc = super.description();
+
+        if (getPot() != null) {
+            desc += Messages.get(this, "carries", name, getPot().name() );
+        }
+
+        return desc;
     }
 
 	@Override

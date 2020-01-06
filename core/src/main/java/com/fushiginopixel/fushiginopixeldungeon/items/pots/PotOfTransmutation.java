@@ -52,7 +52,7 @@ public class PotOfTransmutation extends InventoryPot {
 	}
 
 	@Override
-	public int price() {
-		return super.price() * 3;
+	public int potPrice() {
+		return super.potPrice() * 3;
 	}
 }

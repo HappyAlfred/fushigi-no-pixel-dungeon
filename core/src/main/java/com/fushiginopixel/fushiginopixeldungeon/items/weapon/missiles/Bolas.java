@@ -32,6 +32,7 @@ public class Bolas extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.BOLAS;
 
+		usageAdapt = 2f;
 	}
 	
 	@Override
@@ -49,11 +50,13 @@ public class Bolas extends MissileWeapon {
 		Buff.prolong( defender, Cripple.class, Cripple.DURATION, new EffectType(type.attachType,0));
 		return super.proc( attacker, defender, damage ,type);
 	}
-	
+
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return super.durabilityPerUse()*2f;
 	}
+	*/
 	
 	@Override
 	public int price() {

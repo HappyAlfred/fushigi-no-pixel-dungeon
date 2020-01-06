@@ -101,7 +101,7 @@ public class RedSlime extends Slime {
 	}
 
 	public void corrodeEnemy(Char enemy, int damage, EffectType type){
-		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f, Random.NormalIntRange( 7, 11 ));
+		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f,4);
 		if(Random.Int(3) == 0){
 			if(enemy instanceof Hero) {
 				corrodeEquip((Hero) enemy, corrodeStr, 1, false);

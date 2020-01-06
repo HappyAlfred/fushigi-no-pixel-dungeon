@@ -21,13 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
-import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
-import com.fushiginopixel.fushiginopixeldungeon.levels.CavesBossLevel;
-import com.fushiginopixel.fushiginopixeldungeon.levels.CityBossLevel;
-import com.fushiginopixel.fushiginopixeldungeon.levels.HallsBossLevel;
-import com.fushiginopixel.fushiginopixeldungeon.levels.PrisonBossLevel;
-import com.fushiginopixel.fushiginopixeldungeon.levels.SewerBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.ui.BuffIndicator;
@@ -41,12 +35,6 @@ public class LockedFloor extends Buff {
 
 	@Override
 	public boolean act() {
-		if( Dungeon.level instanceof SewerBossLevel || Dungeon.level instanceof PrisonBossLevel || Dungeon.level instanceof CityBossLevel || Dungeon.level instanceof CavesBossLevel){
-			Music.INSTANCE.play( Assets.BOSS_MID, true );
-		}
-		else if( Dungeon.level instanceof HallsBossLevel){
-			Music.INSTANCE.play( Assets.BOSS_FINAL, true );
-		}
 		spend(TICK);
 
 		if (!Dungeon.level.locked)

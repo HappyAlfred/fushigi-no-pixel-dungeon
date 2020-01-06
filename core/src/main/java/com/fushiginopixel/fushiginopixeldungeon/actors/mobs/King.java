@@ -64,7 +64,7 @@ public class King extends Mob {
 	{
 		spriteClass = KingSprite.class;
 		
-		HP = HT = 800;
+		HP = HT = 1500;
 		EXP = 80;
 		//defenseSkill = 55;
 		
@@ -225,7 +225,7 @@ public class King extends Mob {
 			} while (dist < undeadsToSummon);
 		}
 
-		if(HP < HT * 2){
+		if(HP < HT / 2){
 
 			int statueToSummon = 3 - 4 * HP/HT;
 			ArrayList<Integer> statueSp = new ArrayList<Integer>();

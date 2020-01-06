@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments;
+package com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;

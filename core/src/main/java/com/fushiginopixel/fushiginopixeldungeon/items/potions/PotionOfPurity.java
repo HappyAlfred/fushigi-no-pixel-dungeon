@@ -205,7 +205,7 @@ public class PotionOfPurity extends Potion {
 
 		{
 			inputs =  new Class[]{Honeypot.ShatteredPot.class, PotionOfPurity.class};
-			inQuantity = new int[]{1, 1};
+			inQuantity = new int[]{1, 0};
 
 			cost = 0;
 

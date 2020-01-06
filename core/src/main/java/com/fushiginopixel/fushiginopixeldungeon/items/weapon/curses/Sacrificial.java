@@ -45,7 +45,7 @@ public class Sacrificial extends Weapon.Enchantment {
 			Buff.affect(attacker, Bleeding.class).set(Math.max(1, attacker.HP/6));
 		}
 		*/
-		Buff.affect(attacker, Bleeding.class).set(Math.max(1, level/12 + 1));
+		Buff.affect(attacker, Bleeding.class).set(Math.max(1, level/3 + 1));
 
 		return 1;
 	}

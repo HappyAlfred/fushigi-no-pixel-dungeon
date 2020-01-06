@@ -67,7 +67,7 @@ public class Yog extends Mob {
 	{
 		spriteClass = YogSprite.class;
 		
-		HP = HT = 1000;
+		HP = HT = 2000;
 		
 		EXP = 100;
 		
@@ -239,7 +239,7 @@ public class Yog extends Mob {
 		{
 			spriteClass = RottingFistSprite.class;
 			
-			HP = HT = 600;
+			HP = HT = 900;
 			//defenseSkill = 50;
 			
 			EXP = 0;
@@ -314,7 +314,7 @@ public class Yog extends Mob {
 		{
 			spriteClass = BurningFistSprite.class;
 			
-			HP = HT = 400;
+			HP = HT = 600;
 			//defenseSkill = 50;
 			
 			EXP = 0;
@@ -352,7 +352,7 @@ public class Yog extends Mob {
 		public boolean attack( Char enemy ) {
 			
 			if (!Dungeon.level.adjacent( pos, enemy.pos )) {
-				spend( attackDelay() );
+				spend( totalAttackDelay() );
 				
 				if (hit( this, enemy, true )) {
 					

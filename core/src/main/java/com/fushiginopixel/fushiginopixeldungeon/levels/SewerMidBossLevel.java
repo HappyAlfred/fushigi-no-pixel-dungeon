@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.levels;
 
+import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Bones;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Goo;
@@ -176,5 +177,14 @@ public class SewerMidBossLevel extends SewerLevel {
 		super.restoreFromBundle( bundle );
 		stairs = bundle.getInt( STAIRS );
 		roomExit = roomEntrance;
+	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_SEWER;
+		}
 	}
 }

@@ -35,7 +35,7 @@ public class StoneOfEnchantment extends InventoryStone {
 	
 	{
 		//mode = WndBag.Mode.ENCHANTABLE;
-		mode = WndBag.Mode.EQUIPMENT;
+		mode = WndBag.Mode.ENCHANTABLE;
 		image = ItemSpriteSheet.STONE_TIWAZ;
 	}
 

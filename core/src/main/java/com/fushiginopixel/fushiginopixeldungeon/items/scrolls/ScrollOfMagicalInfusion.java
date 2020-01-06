@@ -27,6 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Boomerang;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.fushiginopixel.fushiginopixeldungeon.windows.WndBag;
@@ -41,7 +42,7 @@ public class ScrollOfMagicalInfusion extends InventoryScroll {
 	@Override
 	protected void onItemSelected( Item item ) {
 
-		if (item instanceof Weapon)
+		if (item instanceof Weapon || item instanceof Boomerang)
 			((Weapon)item).upgrade(true);
 		else if(item instanceof Armor)
 			((Armor)item).upgrade(true);

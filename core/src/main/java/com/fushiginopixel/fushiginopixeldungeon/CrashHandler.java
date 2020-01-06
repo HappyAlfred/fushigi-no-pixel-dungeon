@@ -205,7 +205,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             //long timestamp = System.currentTimeMillis();
             Time t = new Time("GMT+8");
             t.setToNow(); // 取得系统时间
-            int date = t.year * 10000 + t.month * 100 + t.monthDay;
+            int date = t.year * 10000 + (t.month + 1) * 100 + t.monthDay;// 月份0~11，需要+1
             int time = t.hour * 10000 + t.minute * 100 + t.second;
             String fileName1 = "crash-" + date + "-" + time + CRASH_REPORTER_EXTENSION;
             fileName += fileName1;

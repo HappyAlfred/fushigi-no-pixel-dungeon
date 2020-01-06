@@ -76,7 +76,7 @@ public class PoisonDartTrap extends Trap {
 							reset(pos, finalTarget.sprite, new PoisonDart(), trap, new Callback() {
 								@Override
 								public void call() {
-									int dmg = Random.NormalIntRange(1, 4) - finalTarget.drRoll();
+									int dmg = Random.NormalIntRange(1, 4) - finalTarget.totalDR();
 									finalTarget.damage(dmg, trap, new EffectType(EffectType.MISSILE,0));
 									if (finalTarget == Dungeon.hero && !finalTarget.isAlive()){
 										Dungeon.fail( trap.getClass() );
@@ -94,7 +94,7 @@ public class PoisonDartTrap extends Trap {
 					}
 				});
 			} else {
-				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.drRoll(), trap, new EffectType(EffectType.MISSILE,0));
+				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.totalDR(), trap, new EffectType(EffectType.MISSILE,0));
 				Buff.affect( finalTarget, Poison.class, new EffectType(EffectType.MISSILE,EffectType.POISON) )
 						.set( 4 + Dungeon.depth );
 			}

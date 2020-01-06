@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.PinCushion;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.Recipe;
@@ -49,14 +50,27 @@ public abstract class TippedDart extends Dart {
 	
 	{
 		bones = true;
+
+		usageAdapt = 5f;
 	}
+
+    @Override
+    protected float durabilityPerUse() {
+	    float adapt = Dungeon.hero.subClass == HeroSubClass.WARDEN ? 1.5f / 2.5f : 1f;
+        return super.durabilityPerUse() * adapt;
+    }
 	
 	@Override
 	protected void rangedHit(Char enemy, int cell) {
-		if (enemy.isAlive() && sticky)
-			Buff.affect(enemy, PinCushion.class).stick(new Dart());
-		else
-			Dungeon.level.drop( new Dart(), enemy.pos ).sprite.drop();
+		super.rangedHit(enemy, cell);
+		if(durability <= 0) {
+			Dart dart = new Dart();
+			dart.fusion(this);
+			if (enemy.isAlive() && sticky)
+				Buff.affect(enemy, PinCushion.class).stick(dart);
+			else
+				Dungeon.level.drop(dart, enemy.pos).sprite.drop();
+		}
 	}
 	
 	@Override

@@ -197,30 +197,29 @@ public class Armor extends EquipableItem {
 
 	@Override
 	public boolean doEquip( Char hero ) {
-		
-		detach(hero.belongings.backpack);
 
-		if (hero.belongings.armor == null || hero.belongings.armor.doUnequip( hero, true, false )) {
-			
-			hero.belongings.armor = this;
-			
-			cursedKnown = true;
-			if (cursed) {
-				equipCursed( hero );
-				GLog.n( Messages.get(Armor.class, "equip_cursed") );
+		if (super.doEquip(hero)) {
+			detach(hero.belongings.backpack);
+
+			if (hero.belongings.armor == null || hero.belongings.armor.doUnequip(hero, true, false)) {
+
+				equip(hero);
+
+				//hero.spendAndNext( time2equip( hero ) );
+
+				hero.spendAndNext( time2equip( hero ) );
+				return true;
+
+			} else {
+
+				hero.spendAndNext( time2equip( hero ) );
+				collect(hero.belongings.backpack);
+				return false;
+
 			}
-			
-			((HeroSprite)hero.sprite).updateArmor();
-			activate(hero);
-
+		}else{
 			hero.spendAndNext( time2equip( hero ) );
-			return true;
-			
-		} else {
-			
-			collect( hero.belongings.backpack );
 			return false;
-			
 		}
 	}
 
@@ -253,22 +252,18 @@ public class Armor extends EquipableItem {
 		return super.isUnique();
 	}
 
+	/*
 	@Override
 	protected float time2equip( Char hero ) {
 		return 2 / hero.speed();
 	}
+	*/
 
 	@Override
 	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
-			hero.belongings.armor = null;
-			if(hero instanceof Hero) {
-				((HeroSprite) hero.sprite).updateArmor();
-			}
-
-			BrokenSeal.WarriorShield sealBuff = hero.buff(BrokenSeal.WarriorShield.class);
-			if (sealBuff != null) sealBuff.setArmor(null);
+			unEquip(hero);
 
 			return true;
 
@@ -277,6 +272,35 @@ public class Armor extends EquipableItem {
 			return false;
 
 		}
+	}
+
+	@Override
+	public void equip( Char hero){
+
+		hero.belongings.armor = this;
+
+		if(hero instanceof Hero) {
+			cursedKnown = true;
+			if (cursed) {
+				equipCursed(hero);
+				GLog.n(Messages.get(Armor.class, "equip_cursed"));
+			}
+
+			((HeroSprite) hero.sprite).updateArmor();
+		}
+		activate(hero);
+	}
+
+	@Override
+	public void unEquip( Char hero){
+
+		hero.belongings.armor = null;
+		if(hero instanceof Hero) {
+			((HeroSprite) hero.sprite).updateArmor();
+		}
+
+		BrokenSeal.WarriorShield sealBuff = hero.buff(BrokenSeal.WarriorShield.class);
+		if (sealBuff != null) sealBuff.setArmor(null);
 	}
 	
 	@Override
@@ -328,6 +352,11 @@ public class Armor extends EquipableItem {
 			return min;
 		}*/
 		return min;
+	}
+
+	public boolean isDegradeable() {
+		int lvl = level() - 1;
+		return DRMax(lvl) >= 0 && DRMin(lvl) >= 0;
 	}
 	
 	public float evasionFactor( Char owner, Char enemy, float evasion ){

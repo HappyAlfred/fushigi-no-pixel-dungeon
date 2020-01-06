@@ -52,7 +52,7 @@ import com.watabou.utils.Random;
 public class Goo extends Mob {
 
 	{
-		HP = HT = 150;
+		HP = HT = 300;
 		EXP = 20;
 		//defenseSkill = 16;
 		spriteClass = GooSprite.class;
@@ -114,6 +114,9 @@ public class Goo extends Mob {
 			}
 			HP++;
 		}
+		if (state != HUNTING || paralysed > 0){
+			pumpedUp = 0;
+		}
 
 		return super.act();
 	}
@@ -149,7 +152,7 @@ public class Goo extends Mob {
 			}
 			pumpedUp++;
 
-			spend( attackDelay() );
+			spend( totalAttackDelay() );
 
 			return true;
 		} else if (pumpedUp >= 2 || Random.Int( (HP*2 <= HT) ? 2 : 5 ) > 0) {
@@ -166,7 +169,7 @@ public class Goo extends Mob {
 				attack( enemy );
 			}
 
-			spend( attackDelay() );
+			spend( totalAttackDelay() );
 
 			return !visible;
 
@@ -188,7 +191,7 @@ public class Goo extends Mob {
 				GLog.n( Messages.get(this, "pumpup") );
 			}
 
-			spend( attackDelay() );
+			spend( totalAttackDelay() );
 
 			return true;
 		}

@@ -36,54 +36,67 @@ public abstract class KindofMisc extends EquipableItem {
 	@Override
 	public boolean doEquip(final Char hero) {
 
-		if (hero.belongings.misc1 != null && hero.belongings.misc2 != null && hero instanceof Hero) {
+		if(super.doEquip(hero)) {
+			if (hero.belongings.misc1 != null && hero.belongings.misc2 != null && hero instanceof Hero) {
 
-			final KindofMisc m1 = hero.belongings.misc1;
-			final KindofMisc m2 = hero.belongings.misc2;
+				final KindofMisc m1 = hero.belongings.misc1;
+				final KindofMisc m2 = hero.belongings.misc2;
 
-			GameScene.show(
-					new WndOptions(Messages.get(KindofMisc.class, "unequip_title"),
-							Messages.get(KindofMisc.class, "unequip_message"),
-							Messages.titleCase(m1.toString()),
-							Messages.titleCase(m2.toString())) {
+				GameScene.show(
+						new WndOptions(Messages.get(KindofMisc.class, "unequip_title"),
+								Messages.get(KindofMisc.class, "unequip_message"),
+								Messages.titleCase(m1.toString()),
+								Messages.titleCase(m2.toString())) {
 
-						@Override
-						protected void onSelect(int index) {
+							@Override
+							protected void onSelect(int index) {
 
-							KindofMisc equipped = (index == 0 ? m1 : m2);
-							//temporarily give 1 extra backpack spot to support swapping with a full inventory
-							hero.belongings.backpack.size++;
-							if (equipped.doUnequip(hero, true, false)) {
-								//fully re-execute rather than just call doEquip as we want to preserve quickslot
-								execute((Hero)hero, AC_EQUIP);
+								KindofMisc equipped = (index == 0 ? m1 : m2);
+								//temporarily give 1 extra backpack spot to support swapping with a full inventory
+								hero.belongings.backpack.size++;
+								if (equipped.doUnequip(hero, true, false)) {
+									//fully re-execute rather than just call doEquip as we want to preserve quickslot
+									execute((Hero) hero, AC_EQUIP);
+								}
+								hero.belongings.backpack.size--;
+								//hero.spendAndNext( time2equip( hero ) );
 							}
-							hero.belongings.backpack.size--;
-						}
-					});
+						});
 
-			return false;
+				return false;
 
-		} else {
-
-			if (hero.belongings.misc1 == null) {
-				hero.belongings.misc1 = this;
 			} else {
-				hero.belongings.misc2 = this;
+
+				detach(hero.belongings.backpack);
+
+				/*
+				if (hero.belongings.misc1 == null) {
+					hero.belongings.misc1 = this;
+				} else {
+					hero.belongings.misc2 = this;
+				}
+
+
+				activate(hero);
+
+				if(hero instanceof Hero) {
+					cursedKnown = true;
+					if (cursed) {
+						equipCursed(hero);
+						GLog.n(Messages.get(this, "equip_cursed", this));
+					}
+				}
+				*/
+				equip(hero);
+				hero.spendAndNext( time2equip( hero ) );
+
+				//hero.spendAndNext( TIME_TO_EQUIP );
+				return true;
+
 			}
-
-			detach( hero.belongings.backpack );
-
-			activate( hero );
-
-			cursedKnown = true;
-			if (cursed) {
-				equipCursed( hero );
-				GLog.n( Messages.get(this, "equip_cursed", this) );
-			}
-
-			hero.spendAndNext( TIME_TO_EQUIP );
-			return true;
-
+		}else{
+			hero.spendAndNext( time2equip( hero ) );
+			return false;
 		}
 
 	}
@@ -92,11 +105,7 @@ public abstract class KindofMisc extends EquipableItem {
 	public boolean doUnequip(Char hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
 
-			if (hero.belongings.misc1 == this) {
-				hero.belongings.misc1 = null;
-			} else {
-				hero.belongings.misc2 = null;
-			}
+			unEquip(hero);
 
 			return true;
 
@@ -104,6 +113,35 @@ public abstract class KindofMisc extends EquipableItem {
 
 			return false;
 
+		}
+	}
+
+	@Override
+	public void equip( Char hero){
+		if (hero.belongings.misc1 == null) {
+			hero.belongings.misc1 = this;
+		} else {
+			hero.belongings.misc2 = this;
+		}
+
+
+		activate(hero);
+
+		if(hero instanceof Hero) {
+			cursedKnown = true;
+			if (cursed) {
+				equipCursed(hero);
+				GLog.n(Messages.get(this, "equip_cursed", this));
+			}
+		}
+	}
+
+	@Override
+	public void unEquip( Char hero){
+		if (hero.belongings.misc1 == this) {
+			hero.belongings.misc1 = null;
+		} else {
+			hero.belongings.misc2 = null;
 		}
 	}
 

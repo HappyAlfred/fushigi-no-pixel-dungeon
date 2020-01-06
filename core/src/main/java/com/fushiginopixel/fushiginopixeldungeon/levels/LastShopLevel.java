@@ -166,6 +166,15 @@ public class LastShopLevel extends RegularLevel {
 	}
 
 	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_CITY;
+		}
+	}
+
+	@Override
 	public Group addVisuals( ) {
 		super.addVisuals();
 		CityLevel.addCityVisuals(this, visuals);

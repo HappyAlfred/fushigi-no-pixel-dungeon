@@ -136,6 +136,15 @@ public class PrisonLevel extends RegularLevel {
 				return super.tileDesc( tile );
 		}
 	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_PRISON;
+		}
+	}
 	
 	@Override
 	public Group addVisuals() {

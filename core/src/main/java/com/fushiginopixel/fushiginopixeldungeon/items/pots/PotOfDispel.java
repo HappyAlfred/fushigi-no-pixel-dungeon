@@ -76,7 +76,7 @@ public class PotOfDispel extends InventoryPot {
 	}
 
 	@Override
-	public int price() {
-		return super.price() * 2;
+	public int potPrice() {
+		return super.potPrice() * 2;
 	}
 }

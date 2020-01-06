@@ -48,7 +48,6 @@ public class SecretShopRoom extends SecretRoom implements ShopInterface {
 
 	private ArrayList<Item> itemsToSpawn;
 	public int shopKeeperID = 0;
-	public Shopkeeper shopKeeper = null;
 
 	private static final String NODE	= "shopKeeper";
 
@@ -120,9 +119,10 @@ public class SecretShopRoom extends SecretRoom implements ShopInterface {
 
 		int pos = level.pointToCell(center());
 
-		shopKeeper = new Shopkeeper();
+		Shopkeeper shopKeeper = new Shopkeeper();
 		shopKeeper.pos = pos;
 		level.mobs.add( shopKeeper );
+		shopKeeperID = shopKeeper.id();
 
 	}
 
@@ -218,11 +218,12 @@ public class SecretShopRoom extends SecretRoom implements ShopInterface {
 
 	@Override
 	public Shopkeeper getShopkeeper() {
-		if(shopKeeperID != 0 && shopKeeper == null){
+		Shopkeeper shopKeeper = null;
+		if(shopKeeperID != 0){
 			Actor a = Actor.findById(shopKeeperID);
 			if(a != null){
 				shopKeeper = (Shopkeeper)a;
-				shopKeeperID = a.id();
+				shopKeeperID = shopKeeper.id();
 			}else{
 				shopKeeperID = 0;
 			}

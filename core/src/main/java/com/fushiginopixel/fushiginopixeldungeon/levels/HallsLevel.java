@@ -149,6 +149,15 @@ public class HallsLevel extends RegularLevel {
 				return super.tileDesc( tile );
 		}
 	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_HALLS;
+		}
+	}
 	
 	@Override
 	public Group addVisuals() {

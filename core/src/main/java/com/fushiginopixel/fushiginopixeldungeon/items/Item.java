@@ -197,7 +197,7 @@ public class Item implements Bundlable {
 
     public void throwTo(int cell){
         Char c = Actor.findChar(cell);
-        if(!pierceThrow && c != null && c.catchItem(this)){
+        if(!pierceThrow && c != null && c.catchItem(this, curUser)){
             onCatch(c);
             return;
         }
@@ -249,7 +249,7 @@ public class Item implements Bundlable {
 			}
 		}
 		
-		if (items.size() < container.size) {
+		if (items.size() < container.realSize()) {
 			
 			if (container.owner instanceof Hero && Dungeon.hero != null && Dungeon.hero.isAlive()) {
 				Badges.validateItemLevelAquired( this );
@@ -433,8 +433,11 @@ public class Item implements Bundlable {
 	}
 	
 	public Item degrade() {
-		
-		this.level--;
+
+		if(isDegradeable()) {
+			this.level--;
+
+		}
 		
 		return this;
 	}
@@ -457,6 +460,10 @@ public class Item implements Bundlable {
 	
 	public boolean isUpgradable() {
 		return level() < 100;
+	}
+
+	public boolean isDegradeable() {
+		return level() > 0;
 	}
 	
 	public boolean isIdentified() {
@@ -659,8 +666,12 @@ public class Item implements Bundlable {
 		}
 	}
 
-	public int throwPos( Char user, int dst){
-		return new Ballistica( user.pos, dst, Ballistica.PROJECTILE ).collisionPos;
+	public final int throwPos( Char user, int dst){
+		return throwPos(user, user.pos, dst);
+	}
+
+	public int throwPos( Char user, int from, int dst){
+		return new Ballistica( from, dst, Ballistica.PROJECTILE ).collisionPos;
 	}
 	
 	public void cast( final Char user, final int dst ) {

@@ -89,13 +89,22 @@ public class Rect {
 		left = right = top = bottom = 0;
 		return this;
 	}
-	
+
 	public Rect intersect( Rect other ) {
 		Rect result = new Rect();
 		result.left		= Math.max( left, other.left );
 		result.right	= Math.min( right, other.right );
 		result.top		= Math.max( top, other.top );
 		result.bottom	= Math.min( bottom, other.bottom );
+		return result;
+	}
+
+	public Rect apart( Rect other ) {
+		Rect result = new Rect();
+		result.left		= Math.min( Math.min( right, other.right ), Math.max( left, other.left ));
+		result.right	= Math.max( Math.min( right, other.right ), Math.max( left, other.left ));
+		result.top		= Math.min( Math.min( bottom, other.bottom ), Math.max( top, other.top ));
+		result.bottom	= Math.max( Math.min( bottom, other.bottom ), Math.max( top, other.top ));
 		return result;
 	}
 	

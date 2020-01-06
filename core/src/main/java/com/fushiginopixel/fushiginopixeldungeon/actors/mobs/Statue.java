@@ -46,7 +46,7 @@ public class Statue extends Mob {
 		properties.add(Property.INORGANIC);
 	}
 	
-	protected Weapon weapon = null;
+	//protected Weapon weapon = null;
 	
 	public Statue() {
 		super();
@@ -56,30 +56,13 @@ public class Statue extends Mob {
 	}
 
 	public void addWeapon(){
+		Weapon weapon = null;
 		do {
 			weapon = (MeleeWeapon) Generator.random(Generator.Category.WEAPON);
 		} while (weapon.cursed);
 
 		weapon.enchant( Enchantment.random() );
-	}
-
-	public void removeWeapon(){
-		weapon = null;
-	}
-	
-	private static final String WEAPON	= "weapon";
-
-	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( WEAPON, weapon );
-	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		if(weapon!= null)
-			weapon = (Weapon)bundle.get( WEAPON );
+		weapon.equip(this);
 	}
 	
 	@Override
@@ -92,31 +75,10 @@ public class Statue extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		if(weapon != null) {
-			return weapon.damageRoll(this);
-		}
-		else{
-			return Random.NormalIntRange( HT / 10, HT / 4 );
-		}
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		int attack = super.attackSkill(target);
-		//attack = 9 + Dungeon.depth;
-		if (weapon != null){
-			return (int)(attack * weapon.accuracyFactor(this , target));
-		}
-		else{
-			return attack;
-		}
-	}
-	
-	@Override
-	public float attackDelay() {
-		return weapon != null ? weapon.speedFactor( this ) : super.attackDelay();
+		return Random.NormalIntRange( HT / 10, HT / 4 );
 	}
 
+	/*
 	@Override
 	protected boolean canAttack(Char enemy) {
 		if (weapon != null) {
@@ -126,22 +88,11 @@ public class Statue extends Mob {
 			return super.canAttack(enemy);
 		}
 	}
+	*/
 
 	@Override
 	public int drRoll() {
-		if (weapon != null) {
-			return Random.NormalIntRange(0, Dungeon.depth + weapon.defenseFactor(this));
-		}
-		else{
-			return Random.NormalIntRange(0, Dungeon.depth);
-		}
-	}
-
-	@Override
-	public void onMissed(Char enemy) {
-		if (weapon != null)
-			weapon.onMissed( this, enemy);
-		return;
+		return Random.NormalIntRange(0, Dungeon.depth);
 	}
 	
 	@Override
@@ -153,18 +104,6 @@ public class Statue extends Mob {
 
 		return super.damage( dmg, src ,type);
 	}
-
-	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
-		if(weapon != null) {
-			return weapon.canCriticalAttack(this, enemy, damage, type);
-		}else return super.canCriticalAttack(enemy, damage, type);
-	}
-
-	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
-		return weapon != null ? weapon.proc( this, enemy, damage ,type) : damage;
-	}
 	
 	@Override
 	public void beckon( int cell ) {
@@ -173,9 +112,10 @@ public class Statue extends Mob {
 	
 	@Override
 	public void die( Object cause, EffectType type ) {
-		if(weapon != null) {
-			weapon.identify();
-			Dungeon.level.drop(weapon, pos).sprite.drop();
+		if(belongings.weapon != null) {
+			belongings.weapon.identify();
+			belongings.weapon.unEquip(this);
+			Dungeon.level.drop(belongings.weapon, pos).sprite.drop();
 		}
 		super.die( cause, type );
 	}
@@ -195,8 +135,8 @@ public class Statue extends Mob {
 	@Override
 	public String description() {
 
-		if (weapon != null)
-			return Messages.get(this, "desc", weapon.name());
+		if (belongings.weapon != null)
+			return Messages.get(this, "desc", belongings.weapon.name());
 		else{
 			return Messages.get(this, "desc_1");
 		}

@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator.Category;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.Artifact;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.Potion;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMight;
@@ -59,6 +60,8 @@ public class WaterOfTransmutation extends WellWater {
 			item = changeStaff( (MagesStaff)item );
 		} else if (item instanceof MeleeWeapon) {
 			item = changeWeapon( (MeleeWeapon)item );
+		} else if (item instanceof Armor) {
+			item = changeArmor( (Armor)item );
 		} else if (item instanceof Scroll) {
 			item = changeScroll( (Scroll)item );
 		} else if (item instanceof Potion) {
@@ -138,6 +141,29 @@ public class WaterOfTransmutation extends WellWater {
 		n.cursedKnown = w.cursedKnown;
 		n.cursed = w.cursed;
 		n.augment = w.augment;
+
+		return n;
+
+	}
+
+	private Armor changeArmor( Armor w ) {
+
+		Armor n;
+		Category c = Generator.wepTiers[w.tier-1];
+
+		do {
+			try {
+				n = (Armor)c.classes[Random.chances(c.probs)].newInstance();
+			} catch (Exception e) {
+				Fushiginopixeldungeon.reportException(e);
+				return null;
+			}
+		} while (Challenges.isItemBlocked(n) || n.getClass() == w.getClass());
+
+		n.fusion((w));
+		n.levelKnown = w.levelKnown;
+		n.cursedKnown = w.cursedKnown;
+		n.cursed = w.cursed;
 
 		return n;
 

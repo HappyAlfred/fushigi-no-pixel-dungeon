@@ -63,6 +63,19 @@ public class Bag extends Item implements Iterable<Item> {
 			
 		}
 	}
+
+	public int realSize(){
+		int extraSize = 0;
+		if(owner != null) {
+            if (owner.belongings.weapon == null) extraSize++;
+            if (owner.belongings.armor == null) extraSize++;
+            if (owner.belongings.misc1 == null) extraSize++;
+            if (owner.belongings.misc2 == null) extraSize++;
+        }else{
+		    extraSize = 4;
+        }
+		return size + extraSize;
+	}
 	
 	@Override
 	public boolean collect( Bag container ) {

@@ -90,8 +90,8 @@ public class PotOfCannon extends InventoryPot {
 	}
 
 	@Override
-	public int price() {
-		return super.price();
+	public int potPrice() {
+		return super.potPrice();
 	}
 
 	@Override

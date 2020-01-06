@@ -40,20 +40,21 @@ public class WardenSprite extends MobSprite {
 		texture( Assets.GUARD );
 
 		TextureFilm frames = new TextureFilm( texture, 12, 16 );
+		int i = 21;
 
 		idle = new Animation( 2, true );
-		idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
+		idle.frames( frames, 0+i, 0+i, 0+i, 1+i, 0+i, 0+i, 1+i, 1+i );
 
 		run = new Animation( 15, true );
-		run.frames( frames, 2, 3, 4, 5, 6, 7 );
+		run.frames( frames, 2+i, 3+i, 4+i, 5+i, 6+i, 7+i );
 
 		attack = new Animation( 12, false );
-		attack.frames( frames, 8, 9, 10 );
+		attack.frames( frames, 8+i, 9+i, 10+i );
 
 		cast = attack.clone();
 
 		die = new Animation( 8, false );
-		die.frames( frames, 11, 12, 13, 14 );
+		die.frames( frames, 11+i, 12+i, 13+i, 14+i );
 
 		play( idle );
 	}

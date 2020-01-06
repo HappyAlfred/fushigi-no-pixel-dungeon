@@ -172,6 +172,15 @@ public class LastLevel extends Level {
 	}
 
 	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_LAST;
+		}
+	}
+
+	@Override
 	public Group addVisuals () {
 		super.addVisuals();
 		HallsLevel.addHallsVisuals(this, visuals);

@@ -146,7 +146,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 				zap = attack.clone();
 			}
 			if (read == null) {
-				zap = attack.clone();
+				read = attack.clone();
 			}
 		}
 	}

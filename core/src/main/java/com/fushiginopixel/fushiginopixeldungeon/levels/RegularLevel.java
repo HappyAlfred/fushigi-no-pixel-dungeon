@@ -150,13 +150,14 @@ public abstract class RegularLevel extends Level {
 	
 	protected Builder builder(){
 		ArrayList<Builder> builders = new ArrayList<>();
+
 		builders.add(new LoopBuilder()
 				.setLoopShape( 2 ,
 						Random.Float(0.4f, 0.7f),
 						Random.Float(0f, 0.5f)));
 		builders.add(new TreeBuilder());
 		builders.add(new WebBuilder()
-				.setWebTunnelLength(Random.Int(6,10)));
+				.setWebTunnelLength(Random.IntRange(8,10)));
 		return Random.element(builders);
 	}
 	
@@ -200,7 +201,8 @@ public abstract class RegularLevel extends Level {
 				return 0;
 			default:
 				//more deeper ,more monster!
-				return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(Dungeon.depth % 10) + Random.Int(5);
+				//return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(Dungeon.depth % 10) + Random.Int(5);
+				return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(5);
 		}
 	}
 	
@@ -216,6 +218,7 @@ public abstract class RegularLevel extends Level {
 				mobsToSpawn = Bestiary.getMobRotation(Dungeon.depth, Dungeon.mode);
 			else
 				mobsToSpawn = Bestiary.getGuardRotation();
+				Random.shuffle(mobsToSpawn);
 		}
 		
 		try {
@@ -225,11 +228,16 @@ public abstract class RegularLevel extends Level {
 			return null;
 		}
 	}
+
+	public void refreshMobsToSpawn(){
+		mobsToSpawn.clear();
+	}
 	
 	@Override
 	protected void createMobs() {
 		//on floor 1, 10 rats are created so the player can get level 2.
-		int mobsToSpawn = Dungeon.depth == 1 ? 10 : nMobs();
+		//int mobsToSpawn = Dungeon.depth == 1 ? 10 : Math.min(nMobs(), MAX_OF_RESPAWN);
+		int mobsToSpawn = Math.min(nMobs(), MAX_OF_RESPAWN);
 
 		ArrayList<Room> stdRooms = new ArrayList<>();
 		for (Room room : rooms) {

@@ -386,8 +386,7 @@ public abstract class Pot extends Item {
 		return handler.known().size() == pots.length;
 	}
 
-	@Override
-	public int price() {
+	protected int potPrice() {
 		int price = 20;
 		if (size > 0)
 			price *= 1f + (0.2f * size);
@@ -397,6 +396,12 @@ public abstract class Pot extends Item {
 		if (price < 1) {
 			price = 1;
 		}
+		return price;
+	}
+
+	@Override
+	public int price() {
+		int price = potPrice();
 
 		for(Item item : items){
 			price += item.price();

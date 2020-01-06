@@ -133,11 +133,68 @@ public class ChangesScene extends PixelScene {
 		};
 		add( list );
 
+		//**********************
+		//       v1.4
+		//**********************
+		ChangeInfo changes = new ChangeInfo("v1.4", true, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes = new ChangeInfo(Messages.get(this, "new"), false, null);
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.GOLD, null), "捐赠通道",
+				"新增了捐赠通道！\n"+
+						"_-_目前可以使用支付宝进行捐赠了OwO\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER, null), "附魔与刻印",
+				"新增了附魔与刻印，并修改了现有的一些附魔和刻印\n"+
+						"_-_新增退却诅咒，退却诅咒的武器在击中敌人时会让持有者后退\n"+
+						"_-_新增魂化附魔，魂化附魔的武器可以穿透墙壁攻击\n"+
+						"_-_修改索敌附魔，索敌附魔的近战武器攻击范围增加，远程武器会寻找附近的敌人攻击\n"+
+						"_-_修改尖锐附魔，不再被附魔道具附加给武器\n"+
+						"_-_修改先制附魔，先制附魔的武器对满血的敌人不再必定暴击，而是必定命中\n"+
+						"_-_新增魂化附魔，魂化附魔的武器可以穿透墙壁攻击\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SOMETHING, null), "怪物",
+				"新增了一些怪物，并修改了现有的一些怪物\n"+
+						"_-_新增“壶怪”类怪物，只在特殊模式出现，会接住投掷来的道具，会用壶吸走目标身上的物品。\n"+
+						"_-_新增一些“商店守卫”类怪物，在生成商店守卫时有概率出现，拥有一些特殊能力\n"+
+						"_-_弩炮守卫会远距离射击，超级守卫拥有双倍的生命与攻击力，真视守卫会发现隐身的敌人。\n"+
+						"_-_高速守卫拥有双倍的移动速度，飞行守卫会飞行。\n"+
+						"_-_修改“南瓜怪”类怪物，行动时有50%概率随机移动，这使它更容易躲在墙壁中了。\n"+
+						"_-_部分怪物的“蓄力”可以被某些debuff打断了。\n"+
+						"_-_怪物的初始生成数量减少。\n"+
+						"_-_怪物的范围吐息效果与范围重做。\n"+
+						"_-_怪物也会触发一些防具刻印，如果它拥有防具的话。\n"+
+						"_-_升级所需的经验值会乘上一个随等级增加的倍率，从0.5倍逐渐增加到8倍\n"+
+						"所有的boss得到了不同程度的加强，并且新增了2个新的boss\n"+
+						"_-_典狱长会召唤弱化版的南瓜王，战斗力更强。\n"+
+						"_-_DM-300的攻击会附加电击伤害，在水中非常致命。\n"+
+						"_-_35层改为新boss房间，boss是魔鬼。\n"+
+						"_-_45层改为boss房间，boss是迪亚波罗。\n"));
+
+		changes = new ChangeInfo(Messages.get(this, "changes"), false, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+		changes.addButton( new ChangeButton(Icons.get(Icons.BACKPACK), "物品调整",
+				"关于物品的改动\n"+
+						"_-_近战武器不能穿透墙壁攻击，因此也不能攻击墙壁中的生物了。\n"+
+						"_-_涂药飞镖拥有耐久度，并且更加耐用。\n"+
+						"_-_投掷武器可以被附魔了。\n"+
+						"_-_防具可以使用嬗变井或者泉水转化。\n"+
+						"_-_酸蚀法杖削弱。\n"+
+						"_-_有空余附魔槽的诅咒装备也可以被诅咒了。\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.SPINNER,  144, 0, 16, 16), Messages.get(this, "bugfixes"),
+				"修复了bug\n"+
+						"_-_修复了无数的bug，我已经忘记我修复了什么了\n"));
 
 		//**********************
 		//       v1.3
 		//**********************
-		ChangeInfo changes = new ChangeInfo("v1.3", true, "");
+		changes = new ChangeInfo("v1.3", true, "");
 		changes.hardlight( Window.TITLE_COLOR );
 		infos.add(changes);
 

@@ -31,6 +31,7 @@ import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.ui.Archs;
 import com.fushiginopixel.fushiginopixeldungeon.ui.ChangesButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.CrashReportButton;
+import com.fushiginopixel.fushiginopixeldungeon.ui.DonateButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.ExitButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.LanguageButton;
 import com.fushiginopixel.fushiginopixeldungeon.ui.PrefsButton;
@@ -160,6 +161,10 @@ public class TitleScene extends PixelScene {
 		Button crash = new CrashReportButton();
         crash.setPos( changes.left()-crash.width(), h - version.height() - crash.height());
 		add( crash );
+
+		Button donate = new DonateButton();
+		donate.setPos( crash.left()-donate.width(), h - version.height() - donate.height());
+		add( donate );
 		
 		int pos = 0;
 		

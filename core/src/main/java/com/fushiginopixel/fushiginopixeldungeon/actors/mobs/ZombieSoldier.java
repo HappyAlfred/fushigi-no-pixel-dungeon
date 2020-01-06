@@ -39,7 +39,7 @@ public class ZombieSoldier extends Zombie {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 22, 36 );
+		return Random.NormalIntRange( 22, 43 );
 	}
 
 	/*

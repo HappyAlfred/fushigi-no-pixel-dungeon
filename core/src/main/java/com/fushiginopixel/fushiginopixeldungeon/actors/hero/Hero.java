@@ -54,6 +54,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CheckedCell;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Flare;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.effects.Surprise;
 import com.fushiginopixel.fushiginopixeldungeon.items.Amulet;
 import com.fushiginopixel.fushiginopixeldungeon.items.Ankh;
 import com.fushiginopixel.fushiginopixeldungeon.items.Dewdrop;
@@ -308,39 +309,21 @@ public class Hero extends Char {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		KindOfWeapon wep = belongings.weapon;
-		
-		float accuracy = 1;
-		if (wep instanceof MissileWeapon && rangedAttack
-				&& Dungeon.level.distance( pos, target.pos ) == 1) {
-			accuracy *= 0.5f;
-		}
-		
-		if (wep != null) {
-			return (int)(attackSkill * accuracy * wep.accuracyFactor( this ,target));
-		} else {
-			return (int)(attackSkill * accuracy);
-		}
+		return attackSkill;
 	}
 	
 	@Override
 	public int defenseSkill( Char enemy ) {
-		
-		float evasion = defenseSkill;
-		
-		evasion *= RingOfEvasion.evasionMultiplier( this );
-		
-		if (paralysed > 0) {
-			evasion /= 2;
-		}
 
-		if (belongings.armor != null) {
-			evasion = belongings.armor.evasionFactor(this, enemy, evasion);
+		if(enemy.canSurpriseAttack(this) || enemy.invisible > 0){
+			return 0;
 		}
+		float evasion = defenseSkill;
 
 		return Math.round(evasion);
 	}
-	
+
+	/*
 	@Override
 	public int drRoll() {
 		int dr = 0;
@@ -348,28 +331,25 @@ public class Hero extends Char {
 
 		if (belongings.armor != null) {
 			int armDr = Random.NormalIntRange( belongings.armor.min(), belongings.armor.max());
-			/*if (STR() < belongings.armor.STRReq()){
-				armDr -= 2*(belongings.armor.STRReq() - STR());
-			}*/
+
 			if (armDr > 0) dr += armDr;
 		}
 		if (belongings.weapon != null)  {
 			int wepDr = Random.NormalIntRange( 0 , belongings.weapon.defenseFactor( this ) );
-			/*if (STR() < ((Weapon)belongings.weapon).STRReq()){
-				wepDr -= 2*(((Weapon)belongings.weapon).STRReq() - STR());
-			}*/
+
 			if (wepDr > 0) dr += wepDr;
 		}
 		if (bark != null)               dr += Random.NormalIntRange( 0 , bark.level() );
 
 		return dr;
 	}
+	*/
 
     public float strengthMultiplier(EffectType type){
 	    float a = 0.05f;
-	    if(type.isExistAttachType(EffectType.MISSILE) && heroClass == HeroClass.HUNTRESS){
-	        a *= 2;
-        }
+		if(type.isExistAttachType(EffectType.MISSILE) && subClass == HeroSubClass.SNIPER){
+			a *= 2;
+		}
 
         a = 0.5f + a * STR();
         if(heroClass == HeroClass.FUURAI){
@@ -418,7 +398,8 @@ public class Hero extends Char {
         }
         return max;
     }
-	
+
+    /*
 	@Override
 	public int damageRoll() {
 		KindOfWeapon wep = belongings.weapon;
@@ -426,23 +407,19 @@ public class Hero extends Char {
 		if (wep != null) {
 			dmg += wep.damageRoll( this );
 		} else {
-		    /*
 			if(heroClass == HeroClass.FUURAI){
 				dmg = Random.NormalIntRange(5 + lvl / 5 , 5 + lvl / 3);
 			}else {
 				dmg = Random.NormalIntRange(1, 5 Math.max(STR()-8, 1));
 			}
-			*/
 		}
 		dmg += Random.NormalIntRange(baseDamageMin(), baseDamageMax());
         dmg *= strengthMultiplier();
-		/*
 		if (wep != null) {
 			dmg = wep.damageRoll( this ) + RingOfForce.armedDamageBonus(this);
 		} else {
 			dmg = RingOfForce.damageRoll(this);
 		}
-		*/
 		if (dmg < 0) dmg = 0;
 		
 		Berserk berserk = buff(Berserk.class);
@@ -450,17 +427,37 @@ public class Hero extends Char {
 		
 		return buff( Fury.class ) != null ? (int)(dmg * 1.5f) : dmg;
 	}
+	*/
+
+    @Override
+    public int damageRoll(){
+        return Random.NormalIntRange(baseDamageMin(), baseDamageMax());
+    }
+
+    @Override
+    public int totalDamageRoll() {
+	    int dmg = super.totalDamageRoll();
+        dmg *= strengthMultiplier();
+        if (dmg < 0) dmg = 0;
+
+        Berserk berserk = buff(Berserk.class);
+        if (berserk != null) dmg = berserk.damageFactor(dmg);
+
+        return buff( Fury.class ) != null ? (int)(dmg * 1.5f) : dmg;
+    }
 	
 	@Override
 	public float speed() {
 
 		float speed = super.speed();
 
+		/*
 		speed *= RingOfHaste.speedMultiplier(this);
 		
 		if (belongings.armor != null) {
 			speed = belongings.armor.speedFactor(this, speed);
 		}
+		*/
 		
 		Momentum momentum = buff(Momentum.class);
 		if (momentum != null){
@@ -472,6 +469,7 @@ public class Hero extends Char {
 		
 	}
 
+	/*
 	//shit
 	public boolean canSurpriseAttack(){
 		//if (belongings.weapon == null || !(belongings.weapon instanceof Weapon))    return true;
@@ -480,7 +478,12 @@ public class Hero extends Char {
 
 		return true;
 	}
+	*/
 
+	public boolean canAttack(Char enemy){
+		return super.canAttack(enemy);
+	}
+	/*
 	public boolean canAttack(Char enemy){
 		if (enemy == null || pos == enemy.pos)
 			return false;
@@ -504,7 +507,7 @@ public class Hero extends Char {
 		} else {
 			return false;
 		}
-	}
+	}*/
 
 	@Override
 	public void spend( float time ) {
@@ -1004,10 +1007,6 @@ public class Hero extends Char {
 
 		}
 	}
-
-	public Char enemy(){
-		return enemy;
-	}
 	
 	public void rest( boolean fullRest ) {
 		spendAndNext( TIME_TO_REST );
@@ -1016,24 +1015,16 @@ public class Hero extends Char {
 		}
 		resting = fullRest;
 	}
-
-	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
-		KindOfWeapon wep = belongings.weapon;
-		if(wep != null) {
-			return wep.canCriticalAttack(this, enemy, damage, type);
-		}else return super.canCriticalAttack(enemy, damage, type);
-	}
 	
 	@Override
 	public int attackProc( Char enemy, int damage, EffectType type ) {
+        damage = super.attackProc(enemy, damage, type);
 		KindOfWeapon wep = belongings.weapon;
-
-		if (wep != null) damage = wep.proc( this, enemy, damage ,type );
 			
 		switch (subClass) {
 		case SNIPER:
 			if (wep instanceof MissileWeapon && rangedAttack) {
-				Buff.prolong( this, SnipersMark.class, attackDelay() ).object = enemy.id();
+				Buff.prolong( this, SnipersMark.class, totalAttackDelay() ).object = enemy.id();
 			}
 			break;
 		default:
@@ -1046,12 +1037,17 @@ public class Hero extends Char {
 	@Override
 	public int defenseProc( Char enemy, int damage, EffectType type  ) {
 
+		if(enemy.canSurpriseAttack(this)){
+			Surprise.hit(this);
+		}
+
 		/*
 		if (damage > 0 && subClass == HeroSubClass.BERSERKER){
 			Berserk berserk = Buff.affect(this, Berserk.class, new EffectType(0,EffectType.SPIRIT));
 			berserk.damage(damage);
 		}
 		*/
+		/*
 		if (belongings.armor != null) {
 			damage = belongings.armor.proc( enemy, this, damage, type, Armor.EVENT_SUFFER_ATTACK );
 		}
@@ -1060,15 +1056,9 @@ public class Hero extends Char {
 		if (armor != null) {
 			damage = armor.absorb( damage );
 		}
+		*/
 		
-		return damage;
-	}
-
-	@Override
-	public void onMissed(Char enemy) {
-		KindOfWeapon wep = belongings.weapon;
-		if (wep != null) wep.onMissed( this, enemy);
-		return;
+		return super.defenseProc(enemy, damage, type);
 	}
 	
 	@Override
@@ -1086,12 +1076,14 @@ public class Hero extends Char {
 			GLog.w( Messages.get(this, "pain_resist") );
 		}
 
+		/*
 		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
 		if (thorns != null) {
 			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this, type);
 		}
 
 		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
+		*/
 
 		/*
 		if (belongings.armor != null && belongings.armor.hasGlyph(Brimstone.class)
@@ -1105,10 +1097,6 @@ public class Hero extends Char {
 			dmg -= Random.NormalIntRange(belongings.armor.min(), belongings.armor.max())/3;
 		}
 		*/
-
-		if (belongings.armor != null) {
-			dmg = belongings.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
-		}
 
 		if (subClass == HeroSubClass.BERSERKER){
 			int realDamage = dmg;
@@ -1125,10 +1113,6 @@ public class Hero extends Char {
 		}
 
 		int damage = super.damage( dmg, src ,type );
-
-		if (belongings.armor != null && isAlive()) {
-			belongings.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
-		}
 		return damage;
 	}
 	
@@ -1388,8 +1372,8 @@ public class Hero extends Char {
 
 	//5 + lvl * 5
 	public static int maxExp( int lvl ){
-		//multupler increse to 3 from 1
-		return (int)((5 + lvl * 5) * (1 + lvl/99f * 2));
+		//multupler increse to 8 from 1
+		return (int)((5 + lvl * 5) * (0.5f + lvl/99f * 7.5));
 	}
 	
 	public boolean isStarving() {
@@ -1603,7 +1587,7 @@ public class Hero extends Char {
 		}
 		
 		Invisibility.dispel();
-		spend( attackDelay() );
+		spend( totalAttackDelay() );
 
 		curAction = null;
 

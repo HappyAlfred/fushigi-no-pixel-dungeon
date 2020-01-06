@@ -56,7 +56,7 @@ public class Pickaxe extends MeleeWeapon {
 	
 	public static final String AC_DIG	= "DIG";
 	
-	public static final float TIME_TO_DIG = 2;
+	public static final float TIME_TO_DIG = 1;
 	
 	private static final Glowing BLOODY = new Glowing( 0x550000 );
 	
@@ -164,8 +164,8 @@ public class Pickaxe extends MeleeWeapon {
 	public void dig( final Char user, final int dst ) {
 		final Ballistica chainDig = new Ballistica(user.pos, dst, Ballistica.WONT_STOP );
 
-		float digDelay = digDelay(user, dst);
-		user.spend( digDelay );
+		final float digDelay = digDelay(user, dst);
+		//user.spend( digDelay );
 		user.busy();
 
 		user.sprite.attack( dst, new Callback() {
@@ -173,7 +173,7 @@ public class Pickaxe extends MeleeWeapon {
 			public void call() {
 
 				boolean terrainAffected = false;
-				for(int cell :chainDig.subPath(1 ,2 + reachFactor(user))) {
+				for(int cell :chainDig.subPath(1 ,1 + reachFactor(user))) {
 
 					if(level() < 0){
 						break;
@@ -192,7 +192,7 @@ public class Pickaxe extends MeleeWeapon {
 							Dungeon.level.drop(gold, user.pos).sprite.drop();
 						}
 						break;
-					}else if(Dungeon.level.destructable[cell] && Dungeon.canNotBlowUpLevel()){
+					}else if(Dungeon.level.destructable[cell] && !Dungeon.canNotBlowUpLevel()){
 						CellEmitter.get( cell ).burst( SmokeParticle.FACTORY, 4 );
 						Sample.INSTANCE.play( Assets.SND_BLAST );
 
@@ -206,15 +206,16 @@ public class Pickaxe extends MeleeWeapon {
 					Dungeon.level.terrainAdjustComplete();
 					Dungeon.observe();
 
-					if(Random.Int(10 + level()) == 0){
+					if(Random.Int(20 + level()) == 0){
 						degrade();
                         updateQuickslot();
 					}
 				}
-				if(level() < 0){
+				if(!isDegradeable()){
 					broken(user);
 				}
 
+				user.spend( digDelay );
 				user.onOperateComplete();
 			}
 		});
@@ -223,8 +224,8 @@ public class Pickaxe extends MeleeWeapon {
 
 	public void broken(Char user) {
 		GLog.w( Messages.get(Pickaxe.class, "broken") );
-		if(!isUnique()){
-			detach(user.belongings.backpack);
+		if(!isUnique() && isEquipped(user)){
+			unEquip(user);
 		}
 	}
 	

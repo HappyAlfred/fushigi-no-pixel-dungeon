@@ -32,6 +32,8 @@ public class ThrowingStone extends MissileWeapon {
 		
 		//bones = false;
 		LIMIT = 5;
+
+		usageAdapt = 10/3f;
 	}
 	
 	@Override
@@ -43,11 +45,13 @@ public class ThrowingStone extends MissileWeapon {
 	public int max(int lvl) {
 		return 10;
 	}
-	
+
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return super.durabilityPerUse()*3.34f;
 	}
+	*/
 	
 	@Override
 	public int price() {

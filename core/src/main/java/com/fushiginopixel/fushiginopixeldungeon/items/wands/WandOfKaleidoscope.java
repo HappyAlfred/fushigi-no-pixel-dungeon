@@ -88,10 +88,10 @@ public class WandOfKaleidoscope extends Wand {
 		Char ch = Actor.findChar(cell);
 
 		if (ch != null){
-			if(cell != curUser.pos && bolt.path.size() > 1) {
+			if(cell != curUser.pos && bolt.path.size() > 2) {
 				cell = bolt.path.get(bolt.dist - 1);
 				processSoulMark(ch, chargesPerCast());
-			}else{
+			}else if (bolt.path.size() > 0){
 				ArrayList<Integer> candidates = new ArrayList<>();
 
 				for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
@@ -107,8 +107,10 @@ public class WandOfKaleidoscope extends Wand {
 		}
 
 		MirrorImage mob = ScrollOfMirrorImage.singleSummonToCell(curUser, cell);
-		processSoulMark(mob, chargesPerCast());
-		Dungeon.level.press(cell, null, true);
+		if(mob != null) {
+			processSoulMark(mob, chargesPerCast());
+			Dungeon.level.press(cell, null, true);
+		}
 	}
 
 	@Override

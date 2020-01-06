@@ -43,6 +43,8 @@ public class Boomerang extends MissileWeapon {
 		unique = true;
 		bones = false;
 		classlimit = HeroClass.HUNTRESS;
+
+		usageAdapt = 0;
 		
 	}
 
@@ -90,11 +92,12 @@ public class Boomerang extends MissileWeapon {
 		
 		return this;
 	}
-	
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return 0;
 	}
+	*/
 	
 	@Override
 	public void rangedHit( Char enemy, int cell ) {
@@ -118,7 +121,7 @@ public class Boomerang extends MissileWeapon {
 
 		if (throwEquiped) {
 			owner.belongings.weapon = this;
-			owner.spend( -TIME_TO_EQUIP );
+			//owner.spend( -TIME_TO_EQUIP );
 			Dungeon.quickslot.replacePlaceholder(this);
 			updateQuickslot();
 		} else

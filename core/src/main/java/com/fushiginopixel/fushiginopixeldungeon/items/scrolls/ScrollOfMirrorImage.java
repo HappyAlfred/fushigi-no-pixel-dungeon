@@ -109,7 +109,7 @@ public class ScrollOfMirrorImage extends Scroll {
 
 	public static MirrorImage singleSummonToCell(Char user, int cell){
 
-		if(Actor.findChar( cell ) != null){
+		if(Actor.findChar( cell ) != null || cell < 0){
 			return null;
 		}else if(user instanceof Hero) {
 			MirrorImage mob = new MirrorImage();

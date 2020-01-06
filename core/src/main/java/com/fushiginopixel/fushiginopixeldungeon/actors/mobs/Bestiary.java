@@ -370,7 +370,12 @@ public class Bestiary {
 		//10x ShopGuards
 		return new ArrayList<Class<? extends Mob>>(Arrays.asList(
 				ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class,
-				ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class));
+				ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class, ShopGuardian.class,
+				ShopGuardianFlying.class,
+				ShopGuardianQuick.class,
+				ShopGuardianSuper.class,
+				ShopGuardianRanger.class,
+				ShopGuardianScout.class));
 	}
 	
 	//has a chance to add a rarely spawned mobs to the rotation
@@ -454,6 +459,7 @@ public class Bestiary {
 				Lich.class,
 				Monk.class,
 				PatrolDog.class, DarkWolf.class,
+				PotFairy.class, PotYoukai.class,
 				Pumpkin.class, PumpkinKing.class,
 				Rat.class, WhiteRat.class, HungryRat.class,
 				Scorpio.class, IronScorpio.class, GoldenScorpio.class,

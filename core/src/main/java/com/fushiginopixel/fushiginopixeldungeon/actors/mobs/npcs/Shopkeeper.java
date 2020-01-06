@@ -144,10 +144,8 @@ public class Shopkeeper extends NPC {
 		Sample.INSTANCE.play( Assets.SND_ALERT );
 
 		for (int i = 0; i <  7 + (Dungeon.depth - 5) / 5 * 2; i++){
-			ShopGuardian guardian = new ShopGuardian();
-			guardian.state = guardian.WANDERING;
+			ShopGuardian guardian = ShopGuardian.summonGuardian();
 			guardian.pos = Dungeon.level.randomRespawnCell();
-			guardian.doublespeed(false);
 			GameScene.add(guardian);
 			guardian.beckon(pos );
 		}
@@ -167,31 +165,30 @@ public class Shopkeeper extends NPC {
 
 				ch.pos = newPos;
 				Dungeon.level.press( newPos, ch );
-				ShopGuardian guardian = new ShopGuardian();
-				guardian.state = guardian.WANDERING;
-				guardian.pos = Dungeon.level.entrance;
-				guardian.doublespeed(true);
-				GameScene.add(guardian);
-				guardian.beckon(pos );
 
 			}
-		}else{
-			ShopGuardian guardian = new ShopGuardian();
-			guardian.state = guardian.WANDERING;
-			guardian.pos = Dungeon.level.entrance;
-			guardian.speed();
-			GameScene.add(guardian);
-			guardian.beckon(pos );
 		}
-		Statistics.thief = true;
+
+		if (Actor.findChar( Dungeon.level.entrance ) != null) {
+			ShopGuardian guardian = ShopGuardian.summonGuardian();
+			guardian.pos = Dungeon.level.entrance;
+			GameScene.add(guardian);
+			guardian.beckon(pos);
+		}
+		alarm();
 
 		destroy();
-
-
-		Music.INSTANCE.play( Assets.ROB, true );
 		
 		sprite.killAndErase();
 		CellEmitter.get( pos ).burst( ElmoParticle.FACTORY, 6 );
+	}
+
+	protected void alarm(){
+		Statistics.thief = true;
+		if(Dungeon.level instanceof RegularLevel) {
+			((RegularLevel)Dungeon.level).refreshMobsToSpawn();
+		}
+		GameScene.playlevelmusic();
 	}
 
 	public void escape() {

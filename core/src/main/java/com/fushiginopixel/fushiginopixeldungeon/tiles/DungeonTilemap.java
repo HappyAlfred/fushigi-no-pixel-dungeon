@@ -28,6 +28,7 @@ import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 
 public abstract class DungeonTilemap extends Tilemap {
@@ -144,6 +145,12 @@ public abstract class DungeonTilemap extends Tilemap {
 		return new PointF(
 				(pos % Dungeon.level.width() + 0.5f) * SIZE,
 				(pos / Dungeon.level.width() + 0.1f) * SIZE );
+	}
+
+	public static PointF raisedPointToWorld( Point p ) {
+		return new PointF(
+				(p.x + 0.5f) * SIZE,
+				(p.y + 0.1f) * SIZE );
 	}
 	
 	@Override

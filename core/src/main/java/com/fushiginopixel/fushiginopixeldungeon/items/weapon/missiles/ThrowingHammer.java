@@ -38,6 +38,8 @@ public class ThrowingHammer extends MissileWeapon {
 				add(new Stunning());
 			}
 		};
+
+		usageAdapt = 1/1.5f;
 	}
 	
 	@Override
@@ -49,11 +51,13 @@ public class ThrowingHammer extends MissileWeapon {
 	public int max(int lvl) {
 		return 35;
 	}
-	
+
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return super.durabilityPerUse()/1.5f;
 	}
+	*/
 	
 	@Override
 	public int price() {

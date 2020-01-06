@@ -32,6 +32,7 @@ public class Tomahawk extends MissileWeapon {
 	{
 		image = ItemSpriteSheet.TOMAHAWK;
 
+		usageAdapt = 2f;
 	}
 
 	@Override
@@ -49,11 +50,13 @@ public class Tomahawk extends MissileWeapon {
 		Buff.affect( defender, Bleeding.class,new EffectType(type.attachType,0) ).set( damage );
 		return super.proc( attacker, defender, damage, type );
 	}
-	
+
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return super.durabilityPerUse()*2f;
 	}
+	*/
 	
 	@Override
 	public int price() {

@@ -62,6 +62,7 @@ import com.fushiginopixel.fushiginopixeldungeon.plants.Plant;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 import com.fushiginopixel.fushiginopixeldungeon.tiles.CustomTiledVisual;
+import com.fushiginopixel.fushiginopixeldungeon.tiles.DungeonTilemap;
 import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
@@ -71,6 +72,7 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
+import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 import com.watabou.utils.SparseArray;
 
@@ -95,7 +97,7 @@ public abstract class Level implements Bundlable {
 	protected int length;
 	
 	protected static final float TIME_TO_RESPAWN	= 35;//50;
-	protected static final int MAX_OF_RESPAWN	= 40;
+	protected static final int MAX_OF_RESPAWN	= 20;
 
 	public int version;
 	
@@ -427,13 +429,22 @@ public abstract class Level implements Bundlable {
 		if (!locked) {
 			locked = true;
 			Buff.affect(Dungeon.hero, LockedFloor.class);
+			GameScene.playlevelmusic();
 		}
 	}
 
 	public void unseal(){
 		if (locked) {
 			locked = false;
+			GameScene.playlevelmusic();
 		}
+	}
+
+	public String getMusic(){
+		if(Statistics.thief){
+			return Assets.ROB;
+		}
+		else return null;
 	}
 
 	public Group addVisuals() {
@@ -480,7 +491,8 @@ public abstract class Level implements Bundlable {
 					if (mob.alignment == Char.Alignment.ENEMY) count++;
 				}
 				
-				if (count < Math.max(nMobs(),MAX_OF_RESPAWN)) {
+				//if (count < Math.max(nMobs(),MAX_OF_RESPAWN)) {
+				if (count < MAX_OF_RESPAWN) {
 
 					Mob mob = createMob();
 					if(mob != null) {
@@ -926,10 +938,6 @@ public abstract class Level implements Bundlable {
 	public boolean adjacent( int a, int b ) {
 		return distance( a, b ) == 1;
 	}
-
-	public boolean isSafePlace( int p){
-		return p >= 0 && p < Dungeon.level.length() && !(p % Dungeon.level.width() == 0 || p % Dungeon.level.width() == Dungeon.level.width() -1 || p / Dungeon.level.width() == 0 || p / Dungeon.level.width() == Dungeon.level.height()-1);
-	}
 	
 	//uses pythagorean theorum for true distance, as if there was no movement grid
 	public float trueDistance(int a, int b){
@@ -955,12 +963,19 @@ public abstract class Level implements Bundlable {
                 (tile.y >= height - 1 || tile.y <= 0));
     }
 
-	public Point cellToPoint( int cell ){
+	public final Point cellToPoint( int cell ){
 		return new Point(cell % width(), cell / width());
 	}
 
 	public int pointToCell( Point p ){
 		return p.x + p.y*width();
+	}
+
+	//Pointf used for dungeonTilemap
+	public int pointFToCell( PointF p ){
+		PointF p1 = p.invScale(DungeonTilemap.SIZE);
+		Point point = new Point((int)p1.x,(int) p1.y);
+		return pointToCell(point );
 	}
 	
 	public String tileName( int tile ) {

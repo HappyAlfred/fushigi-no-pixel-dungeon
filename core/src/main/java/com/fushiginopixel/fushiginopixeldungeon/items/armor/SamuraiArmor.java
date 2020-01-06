@@ -51,7 +51,7 @@ public class SamuraiArmor extends Armor {
 	@Override
 	public int DRMin(int lvl){
 		return  3 +
-				lvl*UPGRADE_DEFENSE;
+				lvl;
 	}
 
 }

@@ -65,7 +65,7 @@ public class DM5000 extends Mob {
 	{
 		spriteClass = DM5000Sprite.class;
 		
-		HP = HT = 500;
+		HP = HT = 800;
 		EXP = 60;
 		//defenseSkill = 30;
 
@@ -306,6 +306,7 @@ public class DM5000 extends Mob {
                     firework(target);
                     spend(TICK);
                     cooldown = 2;
+                    lastBomb = false;
                     return true;
                 }
 

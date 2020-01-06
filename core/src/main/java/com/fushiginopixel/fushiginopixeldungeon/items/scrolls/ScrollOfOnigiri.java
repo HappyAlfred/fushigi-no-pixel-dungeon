@@ -51,12 +51,17 @@ public class ScrollOfOnigiri extends InventoryScroll {
 			return;
 		}
 
+		/*
 		if(item.cursed){
 			item.cursed = false;
 		}
+		*/
 		if (item.isEquipped(Dungeon.hero)) {
+			/*
 			if (!((EquipableItem) item).doUnequip(Dungeon.hero, false))
 				return;
+			*/
+			((EquipableItem) item).unEquip(Dungeon.hero);
 		}
 		item.detachAll(curUser.belongings.backpack);
 

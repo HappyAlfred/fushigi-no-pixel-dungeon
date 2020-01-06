@@ -65,7 +65,7 @@ public class PrisonMidBossLevel extends Level {
 		stage = 1;
 	}
 
-	private enum State{
+	public enum State{
 		START,
 		FIGHT_START,
 		FIGHT_ARENA,
@@ -119,6 +119,15 @@ public class PrisonMidBossLevel extends Level {
 
 		for (Bundlable item : bundle.getCollection(STORED_ITEMS)){
 			storedItems.add( (Item)item );
+		}
+	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_PRISON;
 		}
 	}
 	
@@ -192,7 +201,7 @@ public class PrisonMidBossLevel extends Level {
 			//hero enters tengu's chamber
 			if (state == State.START
 					&& (new EmptyRoom().set(13, 13, 19, 19)).inside(cellToPoint(cell))){
-				progress();
+				progress(State.FIGHT_START);
 			}
 		}
 	}
@@ -313,10 +322,11 @@ public class PrisonMidBossLevel extends Level {
 		}
 	}
 
-	public void progress(){
-		switch (state){
+	public void progress(State st){
+		if(state.equals(st)) return;
+		switch (st){
 			//moving to the beginning of the fight
-			case START:
+			case FIGHT_START:
 				seal();
 				set(16 + 13 * 33, Terrain.LOCKED_DOOR);
 				GameScene.updateMap(16 + 13 * 33);
@@ -339,13 +349,13 @@ public class PrisonMidBossLevel extends Level {
 				break;
 
 			//halfway through, move to the maze
-			case FIGHT_START:
+			case FIGHT_ARENA:
 				if(warden.progressState == 0) {
 					warden.progressState = 1;
 				}else break;
 
 					changeMap(MAP_ARENA);
-					clearEntities((Room) new EmptyRoom().set(14, 1, 18, 12)); //clear the entrance
+					clearEntities((Room) new EmptyRoom().set(14, 2, 18, 12)); //clear the entrance
 
 					GameScene.flash(0xFFFFFF);
 					Sample.INSTANCE.play(Assets.SND_BLAST);
@@ -354,7 +364,7 @@ public class PrisonMidBossLevel extends Level {
 					break;
 
 			//arena ended, fight over.
-			case FIGHT_ARENA:
+			case WON:
 				unseal();
 
 				Dungeon.hero.interrupt();

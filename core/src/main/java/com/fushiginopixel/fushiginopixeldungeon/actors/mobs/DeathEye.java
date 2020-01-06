@@ -103,7 +103,12 @@ public class DeathEye extends Mob {
 
 	@Override
 	protected boolean act() {
+		/*
 		if (beamCharged && state != HUNTING){
+			beamCharged = false;
+		}
+		*/
+		if (state != HUNTING || paralysed > 0){
 			beamCharged = false;
 		}
 		if (beam == null && beamTarget != -1) {
@@ -122,12 +127,12 @@ public class DeathEye extends Mob {
 			return super.doAttack(enemy);
 		} else if (!beamCharged){
 			((EyeSprite)sprite).charge( enemy.pos );
-			spend( attackDelay()*4f );
+			spend( totalAttackDelay()*4f );
 			beamCharged = true;
 			return true;
 		} else {
 
-			spend( attackDelay() );
+			spend( totalAttackDelay() );
 			
 			beam = new Ballistica(pos, beamTarget, Ballistica.STOP_TERRAIN);
 			if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[beam.collisionPos] ) {
@@ -204,6 +209,12 @@ public class DeathEye extends Mob {
 
 		beam = null;
 		beamTarget = -1;
+	}
+
+	@Override
+	protected boolean getCloser( int target ) {
+		beamCharged = false;
+		return super.getCloser( target );
 	}
 
 	private static final String BEAM_TARGET     = "beamTarget";

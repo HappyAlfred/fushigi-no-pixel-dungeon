@@ -107,7 +107,8 @@ public class Thief extends Mob {
 			Dungeon.LimitedDrops.THIEVES_ARMBAND.drop();
 			return new MasterThievesArmband().identify();
 		} else
-			return new Gold(Random.NormalIntRange(100, 250));
+			//return new Gold(Random.NormalIntRange(100, 250));
+			return new Gold(Random.NormalIntRange(20, 50));
 	}
 
 	/*

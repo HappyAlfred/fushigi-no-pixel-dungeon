@@ -268,6 +268,11 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
+	public boolean isDegradeable(){
+		return level() > 0;
+	}
+
+	@Override
 	public Item fusion(Item item){
 		if(item instanceof MagesStaff) {
 			wand.curCharges = Math.min(wand.curCharges + ((MagesStaff) item).wand.curCharges, wand.maxCharges);

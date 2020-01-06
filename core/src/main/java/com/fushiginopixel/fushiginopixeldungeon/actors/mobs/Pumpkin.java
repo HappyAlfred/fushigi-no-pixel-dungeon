@@ -54,7 +54,7 @@ public class Pumpkin extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 10, 22 );
+		return Random.NormalIntRange( 14, 22 );
 	}
 
 	/*
@@ -62,7 +62,6 @@ public class Pumpkin extends Mob {
 	public int attackSkill( Char target ) {
 		return 24;
 	}
-	*/
 
     @Override
     public int defenseSkill( Char enemy ) {
@@ -74,6 +73,12 @@ public class Pumpkin extends Mob {
 	public int drRoll() {
 		return Dungeon.level.solid[pos] ? Random.NormalIntRange(10, 14) : Random.NormalIntRange(0, 4);
 	}
+	*/
+
+    @Override
+    public int drRoll() {
+        return Random.NormalIntRange(0, 4);
+    }
 
 	@Override
     protected Char chooseEnemy() {
@@ -166,7 +171,7 @@ public class Pumpkin extends Mob {
             return enemy;
     }
 
-    public void safeRandomTarget(){
+    public void randomTargetNearby(){
         ArrayList<Integer> canMove = new ArrayList<>();
         for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
             int p = pos + PathFinder.NEIGHBOURS8[i];
@@ -200,59 +205,29 @@ public class Pumpkin extends Mob {
                     }
                 }
 
-            }else if(enemy != null){
+            }else{
                 enemySeen = false;
                 int oldPos = pos;
-                ArrayList<Integer> canMove = new ArrayList<>();
 
-                for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
-                    int p = pos + PathFinder.NEIGHBOURS8[i];
-                    if(p >= 0 && p < Dungeon.level.length() && !(p % Dungeon.level.width() == 0 || p % Dungeon.level.width() == Dungeon.level.width() -1 || p / Dungeon.level.width() == 0 || p / Dungeon.level.width() == Dungeon.level.height() -1)) {
-                        if (Actor.findChar(p) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p] || Dungeon.level.solid[p])) {
-                            canMove.add(p);
-                        }
+                if(Random.Int(2) == 0) {
+                    if(enemy != null) {
+                        target = enemy.pos;
+                    }
+                    if (target != -1 && getCloser( target )) {
+                        spend( 1 / speed() );
+                        return moveSprite( oldPos, pos );
+                    } else {
+                        target = Dungeon.level.randomDestination();
+                        spend( TICK );
                     }
                 }
-
-                if(!canMove.isEmpty()) {
-
-                    int minDistance = 1000;
-
-                    for (int i : canMove) {
-                        if (Dungeon.level.distance(i, enemy.pos) <= minDistance) {
-                            minDistance = Dungeon.level.distance(i, enemy.pos);
-                        }
-                    }
-
-                    ArrayList<Integer> moveTo = new ArrayList<>();
-
-                    for (int i : canMove) {
-                        if (Dungeon.level.distance(i, enemy.pos) == minDistance) {
-                            moveTo.add(i);
-                        }
-                    }
-
-                    if (Random.Int(10) <= 7) {
-                        target = moveTo.get(Random.Int(moveTo.size()));
-                    } else target = canMove.get(Random.Int(canMove.size()));
-
-
+                else {
+                    randomTargetNearby();
                     if (target != -1 && getCloser(target)) {
                         spend(1 / speed());
                         return moveSprite(oldPos, pos);
                     } else spend(TICK);
-                }else spend(TICK);
-            }
-            else {
 
-                enemySeen = false;
-
-                int oldPos = pos;
-                if (target != -1 && getCloser( target )) {
-                    spend( 1 / speed() );
-                    return moveSprite( oldPos, pos );
-                } else {
-                    safeRandomTarget();
                 }
 
             }
@@ -264,35 +239,46 @@ public class Pumpkin extends Mob {
         @Override
         public boolean act( boolean enemyInFOV, boolean justAlerted ) {
             enemySeen = enemyInFOV;
-            if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
+            if(Random.Int(2) == 0){
+                if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
-                return doAttack( enemy );
-
-            } else {
-
-                if (enemyInFOV) {
-                    target = enemy.pos;
-                } else if (enemy == null) {
-                    state = WANDERING;
-                    safeRandomTarget();
-                    return true;
-                }
-
-                int oldPos = pos;
-                if (target != -1 && getCloser( target )) {
-
-                    spend( 1 / speed() );
-                    return moveSprite( oldPos,  pos );
+                    return doAttack( enemy );
 
                 } else {
-                    spend( TICK );
-                    if (!enemyInFOV) {
-                        sprite.showLost();
+
+                    if (enemyInFOV) {
+                        target = enemy.pos;
+                    } else if (enemy == null) {
                         state = WANDERING;
-                        safeRandomTarget();
+                        target = Dungeon.level.randomDestination();
+                        return true;
                     }
-                    return true;
+
+                    int oldPos = pos;
+                    if (target != -1 && getCloser( target )) {
+
+                        spend( 1 / speed() );
+                        return moveSprite( oldPos,  pos );
+
+                    } else {
+                        spend( TICK );
+                        if (!enemyInFOV) {
+                            sprite.showLost();
+                            state = WANDERING;
+                            target = Dungeon.level.randomDestination();
+                        }
+                        return true;
+                    }
                 }
+
+            }else{
+                int oldPos = pos;
+                randomTargetNearby();
+                if (target != -1 && getCloser(target)) {
+                    spend(1 / speed());
+                    return moveSprite(oldPos, pos);
+                } else spend(TICK);
+                return true;
             }
         }
     }

@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.ShopGuardian;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Statue;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.StatueSprite;
@@ -88,8 +89,8 @@ public class GuardianTrap extends Trap {
 		@Override
 		public void addWeapon(){
 			super.addWeapon();
-			weapon.enchantmentClear();
-			weapon.degrade(weapon.level());
+			((Weapon)belongings.weapon).enchantmentClear();
+			belongings.weapon.degrade(belongings.weapon.level());
 		}
 
 		@Override

@@ -22,9 +22,12 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Ghostly;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Projecting;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Crossbow;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -34,6 +37,8 @@ public class Dart extends MissileWeapon {
 
 	{
 		image = ItemSpriteSheet.DART;
+
+		usageAdapt = 0;
 	}
 
 	@Override
@@ -46,11 +51,12 @@ public class Dart extends MissileWeapon {
 		//return bow != null ? 12 + 3*bow.level() : 2;
 		return bow != null ? 16 + (UPGRADE_ATTACK - 1)*bow.level() : 5;
 	}
-	
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return 0;
 	}
+	*/
 	
 	private static Crossbow bow;
 	
@@ -63,20 +69,24 @@ public class Dart extends MissileWeapon {
 	}
 	
 	@Override
-	public int throwPos(Char user, int dst) {
-		if (bow != null && bow.hasEnchant(Projecting.class)
-				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
+	public int throwPos(Char user, int from, int dst) {
+		KindOfWeapon wep = user.belongings.weapon;
+		Crossbow curBow = wep instanceof Crossbow ? (Crossbow)wep : null;
+		if (curBow != null && curBow.hasEnchant(Ghostly.class)
+				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(from, dst) <= 4){
 			return dst;
 		} else {
-			return super.throwPos(user, dst);
+			return super.throwPos(user, from, dst);
 		}
 	}
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage, EffectType type) {
-		if (bow != null && bow.enchantmentCount() != 0){
-			for(Enchantment e:bow.enchantment) {
-				damage *= e.proc(bow, attacker, defender, damage, type);
+		KindOfWeapon wep = attacker.belongings.weapon;
+		Crossbow curBow = wep instanceof Crossbow ? (Crossbow)wep : null;
+		if (curBow != null && curBow.enchantmentCount() != 0){
+			for(Enchantment e:curBow.enchantment) {
+				damage *= e.proc(curBow, attacker, defender, damage, type);
 			}
 		}
 		return super.proc(attacker, defender, damage, type);
@@ -85,6 +95,24 @@ public class Dart extends MissileWeapon {
 	@Override
 	protected void onThrow(int cell) {
 		updateCrossbow();
+
+		KindOfWeapon wep = curUser.belongings.weapon;
+		Crossbow curBow = wep instanceof Crossbow ? (Crossbow)wep : null;
+		Char enemy = Actor.findChar( cell );
+		if(curBow != null && curBow.hasEnchant(Projecting.class) && enemy == null){
+			for (Char ch : Actor.chars()){
+				int collisionPos= throwPos(curUser, cell, ch.pos);
+				if (collisionPos == ch.pos &&
+						ch != curUser &&
+						(enemy == null || Dungeon.level.trueDistance(cell, ch.pos) < Dungeon.level.trueDistance(cell, enemy.pos))){
+					enemy = ch;
+				}
+			}
+			if (enemy != null) {
+				turnToOthers(this, curUser, enemy, cell);
+				return;
+			}
+		}
 		super.onThrow(cell);
 	}
 	

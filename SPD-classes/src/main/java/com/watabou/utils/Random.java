@@ -50,6 +50,11 @@ public class Random {
 
 	//returns a uniformly distributed float in the range [min, max)
 	public static float Float( float min, float max ) {
+		if(min > max){
+			float temp = max;
+			max = min;
+			min = temp;
+		}
 		return min + Float(max - min);
 	}
 
@@ -60,16 +65,31 @@ public class Random {
 
 	//returns a uniformly distributed int in the range [min, max)
 	public static int Int( int min, int max ) {
+		if(min > max){
+			int temp = max;
+			max = min;
+			min = temp;
+		}
 		return min + Int(max - min);
 	}
 
 	//returns a uniformly distributed int in the range [min, max]
 	public static int IntRange( int min, int max ) {
+		if(min > max){
+			int temp = max;
+			max = min;
+			min = temp;
+		}
 		return min + Int(max - min + 1);
 	}
 
 	//returns a triangularly distributed int in the range [min, max]
 	public static int NormalIntRange( int min, int max ) {
+		if(min > max){
+			int temp = max;
+			max = min;
+			min = temp;
+		}
 		return min + (int)((Float() + Float()) * (max - min + 1) / 2f);
 	}
 

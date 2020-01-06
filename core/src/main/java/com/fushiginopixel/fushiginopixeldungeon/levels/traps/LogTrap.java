@@ -99,7 +99,7 @@ public class LogTrap extends Trap {
 								}
 								WandOfBlastWave.knockBack(finalTarget.pos,opposite,finalTarget,2 + Dungeon.depth / 5);
 
-								int dmg = damageRoll() - finalTarget.drRoll();
+								int dmg = damageRoll() - finalTarget.totalDR();
 								finalTarget.damage(dmg, trap, new EffectType(EffectType.MISSILE,0));
 								if (finalTarget == Dungeon.hero && !finalTarget.isAlive()){
 									Dungeon.fail( trap.getClass()  );
@@ -127,7 +127,7 @@ public class LogTrap extends Trap {
 				}
 				WandOfBlastWave.knockBack(finalTarget.pos,opposite,finalTarget,2 + Dungeon.depth / 5);
 
-				finalTarget.damage(damageRoll() - finalTarget.drRoll(), trap, new EffectType(EffectType.MISSILE,0));
+				finalTarget.damage(damageRoll() - finalTarget.totalDR(), trap, new EffectType(EffectType.MISSILE,0));
 			}
 		}
 	}

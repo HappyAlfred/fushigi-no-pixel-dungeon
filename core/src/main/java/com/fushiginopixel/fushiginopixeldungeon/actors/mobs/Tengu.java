@@ -64,7 +64,7 @@ public class Tengu extends Mob {
 	{
 		spriteClass = TenguSprite.class;
 		
-		HP = HT = 250;
+		HP = HT = 400;
 		EXP = 40;
 		//defenseSkill = 25;
 
@@ -115,7 +115,7 @@ public class Tengu extends Mob {
 
 		//phase 2 of the fight is over
 		if (HP == 0 && beforeHitHP <= HT/2) {
-			((PrisonBossLevel)Dungeon.level).progress();
+			((PrisonBossLevel)Dungeon.level).progress(PrisonBossLevel.State.WON);
 			return 0;
 		}
 
@@ -125,7 +125,7 @@ public class Tengu extends Mob {
 		if (beforeHitHP > HT/2 && HP <= HT/2){
 			HP = (HT/2)-1;
 			yell(Messages.get(this, "interesting"));
-			((PrisonBossLevel)Dungeon.level).progress();
+			((PrisonBossLevel)Dungeon.level).progress(PrisonBossLevel.State.MAZE);
 			BossHealthBar.bleed(true);
 
 		//if tengu has lost a certain amount of hp, jump
@@ -171,7 +171,7 @@ public class Tengu extends Mob {
 		if (enemy == Dungeon.hero)
 			Dungeon.hero.resting = false;
 		sprite.attack( enemy.pos );
-		spend( attackDelay() );
+		spend( totalAttackDelay() );
 		return true;
 	}
 

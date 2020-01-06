@@ -45,6 +45,8 @@ public class ThrowingKnife extends MissileWeapon {
 			}
 		};
 		LIMIT = 3;
+
+		usageAdapt = 2f;
 	}
 	
 	@Override
@@ -87,10 +89,12 @@ public class ThrowingKnife extends MissileWeapon {
 	}
 	*/
 
+	/*
 	@Override
 	protected float durabilityPerUse() {
 		return super.durabilityPerUse()*2f;
 	}
+	*/
 	
 	@Override
 	public int price() {

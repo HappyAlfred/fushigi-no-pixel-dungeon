@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.levels.rooms;
 
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
+import com.fushiginopixel.fushiginopixeldungeon.levels.rooms.connection.ConnectionRoom;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
@@ -242,6 +243,26 @@ public abstract class Room extends Rect implements Graph.Node, Bundlable {
 			return true;
 		}
 		return false;
+	}
+
+	//check rooms between tunnel
+	public boolean checkTunnelConnect( Room room) {
+		return !this.connected.containsKey(room) && checkTunnelConnect( room, new ArrayList<Room>() );
+	}
+
+	public boolean checkTunnelConnect( Room room, ArrayList<Room> n ) {
+		n.add(this);
+		boolean connect = false;
+		for(Room r : connected.keySet()){
+			if(r == room){
+				if(this instanceof ConnectionRoom)return true;
+				else return false;
+			}else if(r instanceof ConnectionRoom && !n.contains(r)){
+				connect = r.checkTunnelConnect(room, n);
+				if (connect) break;
+			}
+		}
+		return connect;
 	}
 	
 	public void clearConnections(){

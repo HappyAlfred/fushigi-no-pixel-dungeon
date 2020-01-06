@@ -47,6 +47,6 @@ public class RoundShield extends MeleeWeapon {
 
 	@Override
 	public int defenseFactor( Char owner ) {
-		return 5+2*level();     //5 extra defence, plus 2 per level;
+		return 5+1*level();     //5 extra defence, plus 2 per level;
 	}
 }

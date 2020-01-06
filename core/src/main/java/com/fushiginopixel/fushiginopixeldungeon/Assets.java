@@ -113,6 +113,7 @@ public class Assets {
 	public static final String CANNIBAL_FLOWER		= "cannibal_flower.png";
 	public static final String POT_FAIRY		= "pot_fairy.png";
 	public static final String MECHANICAL_BEAST		= "mechanical_beast.png";
+	public static final String DEVIL		= "devil.png";
 
 	public static final String NPCALFRED    = "npcalfred.png";
 	public static final String NPCREN    = "npcren.png";

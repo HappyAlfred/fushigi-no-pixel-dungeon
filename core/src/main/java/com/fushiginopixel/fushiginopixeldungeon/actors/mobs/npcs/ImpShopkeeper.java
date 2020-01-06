@@ -104,15 +104,13 @@ public class ImpShopkeeper extends Shopkeeper {
 			ArrayList<Mob> mobs = new ArrayList<>();
 
 			for (Integer point : respawnPoints) {
-				ShopGuardian guardian = new ShopGuardian();
-				guardian.state = guardian.WANDERING;
+				ShopGuardian guardian = ShopGuardian.summonGuardian();
 				guardian.pos = point;
-				guardian.speed();
 				GameScene.add(guardian);
 				guardian.beckon(pos );
 			}
 		}
-		Statistics.thief = true;
+		alarm();
 
 		Sample.INSTANCE.play( Assets.SND_ALERT );
 		

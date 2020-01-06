@@ -17,6 +17,16 @@ public class FirstStrike extends Weapon.Enchantment{
         return 1;
     }
 
+
+    @Override
+    public float accuracyAdapt( Weapon weapon, Char attacker ,Char target, float acc ) {
+        //no proc effect, see weapon.accuracyFactor for effect
+        if(target.HP == target.HT){
+            return 1000f;
+        }
+        return 1f;
+    }
+    /*
     @Override
     public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
@@ -26,7 +36,7 @@ public class FirstStrike extends Weapon.Enchantment{
             return false;
         }
     }
-
+    */
     @Override
     public ItemSprite.Glowing glowing() {
         return BLACK;

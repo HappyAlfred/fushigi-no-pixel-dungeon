@@ -6,6 +6,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Statistics;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Bestiary;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Dragon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
+import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.PotFairy;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CavesBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CavesLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CavesMidBossLevel;
@@ -60,11 +61,13 @@ public class SuperFushigiMode extends Mode {
     public static HashMap<Class<? extends Mob>, Float> expAdjust = new HashMap<>();
     static{
         expAdjust.put(Dragon.class,        0.8f);
+        expAdjust.put(PotFairy.class,        2f);
     }
 
     public static HashMap<Class<? extends Mob>, Float> rateAdjust = new HashMap<>();
     static{
         rateAdjust.put(Dragon.class,        0.5f);
+        rateAdjust.put(PotFairy.class,        0.5f);
     }
 
     @Override
@@ -82,33 +85,47 @@ public class SuperFushigiMode extends Mode {
         ArrayList<Integer> exps = new ArrayList();
         ArrayList<Class<? extends Mob>> mobsForSpawn = new ArrayList<>();
 
-        for(Class<? extends Mob> m :mobs){
-            Mob mob = null;
-            try{
-                mob = m.newInstance();
-            }catch (Exception e){
-                Fushiginopixeldungeon.reportException(e);
-            }
-            int exp = mob.EXP;
-            float adjust = 1f;
-            for (Class c : expAdjust.keySet()){
-                if (c.isAssignableFrom(m)){
-                    adjust = expAdjust.get(c);
+        int aveExp = averageLevel;
+        boolean reduce = false;
+        while(true) {
+            cmobs.clear();
+            exps.clear();
+            for (Class<? extends Mob> m : mobs) {
+                Mob mob = null;
+                try {
+                    mob = m.newInstance();
+                } catch (Exception e) {
+                    Fushiginopixeldungeon.reportException(e);
+                }
+                int exp = mob.EXP;
+                float adjust = 1f;
+                for (Class c : expAdjust.keySet()) {
+                    if (c.isAssignableFrom(m)) {
+                        adjust = expAdjust.get(c);
+                    }
+                }
+                if (adjust != 1f) {
+                    exp *= adjust;
+                }
+                if (mob != null && exp >= aveExp - expLimit && exp <= aveExp + expLimit) {
+                    cmobs.add(m);
+                    exps.add(exp);
                 }
             }
-            if(adjust != 1f){
-                exp *= adjust;
+            if(cmobs.isEmpty()){
+                reduce = true;
             }
-            if(mob != null && exp >= averageLevel - expLimit && exp <= averageLevel + expLimit){
-                cmobs.add(m);
-                exps.add(exp);
+            if(reduce && cmobs.size() < 3 && aveExp > 0) {
+                aveExp--;
+            }else{
+                break;
             }
         }
 
         if(!cmobs.isEmpty()) {
             for (int i = 0; i < 20; i++) {
                 Class<? extends Mob> m = Random.element(cmobs);
-                int dif = Math.abs(exps.get(cmobs.indexOf(m)) - averageLevel);
+                int dif = Math.abs(exps.get(cmobs.indexOf(m)) - aveExp);
                 float exp = ((expLimit + 2f) - dif) / (expLimit + 2);
                 float adjust = 1f;
                 for (Class c : rateAdjust.keySet()) {

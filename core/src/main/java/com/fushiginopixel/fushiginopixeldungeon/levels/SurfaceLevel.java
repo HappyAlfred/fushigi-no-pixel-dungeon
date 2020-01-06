@@ -60,6 +60,7 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SurfaceLevel extends Level {
 
@@ -176,6 +177,16 @@ public class SurfaceLevel extends Level {
 				return Messages.get(SewerLevel.class, "bookshelf_desc");
 			default:
 				return super.tileDesc( tile );
+		}
+	}
+
+	@Override
+	public String getMusic(){
+		final Calendar calendar = Calendar.getInstance();
+		if(calendar.get(Calendar.HOUR_OF_DAY) >= 6 && calendar.get(Calendar.HOUR_OF_DAY) < 18) {
+			return Assets.TOWN_MAJOR;
+		}else{
+			return Assets.TOWN_MINOR;
 		}
 	}
 

@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Vorpal;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 

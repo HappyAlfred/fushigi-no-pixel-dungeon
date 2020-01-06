@@ -203,18 +203,30 @@ public class WndBag extends WndTabbed {
 		
 		// Equipped items
 		Belongings stuff = Dungeon.hero.belongings;
+		/*
 		placeItem( stuff.weapon != null ? stuff.weapon : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
 		placeItem( stuff.armor != null ? stuff.armor : new Placeholder( ItemSpriteSheet.ARMOR_HOLDER ) );
 		placeItem( stuff.misc1 != null ? stuff.misc1 : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
 		placeItem( stuff.misc2 != null ? stuff.misc2 : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
+		*/
+		int equipCount = 0;
+		if(stuff.weapon != null) placeItem( stuff.weapon ); equipCount++;
+		if(stuff.armor != null) placeItem( stuff.armor ); equipCount++;
+		if(stuff.misc1 != null) placeItem( stuff.misc1 ); equipCount++;
+		if(stuff.misc2 != null) placeItem( stuff.misc2 ); equipCount++;
 
 		// Items in the bag
 		for (Item item : container.items.toArray(new Item[0])) {
 			placeItem( item );
 		}
-		
+		/*
 		// Free Space
 		while ((count - 4) < container.size) {
+			placeItem( null );
+		}
+		*/
+		// Free Space
+		while (count - equipCount < container.realSize()) {
 			placeItem( null );
 		}
 	}
@@ -394,7 +406,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.QUICKSLOT && (item.defaultAction != null || !item.actions(Dungeon.hero).isEmpty()) ||
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
-						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
+						mode == Mode.ENCHANTABLE && (item instanceof Weapon || item instanceof Armor) ||
 						mode == Mode.WAND && (item instanceof Wand) ||
 						mode == Mode.SEED && (item instanceof Seed) ||
 						mode == Mode.FOOD && (item instanceof Food) ||

@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Bones;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Yog;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
@@ -91,6 +92,17 @@ public class HallsBossLevel extends Level {
 		stairs = bundle.getInt( STAIRS );
 		enteredArena = bundle.getBoolean( ENTERED );
 		keyDropped = bundle.getBoolean( DROPPED );
+	}
+
+	@Override
+	public String getMusic(){
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if(lock != null) return Assets.BOSS_FINAL;
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_HALLS;
+		}
 	}
 	
 	@Override

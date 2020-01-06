@@ -74,7 +74,7 @@ public class WornDartTrap extends Trap {
 							reset(pos, finalTarget.sprite, new Dart(), trap, new Callback() {
 								@Override
 								public void call() {
-								int dmg = Random.NormalIntRange(1, 4) - finalTarget.drRoll();
+								int dmg = Random.NormalIntRange(1, 4) - finalTarget.totalDR();
 								finalTarget.damage(dmg, trap , new EffectType(EffectType.MAGICAL_BOLT,0));
 								if (finalTarget == Dungeon.hero && !finalTarget.isAlive()){
 									Dungeon.fail( trap.getClass()  );
@@ -90,7 +90,7 @@ public class WornDartTrap extends Trap {
 					}
 				});
 			} else {
-				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.drRoll(), trap, new EffectType(EffectType.MAGICAL_BOLT,0));
+				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.totalDR(), trap, new EffectType(EffectType.MAGICAL_BOLT,0));
 			}
 		}
 	}

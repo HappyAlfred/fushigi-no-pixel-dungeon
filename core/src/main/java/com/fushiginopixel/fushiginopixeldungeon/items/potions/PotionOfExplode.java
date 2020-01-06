@@ -86,7 +86,7 @@ public class PotionOfExplode extends Potion {
 					//those not at the center of the blast take damage less consistently.
 
 					int dmg = Random.NormalIntRange( c==cell ? (Dungeon.depth+2) : 1, (Dungeon.depth+2) * 2 );
-					dmg -= ch.drRoll();
+					dmg -= ch.totalDR();
 					if (dmg > 0) {
 						ch.damage( dmg, this ,new EffectType(EffectType.BURST,0));
 					}

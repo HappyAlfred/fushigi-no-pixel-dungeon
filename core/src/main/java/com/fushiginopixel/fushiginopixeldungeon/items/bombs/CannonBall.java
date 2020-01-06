@@ -62,10 +62,6 @@ public class CannonBall extends Bombs {
 		delay = 0f;
 	}
 
-	public Fuse fuse;
-
-	public Char enemyThrow;
-
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions( hero );
@@ -105,9 +101,9 @@ public class CannonBall extends Bombs {
 		if(enemyThrow == null){
 			return Random.NormalIntRange( center ? minDamage : 1, maxDamage );
 		}else{
-			int damage = center ? enemyThrow.damageRoll() : enemyThrow.damageRoll() / 2;
+			int damage = center ? enemyThrow.totalDamageRoll() : enemyThrow.totalDamageRoll() / 2;
 			if(enemyThrow == Dungeon.hero){
-				damage = Math.max(Random.NormalIntRange( center ? minDamage : 1, maxDamage ) ,center ? enemyThrow.damageRoll() : enemyThrow.damageRoll() / 2);
+				damage = Math.max(Random.NormalIntRange( center ? minDamage : 1, maxDamage ) ,center ? enemyThrow.totalDamageRoll() : enemyThrow.totalDamageRoll() / 2);
 				damage *= RingOfSharpshooting.damageMultiplier(Dungeon.hero);
 			}
 			return damage;

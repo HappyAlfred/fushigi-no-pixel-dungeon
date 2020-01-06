@@ -338,11 +338,11 @@ public abstract class Mob extends Char {
 	public Char enemy(){
 		return enemy;
 	}
-	
+	/*
 	protected boolean canAttack( Char enemy ) {
 		return Dungeon.level.adjacent( pos, enemy.pos );
 	}
-	
+	*/
 	protected boolean getCloser( int target ) {
 		
 		if (rooted || target == pos) {
@@ -477,7 +477,7 @@ public abstract class Mob extends Char {
 			attack( enemy );
 		}
 				
-		spend( attackDelay() );
+		spend( totalAttackDelay() );
 		
 		return !visible;
 	}
@@ -608,7 +608,7 @@ public abstract class Mob extends Char {
 
 		Dungeon.level.mobs.remove( this );
 
-		if (Dungeon.hero.isAlive()) {
+		if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
 
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;

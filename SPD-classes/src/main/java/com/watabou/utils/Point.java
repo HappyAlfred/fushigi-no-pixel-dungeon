@@ -91,6 +91,10 @@ public class Point {
         y = (int)Math.round(y1);
         return this;
     }
+
+	public double getVectorAngle() {
+		return Math.atan2( y, x ) * A;
+	}
 	
 	@Override
 	public boolean equals( Object obj ) {

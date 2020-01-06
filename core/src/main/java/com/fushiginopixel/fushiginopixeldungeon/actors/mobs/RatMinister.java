@@ -51,7 +51,7 @@ import com.watabou.utils.Random;
 public class RatMinister extends Rat {
 
 	{
-		HP = HT = 80;
+		HP = HT = 120;
 		EXP = 10;
 		//defenseSkill = 7;
 		spriteClass = RatMinisterSprite.class;
@@ -78,7 +78,7 @@ public class RatMinister extends Rat {
 	//a gold sword
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 2, 9 );
+		return Random.NormalIntRange( 4, 10 );
 	}
 
 	/*

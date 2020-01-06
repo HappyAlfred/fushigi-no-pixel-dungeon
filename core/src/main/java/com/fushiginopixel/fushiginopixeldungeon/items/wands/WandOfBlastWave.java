@@ -118,7 +118,7 @@ public class WandOfBlastWave extends DamageWand {
 	public static void knockBack(int fromPos,int throwPos,Char target,int power){
 		Point vector = Dungeon.level.cellToPoint(fromPos).vector(Dungeon.level.cellToPoint(throwPos));
 
-		Ballistica trajectory = new Ballistica(throwPos, vector.x, vector.y, Ballistica.MAGIC_BOLT);
+		Ballistica trajectory = new Ballistica(throwPos, new Point(vector.x, vector.y), Ballistica.MAGIC_BOLT);
 		throwChar(target, trajectory, power);
 	}
 

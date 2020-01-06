@@ -206,7 +206,7 @@ public class Bombs extends Item {
 					//those not at the center of the blast take damage less consistently.
 
 					int dmg = damageRoll(min(),max(),c==cell);
-					dmg -= ch.drRoll();
+					dmg -= ch.totalDR();
 					int effectiveDamage = proc(ch , dmg);
 					if (effectiveDamage > 0) {
 						ch.damage( effectiveDamage, this ,new EffectType(EffectType.BURST,0));

@@ -21,9 +21,11 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts;
 
+import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Lightning;
+import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.PointF;
@@ -39,8 +41,15 @@ public class ShockingDart extends TippedDart {
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage, EffectType type) {
-		
-		defender.damage(Random.NormalIntRange(8, 12), this, new EffectType(type.attachType,EffectType.ELETRIC));
+
+		int shockingDamage;
+		if (Dungeon.level.map[defender.pos] == Terrain.WATER) {
+			shockingDamage = Random.NormalIntRange(1, 60);
+		}else{
+			shockingDamage = Random.NormalIntRange(1, 20);
+		}
+		defender.damage(shockingDamage, this, new EffectType(type.attachType, EffectType.ELETRIC));
+		//defender.damage(Random.NormalIntRange(8, 12), this, new EffectType(type.attachType,EffectType.ELETRIC));
 		
 		CharSprite s = defender.sprite;
 		if (s != null && s.parent != null) {

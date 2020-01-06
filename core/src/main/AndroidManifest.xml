@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.fushiginopixel.fushiginopixeldungeon"
-	android:versionCode="273"
-	android:versionName="1.2.4"
+	android:versionCode="275"
+	android:versionName="1.4"
 	android:installLocation="auto">
 
 	<uses-sdk
@@ -21,7 +21,7 @@
 		android:xlargeScreens="true"/>
 
 	<application
-		android:name="com.fushiginopixel.fushiginopixeldungeon.CrashApplication"
+		android:name="com.fushiginopixel.fushiginopixeldungeon.MyApplication"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@android:style/Theme.Black.NoTitleBar"
@@ -44,5 +44,6 @@
 		<!-- Workaround for a bug on Galaxy S8: max aspect must be specified or it defaults to 1.86-->
 		<meta-data android:name="android.max_aspect" android:value="10.0" />
 	</application>
+
 
 </manifest>

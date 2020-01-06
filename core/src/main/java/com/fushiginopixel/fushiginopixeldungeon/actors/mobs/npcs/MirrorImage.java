@@ -105,143 +105,26 @@ public class MirrorImage extends NPC {
 
 	@Override
 	public int attackSkill( Char target ) {
-		KindOfWeapon wep = belongings.weapon;
-
-		if (wep != null) {
-			return (int)(attackSkill * wep.accuracyFactor( this ,target));
-		} else {
-			return attackSkill;
-		}
+		return attackSkill;
 	}
 
 	@Override
 	public int defenseSkill( Char enemy ) {
 
-		float evasion = defenseSkill;
-
-		evasion *= RingOfEvasion.evasionMultiplier( this );
-
-		if (belongings.armor != null) {
-			evasion = belongings.armor.evasionFactor(this, enemy, evasion);
-		}
-
-		return Math.round(evasion);
+        return defenseSkill;
 	}
 
 	@Override
 	public int damageRoll() {
-		KindOfWeapon wep = belongings.weapon;
-		int dmg;
-		if (wep != null) {
-			dmg = wep.damageRoll( this );
-		} else {
-			dmg = Random.NormalIntRange(1, 5);
-		}
-		if (dmg < 0) dmg = 0;
-
-		return dmg;
-	}
-
-	@Override
-	public int drRoll() {
-		int dr = 0;
-		if (belongings.armor != null) {
-			int armDr = Random.NormalIntRange( belongings.armor.min(), belongings.armor.max());
-			if (armDr > 0) dr += armDr;
-		}
-		if (belongings.weapon != null)  {
-			int wepDr = Random.NormalIntRange( 0 , belongings.weapon.defenseFactor( this ) );
-			if (wepDr > 0) dr += wepDr;
-		}
-
-		return dr;
-	}
-
-
-	@Override
-	public float speed() {
-
-		float speed = super.speed();
-
-		speed *= RingOfHaste.speedMultiplier(this);
-
-		if (belongings.armor != null) {
-			speed = belongings.armor.speedFactor(this, speed);
-		}
-
-		return speed;
-
-	}
-
-	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
-		if(belongings.weapon != null)
-			return belongings.weapon.canCriticalAttack( this, enemy, damage ,type);
-		else return super.canCriticalAttack(enemy, damage, type);
+		return Random.NormalIntRange(1, 5);
 	}
 
 	@Override
 	public int attackProc(Char enemy, int damage, EffectType type) {
 		damage = super.attackProc(enemy, damage, type);
-		if (belongings.weapon != null && belongings.weapon != null) {
-			damage = belongings.weapon.proc( this, enemy, damage ,type );
-		}
-
 		destroy();
 		sprite.die();
 
-		return damage;
-	}
-
-	@Override
-	public int defenseProc(Char enemy, int damage, EffectType type ) {
-		if (belongings != null && belongings.armor != null) {
-			return belongings.armor.proc( enemy, this, damage ,type, Armor.EVENT_SUFFER_ATTACK);
-		} else {
-			return super.defenseProc(enemy, damage, type);
-		}
-	}
-
-	@Override
-	public void onMissed(Char enemy) {
-		if (belongings != null && belongings.weapon != null)
-			belongings.weapon.onMissed( this, enemy);
-		return;
-	}
-
-	@Override
-	public float attackDelay() {
-		return belongings.weapon != null ? belongings.weapon.speedFactor( this ) : super.attackDelay();
-	}
-
-	@Override
-	protected boolean canAttack(Char enemy) {
-		if (belongings.weapon != null) {
-			return Dungeon.level.distance(pos, enemy.pos) <= belongings.weapon.reachFactor(this);
-		}
-		else{
-			return super.canAttack(enemy);
-		}
-	}
-
-	@Override
-	public int damage( int dmg, Object src ,EffectType type) {
-
-		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
-		if (thorns != null) {
-			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this, type);
-		}
-
-		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
-
-		if (belongings.armor != null) {
-			dmg = belongings.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
-		}
-
-		int damage = super.damage( dmg, src ,type );
-
-		if (belongings.armor != null && isAlive()) {
-			belongings.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
-		}
 		return damage;
 	}
 

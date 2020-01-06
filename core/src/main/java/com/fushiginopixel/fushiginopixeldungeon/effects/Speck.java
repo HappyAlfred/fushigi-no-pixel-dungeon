@@ -281,8 +281,8 @@ public class Speck extends Image {
 			speed.y = +32;
 			acc.y = -64;
 			angularSpeed = Random.Float( 180, 360 );
-			angle = Random.Float( 360 );
-			lifespan = 0.5f;
+			angle = Random.Float( 360 );lifespan = 0.5f;
+
 			break;
 			
 		case TOXIC:

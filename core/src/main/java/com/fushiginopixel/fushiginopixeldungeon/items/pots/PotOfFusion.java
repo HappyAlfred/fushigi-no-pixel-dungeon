@@ -51,7 +51,7 @@ public class PotOfFusion extends InventoryPot {
 	}
 
 	@Override
-	public int price() {
-		return super.price() * 5;
+	public int potPrice() {
+		return super.potPrice() * 5;
 	}
 }

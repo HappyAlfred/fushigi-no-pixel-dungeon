@@ -1,11 +1,14 @@
 package com.fushiginopixel.fushiginopixeldungeon;
 
 import android.app.Application;
+import android.content.Context;
 
-public class CrashApplication extends Application {
+public class MyApplication extends Application {
+    private static Context context;
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         initCrashHandler();
     }
 
@@ -23,5 +26,9 @@ public class CrashApplication extends Application {
         CrashHandler handler = CrashHandler.getInstance();
         handler.init(getApplicationContext());
         Thread.setDefaultUncaughtExceptionHandler(handler);
+    }
+
+    public static Context getContext(){
+        return context;
     }
 }

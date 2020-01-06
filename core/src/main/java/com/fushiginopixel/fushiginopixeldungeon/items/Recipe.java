@@ -78,18 +78,22 @@ public abstract class Recipe {
 		public final boolean testIngredients(ArrayList<Item> ingredients) {
 
 			int[] needed = inQuantity.clone();
+			int[] catalysts = inQuantity.clone();
 
 			for (Item ingredient : ingredients){
 				for (int i = 0; i < inputs.length; i++){
 					if (ingredient.getClass() == inputs[i] && ingredient.isIdentifiedForAutomatic()){
 						needed[i] -= ingredient.quantity();
+						if (catalysts[i] == 0 && ingredient.quantity() <= 0){
+							catalysts[i] = 1;
+						}
 						break;
 					}
 				}
 			}
 
-			for (int i : needed){
-				if (i > 0){
+			for (int i = 0; i < inQuantity.length; i++){
+				if (needed[i] > 0 && catalysts[i] > 0){
 					return false;
 				}
 			}

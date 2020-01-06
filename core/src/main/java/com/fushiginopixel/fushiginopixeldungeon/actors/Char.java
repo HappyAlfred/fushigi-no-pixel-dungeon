@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Electricity;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.TearGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Barkskin;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Bleeding;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Bless;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
@@ -60,9 +61,13 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
+import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.CapeOfThorns;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
+import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfEvasion;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
+import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfHaste;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfMight;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfTenacity;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfPsionicBlast;
@@ -73,6 +78,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfPrismaticLight
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Blazing;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Grim;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Shocking;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Flail;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
@@ -80,6 +86,7 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.features.Chasm;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.Door;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.GrimTrap;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
+import com.fushiginopixel.fushiginopixeldungeon.plants.Earthroot;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
@@ -232,14 +239,16 @@ public abstract class Char extends Actor {
 		
 		if (hit( this, enemy, false )) {
 			
-			int dr = enemy.drRoll();
+			int dr = enemy.totalDR();
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
+				/*
 				if (h.belongings.weapon instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER){
 					dr = 0;
 				}
+				*/
 			}
 			
 			int dmg;
@@ -247,7 +256,7 @@ public abstract class Char extends Actor {
 			if (prep != null){
 				dmg = prep.damageRoll(this, enemy);
 			} else {
-				dmg = damageRoll();
+				dmg = totalDamageRoll();
 			}
 			
 			int effectiveDamage = enemy.defenseProc( this, dmg, type );
@@ -317,7 +326,9 @@ public abstract class Char extends Actor {
 	}
 
 	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
-		return false;
+		if(belongings.weapon != null) {
+			return belongings.weapon.canCriticalAttack(this, enemy, damage, type);
+		}else return false;
 	}
 
 	public float criticalAttack(){
@@ -332,8 +343,8 @@ public abstract class Char extends Actor {
 	else C = A / (2 * E)
 	*/
 	public static boolean hit( Char attacker, Char defender, boolean magic ) {
-		float acuRoll = Random.Float( attacker.attackSkill( defender ) );
-		float defRoll = Random.Float( defender.defenseSkill( attacker ) );
+		float acuRoll = Random.Float( attacker.totalAttackSkill( defender ) );
+		float defRoll = Random.Float( defender.totalDefenseSkill( attacker ) );
 		if (attacker.buff(Bless.class) != null) acuRoll *= 1.20f;
 		if (defender.buff(Bless.class) != null) defRoll *= 1.20f;
 		return (magic ? acuRoll * 2 : acuRoll) >= defRoll;
@@ -342,10 +353,58 @@ public abstract class Char extends Actor {
 	public int attackSkill( Char target ) {
 		return 0;
 	}
+
+	public int totalAttackSkill( Char target ) {
+		int at = attackSkill(target);
+		KindOfWeapon wep = belongings.weapon;
+
+		float accuracy = 1;
+		/*
+		if (wep instanceof MissileWeapon && rangedAttack
+				&& Dungeon.level.distance( pos, target.pos ) == 1) {
+			accuracy *= 0.5f;
+		}
+		*/
+
+		if (wep != null) {
+			return (int)(at * accuracy * wep.accuracyFactor( this ,target));
+		} else {
+			return (int)(at * accuracy);
+		}
+	}
 	
 	public int defenseSkill( Char enemy ) {
 		return 0;
 	}
+
+    public int totalDefenseSkill( Char target ) {
+
+        float evasion = defenseSkill(target);
+
+        evasion *= RingOfEvasion.evasionMultiplier( this );
+
+        if (belongings.armor != null) {
+            evasion = belongings.armor.evasionFactor(this, target, evasion);
+        }
+
+        return Math.round(evasion);
+    }
+
+    public boolean canSurpriseAttack(){
+        if (belongings.weapon instanceof Flail)                                     return false;
+
+        return true;
+    }
+
+    public boolean canSurpriseAttack(Char target){
+        boolean enemyInFOV = target != null && target.isAlive() && fieldOfView[target.pos];
+
+        return !enemyInFOV && paralysed <= 0 && canSurpriseAttack();
+    }
+
+    public Char enemy(){
+        return enemy;
+    }
 	
 	public String defenseVerb() {
 		return Messages.get(this, "def_verb");
@@ -354,21 +413,72 @@ public abstract class Char extends Actor {
 	public int drRoll() {
 		return 0;
 	}
+
+	public int totalDR() {
+		int dr = 0;
+		Barkskin bark = buff(Barkskin.class);
+
+		if (belongings.armor != null) {
+			int armDr = Random.NormalIntRange( belongings.armor.min(), belongings.armor.max());
+			if (armDr > 0) dr += armDr;
+		}
+		if (belongings.weapon != null)  {
+			int wepDr = Random.NormalIntRange( 0 , belongings.weapon.defenseFactor( this ) );
+			if (wepDr > 0) dr += wepDr;
+		}
+		dr += drRoll();
+		if (bark != null)               dr += Random.NormalIntRange( 0 , bark.level() );
+
+		return dr;
+	}
 	
 	public int damageRoll() {
-		return 1;
+		return 0;
+	}
+
+	public int totalDamageRoll(){
+		KindOfWeapon wep = belongings.weapon;
+		int dmg = 0;
+		if (wep != null) {
+			dmg += wep.damageRoll( this );
+		}
+		dmg += damageRoll();
+		if (dmg < 0) dmg = 0;
+
+		return dmg;
 	}
 	
 	public int attackProc( Char enemy, int damage, EffectType type ) {
+		KindOfWeapon wep = belongings.weapon;
+
+		if (wep != null) damage = wep.proc( this, enemy, damage ,type );
 		return damage;
 	}
 	
 	public int defenseProc( Char enemy, int damage, EffectType type  ) {
+		if (belongings.armor != null) {
+			damage = belongings.armor.proc( enemy, this, damage, type, Armor.EVENT_SUFFER_ATTACK );
+		}
+
+		Earthroot.Armor armor = buff( Earthroot.Armor.class );
+		if (armor != null) {
+			damage = armor.absorb( damage );
+		}
+
 		return damage;
 	}
 	
 	public float speed() {
-		return buff( Cripple.class ) == null ? baseSpeed : baseSpeed * 0.5f;
+
+        float speed = buff( Cripple.class ) == null ? baseSpeed : baseSpeed * 0.5f;
+
+        speed *= RingOfHaste.speedMultiplier(this);
+
+        if (belongings.armor != null) {
+            speed = belongings.armor.speedFactor(this, speed);
+        }
+
+        return speed;
 	}
 
 	public int damage( int dmg, Object src ) {
@@ -376,7 +486,17 @@ public abstract class Char extends Actor {
 	}
 	
 	public int damage( int dmg, Object src ,EffectType type) {
-		
+		CapeOfThorns.Thorns thorns = buff( CapeOfThorns.Thorns.class );
+		if (thorns != null) {
+			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this, type);
+		}
+
+		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
+
+		if (belongings.armor != null && isAlive()) {
+			dmg = belongings.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
+		}
+
 		if (!isAlive() || dmg < 0) {
 			return 0;
 		}
@@ -418,6 +538,10 @@ public abstract class Char extends Actor {
 
 		if (HP < 0) HP = 0;
 
+		if (belongings.armor != null && isAlive()) {
+			belongings.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
+		}
+
 		if (!isAlive()) {
 			die( src ,type );
 		}
@@ -426,6 +550,8 @@ public abstract class Char extends Actor {
 	}
 
 	public void onMissed(Char enemy) {
+		if (belongings.weapon != null)
+			belongings.weapon.onMissed( this, enemy);
 		return;
 	}
 
@@ -479,8 +605,25 @@ public abstract class Char extends Actor {
 		super.spend( time / timeScale );
 	}
 
-	public boolean catchItem(Item item) {
+	public boolean catchItem(Item item, Char from) {
 		return false;
+	}
+
+	protected boolean canAttack(Char enemy){
+		if (enemy == null || pos == enemy.pos)
+			return false;
+
+		//can always attack adjacent enemies
+		if (Dungeon.level.adjacent(pos, enemy.pos) && (passWall || !Dungeon.level.solid[enemy.pos]))
+			return true;
+
+		KindOfWeapon wep = this.belongings.weapon;
+
+		if (wep != null){
+			return wep.canAttack(this, enemy);
+		} else {
+			return false;
+		}
 	}
 	
 	public synchronized HashSet<Buff> buffs() {
@@ -616,6 +759,11 @@ public abstract class Char extends Actor {
 	}
 
 	public float attackDelay() {
+		return 1f;
+	}
+
+	public float totalAttackDelay() {
+		float dly = attackDelay();
 		if (belongings.weapon != null) {
 
 			return belongings.weapon.speedFactor( this );
@@ -624,7 +772,7 @@ public abstract class Char extends Actor {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
 			//But there's going to be that one guy who gets a furor+force ring combo
 			//This is for that one guy, you shall get your fists of fury!
-			return RingOfFuror.modifyAttackDelay(1f, this);
+			return RingOfFuror.modifyAttackDelay(dly, this);
 		}
 	}
 	

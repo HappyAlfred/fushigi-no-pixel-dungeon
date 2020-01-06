@@ -472,37 +472,8 @@ public class GameScene extends PixelScene {
 
 	//level BGM
 	public static void playlevelmusic(){
-		if(Statistics.thief){
-			Music.INSTANCE.play( Assets.ROB, true );
-			return;
-		}
-
-		if(Dungeon.level instanceof SewerLevel || Dungeon.level instanceof SewerBossLevel || Dungeon.level instanceof SewerMidBossLevel){
-			Music.INSTANCE.play( Assets.TUNE_SEWER, true );
-		}
-		else if(Dungeon.level instanceof PrisonLevel || Dungeon.level instanceof PrisonBossLevel || Dungeon.level instanceof PrisonBossLevel){
-			Music.INSTANCE.play( Assets.TUNE_PRISON, true );
-		}
-		else if(Dungeon.level instanceof CavesLevel || Dungeon.level instanceof CavesBossLevel){
-			Music.INSTANCE.play( Assets.TUNE_CAVES, true );
-		}
-		else if(Dungeon.level instanceof CityLevel ||  Dungeon.level instanceof CityBossLevel){
-			Music.INSTANCE.play( Assets.TUNE_CITY, true );
-		}
-		else if(Dungeon.level instanceof HallsLevel ||  Dungeon.level instanceof HallsBossLevel){
-			Music.INSTANCE.play( Assets.TUNE_HALLS, true );
-		}
-		else if(Dungeon.level instanceof LastLevel){
-			Music.INSTANCE.play( Assets.TUNE_LAST, true );
-		}
-		else if(Dungeon.level instanceof SurfaceLevel){
-			final Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR) >= 6 && calendar.get(Calendar.HOUR) < 18) {
-				Music.INSTANCE.play(Assets.TOWN_MINOR, true);
-			}else{
-				Music.INSTANCE.play(Assets.TOWN_MAJOR, true);
-			}
-		}
+		String music = Dungeon.level.getMusic();
+		Music.INSTANCE.play( music, true);
 	}
 	
 	@Override

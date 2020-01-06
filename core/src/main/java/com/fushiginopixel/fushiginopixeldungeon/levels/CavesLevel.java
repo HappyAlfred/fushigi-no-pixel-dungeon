@@ -152,6 +152,15 @@ public class CavesLevel extends RegularLevel {
 				return super.tileDesc( tile );
 		}
 	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_CAVES;
+		}
+	}
 	
 	@Override
 	public Group addVisuals() {

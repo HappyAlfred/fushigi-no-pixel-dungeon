@@ -21,7 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee;
 
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Vorpal;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Vorpal;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 
 import java.util.ArrayList;

@@ -28,9 +28,9 @@ public class WebBuilder extends RegularBuilder {
         entrance.setSize();
         entrance.setPos(0, 0);
 
-        //rooms will place
+        //multiConnections rooms will place
         ArrayList<Room> web = new ArrayList<>();
-        int webCore = multiConnections.size();
+        int webCore = multiConnections.size() + 1;
 
         float[] pathTunnels = pathTunnelChances.clone();
 
@@ -47,19 +47,73 @@ public class WebBuilder extends RegularBuilder {
             web.add(exit);
         }
 
+        int connectingRooms = Random.Int(0,3);
+        int tl = this.tunnelLength * (connectingRooms + 1);
         Room prev;
-        //placed rooms
+        //placed non connection rooms
         ArrayList<Room> placed = new ArrayList<>();
         for (int i = 0; i < web.size(); i++){
             //current room
             prev = web.get(i);
             float targetAngle = Random.Float(0, 360);
-            //2~6 rotate branch
-            int rotate = Random.Int(2,7);
+            //3~6 rotate branch
+            int rotate = Random.IntRange(3,6);
             if(prev.isEmpty()){
                 return null;
             }
             for(int j = 0, k = 1; j < rotate; j++){
+
+                if(i + k >= web.size() || (!placed.isEmpty() && placed.contains(web.get(i + k))))break;
+                for(int curRotate = 0; curRotate < rotate; curRotate++) {
+                    targetAngle += 360 / rotate;
+                    ArrayList<Room> tunnels = new ArrayList<>();
+
+                    Room curr = prev;
+                    for (int l = 0; l < connectingRooms; l++){
+                        ConnectionRoom t = ConnectionRoom.createRoom();
+                        if (placeRoom(rooms, curr, t, targetAngle) != -1) {
+                            tunnels.add(t);
+                            rooms.add(t);
+
+                            curr = t;
+                        } else{
+                            for (Room c1 : tunnels){
+                                c1.clearConnections();
+                                rooms.remove(c1);
+                            }
+                            tunnels.clear();
+
+                            curr = prev;
+                        }
+                    }
+
+                    if (tunnels.size() != connectingRooms){
+                        break;
+                    }
+
+                    //next room
+                    Room r = web.get(i + k);
+                    if (placeRoom(rooms, curr, r, targetAngle) != -1) {
+                        placed.add(r);
+                        if (!rooms.contains(r)) {
+                            rooms.add(r);
+                        }
+                        k++;
+                        break;
+                    } else {
+                        for (Room t : tunnels){
+                            t.clearConnections();
+                            rooms.remove(t);
+                        }
+                        tunnels.clear();
+                        if (!r.isEmpty()) {//not empty but not connected
+                            r.setEmpty();
+                            break;
+                        }
+                    }
+                }
+
+                /*
                 //next room oversize or placed rooms already has next room, stop place
                 if(i + k >= web.size() || (!placed.isEmpty() && placed.contains(web.get(i + k))))break;
                 for(int curRotate = 0; curRotate < rotate; curRotate++) {
@@ -78,6 +132,7 @@ public class WebBuilder extends RegularBuilder {
                         break;
                     }
                 }
+                */
             }
         }
 
@@ -85,13 +140,35 @@ public class WebBuilder extends RegularBuilder {
             Room ra = web.get(i);
             for(int j = 1; j < web.size(); j++){
                 Room rb = web.get(j);
-                Rect rect = ra.intersect( rb );
+                Rect rect = ra.apart( rb );
                 if(ra.connect(rb)){
 
                 }
-                else if (rect.width() <= tunnelLength && rect.height() <= tunnelLength && !ra.connected.containsKey(rb) && !(rb instanceof ConnectionRoom) /*&& (web.size() <= webCore * 3 || !(rb instanceof ConnectionRoom))*/) {
+                else if (rect.width() <= tl && rect.height() <= tl
+                        && !rb.checkTunnelConnect(ra)
+                        && !(rb instanceof ConnectionRoom) && !(ra instanceof ConnectionRoom) /*&& (web.size() <= webCore * 3 || !(rb instanceof ConnectionRoom))*/) {
                     prev = rb;
                     ArrayList<Room> tunnels = new ArrayList<>();
+                    while(!prev.connect(ra)){
+                        ConnectionRoom c = ConnectionRoom.createRoom();
+                        if (placeRoom(rooms, prev, c, angleBetweenRooms(prev, ra)) == -1){
+                            for (Room c1 : tunnels){
+                                c1.clearConnections();
+                                rooms.remove(c1);
+                                //web.remove(c1);
+                            }
+                            tunnels.clear();
+                            break;
+                        } else {
+                            prev = c;
+                            tunnels.add(c);
+                            rooms.add(c);
+                            //web.add(c);
+                        }
+
+                    }
+
+                    /*
                     LinkedHashMap<Room, Room.Door> connectedA = new LinkedHashMap<>(ra.connected);
                     LinkedHashMap<Room, Room.Door> connectedB = new LinkedHashMap<>(rb.connected);
                     while(!prev.connect(ra)){
@@ -120,6 +197,7 @@ public class WebBuilder extends RegularBuilder {
                         web.addAll(tunnels);
                         //rooms.addAll(tunnels);
                     }
+                    */
                 }
             }
         }
@@ -128,7 +206,7 @@ public class WebBuilder extends RegularBuilder {
             float angle;
             int tries = 10;
             do {
-                angle = placeRoom(web, entrance, shop, Random.Float(360f));
+                angle = placeRoom(rooms, entrance, shop, Random.Float(360f));
                 tries--;
             } while (angle == -1 && tries >= 0);
             if (angle == -1) return null;

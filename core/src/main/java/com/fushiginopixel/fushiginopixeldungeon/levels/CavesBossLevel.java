@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Bones;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DM300;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DM5000;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
@@ -100,6 +101,17 @@ public class CavesBossLevel extends Level {
 		arenaDoor = bundle.getInt( DOOR );
 		enteredArena = bundle.getBoolean( ENTERED );
 		keyDropped = bundle.getBoolean( DROPPED );
+	}
+
+	@Override
+	public String getMusic(){
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if(lock != null) return Assets.BOSS_MID;
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_CAVES;
+		}
 	}
 	
 	@Override

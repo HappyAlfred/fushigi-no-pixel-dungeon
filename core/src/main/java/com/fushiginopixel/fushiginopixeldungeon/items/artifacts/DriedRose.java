@@ -253,6 +253,7 @@ public class DriedRose extends Artifact {
 		if (bundle.contains(WEAPON)) weapon = (MeleeWeapon)bundle.get( WEAPON );
 		if (bundle.contains(ARMOR))  armor = (Armor)bundle.get( ARMOR );
 
+		/*
 		if (ghost == null && ghostID != 0){
 			Actor a = Actor.findById(ghostID);
 			if (a != null){
@@ -261,6 +262,7 @@ public class DriedRose extends Artifact {
 				ghostID = 0;
 			}
 		}
+		*/
 	}
 	
 	// *** static methods for transferring a ghost hero between floors ***
@@ -269,7 +271,7 @@ public class DriedRose extends Artifact {
 	
 	public static void holdGhostHero( Level level ){
 		for (Mob mob : level.mobs.toArray( new Mob[0] )) {
-			if (mob instanceof DriedRose.GhostHero) {
+			if (mob instanceof DriedRose.GhostHero && ((DriedRose.GhostHero)mob).ownerID == Dungeon.hero.id()) {
 				level.mobs.remove( mob );
 				heldGhost = (GhostHero) mob;
 				break;
@@ -509,7 +511,7 @@ public class DriedRose extends Artifact {
 			Char enemy = super.chooseEnemy();
 			
 			//will never attack something far from the player
-			if (enemy != null &&  (owner != null && Dungeon.level.distance(enemy.pos, owner.pos) <= 8)){
+			if (enemy != null &&  (Actor.findById(ownerID) != null && Dungeon.level.distance(enemy.pos, ((Char)Actor.findById(ownerID)).pos) <= 8)){
 				return enemy;
 			} else {
 				return null;
@@ -528,13 +530,16 @@ public class DriedRose extends Artifact {
 			
 			return acc;
 		}
-		
+
 		@Override
-        public float attackDelay() {
-			if (rose != null && rose.weapon != null){
-				return rose.weapon.speedFactor(this);
+		public float totalAttackDelay() {
+			float dly = attackDelay();
+			if (belongings.weapon != null) {
+
+				return rose.weapon.speedFactor( this );
+
 			} else {
-				return super.attackDelay();
+				return super.totalAttackDelay();
 			}
 		}
 		
@@ -546,7 +551,7 @@ public class DriedRose extends Artifact {
 				return super.canAttack(enemy);
 			}
 		}
-		
+
 		@Override
 		public int damageRoll() {
 			int dmg = 0;
@@ -555,8 +560,16 @@ public class DriedRose extends Artifact {
 			} else {
 				dmg += Random.NormalIntRange(0, 5);
 			}
+			//dmg *= 0.5 + 0.05 * rose.ghostStrength();
+
+			return dmg;
+		}
+
+		@Override
+		public int totalDamageRoll() {
+			int dmg = super.totalDamageRoll();
 			dmg *= 0.5 + 0.05 * rose.ghostStrength();
-			
+
 			return dmg;
 		}
 
@@ -568,10 +581,10 @@ public class DriedRose extends Artifact {
 
 		@Override
 		public int attackProc(Char enemy, int damage, EffectType type) {
-			damage = super.attackProc(enemy, damage, type);
 			if (rose != null && rose.weapon != null) {
 				damage = rose.weapon.proc( this, enemy, damage ,type );
 			}
+			damage = super.attackProc(enemy, damage, type);
 			return damage;
 		}
 		
@@ -600,7 +613,7 @@ public class DriedRose extends Artifact {
 				dmg -= Random.NormalIntRange(rose.armor.min(), rose.armor.max())/3;
 			}
 			*/
-			if (rose != null && rose.armor != null) {
+			if (rose != null && rose.armor != null && isAlive()) {
 				dmg = rose.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
 			}
 

@@ -169,7 +169,7 @@ public abstract class Trap implements Bundlable {
 		return new Class[]{
 				AlarmTrap.class, BurningTrap.class, ShockingTrap.class, OozeTrap.class, TeleportationTrap.class, ChillingTrap.class, GrippingTrap.class,
 				WeakeningTrap.class, SummoningTrap.class, CursingTrap.class, FlockTrap.class,
-				ToxicTrap.class, ConfusionTrap.class, CorrosiveGas.class,
+				ToxicTrap.class, ConfusionTrap.class, CorrosionTrap.class,
 				GuardianTrap.class, BlazingTrap.class, StormTrap.class, MucusTrap.class, WarpingTrap.class, FrostTrap.class, FlashingTrap.class,
 				PitfallTrap.class, ExplosiveTrap.class, MultiplicationTrap.class, RockfallTrap.class,
 				LogTrap.class, PoisonDartTrap.class, DisintegrationTrap.class, WornDartTrap.class,

@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.effects;
 
+import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.CorrosionParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.FlameParticle;
@@ -35,6 +36,7 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.ColorMath;
+import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
@@ -76,9 +78,24 @@ public class MagicMissile extends Emitter {
 				callback);
 	}
 
+	//for falling bolt
 	public void reset( int type, Visual from, int to, Callback callback ) {
 		reset( type,
 				from.center(),
+				DungeonTilemap.raisedTileCenterToWorld( to ),
+				callback);
+	}
+
+	public void reset(int type, int to, Callback callback ) {
+		reset( type,
+				DungeonTilemap.raisedPointToWorld(Dungeon.level.cellToPoint(to).offset(0, 10)),
+				DungeonTilemap.raisedTileCenterToWorld( to ),
+				callback);
+	}
+
+	public void reset(int type, Point from, int to, Callback callback ) {
+		reset( type,
+				DungeonTilemap.raisedPointToWorld(from),
 				DungeonTilemap.raisedTileCenterToWorld( to ),
 				callback);
 	}

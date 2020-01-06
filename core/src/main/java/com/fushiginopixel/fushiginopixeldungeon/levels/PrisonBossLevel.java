@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Tengu;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
@@ -61,7 +62,7 @@ public class PrisonBossLevel extends Level {
 		stage = 1;
 	}
 
-	private enum State{
+	public enum State{
 		START,
 		FIGHT_START,
 		MAZE,
@@ -116,6 +117,17 @@ public class PrisonBossLevel extends Level {
 
 		for (Bundlable item : bundle.getCollection(STORED_ITEMS)){
 			storedItems.add( (Item)item );
+		}
+	}
+
+	@Override
+	public String getMusic(){
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if(lock != null) return Assets.BOSS_MID;
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_PRISON;
 		}
 	}
 	
@@ -183,13 +195,13 @@ public class PrisonBossLevel extends Level {
 			//hero enters tengu's chamber
 			if (state == State.START
 					&& (new EmptyRoom().set(2, 25, 8, 32)).inside(cellToPoint(cell))){
-				progress();
+				progress(State.FIGHT_START);
 			}
 
 			//hero finishes the maze
 			else if (state == State.MAZE
 					&& (new EmptyRoom().set(4, 0, 7, 4)).inside(cellToPoint(cell))){
-				progress();
+				progress(State.FIGHT_ARENA);
 			}
 		}
 	}
@@ -282,10 +294,11 @@ public class PrisonBossLevel extends Level {
 		}
 	}
 
-	public void progress(){
-		switch (state){
+	public void progress(State st){
+		if (state.equals(st)) return;
+		switch (st){
 			//moving to the beginning of the fight
-			case START:
+			case FIGHT_START:
 				seal();
 				set(5 + 25 * 32, Terrain.LOCKED_DOOR);
 				GameScene.updateMap(5 + 25 * 32);
@@ -308,7 +321,7 @@ public class PrisonBossLevel extends Level {
 				break;
 
 			//halfway through, move to the maze
-			case FIGHT_START:
+			case MAZE:
 				if(tengu.progressState == 0){
 					tengu.progressState = 1;
 				}else break;
@@ -337,7 +350,7 @@ public class PrisonBossLevel extends Level {
 				break;
 
 			//maze beaten, moving to the arena
-			case MAZE:
+			case FIGHT_ARENA:
 				Dungeon.hero.interrupt();
 				Dungeon.hero.pos += 9+3*32;
 				Dungeon.hero.sprite.interruptMotion();
@@ -368,7 +381,7 @@ public class PrisonBossLevel extends Level {
 				break;
 
 			//arena ended, fight over.
-			case FIGHT_ARENA:
+			case WON:
 				unseal();
 
 				CustomTiledVisual vis = new exitVisual();

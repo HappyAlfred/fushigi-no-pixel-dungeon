@@ -69,7 +69,7 @@ public class Mattock extends MeleeWeapon {
 
 	@Override
 	public int min(int lvl) {
-		return 1;
+		return 1 + lvl;
 	}
 
 	@Override
@@ -157,8 +157,7 @@ public class Mattock extends MeleeWeapon {
 	public void dig( final Char user, final int dst ) {
 		final Ballistica chainDig = new Ballistica(user.pos, dst, Ballistica.WONT_STOP );
 
-		float digDelay = digDelay(user, dst);
-		user.spend( digDelay );
+		final float digDelay = digDelay(user, dst);
 		user.busy();
 
 		user.sprite.attack( dst, new Callback() {
@@ -226,10 +225,11 @@ public class Mattock extends MeleeWeapon {
 					}
 				}
 
-				if(level() < 0){
+				if(!isDegradeable()){
 					broken(user);
 				}
 
+				user.spend( digDelay );
 				user.onOperateComplete();
 			}
 		});
@@ -239,7 +239,8 @@ public class Mattock extends MeleeWeapon {
 	public void broken(Char user) {
 		GLog.w( Messages.get(Mattock.class, "broken") );
 		if(!isUnique() && isEquipped(user)){
-			doUnequip( user, false );
+			unEquip(user);
+			//doUnequip( user, false );
 			//detach(user.belongings.backpack);
 		}
 	}

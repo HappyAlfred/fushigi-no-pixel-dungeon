@@ -62,9 +62,11 @@ import com.fushiginopixel.fushiginopixeldungeon.levels.CavesLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CavesMidBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CityBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.CityLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.CityMidBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.DeadEndLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.HallsBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.HallsLevel;
+import com.fushiginopixel.fushiginopixeldungeon.levels.HallsMidBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.LastLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.LastShopLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
@@ -106,14 +108,18 @@ public class NormalMode extends Mode {
             level = new CavesMidBossLevel();
         else if (depth == 30)
             level = new CavesBossLevel();
-        else if (depth >= 31 && depth <= 39)
+        else if (depth >= 31 && depth <= 39 && depth != 35)
             level = new CityLevel();
+        else if (depth == 35)
+            level = new CityMidBossLevel();
         else if (depth == 40)
             level = new CityBossLevel();
         else if (depth == 41)
             level = new LastShopLevel();
-        else if (depth >= 42 && depth <= 49)
+        else if (depth >= 42 && depth <= 49 && depth != 45)
             level = new HallsLevel();
+        else if (depth == 45)
+            level = new HallsMidBossLevel();
         else if (depth == 50)
             level = new HallsBossLevel();
         else if (depth == 51)

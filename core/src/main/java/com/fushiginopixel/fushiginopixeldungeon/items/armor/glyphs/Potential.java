@@ -81,7 +81,7 @@ public class Potential extends Glyph {
 
 			}
 		}else*/ if(event == Armor.EVENT_BEFORE_DAMAGE){
-			if (Random.Int(level / 2 + 50) >= 40 && damage > 0
+			if (/*Random.Int(level / 2 + 50) >= 40 &&*/ damage > 0
 					&& type.isExistEffectType(EffectType.ELETRIC)
 					&& (attacker.getClass() == null || !attacker.getClass().isAssignableFrom(getClass()))){
 

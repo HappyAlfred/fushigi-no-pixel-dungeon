@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.weapon;
 
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
+import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
@@ -32,10 +33,10 @@ import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Annoying;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Displacing;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Elastic;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Exhausting;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Fragile;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Friendly;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Retreating;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Sacrificial;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.curses.Wayward;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Blazing;
@@ -43,18 +44,16 @@ import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Chilli
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Dazzling;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Eldritch;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Energy;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Ghostly;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Grim;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Lucky;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Projecting;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Shocking;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Stunning;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Vampiric;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Venomous;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Vorpal;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.AssassinsBlade;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Vorpal;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Assassination;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.BalanceAttack;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.FirstStrike;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
@@ -115,16 +114,29 @@ abstract public class Weapon extends KindOfWeapon {
 	public int damageRoll(Char owner) {
 		int damage = 0;
 		if(hasEnchant(Assassination.class)){
+			/*
+			deals 100% toward max to max on surprise, instead of min to max., decrease with level
+			level == 5,factor = 0.75
+			level == 10,factor = 0.6
+			level >= 15 factor = 0.5
+			 */
+			Char enemy = owner.enemy();
+			if (enemy != null && ((enemy instanceof Mob && ((Mob) enemy).surprisedBy(owner))
+					|| (!(enemy instanceof Mob) && owner.canSurpriseAttack(enemy)))) {
+				float factor = Assassination.minFactor(this);
+
+				int diff = max() - min();
+				damage = Random.NormalIntRange(
+						min() + Math.round(diff*factor),
+						max());
+			}else{
+				damage = super.damageRoll(owner);
+			}
+			/*
 			if (owner instanceof Hero) {
 				Hero hero = (Hero)owner;
 				Char enemy = hero.enemy();
 				if (enemy != null && enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-					/*
-					deals 100% toward max to max on surprise, instead of min to max., decrease with level
-					level == 5,factor = 0.75
-					level == 10,factor = 0.6
-					level >= 15 factor = 0.5
-					 */
 					int lvl = Math.max(level() , 0);
 					float factor = Assassination.minFactor(this);
 
@@ -132,14 +144,15 @@ abstract public class Weapon extends KindOfWeapon {
 					damage = Random.NormalIntRange(
 							min() + Math.round(diff*factor),
 							max());
-				/*int exStr = hero.STR() - STRReq();
+				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {
 					damage += Random.IntRange(0, exStr);
-				}*/
+				}
 				}else{
 					damage = super.damageRoll(owner);
 				}
 			}
+			*/
 
 		}else {
 			damage = super.damageRoll(owner);
@@ -357,6 +370,35 @@ abstract public class Weapon extends KindOfWeapon {
 		return hasEnchant(Projecting.class) ? RCH+1 : RCH;
 	}
 
+    @Override
+    public boolean canAttack( Char attacker, Char defender){
+
+	    if(super.canAttack(attacker, defender)){
+	       return true;
+        }
+        if(hasEnchant(Ghostly.class)){
+            if (Dungeon.level.distance( attacker.pos, defender.pos ) <= reachFactor(attacker)){
+                return true;
+            }
+        }
+        /*
+        if (Dungeon.level.distance( attacker.pos, defender.pos ) <= reachFactor(attacker)){
+
+            boolean[] passable = BArray.not(Dungeon.level.solid, null);
+            for (Mob m : Dungeon.level.mobs)
+                passable[m.pos] = false;
+
+            PathFinder.buildDistanceMap(defender.pos, passable, reachFactor(attacker));
+
+            return PathFinder.distance[attacker.pos] <= reachFactor(attacker);
+
+        } else {
+            return false;
+        }
+        */
+        return false;
+    }
+
 	/*public int STRReq(){
 		return STRReq(level());
 	}
@@ -377,6 +419,11 @@ abstract public class Weapon extends KindOfWeapon {
 		cursed = false;
 		
 		return super.upgrade();
+	}
+
+	public boolean isDegradeable() {
+		int lvl = level() - 1;
+		return max(lvl) >= 0 && min(lvl) >= 0;
 	}
 	
 	@Override
@@ -569,20 +616,25 @@ abstract public class Weapon extends KindOfWeapon {
 
 		private static final Class<?>[] enchants = new Class<?>[]{
 			Blazing.class, Venomous.class, Vorpal.class, Shocking.class,
-			Chilling.class, Eldritch.class, Projecting.class, Dazzling.class, Energy.class,
+			Chilling.class, Eldritch.class, Projecting.class, Dazzling.class, Energy.class, Ghostly.class,
 			Grim.class, Stunning.class, Vampiric.class,};
-		/*private static final float[] chances= new float[]{
+		/*
+        private static final Class<?>[] enchants = new Class<?>[]{
+                Blazing.class, Venomous.class, Vorpal.class, Shocking.class,
+                Chilling.class, Eldritch.class, Projecting.class, Dazzling.class, Energy.class,
+                Grim.class, Stunning.class, Vampiric.class,};
+		private static final float[] chances= new float[]{
 			10, 10, 10, 10,
 			5, 5, 5, 5, 5,
 			2, 2, 2 };*/
 		private static final float[] chances= new float[]{
-				10, 10, 10, 10,
-				5, 5, 5, 5, 5,
+				10, 10, 10,
+				5, 5, 5, 5, 5, 5,
 				5, 5, 5 };
 
 		private static final Class<?>[] curses = new Class<?>[]{
 				Annoying.class, Displacing.class, Exhausting.class, Fragile.class,
-				Sacrificial.class, Wayward.class, Friendly.class
+				Sacrificial.class, Wayward.class, Friendly.class, Retreating.class
 		};
 
 		public boolean canCriticalAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type){

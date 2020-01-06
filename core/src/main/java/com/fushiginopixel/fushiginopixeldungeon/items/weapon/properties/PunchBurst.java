@@ -43,7 +43,7 @@ public class PunchBurst extends Weapon.Enchantment {
                     int dmg = Random.NormalIntRange( damage/4, damage/2);
                     if(weapon.hasProperty(getClass()))
                         dmg *= 2;
-                    dmg -= ch.drRoll();
+                    dmg -= ch.totalDR();
                     if (dmg > 0) {
                         ch.damage( dmg, this ,new EffectType(EffectType.BURST,0));
                     }

@@ -74,8 +74,10 @@ public abstract class EquipableItem extends Item {
 				updateQuickslot();
 			}
 			*/
+			//hero.spendAndNext( time2equip( hero ) );
 		} else if (action.equals( AC_UNEQUIP )) {
 			doUnequip( hero, true );
+			hero.spendAndNext( time2equip( hero ) );
 		}
 	}
 
@@ -107,7 +109,13 @@ public abstract class EquipableItem extends Item {
 		return 1;
 	}
 
-	public abstract boolean doEquip( Char hero );
+	public boolean doEquip( Char hero ) {
+        if (getPot() != null) {
+            GLog.w(Messages.get(EquipableItem.class, "cannot_equip_from_pot"));
+            return false;
+        }
+        return true;
+    }
 
 	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 
@@ -116,18 +124,23 @@ public abstract class EquipableItem extends Item {
 			return false;
 		}
 
+		/*
 		if (single) {
 			hero.spendAndNext( time2equip( hero ) );
 		} else {
 			hero.spend( time2equip( hero ) );
 		}
-
+		*/
+        hero.belongings.backpack.size++;
 		if (!collect || !collect( hero.belongings.backpack )) {
 			onDetach(hero.belongings.backpack);
-			Dungeon.quickslot.clearItem(this);
-			updateQuickslot();
+			if(hero instanceof Hero) {
+				Dungeon.quickslot.clearItem(this);
+				updateQuickslot();
+			}
 			if (collect) Dungeon.level.drop( this, hero.pos );
 		}
+        hero.belongings.backpack.size--;
 
 		return true;
 	}
@@ -135,6 +148,9 @@ public abstract class EquipableItem extends Item {
 	final public boolean doUnequip( Char hero, boolean collect ) {
 		return doUnequip( hero, collect, true );
 	}
+
+	public abstract void equip( Char hero );
+	public abstract void unEquip( Char hero );
 
 	public void activate( Char ch ){}
 }

@@ -115,6 +115,15 @@ public class SewerLevel extends RegularLevel {
 		}
 		super.createItems();
 	}
+
+	@Override
+	public String getMusic(){
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_SEWER;
+		}
+	}
 	
 	@Override
 	public Group addVisuals() {

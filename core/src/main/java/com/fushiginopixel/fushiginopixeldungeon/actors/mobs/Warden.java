@@ -47,7 +47,7 @@ public class Warden extends Mob {
 	{
 		spriteClass = WardenSprite.class;
 
-		HP = HT = 200;
+		HP = HT = 300;
 		//defenseSkill = 18;
 
 		EXP = 30;
@@ -89,7 +89,7 @@ public class Warden extends Mob {
 								Dungeon.level.heroFOV[newPos] ||
 								Actor.findChar(newPos) != null);
 
-				Pumpkin pumpkin = new Pumpkin();
+				PumpkinGuard pumpkin = new PumpkinGuard();
 				pumpkin.state = pumpkin.WANDERING;
 				pumpkin.pos = newPos;
 				GameScene.add(pumpkin);
@@ -147,7 +147,7 @@ public class Warden extends Mob {
 
 		//phase 2 of the fight is over
 		if (HP == 0 && beforeHitHP <= HT/2) {
-			((PrisonMidBossLevel)Dungeon.level).progress();
+			((PrisonMidBossLevel)Dungeon.level).progress(PrisonMidBossLevel.State.WON);
 			return 0;
 		}
 
@@ -157,7 +157,7 @@ public class Warden extends Mob {
 		if (beforeHitHP > HT/2 && HP <= HT/2){
 			HP = (HT/2)-1;
 			yell(Messages.get(this, "interesting"));
-			((PrisonMidBossLevel)Dungeon.level).progress();
+			((PrisonMidBossLevel)Dungeon.level).progress(PrisonMidBossLevel.State.FIGHT_ARENA);
 			BossHealthBar.bleed(true);
 			jumpFlag = true;
 
@@ -191,7 +191,7 @@ public class Warden extends Mob {
 		if (enemy == Dungeon.hero)
 			Dungeon.hero.resting = false;
 		sprite.attack( enemy.pos );
-		spend( attackDelay() );
+		spend( totalAttackDelay() );
 		return true;
 	}
 
@@ -308,6 +308,16 @@ public class Warden extends Mob {
 
 			}
 			return true;
+		}
+	}
+
+	public class PumpkinGuard extends PumpkinKing{
+		{
+
+			HP = HT = 60;
+			EXP = 0;
+
+			rareLootChance = 0;
 		}
 	}
 }

@@ -37,6 +37,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.bags.ScrollHolder;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.VelvetPouch;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.Food;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.SpecialOnigiri;
+import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfExperience;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfHealing;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMindVision;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.PotOfFusion;
@@ -119,7 +120,6 @@ public enum HeroClass {
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 			new SpecialOnigiri().collect();
 		}
-
 		/*
 		i = new Goldsword();
 		if (!Challenges.isItemBlocked(i)) i.collect();

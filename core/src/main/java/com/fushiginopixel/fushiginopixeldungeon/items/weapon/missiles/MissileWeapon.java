@@ -30,15 +30,20 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.PinCushion;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.SnipersMark;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
+import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.Bag;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.MagicalHolster;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfSharpshooting;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Ghostly;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Projecting;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.TippedDart;
+import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
+import com.fushiginopixel.fushiginopixeldungeon.sprites.MissileSprite;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -77,21 +82,57 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public int throwPos(Char user, int dst) {
-		if (hasEnchant(Projecting.class)
-				&& !Dungeon.level.solid[dst] && Dungeon.level.distance(user.pos, dst) <= 4){
+	public int throwPos(Char user, int from, int dst) {
+		if (hasEnchant(Ghostly.class)
+				//&& !Dungeon.level.solid[dst] && Dungeon.level.distance(from, dst) <= 4){
+				&& Dungeon.level.distance(from, dst) <= 4){
 			return dst;
 		} else {
-			return super.throwPos(user, dst);
+			return super.throwPos(user, from, dst);
 		}
 	}
 
 	@Override
-	protected void onThrow( int cell ) {
+	protected void onThrow(final int cell ) {
 		Char enemy = Actor.findChar( cell );
 		if (enemy == null || enemy == curUser) {
+			if(hasEnchant(Projecting.class) && enemy == null){
+				for (Char ch : Actor.chars()){
+					int collisionPos= throwPos(curUser, cell, ch.pos);
+					if (collisionPos == ch.pos &&
+							ch != curUser &&
+							(enemy == null || Dungeon.level.trueDistance(cell, ch.pos) < Dungeon.level.trueDistance(cell, enemy.pos))){
+						enemy = ch;
+					}
+				}
+				if (enemy != null) {
+					turnToOthers(this, curUser, enemy, cell);
+					/*
+					final Char user = curUser;
+					final int targetPos = enemy.pos;
+					final float delay = castDelay(user, cell);
+					user.waitForNext();
+						((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
+								reset(cell,
+										enemy.sprite,
+										this,
+										user,
+										new Callback() {
+											@Override
+											public void call() {
+												MissileWeapon.this.throwTo(targetPos);
+												user.spendAndNext(delay);
+											}
+										});
+										*/
+				}else{
+					parent = null;
+					onHitGround(cell);
+				}
+			}else {
 				parent = null;
-				onHitGround( cell );
+				onHitGround(cell);
+			}
 		} else {
 			if (!curUser.shoot( enemy, this )) {
 				rangedMiss( cell );
@@ -101,6 +142,26 @@ abstract public class MissileWeapon extends Weapon {
 
 			}
 		}
+	}
+
+	public static Char turnToOthers(final MissileWeapon wep, Char owner, Char enemy, int startPos){
+		final Char user = owner;
+		final int targetPos = enemy.pos;
+		final float delay = wep.castDelay(user, startPos);
+		user.waitForNext();
+		((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
+				reset(startPos,
+						enemy.sprite,
+						wep,
+						user,
+						new Callback() {
+							@Override
+							public void call() {
+								wep.throwTo(targetPos);
+								user.spendAndNext(delay);
+							}
+						});
+		return enemy;
 	}
 	
 	@Override
@@ -175,15 +236,18 @@ abstract public class MissileWeapon extends Weapon {
 		parent = null;
 		super.onThrow(cell);
 	}
-	
+
+	//affect durability cost per hit
+	protected float usageAdapt = 1;
 	protected float durabilityPerUse(){
 		float usage = MAX_DURABILITY/10f;
-		
-		if (Dungeon.hero.heroClass == HeroClass.HUNTRESS)   usage /= 1.5f;
+
+		if (Dungeon.hero.subClass == HeroSubClass.SNIPER)   usage /= 2f;
+		else if (Dungeon.hero.heroClass == HeroClass.HUNTRESS)   usage /= 1.5f;
 		if (holster)                                        usage /= MagicalHolster.HOLSTER_DURABILITY_FACTOR;
 		
 		usage /= RingOfSharpshooting.durabilityMultiplier( Dungeon.hero );
-		
+		usage *= usageAdapt;
 		return usage;
 	}
 	

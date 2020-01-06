@@ -400,6 +400,9 @@ public class Dungeon {
 		//alarm off
 		if (Statistics.thief){
 			Statistics.thief = false;
+			if(level instanceof RegularLevel){
+				((RegularLevel)level).refreshMobsToSpawn();
+			}
 			/*
 			Mob[] guardian = new Mob[level.mobs.size()];
 			int i = 0;
@@ -413,7 +416,7 @@ public class Dungeon {
 				guardian[i].destroy();
 			}
 			*/
-			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[Dungeon.level.mobs.size()])){
+			for (Mob mob : level.mobs.toArray(new Mob[level.mobs.size()])){
 				if (mob instanceof ShopGuardian){
 					if (mob.sprite != null)
 						mob.sprite.killAndErase();

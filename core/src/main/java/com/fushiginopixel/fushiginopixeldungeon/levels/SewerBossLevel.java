@@ -21,8 +21,11 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.levels;
 
+import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Bones;
+import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Goo;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -177,5 +180,16 @@ public class SewerBossLevel extends SewerLevel {
 		super.restoreFromBundle( bundle );
 		stairs = bundle.getInt( STAIRS );
 		roomExit = roomEntrance;
+	}
+
+	@Override
+	public String getMusic(){
+		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
+		if(lock != null) return Assets.BOSS_MID;
+		if(super.getMusic() != null){
+			return super.getMusic();
+		}else{
+			return Assets.TUNE_SEWER;
+		}
 	}
 }

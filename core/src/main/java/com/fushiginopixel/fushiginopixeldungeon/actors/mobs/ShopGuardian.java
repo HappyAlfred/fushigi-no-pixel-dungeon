@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
+import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Amok;
@@ -41,7 +42,7 @@ import com.watabou.utils.Random;
 
 import java.util.HashSet;
 
-public class ShopGuardian extends Statue {
+public class ShopGuardian extends Mob {
 
 	{
 		spriteClass = ShopGuardianSprite.class;
@@ -50,47 +51,27 @@ public class ShopGuardian extends Statue {
 		state = WANDERING;
 
 	}
-	boolean type = false;
 
-	@Override
-	public void addWeapon(){
+	public ShopGuardian() {
+		super();
+		HP = HT = 15 + Dungeon.depth * 5;
+		//defenseSkill = 4 + Dungeon.depth;
 	}
 	
 	@Override
 	public int damageRoll() {
-		if(weapon != null) {
-			return weapon.damageRoll(this);
-		}
-		else{
-			return Random.NormalIntRange( HT / 3, HT);
-		}
+		return Random.NormalIntRange( HT / 3, HT);
 	}
-	
+
 	@Override
-	public void beckon( int cell ) {
-
-		notice();
-
-		if (state != HUNTING) {
-			state = WANDERING;
-		}
-		target = cell;
+	public int drRoll() {
+		return Random.NormalIntRange(0, Dungeon.depth);
 	}
 
 	@Override
 	public boolean reset() {
 		state = WANDERING;
 		return true;
-	}
-
-	@Override
-	public String description() {
-
-		if (type)
-			return Messages.get(this, "desc_1");
-		else{
-			return Messages.get(this, "desc");
-		}
 	}
 
 	public static class ShopGuardianSprite extends StatueSprite {
@@ -200,51 +181,26 @@ public class ShopGuardian extends Statue {
 
 		} else
 			return enemy;
-
-
-
 	}
 
-	public void doublespeed(boolean noRandom) {
-		if(!noRandom){
-			if(Random.Int( 3) != 0){
-				return;
-			}
+	public static ShopGuardian summonGuardian(){
+		Class <?>[] guards = new Class<?>[]{
+			ShopGuardian.class,
+			ShopGuardianFlying.class,
+			ShopGuardianQuick.class,
+			ShopGuardianSuper.class,
+			ShopGuardianRanger.class,
+			ShopGuardianScout.class
+		};
+		float[] guardsChance = new float[]{10, 1, 1, 1, 1, 1};
+
+		try {
+			ShopGuardian w = (ShopGuardian)guards[Random.chances(guardsChance)].newInstance();
+			return w;
+		} catch (Exception e) {
+			Fushiginopixeldungeon.reportException(e);
+			return null;
 		}
-		baseSpeed *= 2;
-		type = true;
-
-
 	}
-
-	private final String SPEEDTYPE = "speedtype";
-
-	@Override
-	public void storeInBundle( Bundle bundle ) {
-
-	    weapon = new Dagger();
-		super.storeInBundle( bundle );
-        weapon = null;
-
-		bundle.put( SPEEDTYPE , type );
-	}
-
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-
-		super.restoreFromBundle( bundle );
-        weapon = null;
-
-		type = bundle.getBoolean( SPEEDTYPE );
-        adjustStats(type);
-
-	}
-
-    public void adjustStats( boolean type ) {
-        this.type = type;
-        if(type){
-            baseSpeed *= 2;
-        }
-    }
 
 }

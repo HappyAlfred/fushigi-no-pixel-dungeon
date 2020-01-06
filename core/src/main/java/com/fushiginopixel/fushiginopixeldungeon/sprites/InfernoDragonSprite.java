@@ -24,8 +24,11 @@ package com.fushiginopixel.fushiginopixeldungeon.sprites;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Dragon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.InfernoDragon;
+import com.fushiginopixel.fushiginopixeldungeon.effects.MagicBreath;
 import com.fushiginopixel.fushiginopixeldungeon.effects.MagicMissile;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
+import com.fushiginopixel.fushiginopixeldungeon.mechanics.BallisticaSector;
+import com.fushiginopixel.fushiginopixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
@@ -60,6 +63,7 @@ public class InfernoDragonSprite extends MobSprite {
 
 	public void zap( int cell ) {
 
+		/*
 		turnTo( ch.pos , cell );
 		play( zap );
 		final Ballistica shot = new Ballistica( ch.pos, cell, Ballistica.STOP_TERRAIN);
@@ -69,6 +73,33 @@ public class InfernoDragonSprite extends MobSprite {
 				((InfernoDragon)ch).onZapComplete(shot);
 			}
 		});
+		*/
+
+		/*
+		final Ballistica shot = new Ballistica( ch.pos, cell, Ballistica.STOP_TERRAIN);
+		int dist = Math.min(shot.dist, 6);
+		parent.add(new MagicBreath(this.center(), DungeonTilemap.raisedTileCenterToWorld(shot.path.get(dist)),
+				60,
+				1,
+				1,
+				MagicMissile.FIRE_CONE, new Callback() {
+			public void call() {
+				((InfernoDragon)ch).onZapComplete(shot);
+			}
+		}));
+		*/
+
+		final Ballistica shot = new Ballistica( ch.pos, cell, Ballistica.WONT_STOP);
+		int dist = Math.min(shot.dist, 6);
+		MagicBreath.breathInLevel(parent, this, shot.pathPointF.get(dist),
+				60,
+				1,
+				Ballistica.STOP_TERRAIN,
+				MagicMissile.FIRE_CONE,
+				new Callback() {
+					public void call() {
+						((InfernoDragon)ch).onZapComplete(shot);
+					}});
 	}
 
 	@Override

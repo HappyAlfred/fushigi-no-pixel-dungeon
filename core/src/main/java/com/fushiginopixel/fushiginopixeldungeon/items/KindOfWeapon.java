@@ -21,11 +21,16 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.items;
 
+import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
+import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
+import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
+import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 abstract public class KindOfWeapon extends EquipableItem {
@@ -40,27 +45,39 @@ abstract public class KindOfWeapon extends EquipableItem {
 	@Override
 	public boolean doEquip( Char hero ) {
 
-		detachAll( hero.belongings.backpack ,true );
-		
-		if (hero.belongings.weapon == null || hero.belongings.weapon.doUnequip( hero, true )) {
-			
-			hero.belongings.weapon = this;
-			activate( hero );
+		if(super.doEquip(hero)) {
+			detachAll(hero.belongings.backpack, true);
 
-			updateQuickslot();
-			
-			cursedKnown = true;
-			if (cursed) {
-				equipCursed( hero );
-				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
+			if (hero.belongings.weapon == null || hero.belongings.weapon.doUnequip(hero, true)) {
+
+				/*
+				hero.belongings.weapon = this;
+				activate(hero);
+
+				if(hero instanceof Hero) {
+					updateQuickslot();
+
+					cursedKnown = true;
+					if (cursed) {
+						equipCursed(hero);
+						GLog.n(Messages.get(KindOfWeapon.class, "equip_cursed"));
+					}
+				}
+				*/
+				equip(hero);
+
+				hero.spendAndNext( time2equip( hero ) );
+				//hero.spendAndNext( TIME_TO_EQUIP );
+				return true;
+
+			} else {
+
+				collect(hero.belongings.backpack);
+				hero.spendAndNext( time2equip( hero ) );
+				return false;
 			}
-			
-			hero.spendAndNext( TIME_TO_EQUIP );
-			return true;
-			
-		} else {
-			
-			collect( hero.belongings.backpack );
+		}else{
+			hero.spendAndNext( time2equip( hero ) );
 			return false;
 		}
 	}
@@ -69,7 +86,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public boolean doUnequip( Char hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
-			hero.belongings.weapon = null;
+			unEquip(hero);
 			return true;
 
 		} else {
@@ -77,6 +94,29 @@ abstract public class KindOfWeapon extends EquipableItem {
 			return false;
 
 		}
+	}
+
+	@Override
+	public void equip( Char hero){
+
+		hero.belongings.weapon = this;
+		activate(hero);
+
+		if(hero instanceof Hero) {
+			updateQuickslot();
+
+			cursedKnown = true;
+			if (cursed) {
+				equipCursed(hero);
+				GLog.n(Messages.get(KindOfWeapon.class, "equip_cursed"));
+			}
+		}
+	}
+
+	@Override
+	public void unEquip( Char hero){
+
+		hero.belongings.weapon = null;
 	}
 
 	public int min(){
@@ -112,6 +152,18 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int reachFactor( Char owner ){
 		return 1;
+	}
+
+	public boolean canAttack( Char attacker, Char defender){
+
+		if (Dungeon.level.distance( attacker.pos, defender.pos ) <= reachFactor(attacker)){
+
+			Ballistica atk = new Ballistica(attacker.pos, defender.pos, Ballistica.PROJECTILE);
+			if (atk.collisionPos == defender.pos){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public int defenseFactor( Char owner ) {

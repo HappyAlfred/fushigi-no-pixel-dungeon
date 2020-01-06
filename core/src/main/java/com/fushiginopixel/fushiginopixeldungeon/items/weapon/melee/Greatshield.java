@@ -42,11 +42,11 @@ public class Greatshield extends MeleeWeapon {
 	@Override
 	public int max(int lvl) {
 		return  22 +
-				lvl*UPGRADE_ATTACK;
+				lvl*(UPGRADE_ATTACK - 1);
 	}
 
 	@Override
 	public int defenseFactor( Char owner ) {
-		return 10+3*level();    //10 extra defence, plus 3 per level;
+		return 10+2*level();    //10 extra defence, plus 3 per level;
 	}
 }

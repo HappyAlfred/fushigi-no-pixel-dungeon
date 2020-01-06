@@ -207,7 +207,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 
 			AttackIndicator.target(enemy);
 
-			int dmg = target.damageRoll();
+			int dmg = target.totalDamageRoll();
 
 			//variance in damage dealt
 			switch(type){
@@ -219,14 +219,14 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					break;
 				case SLAM:
 					//rolls 2 times, takes the highest roll
-					int dmgReroll = target.damageRoll();
+					int dmgReroll = target.totalDamageRoll();
 					if (dmgReroll > dmg) dmg = dmgReroll;
 					dmg = Math.round(dmg*1.6f);
 					break;
 				case CRUSH:
 					//rolls 4 times, takes the highest roll
 					for (int i = 1; i < 4; i++) {
-						dmgReroll = target.damageRoll();
+						dmgReroll = target.totalDamageRoll();
 						if (dmgReroll > dmg) dmg = dmgReroll;
 					}
 					dmg = Math.round(dmg*2.5f);
@@ -237,7 +237,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 			}
 			
 			dmg = enemy.defenseProc(target, dmg, new EffectType(EffectType.MELEE,0));
-			dmg -= enemy.drRoll();
+			dmg -= enemy.totalDR();
 			dmg = target.attackProc(enemy, dmg, new EffectType(EffectType.MELEE,0));
 			enemy.damage( dmg, this ,new EffectType(EffectType.MELEE,0));
 
@@ -300,7 +300,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 						detach();
 						ActionIndicator.clearAction(Combo.this);
 					}
-					hero.spendAndNext(hero.attackDelay());
+					hero.spendAndNext(hero.totalAttackDelay());
 					break;
 
 				case FURY:
@@ -316,14 +316,14 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					} else {
 						detach();
 						ActionIndicator.clearAction(Combo.this);
-						hero.spendAndNext(hero.attackDelay());
+						hero.spendAndNext(hero.totalAttackDelay());
 					}
 					break;
 
 				default:
 					detach();
 					ActionIndicator.clearAction(Combo.this);
-					hero.spendAndNext(hero.attackDelay());
+					hero.spendAndNext(hero.totalAttackDelay());
 					break;
 			}
 

@@ -31,7 +31,7 @@ public class Zombie extends Mob {
 	{
 		spriteClass = ZombieSprite.class;
 		
-		HP = HT = 25;
+		HP = HT = 35;
 		//defenseSkill = 3;
 
 		EXP = 4;
@@ -41,7 +41,7 @@ public class Zombie extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 1, 7 );
+		return Random.NormalIntRange( 1, 10 );
 	}
 
 	/*

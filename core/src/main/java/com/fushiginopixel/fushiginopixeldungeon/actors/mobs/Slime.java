@@ -145,7 +145,7 @@ public class Slime extends Mob {
 	}
 
 	public void corrodeEnemy(Char enemy, int damage, EffectType type){
-		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f, Random.NormalIntRange( 3, 5 ));
+		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f, 2);
 		if(Random.Int(3) == 0){
 			if(enemy instanceof Hero) {
 				corrodeEquip((Hero) enemy, corrodeStr, 1, false);
@@ -205,12 +205,22 @@ public class Slime extends Mob {
 						str = w.level();
 					}
 
+					/*
 					if(w.level() < str && !w.isUnique()){
 						w.doUnequip(hero ,false);
 						GLog.n( Messages.get(Slime.class, "solute" , item.name()) );
 					}else{
 						w.degrade(str);
 						GLog.n( Messages.get(Slime.class, "corrod" , item.name(), str) );
+					}
+					*/
+					if(!w.isDegradeable() && !w.isUnique()){
+						w.unEquip(hero);
+						GLog.n( Messages.get(Slime.class, "solute" , item.name()) );
+					}else{
+						int lvl = w.level();
+						w.degrade(str);
+						GLog.n( Messages.get(Slime.class, "corrod" , item.name(), lvl - w.level()) );
 					}
 				}else{
 					GLog.i( Messages.get(Slime.class, "corrode_failed" , item.name()) );
@@ -232,12 +242,13 @@ public class Slime extends Mob {
 						str = a.level();
 					}
 
-					if(a.level() < str && !a.isUnique()){
-						a.doUnequip(hero ,false);
+					if(!a.isDegradeable() && !a.isUnique()){
+						a.unEquip(hero);
 						GLog.n( Messages.get(Slime.class, "solute" , item.name()) );
 					}else{
+						int lvl = a.level();
 						a.degrade(str);
-						GLog.n( Messages.get(Slime.class, "corrod" , item.name(), str) );
+						GLog.n( Messages.get(Slime.class, "corrod" , item.name(), lvl - a.level()) );
 					}
 				}else{
 					GLog.i( Messages.get(Slime.class, "corrode_failed" , item.name()) );
@@ -312,6 +323,7 @@ public class Slime extends Mob {
 
 					GameScene.add(clone, SPLIT_DELAY);
 					Actor.addDelayed(new Pushing(clone, pos, clone.pos), -1);
+					Dungeon.level.press(clone.pos, clone, true);
 
 					HP -= clone.HP;
 				}

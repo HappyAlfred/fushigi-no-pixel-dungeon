@@ -34,15 +34,18 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.MagicMissile;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
+import com.fushiginopixel.fushiginopixeldungeon.mechanics.BallisticaSector;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.DragonSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.InfernoDragonSprite;
+import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
@@ -84,6 +87,7 @@ public class InfernoDragon extends Dragon {
 	}
 
 	private HashSet<Integer> affectedCells = new HashSet<>();
+	/*
 	private HashSet<Integer> visualCells = new HashSet<>();
 	int direction = 0;
 
@@ -95,6 +99,7 @@ public class InfernoDragon extends Dragon {
 		int maxDist = 6;
 		int dist = Math.min(bolt.dist, maxDist);
 
+		//confirm ballistica's circle direction
 		for (int i = 0; i < PathFinder.CIRCLE8.length; i++){
 			if (bolt.sourcePos+PathFinder.CIRCLE8[i] == bolt.path.get(1)){
 				direction = i;
@@ -102,6 +107,7 @@ public class InfernoDragon extends Dragon {
 			}
 		}
 
+		//add ballistica's path's cell and it's neighbor cell
 		float strength = maxDist;
 		for (int c : bolt.subPath(1, dist)) {
 			strength--; //as we start at dist 1, not 0.
@@ -157,8 +163,12 @@ public class InfernoDragon extends Dragon {
 	private int right(int direction){
 		return direction == 7 ? 0 : direction+1;
 	}
+	*/
 
 	public void zap(Ballistica bolt ) {
+
+		BallisticaSector breath = new BallisticaSector(bolt.sourcePos, bolt.collisionPos, 60, 6, BallisticaSector.STOP_SOLID, Ballistica.USING_POSITION);
+		affectedCells = breath.affectedCells;
 
 		for( int cell : affectedCells){
 
@@ -204,17 +214,13 @@ public class InfernoDragon extends Dragon {
 			if (enemyInFOV && !isCharmedBy( enemy ) && canAttack( enemy )) {
 
 				final Ballistica shot = new Ballistica(pos,enemy.pos,Ballistica.STOP_TERRAIN);
-				if(distance(enemy ) <= 6 && Random.Int(4) == 0){
+				if(shot.subPath(1, 6).contains(enemy.pos) && Random.Int(4) == 0){
 					boolean visible = fieldOfView[pos] || fieldOfView[enemy.pos];
 					spend( TIME_TO_ZAP );
 					if (visible) {
 						sprite.zap( enemy.pos );
 					} else {
-						dragonBreath(shot, new Callback() {
-							public void call() {
-								zap(shot);
-							}
-						});
+						zap(shot);
 					}
 					return !visible;
 				}
@@ -230,11 +236,7 @@ public class InfernoDragon extends Dragon {
 						if (visible) {
 							sprite.zap( enemy.pos );
 						} else {
-							dragonBreath(shot, new Callback() {
-								public void call() {
-									zap(shot);
-								}
-							});
+							zap(shot);
 						}
 						return !visible;
 					}
