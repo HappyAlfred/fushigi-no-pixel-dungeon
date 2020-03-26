@@ -210,19 +210,20 @@ public abstract class Char extends Actor {
 		}
 	}
 	//this variable is only needed because of the boomerang, remove if/when it is no longer equippable
-	protected boolean rangedAttack = false;
+	//fack you Evan!!!
+	//protected boolean rangedAttack = false;
 
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
 
 		//temporarily set the hero's weapon to the missile weapon being used
 		KindOfWeapon equipped = belongings.weapon;
 		belongings.weapon = wep;
-		rangedAttack = true;
+		//rangedAttack = true;
 		this.enemy = enemy;
 		boolean result = attack( enemy ,new EffectType(EffectType.MISSILE ,0));
 		Invisibility.dispel();
 		belongings.weapon = equipped;
-		rangedAttack = false;
+		//rangedAttack = false;
 
 		return result;
 	}
@@ -240,16 +241,16 @@ public abstract class Char extends Actor {
 		if (hit( this, enemy, false )) {
 			
 			int dr = enemy.totalDR();
-			
+
+			/*
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
-				/*
 				if (h.belongings.weapon instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER){
 					dr = 0;
 				}
-				*/
 			}
+			*/
 			
 			int dmg;
 			Preparation prep = buff(Preparation.class);
