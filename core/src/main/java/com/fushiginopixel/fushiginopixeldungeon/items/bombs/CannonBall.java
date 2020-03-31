@@ -33,6 +33,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.particles.BlastParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.SmokeParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfSharpshooting;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -101,9 +102,10 @@ public class CannonBall extends Bombs {
 		if(enemyThrow == null){
 			return Random.NormalIntRange( center ? minDamage : 1, maxDamage );
 		}else{
-			int damage = center ? enemyThrow.totalDamageRoll() : enemyThrow.totalDamageRoll() / 2;
+			KindOfWeapon weapon = enemyThrow.belongings.weapon;
+			int damage = center ? enemyThrow.totalDamageRoll(weapon) : enemyThrow.totalDamageRoll(weapon) / 2;
 			if(enemyThrow == Dungeon.hero){
-				damage = Math.max(Random.NormalIntRange( center ? minDamage : 1, maxDamage ) ,center ? enemyThrow.totalDamageRoll() : enemyThrow.totalDamageRoll() / 2);
+				damage = Math.max(Random.NormalIntRange( center ? minDamage : 1, maxDamage ) ,center ? enemyThrow.totalDamageRoll(weapon) : enemyThrow.totalDamageRoll(weapon) / 2);
 				damage *= RingOfSharpshooting.damageMultiplier(Dungeon.hero);
 			}
 			return damage;

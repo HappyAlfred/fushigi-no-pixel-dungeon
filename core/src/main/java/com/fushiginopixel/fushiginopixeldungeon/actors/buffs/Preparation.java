@@ -31,6 +31,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.NPC;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Effects;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.CellSelector;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -76,10 +77,10 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 					&& !defender.properties().contains(Char.Property.BOSS);
 		}
 		
-		public int damageRoll( Char attacker, Char defender){
-			int dmg = attacker.totalDamageRoll();
+		public int damageRoll( KindOfWeapon weapon, Char attacker, Char defender){
+			int dmg = attacker.totalDamageRoll(weapon);
 			for( int i = 1; i < damageRolls; i++){
-				int newDmg = attacker.totalDamageRoll();
+				int newDmg = attacker.totalDamageRoll(weapon);
 				if (newDmg > dmg) dmg = newDmg;
 			}
 			float defenderHPPercent = 1f - (defender.HP / (float)defender.HT);
@@ -121,15 +122,15 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 		ActionIndicator.clearAction(this);
 	}
 	
-	public int damageRoll(Char attacker, Char defender ){
+	public int damageRoll(KindOfWeapon weapon, Char attacker, Char defender ){
 		AttackLevel lvl = AttackLevel.getLvl(turnsInvis);
 		if (lvl.canInstakill(defender)){
-			int dmg = lvl.damageRoll(attacker, defender);
+			int dmg = lvl.damageRoll(weapon, attacker, defender);
 			defender.damage( Math.max(defender.HT, dmg), attacker ,new EffectType(EffectType.MELEE,0));
 			//even though the defender is dead, other effects should still proc (enchants, etc.)
 			return Math.max( defender.HT, dmg);
 		} else {
-			return lvl.damageRoll(attacker, defender);
+			return lvl.damageRoll(weapon, attacker, defender);
 		}
 	}
 	

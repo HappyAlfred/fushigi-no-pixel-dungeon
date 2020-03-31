@@ -158,10 +158,10 @@ public class Slime extends Mob {
 	}
 
 	@Override
-	public int attackProc(Char enemy, int damage, EffectType type) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		corrodeEnemy(enemy,damage,type);
-		return super.attackProc(enemy, damage,type);
+		return damage;
 	}
 
 	public void corrodeEquip(Hero hero, int str, int count, boolean enchantment){

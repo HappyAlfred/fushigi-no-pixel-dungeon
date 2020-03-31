@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Light;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfHealing;
 import com.fushiginopixel.fushiginopixeldungeon.levels.traps.WeakeningTrap;
@@ -88,8 +89,8 @@ public class Scorpio extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		poisonAttack(enemy, damage, type);
 
 		return damage;

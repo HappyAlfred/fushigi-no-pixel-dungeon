@@ -458,6 +458,7 @@ public abstract class Pot extends Item {
 					curUser.spendAndNext( TIME_TO_ZAP );
 
 				}
+				curPot.updateQuickslot();
             }
         }
 

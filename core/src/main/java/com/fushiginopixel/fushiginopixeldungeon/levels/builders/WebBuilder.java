@@ -47,7 +47,7 @@ public class WebBuilder extends RegularBuilder {
             web.add(exit);
         }
 
-        int connectingRooms = Random.Int(0,3);
+        int connectingRooms = Random.Int(0,2);
         int tl = this.tunnelLength * (connectingRooms + 1);
         Room prev;
         //placed non connection rooms

@@ -41,6 +41,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Terror;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSelfDestruct;
@@ -269,8 +270,8 @@ public class Yog extends Mob {
 		}
 		
 		@Override
-		public int attackProc( Char enemy, int damage, EffectType type ) {
-			damage = super.attackProc( enemy, damage,type );
+		public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+			damage = super.attackProc( weapon, enemy, damage,type );
 			
 			if (Random.Int( 3 ) == 0) {
 				Buff.affect( enemy, Ooze.class,new EffectType(type.attachType,EffectType.CORRROSION) );
@@ -354,7 +355,7 @@ public class Yog extends Mob {
 			if (!Dungeon.level.adjacent( pos, enemy.pos )) {
 				spend( totalAttackDelay() );
 				
-				if (hit( this, enemy, true )) {
+				if (hit( this, null, enemy, true )) {
 					
 					int dmg =  damageRoll();
 					enemy.damage( dmg, this,new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE) );

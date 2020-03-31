@@ -38,6 +38,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Lightning;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ElmoParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.SparkParticle;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.CapeOfThorns;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.LloydsBeacon;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
@@ -100,8 +101,8 @@ public class DM300 extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		int lDamage;
 		if (Dungeon.level.map[enemy.pos] == Terrain.WATER) {
 			lDamage = Random.NormalIntRange(1, 90);

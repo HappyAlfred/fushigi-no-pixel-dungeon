@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Cripple;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.RotLasherSprite;
 import com.watabou.utils.Random;
 
@@ -71,10 +72,10 @@ public class RotLasher extends Mob {
 	}
 
 	@Override
-	public int attackProc(Char enemy, int damage, EffectType type) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
+		//damage = super.attackProc( weapon, enemy, damage,type );
 		Buff.affect( enemy, Cripple.class, 2f, new EffectType(type.attachType,0) );
-		return super.attackProc(enemy, damage,type);
+		return super.attackProc( weapon, enemy, damage,type);
 	}
 
 	@Override

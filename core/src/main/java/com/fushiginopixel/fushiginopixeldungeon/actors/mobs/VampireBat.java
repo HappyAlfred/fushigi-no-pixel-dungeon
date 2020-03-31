@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.BatSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.VampireBatSprite;
 import com.watabou.utils.Random;
@@ -58,8 +59,8 @@ public class VampireBat extends Bat {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		int reg = Math.min( damage, HT - HP );
 
 		if (reg > 0 && isAlive()) {

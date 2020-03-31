@@ -230,8 +230,14 @@ public class WandOfCorruption extends DamageWand {
 			GLog.w( Messages.get(this, "already_corrupted") );
 			return false;
 		}
-		
-		if (!enemy.isImmune(Corruption.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT)) && enemy.HP <= Math.max(enemy.HT / 10 , damageRoll())){
+
+		int dmg = damageRoll();
+		if(enemy.HP - dmg <= enemy.HT / 3){
+			dmg *= 2;
+		}else if(enemy.buff(Doom.class) != null){
+			dmg *= 2;
+		}
+		if (!enemy.isImmune(Corruption.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT)) && enemy.HP - dmg <= enemy.HT / 10){
 			enemy.HP = enemy.HT;
 			for (Buff buff : enemy.buffs()) {
 				if (buff.type == Buff.buffType.NEGATIVE
@@ -253,7 +259,7 @@ public class WandOfCorruption extends DamageWand {
 			enemy.rollToDropLoot();
 
 			return false;
-		} else if(!enemy.isImmune(Doom.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT)) && enemy.HP <= Math.max(enemy.HT / 3 , damageRoll())){
+		} else if(!enemy.isImmune(Doom.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT)) && enemy.HP - dmg <= enemy.HT / 3){
 			Buff.affect(enemy, Doom.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT));
 
 		}

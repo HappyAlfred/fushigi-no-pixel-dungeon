@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon.Enchantment;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Grim;
@@ -113,9 +114,10 @@ public class Statue extends Mob {
 	@Override
 	public void die( Object cause, EffectType type ) {
 		if(belongings.weapon != null) {
-			belongings.weapon.identify();
-			belongings.weapon.unEquip(this);
-			Dungeon.level.drop(belongings.weapon, pos).sprite.drop();
+			KindOfWeapon w = belongings.weapon;
+			w.identify();
+			w.unEquip(this);
+			Dungeon.level.drop(w, pos).sprite.drop();
 		}
 		super.die( cause, type );
 	}

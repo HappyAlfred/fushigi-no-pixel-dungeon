@@ -84,10 +84,8 @@ public class Dart extends MissileWeapon {
 	public int proc(Char attacker, Char defender, int damage, EffectType type) {
 		KindOfWeapon wep = attacker.belongings.weapon;
 		Crossbow curBow = wep instanceof Crossbow ? (Crossbow)wep : null;
-		if (curBow != null && curBow.enchantmentCount() != 0){
-			for(Enchantment e:curBow.enchantment) {
-				damage *= e.proc(curBow, attacker, defender, damage, type);
-			}
+		if (curBow != null){
+			damage = curBow.proc(attacker, defender, damage, type);
 		}
 		return super.proc(attacker, defender, damage, type);
 	}

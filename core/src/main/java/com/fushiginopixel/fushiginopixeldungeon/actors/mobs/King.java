@@ -38,6 +38,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Flare;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Lightning;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.ArmorKit;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.LloydsBeacon;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -326,8 +327,8 @@ public class King extends Mob {
 		*/
 		
 		@Override
-		public int attackProc( Char enemy, int damage, EffectType type ) {
-			damage = super.attackProc( enemy, damage,type );
+		public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+			damage = super.attackProc( weapon, enemy, damage,type );
 			if (Random.Int( MAX_ARMY_SIZE ) == 0) {
 				Buff.prolong( enemy, Paralysis.class, 1,new EffectType(type.attachType,0) );
 			}

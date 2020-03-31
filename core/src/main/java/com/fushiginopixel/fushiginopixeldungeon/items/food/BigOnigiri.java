@@ -35,6 +35,9 @@ import java.util.Calendar;
 
 public class BigOnigiri extends Food {
 
+	{
+		time_to_eat = holiday == Holiday.DBF ? 3f : 1;
+	}
 	//TODO: implement fun stuff for other holidays
 	//TODO: probably should externalize this if I want to add any more festive stuff.
 	private enum Holiday{
@@ -44,8 +47,6 @@ public class BigOnigiri extends Food {
 
 
 	private static Holiday holiday;
-
-	public static float TIME_TO_EAT = holiday == Holiday.DBF ? 6f : 0;
 
 	static{
 

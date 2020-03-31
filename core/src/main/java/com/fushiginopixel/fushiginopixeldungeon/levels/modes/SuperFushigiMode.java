@@ -217,11 +217,15 @@ public class SuperFushigiMode extends Mode {
     @Override
     public boolean setTrap(Class<? extends Trap> trapClasses[], float[] trapChances, Level l, int trapPos){
         try {
-            Trap trap = trapClasses[Random.chances( trapChances )].newInstance().hide();
-            for (Class c : VISIBLE){
-                if (!c.isAssignableFrom(trap.getClass()) && Random.Int(4) == 0){
-                    trap.alwaysVisible = false;
-                    trap.hide();
+            Trap trap = trapClasses[Random.chances( trapChances )].newInstance();
+            if(trap.alwaysVisible == false){
+                trap.hide();
+            }else {
+                for (Class c : VISIBLE) {
+                    if (!c.isAssignableFrom(trap.getClass()) && Random.Int(4) == 0) {
+                        trap.alwaysVisible = false;
+                        trap.hide();
+                    }
                 }
             }
             l.setTrap( trap, trapPos );

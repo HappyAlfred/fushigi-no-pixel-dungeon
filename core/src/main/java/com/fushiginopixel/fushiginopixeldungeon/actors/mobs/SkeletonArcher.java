@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Paralysis;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfBlastWave;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Crossbow;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -83,8 +84,8 @@ public class SkeletonArcher extends Skeleton {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		if (Random.Int( 5 ) >= 3){
 			/*
 			int opposite = enemy.pos + (enemy.pos - this.pos);

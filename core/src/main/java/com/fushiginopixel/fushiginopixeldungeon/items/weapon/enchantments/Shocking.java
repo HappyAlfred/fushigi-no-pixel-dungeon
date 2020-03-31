@@ -40,6 +40,7 @@ public class Shocking extends Weapon.Enchantment {
 
 	@Override
 	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+		/*
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
@@ -60,6 +61,19 @@ public class Shocking extends Weapon.Enchantment {
 				defender.sprite.parent.addToFront(new Lightning(arcs, null));
 			}
 			
+		}
+		*/
+		affected.clear();
+		affected.add(attacker);
+
+		arcs.clear();
+		//arcs.add(new Lightning.Arc(attacker.sprite.center(), defender.sprite.center()));
+		hit(defender, Random.Int(1, 40), type);
+
+		if(type.isExistAttachType(EffectType.MELEE)) {
+			attacker.sprite.parent.addToFront(new Lightning(arcs, null));
+		}else{
+			defender.sprite.parent.addToFront(new Lightning(arcs, null));
 		}
 
 		return 1;

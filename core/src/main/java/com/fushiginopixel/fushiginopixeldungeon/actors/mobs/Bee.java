@@ -27,6 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Amok;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.BeeSprite;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -101,8 +102,8 @@ public class Bee extends Mob {
 	}
 	
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		if (enemy instanceof Mob) {
 			((Mob)enemy).aggro( this );
 		}

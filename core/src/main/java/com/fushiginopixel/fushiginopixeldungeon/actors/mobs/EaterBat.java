@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfBlastWave;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.BatSprite;
@@ -66,8 +67,8 @@ public class EaterBat extends Bat {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		if (Random.Int( 3 ) == 0) {
 			Buff.affect( enemy, Blindness.class , 5f, new EffectType(type.attachType,0));
 			int opposite = pos + (pos - enemy.pos);

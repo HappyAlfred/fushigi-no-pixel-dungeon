@@ -90,7 +90,7 @@ public class FallenAngelNurse extends FallenAngel {
 	@Override
 	public void zap(Char enemy) {
 
-		if (hit( this, enemy, true )) {
+		if (hit( this, null, enemy, true )) {
 
 			int dmg = damageRoll();
 			enemy.damage( dmg, this, new EffectType(EffectType.MAGICAL_BOLT,EffectType.LIGHT) );

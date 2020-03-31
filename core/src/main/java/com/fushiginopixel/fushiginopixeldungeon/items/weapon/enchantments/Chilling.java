@@ -25,7 +25,10 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Chill;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.FlavourBuff;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Frost;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Splash;
+import com.fushiginopixel.fushiginopixeldungeon.effects.particles.SnowParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite.Glowing;
@@ -40,6 +43,7 @@ public class Chilling extends Weapon.Enchantment {
 		// lvl 0 - 20%
 		// lvl 1 - 33%
 		// lvl 2 - 43%
+		/*
 		int level = Math.max( 0, weapon.level() );
 		
 		if (Random.Int( level / 2 + 100 ) >= 80) {
@@ -47,6 +51,26 @@ public class Chilling extends Weapon.Enchantment {
 			Buff.prolong( defender, Chill.class, Random.Float( 3f, 7f ) * (float)((Random.Int(level) + 20)/20), new EffectType(type.attachType,EffectType.ICE));
 			Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 
+		}
+		*/
+
+		defender.damage( 7, this, new EffectType(type.attachType,EffectType.ICE));
+		Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
+		final EffectType currentType = type;
+
+		Buff.prolong( defender, Chill.class, 3, new EffectType(currentType.attachType,EffectType.ICE));
+		Chill chill = defender.buff(Chill.class);
+		if (chill != null && chill.cooldown() >= 9){
+			new FlavourBuff() {
+				{
+					actPriority = VFX_PRIO;
+				}
+
+				public boolean act() {
+					Buff.affect(target, Frost.class, Frost.duration(target), new EffectType(currentType.attachType, EffectType.ICE));
+					return super.act();
+				}
+			}.attachTo(defender);
 		}
 
 		return 1;

@@ -37,7 +37,7 @@ public class Stone extends Armor.Glyph {
 			Char at = (Char) attacker;
 			testing = true;
 			float evasion = defender.totalDefenseSkill(at);
-			float accuracy = at.totalAttackSkill(defender);
+			float accuracy = at.totalAttackSkill(null, defender);
 			testing = false;
 
 			float hitChance;

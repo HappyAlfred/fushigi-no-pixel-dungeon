@@ -27,6 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Shuriken;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.Dart;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.utils.Callback;
 
@@ -67,7 +68,7 @@ public class GnollNinjaSprite extends MobSprite {
 					@Override
 					public void call() {
 						ch.next();
-						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0));
+						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0), new Shuriken(), false);
 					}
 				} );
 

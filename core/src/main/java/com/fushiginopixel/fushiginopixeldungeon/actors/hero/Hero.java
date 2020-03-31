@@ -435,8 +435,8 @@ public class Hero extends Char {
     }
 
     @Override
-    public int totalDamageRoll() {
-	    int dmg = super.totalDamageRoll();
+    public int totalDamageRoll(KindOfWeapon weapon) {
+	    int dmg = super.totalDamageRoll(weapon);
         dmg *= strengthMultiplier();
         if (dmg < 0) dmg = 0;
 
@@ -1017,13 +1017,14 @@ public class Hero extends Char {
 	}
 	
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-        damage = super.attackProc(enemy, damage, type);
-		KindOfWeapon wep = belongings.weapon;
+	public int attackProc( KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+        damage = super.attackProc( weapon, enemy, damage, type);
+		//KindOfWeapon wep = belongings.weapon;
 			
 		switch (subClass) {
 		case SNIPER:
-			if (wep instanceof MissileWeapon && rangedAttack) {
+			//if (wep instanceof MissileWeapon && type.isExistAttachType(EffectType.MISSILE)) {
+			if (type.isExistAttachType(EffectType.MISSILE)){
 				Buff.prolong( this, SnipersMark.class, totalAttackDelay() ).object = enemy.id();
 			}
 			break;

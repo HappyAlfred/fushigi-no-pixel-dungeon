@@ -69,14 +69,16 @@ public class Energy extends Weapon.Enchantment {
 
 	@Override
 	public void onMissed(Weapon weapon, Char attacker, Char defender){
+		/*
 		int level = Math.max( 0, weapon.level() );
 
 		float chargeTop = (float)(5 / (level * 0.2 + 1));
 		chargeTop = Math.max(chargeTop , 2);
+		*/
 
 		charge++;
 
-		if (charge >= chargeTop && attacker != null) {
+		if (charge >= 2 && attacker != null) {
 			GLog.n(Messages.get(this, "charged", attacker.name));
 			charged = true;
 		}

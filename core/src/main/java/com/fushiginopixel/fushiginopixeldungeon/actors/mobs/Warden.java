@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Cripple;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Chains;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.PrisonMidBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
@@ -122,8 +123,8 @@ public class Warden extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc(enemy,damage,type);
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc(weapon, enemy,damage,type);
 		if (Random.Int( 3 ) == 0) {
 
 			Cripple.prolong(enemy, Cripple.class, 4f,new EffectType(type.attachType,0));

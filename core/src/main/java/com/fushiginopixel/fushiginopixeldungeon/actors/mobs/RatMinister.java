@@ -35,6 +35,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.LockedFloor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.MagicalSleep;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
 import com.fushiginopixel.fushiginopixeldungeon.items.quest.RatSceptre;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Sleepy;
@@ -128,9 +129,9 @@ public class RatMinister extends Rat {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
 
-		damage = super.attackProc(enemy, damage, type);
+		damage = super.attackProc( weapon, enemy, damage, type);
 		if (Sleepy.isSuccess(0)) {
 			final EffectType effectType = type;
 			new FlavourBuff(){

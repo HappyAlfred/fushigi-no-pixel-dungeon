@@ -93,7 +93,7 @@ public class Shaman extends Mob implements Callback {
 			
 			spend( TIME_TO_ZAP );
 			
-			if (hit( this, enemy, true )) {
+			if (hit( this, null, enemy, true )) {
 				int dmg = Random.NormalIntRange(1, 60);
 				if (Dungeon.level.water[enemy.pos] && !enemy.flying) {
 					dmg *= 1.5f;

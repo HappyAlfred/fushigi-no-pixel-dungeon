@@ -371,7 +371,7 @@ public abstract class Wand extends Item {
 		}
 
 		updateLevel();
-		curCharges = Math.min( curCharges + 1, maxCharges );
+		//curCharges = Math.min( curCharges + 1, maxCharges );
 		updateQuickslot();
 		
 		return this;

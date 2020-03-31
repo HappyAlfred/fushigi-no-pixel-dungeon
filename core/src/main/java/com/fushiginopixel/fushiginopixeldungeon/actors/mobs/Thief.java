@@ -32,6 +32,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Gold;
 import com.fushiginopixel.fushiginopixeldungeon.items.Honeypot;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.MasterThievesArmband;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
@@ -124,8 +125,8 @@ public class Thief extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		
 		if (isAlive() && item == null && enemy instanceof Hero && steal( (Hero)enemy,type )) {
 			state = FLEEING;

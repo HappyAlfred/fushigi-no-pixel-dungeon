@@ -177,7 +177,7 @@ public class DeathEye extends Mob {
 				continue;
 			}
 
-			if (hit( this, ch, true )) {
+			if (hit( this, null, ch, true )) {
 				int damage;
 				//almost kill the player
 				if (ch == Dungeon.hero && ((float)ch.HP/ch.HT) >= 0.9f){

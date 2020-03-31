@@ -232,13 +232,13 @@ public class Item implements Bundlable {
 		if (items.contains( this )) {
 			return true;
 		}
-		
+		/*
 		for (Item item:items) {
 			if (item instanceof Bag && ((Bag)item).grab( this )) {
 				return collect( (Bag)item );
 			}
 		}
-		
+
 		if (stackable) {
 			for (Item item:items) {
 				if (isSimilar( item )) {
@@ -246,6 +246,23 @@ public class Item implements Bundlable {
 					item.updateQuickslot();
 					return true;
 				}
+			}
+		}
+		*/
+
+		if (stackable) {
+			for (Item item:items) {
+				if (isSimilar( item )) {
+					item.merge( this );
+					item.updateQuickslot();
+					return true;
+				}
+			}
+		}
+
+		for (Item item:items) {
+			if (item instanceof Bag && ((Bag)item).grab( this ) && collectInner( (Bag)item )) {
+				return true;
 			}
 		}
 		
@@ -266,6 +283,61 @@ public class Item implements Bundlable {
 			GLog.n( Messages.get(Item.class, "pack_full", name()) );
 			return false;
 			
+		}
+	}
+
+	//collect items to inner bag
+	public boolean collectInner( Bag container ) {
+
+		if(container.owner instanceof Hero){
+			if(classlimit != null) {
+				if ((((Hero) container.owner).heroClass) != classlimit) {
+					return false;
+				}
+			}
+
+			if(isIdentified() && Dungeon.hero != null && Dungeon.hero.isAlive()){
+				Catalog.setSeen(getClass());
+			}
+		}
+
+		ArrayList<Item> items = container.items;
+
+		if (items.contains( this )) {
+			return true;
+		}
+
+		if (stackable) {
+			for (Item item:items) {
+				if (isSimilar( item )) {
+					item.merge( this );
+					item.updateQuickslot();
+					return true;
+				}
+			}
+		}
+
+		for (Item item:items) {
+			if (item instanceof Bag && ((Bag)item).grab( this ) && collectInner( (Bag)item )) {
+				return true;
+			}
+		}
+
+		if (items.size() < container.realSize()) {
+
+			if (container.owner instanceof Hero && Dungeon.hero != null && Dungeon.hero.isAlive()) {
+				Badges.validateItemLevelAquired( this );
+			}
+
+			items.add( this );
+			Dungeon.quickslot.replacePlaceholder(this);
+			updateQuickslot();
+			Collections.sort( items, itemComparator );
+			return true;
+
+		} else {
+			return false;
+
 		}
 	}
 	

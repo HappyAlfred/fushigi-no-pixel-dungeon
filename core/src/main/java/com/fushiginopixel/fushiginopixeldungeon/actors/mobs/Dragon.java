@@ -91,7 +91,7 @@ public class Dragon extends Mob {
 		}
 		Char ch = Actor.findChar( bolt.collisionPos );
 		if(ch == null) return;
-		if (hit( this, ch, true )) {
+		if (hit( this, null, ch, true )) {
 			Buff.affect( ch, Burning.class, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE) ).reignite(ch);
 
 			int dmg = Random.Int( 10, 25 );

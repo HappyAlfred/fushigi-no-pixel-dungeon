@@ -48,6 +48,7 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.Surprise;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Wound;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.properties.Dignified;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.Ring;
@@ -489,8 +490,8 @@ public abstract class Mob extends Char {
 	}
 	
 	@Override
-	public int attackProc(Char enemy, int damage, EffectType type) {
-		damage = super.attackProc(enemy, damage,type);
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
+		damage = super.attackProc( weapon, enemy, damage,type);
 		if (buff(Weakness.class) != null){
 			damage *= 0.67f;
 		}

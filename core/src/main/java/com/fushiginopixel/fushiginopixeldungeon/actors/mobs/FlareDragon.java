@@ -86,7 +86,7 @@ public class FlareDragon extends Dragon {
 
 		Char ch = enemy;//Actor.findChar( bolt.collisionPos );
 		if(ch == null) return;
-		if (hit( this, ch, true )) {
+		if (hit( this, null, ch, true )) {
 
 			int dmg = Random.Int( 25, 50 );
 			ch.damage( dmg, this, new EffectType(EffectType.MAGICAL_BOLT,EffectType.LIGHT) );
@@ -231,6 +231,7 @@ public class FlareDragon extends Dragon {
 					} else {
 						zap(shot);
 					}
+					return !visible;
 				} else if (target != -1 && getCloser( target )) {
 					spend( 1 / speed() );
 					return moveSprite( oldPos, pos );

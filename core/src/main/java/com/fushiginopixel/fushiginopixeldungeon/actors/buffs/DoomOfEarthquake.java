@@ -59,14 +59,16 @@ public class DoomOfEarthquake extends Buff {
 			timer ++;*/
 
 		if(!Statistics.amuletObtained){
-			if(timer == 500 || timer == 1000){
+			if(timer == 900 || timer == 1100 || timer == 1300){
 				Camera.main.shake(2, 0.7f);
 				Sample.INSTANCE.play(Assets.SND_ROCKS);
 				((Hero)target).resting = false;
-				if(timer == 500)
+				if(timer == 900)
 					GLog.w(Messages.get(this, "warning"));
-				else
+				else if(timer == 1100)
 					GLog.w(Messages.get(this, "warning_1"));
+				else if(timer == 1300)
+					GLog.w(Messages.get(this, "warning_2"));
 				for (Mob mob : Dungeon.level.mobs) {
 					mob.beckon( -1 );
 				}
@@ -89,14 +91,16 @@ public class DoomOfEarthquake extends Buff {
 				GLog.n( Messages.get(this, "ondeath") );
 			}
 		}else{
-			if(timer == 2500 || timer == 5000) {
+			if(timer == 4500 || timer == 5500 || timer == 6500) {
 				Camera.main.shake(2, 0.7f);
 				Sample.INSTANCE.play(Assets.SND_ROCKS);
 				((Hero)target).resting = false;
-				if(timer == 2500)
+				if(timer == 4500)
 					GLog.w(Messages.get(this, "warning"));
-				else
+				else if(timer == 5500)
 					GLog.w(Messages.get(this, "warning_1"));
+				else if(timer == 6500)
+					GLog.w(Messages.get(this, "warning_2"));
 				for (Mob mob : Dungeon.level.mobs) {
 					mob.beckon( -1 );
 				}

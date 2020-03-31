@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.Dart;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.darts.ParalyticDart;
 import com.watabou.noosa.MovieClip;
 import com.watabou.noosa.TextureFilm;
@@ -67,7 +68,7 @@ public class GnollTricksterSprite extends MobSprite {
 					@Override
 					public void call() {
 						ch.next();
-						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0));
+						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0), new Dart(), false);
 					}
 				} );
 

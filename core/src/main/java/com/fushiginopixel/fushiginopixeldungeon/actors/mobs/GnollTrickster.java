@@ -32,6 +32,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Ghost;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -74,8 +75,8 @@ public class GnollTrickster extends Gnoll {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 
 		if(type.isExistAttachType(EffectType.MISSILE)) {
 			//The gnoll's attacks get more severe the more the player lets it hit them

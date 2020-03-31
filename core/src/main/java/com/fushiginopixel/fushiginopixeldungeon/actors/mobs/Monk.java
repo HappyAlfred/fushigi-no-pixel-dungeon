@@ -87,26 +87,26 @@ public class Monk extends Mob {
 	private int hitsToDisarm = 0;
 	
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc( KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		
 		if (enemy == Dungeon.hero) {
 			
 			Hero hero = Dungeon.hero;
-			KindOfWeapon weapon = hero.belongings.weapon;
+			KindOfWeapon wep = hero.belongings.weapon;
 			
-			if (weapon != null
-					&& !(weapon instanceof Knuckles)
-					&& !(weapon instanceof Gauntlet)
-					&& !weapon.cursed) {
+			if (wep != null
+					&& !(wep instanceof Knuckles)
+					&& !(wep instanceof Gauntlet)
+					&& !wep.cursed) {
 				if (hitsToDisarm == 0) hitsToDisarm = Random.NormalIntRange(4, 8);
 
 				if (--hitsToDisarm == 0) {
 					hero.belongings.weapon = null;
-					Dungeon.quickslot.convertToPlaceholder(weapon);
-					weapon.updateQuickslot();
-					Dungeon.level.drop(weapon, hero.pos).sprite.drop();
-					GLog.w(Messages.get(this, "disarm", weapon.name()));
+					Dungeon.quickslot.convertToPlaceholder(wep);
+					wep.updateQuickslot();
+					Dungeon.level.drop(wep, hero.pos).sprite.drop();
+					GLog.w(Messages.get(this, "disarm", wep.name()));
 				}
 			}
 		}

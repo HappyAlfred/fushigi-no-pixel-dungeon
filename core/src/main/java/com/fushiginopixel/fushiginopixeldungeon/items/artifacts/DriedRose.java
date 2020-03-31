@@ -40,11 +40,13 @@ import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShaftParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.AntiMagic;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfPsionicBlast;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSelfDestruct;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Boomerang;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
@@ -566,25 +568,25 @@ public class DriedRose extends Artifact {
 		}
 
 		@Override
-		public int totalDamageRoll() {
-			int dmg = super.totalDamageRoll();
+		public int totalDamageRoll(KindOfWeapon weapon) {
+			int dmg = super.totalDamageRoll(weapon);
 			dmg *= 0.5 + 0.05 * rose.ghostStrength();
 
 			return dmg;
 		}
 
-		public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+		public boolean canCriticalAttack(KindOfWeapon weapon, Char enemy, int damage, EffectType type){
 			if(rose != null && rose.weapon != null)
 				return rose.weapon.canCriticalAttack( this, enemy, damage ,type);
-			else return super.canCriticalAttack(enemy, damage, type);
+			else return super.canCriticalAttack(weapon, enemy, damage, type);
 		}
 
 		@Override
-		public int attackProc(Char enemy, int damage, EffectType type) {
+		public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
 			if (rose != null && rose.weapon != null) {
 				damage = rose.weapon.proc( this, enemy, damage ,type );
 			}
-			damage = super.attackProc(enemy, damage, type);
+			damage = super.attackProc( weapon, enemy, damage, type);
 			return damage;
 		}
 		
@@ -598,7 +600,8 @@ public class DriedRose extends Artifact {
 		}
 
 		@Override
-		public void onMissed(Char enemy) {
+		public void onMissed(KindOfWeapon weapon, Char enemy) {
+			super.onMissed(weapon, enemy);
 			if (rose != null && rose.weapon != null)
 				rose.weapon.onMissed( this, enemy);
 			return;

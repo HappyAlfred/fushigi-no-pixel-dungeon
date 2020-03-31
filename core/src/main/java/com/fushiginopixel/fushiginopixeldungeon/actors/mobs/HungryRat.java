@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Cripple;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.HungryRatSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.WhiteRatSprite;
@@ -59,8 +60,8 @@ public class HungryRat extends Rat {
 	*/
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		int reg = Math.min( damage, HT - HP );
 		if (Random.Int( 2 ) == 0) {
 			Buff.affect( enemy, Cripple.class , 5, new EffectType(type.attachType,0));

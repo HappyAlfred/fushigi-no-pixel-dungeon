@@ -31,6 +31,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Charm;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Light;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Sleep;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
@@ -68,8 +69,8 @@ public class Succubus extends Mob {
 	}
 	
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		
 		if (Random.Int( 3 ) == 0) {
 			Buff.affect( enemy, Charm.class, Random.IntRange( 3, 7 ), new EffectType(type.attachType,EffectType.SPIRIT) ).object = id();

@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Paralysis;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.SeniorSprite;
 import com.watabou.utils.Random;
 
@@ -40,12 +41,11 @@ public class Senior extends Monk {
 	}
 	
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
 		if (Random.Int( 10 ) == 0) {
 			Buff.prolong( enemy, Paralysis.class, 1.1f,new EffectType(type.attachType,0) );
 		}
-		return super.attackProc( enemy, damage,type );
+		return super.attackProc( weapon, enemy, damage,type );
 	}
 
 	{

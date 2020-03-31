@@ -29,6 +29,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Chill;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Frost;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Imp;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ElementalSprite;
 import com.watabou.utils.Random;
@@ -76,8 +77,8 @@ public class Elemental extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		if (Random.Int( 2 ) == 0) {
 			Buff.affect( enemy, Burning.class, new EffectType(type.attachType,EffectType.FIRE) ).reignite( enemy );
 		}

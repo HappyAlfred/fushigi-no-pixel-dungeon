@@ -78,8 +78,8 @@ public class Ballistica {
 		if (collisionPos != null)
 			dist = path.indexOf( collisionPos );
 		else {
-			collisionPos = path.get(dist = path.size() - 1);
-			collisionPointF = pathPointF.get(dist);
+			collisionPos = from;//path.get(dist = path.size() - 1);
+			collisionPointF = new PointF(Dungeon.level.cellToPoint(from).x, Dungeon.level.cellToPoint(from).y).offset(0.5f,0.5f).scale(DungeonTilemap.SIZE);//pathPointF.get(dist);
 		}
 	}
 

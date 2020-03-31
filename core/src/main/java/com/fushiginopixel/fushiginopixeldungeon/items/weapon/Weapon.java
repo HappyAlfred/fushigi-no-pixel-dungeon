@@ -615,7 +615,7 @@ abstract public class Weapon extends KindOfWeapon {
 	public static abstract class Enchantment implements Bundlable {
 
 		private static final Class<?>[] enchants = new Class<?>[]{
-			Blazing.class, Venomous.class, Vorpal.class, Shocking.class,
+			Blazing.class, Venomous.class, Shocking.class,
 			Chilling.class, Eldritch.class, Projecting.class, Dazzling.class, Energy.class, Ghostly.class,
 			Grim.class, Stunning.class, Vampiric.class,};
 		/*

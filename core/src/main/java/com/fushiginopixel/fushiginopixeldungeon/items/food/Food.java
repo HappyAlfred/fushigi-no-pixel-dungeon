@@ -44,7 +44,8 @@ import java.util.ArrayList;
 
 public class Food extends Item {
 
-	public static float TIME_TO_EAT	= 3f;
+	public static float TIME_TO_EAT	= 1f;
+	public float time_to_eat	= TIME_TO_EAT;
 	
 	public static final String AC_EAT	= "EAT";
 	
@@ -100,7 +101,7 @@ public class Food extends Item {
 				SpellSprite.show(hero, SpellSprite.FOOD);
 				Sample.INSTANCE.play(Assets.SND_EAT);
 
-				hero.spend(TIME_TO_EAT);
+				hero.spend(time_to_eat);
 
 				Statistics.foodEaten++;
 				Badges.validateFoodEaten();

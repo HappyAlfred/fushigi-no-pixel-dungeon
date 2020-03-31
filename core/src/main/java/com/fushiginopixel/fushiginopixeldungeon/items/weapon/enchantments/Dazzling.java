@@ -40,6 +40,7 @@ public class Dazzling extends Weapon.Enchantment {
 		// lvl 0 - 20%
 		// lvl 1 - 33%
 		// lvl 2 - 43%
+		/*
 		int level = Math.max( 0, weapon.level() );
 
 		if (Random.Int( level / 2 + 100 ) >= 80) {
@@ -49,6 +50,13 @@ public class Dazzling extends Weapon.Enchantment {
 			defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
 
 		}
+		*/
+
+		defender.damage( 8, this, new EffectType(type.attachType,EffectType.LIGHT));
+		if(Random.Int( 100 ) >= 80){
+			Buff.affect( defender, Blindness.class, 15,new EffectType(type.attachType,EffectType.LIGHT));
+		}
+		defender.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 6 );
 
 		return 1;
 	}

@@ -92,12 +92,12 @@ public class GelCube extends Mob {
 
 		Char ch = Actor.findChar( bolt.collisionPos );
 		if(ch == null) return;
-		if (hit( this, ch, false )) {
+		if (hit( this, null, ch, false )) {
 
 			if(zapSkill() > Random.Int(3) && ch instanceof Hero && shootGel((Hero)ch)) {
 
 			}else{
-				attack( ch , new EffectType(EffectType.MISSILE ,0));
+				attack( ch , new EffectType(EffectType.MISSILE ,0), new SlimyGel(), false);
 				/*
 				int dmg = Random.Int(1, 9);
 				ch.damage(dmg, this, new EffectType(EffectType.MISSILE, 0));

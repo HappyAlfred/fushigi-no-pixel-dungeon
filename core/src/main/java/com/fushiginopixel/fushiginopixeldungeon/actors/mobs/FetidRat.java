@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.StenchGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Ooze;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.npcs.Ghost;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.FetidRatSprite;
 import com.watabou.utils.Random;
@@ -65,8 +66,8 @@ public class FetidRat extends Rat {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		if (Random.Int(3) == 0) {
 			Buff.affect(enemy, Ooze.class, new EffectType(type.attachType,EffectType.CORRROSION));
 		}

@@ -75,6 +75,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSelfDestru
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFireblast;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfLightning;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfPrismaticLight;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Blazing;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Grim;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Shocking;
@@ -216,29 +217,40 @@ public abstract class Char extends Actor {
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
 
 		//temporarily set the hero's weapon to the missile weapon being used
-		KindOfWeapon equipped = belongings.weapon;
-		belongings.weapon = wep;
+		//KindOfWeapon equipped = belongings.weapon;
+		//belongings.weapon = wep;
 		//rangedAttack = true;
 		this.enemy = enemy;
-		boolean result = attack( enemy ,new EffectType(EffectType.MISSILE ,0));
+		boolean result = attack( enemy ,new EffectType(EffectType.MISSILE ,0) ,wep , true);
 		Invisibility.dispel();
-		belongings.weapon = equipped;
+		//belongings.weapon = equipped;
 		//rangedAttack = false;
 
 		return result;
 	}
 
+	//direct attack
 	public boolean attack( Char enemy ) {
-		return attack( enemy ,new EffectType(EffectType.MELEE ,0));
+		return attack( enemy ,new EffectType(EffectType.MELEE ,0), belongings.weapon);
 	}
-	
-	public boolean attack( Char enemy ,EffectType type) {
+
+	//attack with something, confirm final attach type. Using for ranged attack.
+    public boolean attack( Char enemy ,EffectType type, KindOfWeapon item) {
+	    return attack(enemy ,type , item, true);
+    }
+
+    //attack with something but cannot affect anything
+	public boolean attack( Char enemy ,EffectType type ,Item item, boolean attackWithItem) {
 
 		if (enemy == null || !enemy.isAlive()) return false;
 		
 		boolean visibleFight = Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[enemy.pos];
+		KindOfWeapon weapon = null;
+		if(attackWithItem && item != null && item instanceof KindOfWeapon){
+            weapon = (KindOfWeapon) item;
+        }
 		
-		if (hit( this, enemy, false )) {
+		if (hit( this, weapon, enemy, false )) {
 			
 			int dr = enemy.totalDR();
 
@@ -255,19 +267,19 @@ public abstract class Char extends Actor {
 			int dmg;
 			Preparation prep = buff(Preparation.class);
 			if (prep != null){
-				dmg = prep.damageRoll(this, enemy);
+				dmg = prep.damageRoll(weapon, this, enemy);
 			} else {
-				dmg = totalDamageRoll();
+				dmg = totalDamageRoll(weapon);
 			}
 			
 			int effectiveDamage = enemy.defenseProc( this, dmg, type );
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
-			if(canCriticalAttack( enemy, effectiveDamage ,type)){
+			if(canCriticalAttack( weapon, enemy, effectiveDamage ,type)){
 				if(enemy != null)
 					enemy.sprite.centerEmitter().burst(Speck.factory(Speck.CRIT), 12);
 				effectiveDamage *= criticalAttack();
 			}
-			effectiveDamage = attackProc( enemy, effectiveDamage ,type);
+			effectiveDamage = attackProc( weapon, enemy, effectiveDamage ,type);
 			
 			if (visibleFight) {
 				Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
@@ -317,7 +329,7 @@ public abstract class Char extends Actor {
 				enemy.sprite.showStatus( CharSprite.NEUTRAL, defense );
 				
 				Sample.INSTANCE.play(Assets.SND_MISS);
-				onMissed(enemy);
+				onMissed(weapon, enemy);
 				enemy.onDodgeed(this);
 			}
 			
@@ -326,10 +338,15 @@ public abstract class Char extends Actor {
 		}
 	}
 
-	public boolean canCriticalAttack( Char enemy, int damage, EffectType type){
+	public boolean canCriticalAttack(KindOfWeapon weapon, Char enemy, int damage, EffectType type){
+	    /*
 		if(belongings.weapon != null) {
 			return belongings.weapon.canCriticalAttack(this, enemy, damage, type);
 		}else return false;
+		*/
+        if(weapon != null) {
+            return weapon.canCriticalAttack(this, enemy, damage, type);
+        }else return false;
 	}
 
 	public float criticalAttack(){
@@ -343,8 +360,8 @@ public abstract class Char extends Actor {
 	if A > E, C = (A - E) / A + E / (2 * A)
 	else C = A / (2 * E)
 	*/
-	public static boolean hit( Char attacker, Char defender, boolean magic ) {
-		float acuRoll = Random.Float( attacker.totalAttackSkill( defender ) );
+	public static boolean hit( Char attacker, KindOfWeapon weapon, Char defender, boolean magic ) {
+		float acuRoll = Random.Float( attacker.totalAttackSkill( weapon, defender ) );
 		float defRoll = Random.Float( defender.totalDefenseSkill( attacker ) );
 		if (attacker.buff(Bless.class) != null) acuRoll *= 1.20f;
 		if (defender.buff(Bless.class) != null) defRoll *= 1.20f;
@@ -355,9 +372,9 @@ public abstract class Char extends Actor {
 		return 0;
 	}
 
-	public int totalAttackSkill( Char target ) {
+	public int totalAttackSkill( KindOfWeapon wep, Char target ) {
 		int at = attackSkill(target);
-		KindOfWeapon wep = belongings.weapon;
+		//KindOfWeapon wep = belongings.weapon;
 
 		float accuracy = 1;
 		/*
@@ -437,11 +454,11 @@ public abstract class Char extends Actor {
 		return 0;
 	}
 
-	public int totalDamageRoll(){
-		KindOfWeapon wep = belongings.weapon;
+	public int totalDamageRoll(KindOfWeapon weapon){
+		//KindOfWeapon wep = belongings.weapon;
 		int dmg = 0;
-		if (wep != null) {
-			dmg += wep.damageRoll( this );
+		if (weapon != null) {
+			dmg += weapon.damageRoll( this );
 		}
 		dmg += damageRoll();
 		if (dmg < 0) dmg = 0;
@@ -449,10 +466,10 @@ public abstract class Char extends Actor {
 		return dmg;
 	}
 	
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		KindOfWeapon wep = belongings.weapon;
+	public int attackProc( KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		//KindOfWeapon wep = belongings.weapon;
 
-		if (wep != null) damage = wep.proc( this, enemy, damage ,type );
+		if (weapon != null) damage = weapon.proc( this, enemy, damage ,type );
 		return damage;
 	}
 	
@@ -550,10 +567,15 @@ public abstract class Char extends Actor {
 		return dmg;
 	}
 
-	public void onMissed(Char enemy) {
+	public void onMissed(KindOfWeapon weapon, Char enemy) {
+	    /*
 		if (belongings.weapon != null)
 			belongings.weapon.onMissed( this, enemy);
 		return;
+		*/
+        if (weapon != null)
+            weapon.onMissed( this, enemy);
+        return;
 	}
 
 	public void onDodgeed(Char enemy) {

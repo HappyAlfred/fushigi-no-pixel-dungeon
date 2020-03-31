@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Bleeding;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.WhiteRatSprite;
 import com.watabou.utils.Random;
 
@@ -55,8 +56,8 @@ public class WhiteRat extends Rat {
 	*/
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		if (Random.Int( 2 ) == 0) {
 			Buff.affect( enemy, Bleeding.class,new EffectType(type.attachType,0) ).set( damage/2 );
 		}

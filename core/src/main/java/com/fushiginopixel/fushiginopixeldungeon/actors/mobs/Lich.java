@@ -125,7 +125,7 @@ public class Lich extends Skeleton {
 	private void zap() {
 		spend( TIME_TO_ZAP );
 
-		if (hit( this, enemy, true )) {
+		if (hit( this, null, enemy, true )) {
 			int flag = enemy == Dungeon.hero ? Random.Int( 8 ):Random.Int( 4 );
 			EffectType effectType = new EffectType(EffectType.MAGICAL_BOLT,0);
 			switch (flag) {

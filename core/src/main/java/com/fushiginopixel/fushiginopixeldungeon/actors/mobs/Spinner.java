@@ -28,6 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Web;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Terror;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.SpinnerSprite;
@@ -85,8 +86,8 @@ public class Spinner extends Mob {
 	}
 
 	@Override
-	public int attackProc(Char enemy, int damage, EffectType type) {
-		damage = super.attackProc( enemy, damage,type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
+		damage = super.attackProc( weapon, enemy, damage,type );
 		poisonAttack(enemy,damage,type);
 
 		return damage;

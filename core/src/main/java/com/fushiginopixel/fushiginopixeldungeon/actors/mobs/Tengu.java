@@ -35,12 +35,14 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
+import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.TomeOfMastery;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.LloydsBeacon;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bomb;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Firework;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Shuriken;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.PrisonBossLevel;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
@@ -176,14 +178,14 @@ public class Tengu extends Mob {
 	}
 
 	@Override
-	public boolean attack(Char enemy, EffectType type) {
-		if(type.isExistAttachType(EffectType.MISSILE)) {
+	public boolean attack(Char enemy, EffectType type, Item item, boolean attackWithItem) {
+		if(type.isExistAttachType(EffectType.MISSILE) && item instanceof Shuriken && !attackWithItem) {
 			Ballistica throwing = new Ballistica(pos, enemy.pos, Ballistica.PROJECTILE);
 			for (int c : throwing.subPath(1, throwing.dist)) {
 				GameScene.add(Blob.seed(c, 3, ToxicGas.class));
 			}
 		}
-		return super.attack(enemy, type);
+		return super.attack(enemy, type, item, attackWithItem);
 	}
 
 	private void jump() {

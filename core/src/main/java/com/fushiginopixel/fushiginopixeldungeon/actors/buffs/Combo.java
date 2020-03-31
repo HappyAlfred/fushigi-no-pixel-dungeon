@@ -30,6 +30,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Pushing;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.CellSelector;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
@@ -207,7 +208,8 @@ public class Combo extends Buff implements ActionIndicator.Action {
 
 			AttackIndicator.target(enemy);
 
-			int dmg = target.totalDamageRoll();
+			KindOfWeapon weapon = target.belongings.weapon;
+			int dmg = target.totalDamageRoll(weapon);
 
 			//variance in damage dealt
 			switch(type){
@@ -219,14 +221,14 @@ public class Combo extends Buff implements ActionIndicator.Action {
 					break;
 				case SLAM:
 					//rolls 2 times, takes the highest roll
-					int dmgReroll = target.totalDamageRoll();
+					int dmgReroll = target.totalDamageRoll(weapon);
 					if (dmgReroll > dmg) dmg = dmgReroll;
 					dmg = Math.round(dmg*1.6f);
 					break;
 				case CRUSH:
 					//rolls 4 times, takes the highest roll
 					for (int i = 1; i < 4; i++) {
-						dmgReroll = target.totalDamageRoll();
+						dmgReroll = target.totalDamageRoll(weapon);
 						if (dmgReroll > dmg) dmg = dmgReroll;
 					}
 					dmg = Math.round(dmg*2.5f);
@@ -238,7 +240,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 			
 			dmg = enemy.defenseProc(target, dmg, new EffectType(EffectType.MELEE,0));
 			dmg -= enemy.totalDR();
-			dmg = target.attackProc(enemy, dmg, new EffectType(EffectType.MELEE,0));
+			dmg = target.attackProc( weapon, enemy, dmg, new EffectType(EffectType.MELEE,0));
 			enemy.damage( dmg, this ,new EffectType(EffectType.MELEE,0));
 
 			//special effects

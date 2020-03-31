@@ -162,6 +162,9 @@ public abstract class Trap implements Bundlable {
 			case (MULTIPLE) : info += "\n\n" + Messages.get(Trap.class, "multiple");break;
 			case (PERPETUAL) : info += "\n\n" + Messages.get(Trap.class, "perpetual");break;
 		}
+		if(alwaysVisible){
+			info += "\n\n" + Messages.get(Trap.class, "always_visible");
+		}
 		return info;
 	}
 

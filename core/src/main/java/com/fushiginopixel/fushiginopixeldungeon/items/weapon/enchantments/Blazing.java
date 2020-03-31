@@ -37,6 +37,7 @@ public class Blazing extends Weapon.Enchantment {
 	
 	@Override
 	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+		/*
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
@@ -52,6 +53,11 @@ public class Blazing extends Weapon.Enchantment {
 			defender.sprite.emitter().burst( FlameParticle.FACTORY, level + 1 );
 			
 		}
+		*/
+		//always ignite
+		defender.damage( 10, this, new EffectType(type.attachType,EffectType.FIRE));
+		defender.sprite.emitter().burst( FlameParticle.FACTORY, 3 );
+		Buff.affect( defender, Burning.class, new EffectType(type.attachType,EffectType.FIRE) ).reignite( defender );
 
 		return 1;
 

@@ -91,7 +91,7 @@ public class WandOfKaleidoscope extends Wand {
 			if(cell != curUser.pos && bolt.path.size() > 2) {
 				cell = bolt.path.get(bolt.dist - 1);
 				processSoulMark(ch, chargesPerCast());
-			}else if (bolt.path.size() > 0){
+			}else {
 				ArrayList<Integer> candidates = new ArrayList<>();
 
 				for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
@@ -118,9 +118,12 @@ public class WandOfKaleidoscope extends Wand {
 		// lvl 0 - 10%
 		// lvl 5 - 14%
 		// lvl 10 - 16%
+		/*
 		if (Random.Int( level() / 5 + 100 ) >= 90){
 			ScrollOfMirrorImage.spawnImages(attacker, Random.Int(3) + 1);
 		}
+		*/
+		ScrollOfMirrorImage.spawnImages(attacker, 1);
 	}
 
 	@Override

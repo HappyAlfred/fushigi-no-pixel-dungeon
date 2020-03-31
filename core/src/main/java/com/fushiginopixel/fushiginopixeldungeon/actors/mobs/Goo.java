@@ -34,6 +34,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Ooze;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ElmoParticle;
+import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.LloydsBeacon;
 import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -127,8 +128,8 @@ public class Goo extends Mob {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage, EffectType type ) {
-		damage = super.attackProc( enemy, damage, type );
+	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
+		damage = super.attackProc( weapon, enemy, damage, type );
 		if (Random.Int( 3 ) == 0) {
 			Buff.affect( enemy, Ooze.class, new EffectType(type.attachType,EffectType.CORRROSION) );
 			enemy.sprite.burst( 0x000000, 5 );

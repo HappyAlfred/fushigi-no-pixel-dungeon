@@ -88,7 +88,7 @@ public class TenguSprite extends MobSprite {
 					@Override
 					public void call() {
 						ch.next();
-						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0));
+						if (enemy != null) ch.attack(enemy, new EffectType(EffectType.MISSILE ,0), new Shuriken(), false);
 					}
 				} );
 			
