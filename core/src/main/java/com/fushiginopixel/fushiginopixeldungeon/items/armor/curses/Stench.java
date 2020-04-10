@@ -39,14 +39,12 @@ public class Stench extends Armor.Glyph {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type ) {
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			if (Random.Int(8) == 0) {
+		if (Random.Int(8) == 0) {
 
-				GameScene.add(Blob.seed(defender.pos, 250, ToxicGas.class));
+			GameScene.add(Blob.seed(defender.pos, 250, ToxicGas.class));
 
-			}
 		}
 
 		return 1;

@@ -203,7 +203,7 @@ public class PotFairy extends Mob {
             }
         }
         else{
-            Buff.affect(enemy , Vertigo.class , Random.NormalIntRange(4, 8), new EffectType(0,0));
+            Buff.affect(enemy , Vertigo.class , Random.NormalIntRange(4, 8), new EffectType(0,EffectType.AIR));
         }
     }
 

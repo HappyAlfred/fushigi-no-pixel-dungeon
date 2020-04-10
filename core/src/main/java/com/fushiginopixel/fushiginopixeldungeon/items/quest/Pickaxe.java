@@ -240,12 +240,12 @@ public class Pickaxe extends MeleeWeapon {
 	}
 	
 	@Override
-	public int proc( Char attacker, Char defender, int damage, EffectType type ) {
+	public int procInAttack( Char attacker, Char defender, int damage, EffectType type ) {
 		if (!bloodStained && defender instanceof Bat && (damage > 0)) {
 			bloodStained = true;
 			updateQuickslot();
 		}
-		return damage;
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 	
 	private static final String BLOODSTAINED = "bloodStained";

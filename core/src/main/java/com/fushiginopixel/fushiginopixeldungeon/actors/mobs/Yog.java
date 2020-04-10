@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Fire;
@@ -215,7 +216,15 @@ public class Yog extends Mob {
 	}
 	
 	{
-		
+		resistances.add(new EffectResistance(new EffectType(Grim.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Terror.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Amok.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Charm.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Sleep.class), 0));
+		resistances.add(new EffectResistance(new EffectType(ToxicGas.class), 0));
+		resistances.add(new EffectResistance(new EffectType(ScrollOfSelfDestruct.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Vertigo.class), 0));
+		/*
 		immunities.add( new EffectType(Grim.class) );
 		immunities.add( new EffectType(Terror.class) );
 		immunities.add( new EffectType(Amok.class) );
@@ -225,6 +234,7 @@ public class Yog extends Mob {
 		immunities.add( new EffectType(ToxicGas.class) );
 		immunities.add( new EffectType(ScrollOfSelfDestruct.class) );
 		immunities.add( new EffectType(Vertigo.class) );
+		*/
 	}
 
 	@Override
@@ -301,12 +311,20 @@ public class Yog extends Mob {
 		}
 		
 		{
+			resistances.add(new EffectResistance(new EffectType(Paralysis.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Terror.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Amok.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Poison.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Sleep.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Vertigo.class), 0));
+			/*
 			immunities.add( new EffectType(Paralysis.class) );
 			immunities.add( new EffectType(Amok.class) );
 			immunities.add( new EffectType(Sleep.class) );
 			immunities.add( new EffectType(Terror.class) );
 			immunities.add( new EffectType(Poison.class) );
 			immunities.add( new EffectType(Vertigo.class) );
+			*/
 		}
 	}
 	
@@ -345,7 +363,7 @@ public class Yog extends Mob {
 		}
 		
 		@Override
-		protected boolean canAttack( Char enemy ) {
+		public boolean canAttack(Char enemy) {
 			return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
 		}
 		
@@ -398,14 +416,16 @@ public class Yog extends Mob {
 		}
 		
 		{
-			resistances.add( new EffectType(ToxicGas.class) );
-		}
-		
-		{
+			resistances.add(new EffectResistance(new EffectType(Terror.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Amok.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Sleep.class), 0));
+			resistances.add(new EffectResistance(new EffectType(Vertigo.class), 0));
+			/*
 			immunities.add( new EffectType(Amok.class) );
 			immunities.add( new EffectType(Sleep.class) );
 			immunities.add( new EffectType(Terror.class) );
 			immunities.add( new EffectType(Vertigo.class) );
+			*/
 		}
 	}
 	

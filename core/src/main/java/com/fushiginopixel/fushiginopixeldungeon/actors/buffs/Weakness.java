@@ -21,9 +21,12 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
+import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.ui.BuffIndicator;
-
+import com.watabou.utils.Bundle;
+/*
 public class Weakness extends FlavourBuff {
 
 	public static final float DURATION = 40f;
@@ -50,5 +53,60 @@ public class Weakness extends FlavourBuff {
 	@Override
 	public String desc() {
 		return Messages.get(this, "desc", dispTurns());
+	}
+}
+*/
+
+public class Weakness extends Buff {
+
+	public float strength;
+	private static final float STRENGTH_MAX	= 10;;
+
+	private static final String STRENGTH	= "strength";;
+
+	{
+		type = buffType.NEGATIVE;
+	}
+
+	@Override
+	public void storeInBundle( Bundle bundle ) {
+		super.storeInBundle( bundle );
+		bundle.put( STRENGTH, strength );
+
+	}
+
+	@Override
+	public void restoreFromBundle( Bundle bundle ) {
+		super.restoreFromBundle( bundle );
+		strength = bundle.getFloat( STRENGTH );
+	}
+
+	public void addUp( float strength, EffectType type ) {
+		float strengthMax = modifyResist(STRENGTH_MAX, type);
+		this.strength = Math.min(this.strength + modifyResist(strength, type), strengthMax);
+	}
+
+	public float weaknessMultiplier(){
+		return 1 - ((int)strength / STRENGTH_MAX);
+	}
+
+	@Override
+	public int icon() {
+		return BuffIndicator.WEAKNESS;
+	}
+
+	@Override
+	public String toString() {
+		return Messages.get(this, "name");
+	}
+
+	@Override
+	public String heroMessage() {
+		return Messages.get(this, "heromsg");
+	}
+
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc", (int)strength, dispTurns((int)strength / STRENGTH_MAX * 100));
 	}
 }

@@ -35,7 +35,7 @@ public class Retreating extends Weapon.Enchantment {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		
 		/*int oppositeDefender = defender.pos + (defender.pos - attacker.pos);
 		Ballistica trajectory = new Ballistica(defender.pos, oppositeDefender, Ballistica.MAGIC_BOLT);

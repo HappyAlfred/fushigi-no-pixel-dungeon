@@ -245,7 +245,7 @@ public class DM5000 extends Mob {
     }
 
     @Override
-    protected boolean canAttack( Char enemy ) {
+    public boolean canAttack( Char enemy ) {
         boolean canAttack = false;
         for (int i = 0; i < PathFinder.NEIGHBOURS9.length; i++) {
             int p = enemy.pos + PathFinder.NEIGHBOURS9[i];

@@ -131,6 +131,16 @@ public class WandOfMagician extends Wand {
 	}
 
 	@Override
+	protected int chargesPerCast() {
+		return freeCharge ? 0 : 1;
+	}
+
+	protected void wandUsed() {
+		super.wandUsed();
+		freeCharge = false;
+	}
+
+	@Override
 	public void staffFx(MagesStaff.StaffParticle particle) {
 		particle.color(0x88CCFF);
 		particle.am = 0.6f;

@@ -39,7 +39,7 @@ public class Shocking extends Weapon.Enchantment {
 	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF, 0.6f );
 
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		/*
 		// lvl 0 - 33%
 		// lvl 1 - 50%
@@ -68,7 +68,7 @@ public class Shocking extends Weapon.Enchantment {
 
 		arcs.clear();
 		//arcs.add(new Lightning.Arc(attacker.sprite.center(), defender.sprite.center()));
-		hit(defender, Random.Int(1, 40), type);
+		hit(defender, Random.Int(1, 25), type);
 
 		if(type.isExistAttachType(EffectType.MELEE)) {
 			attacker.sprite.parent.addToFront(new Lightning(arcs, null));

@@ -83,7 +83,8 @@ public class Scorpio extends Mob {
 					hero.STR -= amount;
 				}
 			}else{
-				Buff.prolong(enemy, Weakness.class,poisonStr * 20, new EffectType(type.attachType,EffectType.POISON));
+				EffectType buffType = new EffectType(type.attachType, EffectType.POISON);
+				Buff.affect(enemy, Weakness.class,buffType).addUp(poisonStr, buffType);
 			}
 		}
 	}

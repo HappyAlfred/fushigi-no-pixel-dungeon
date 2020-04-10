@@ -90,7 +90,8 @@ public class WandOfFireblast extends DamageWand {
 
 				processSoulMark(ch, chargesPerCast());
 				ch.damage(damageRoll(), this, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE));
-				Buff.affect( ch, Burning.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE) ).reignite( ch );
+				EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT, EffectType.FIRE);
+				Buff.affect( ch, Burning.class, buffType ).reignite( buffType );
 				switch(chargesPerCast()){
 					case 1:
 						break; //no effects
@@ -130,7 +131,7 @@ public class WandOfFireblast extends DamageWand {
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage, EffectType type) {
 		//acts like blazing enchantment
-		new Blazing().proc( staff, attacker, defender, damage, type);
+		new Blazing().procInAttack( staff, attacker, defender, damage, type);
 	}
 
 	@Override

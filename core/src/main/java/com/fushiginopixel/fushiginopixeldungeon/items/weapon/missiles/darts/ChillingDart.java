@@ -35,7 +35,7 @@ public class ChillingDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 		
 		if (Dungeon.level.water[defender.pos]){
 			Buff.prolong(defender, Chill.class, 10f,new EffectType(type.attachType,EffectType.ICE));
@@ -43,6 +43,6 @@ public class ChillingDart extends TippedDart {
 			Buff.prolong(defender, Chill.class, 6f,new EffectType(type.attachType,EffectType.ICE));
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

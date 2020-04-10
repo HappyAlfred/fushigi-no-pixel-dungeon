@@ -35,7 +35,7 @@ public class SleepDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, final Char defender, int damage,EffectType type) {
+	public int procInAttack(Char attacker, final Char defender, int damage,EffectType type) {
 		
 		//need to delay this so damage from the dart doesn't break the sleep
 		final EffectType effectType = type;
@@ -47,6 +47,6 @@ public class SleepDart extends TippedDart {
 			}
 		}.attachTo(defender);
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

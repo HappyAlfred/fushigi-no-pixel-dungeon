@@ -62,12 +62,8 @@ import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap.Type;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
-import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
-import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.AntiMagic;
-import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.Brimstone;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.Viscosity;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.properties.AbsorbWater;
-import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.CapeOfThorns;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.DriedRose;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.EtherealChains;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.HornOfPlenty;
@@ -81,25 +77,16 @@ import com.fushiginopixel.fushiginopixeldungeon.items.keys.SkeletonKey;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.Potion;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMight;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfEvasion;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfAlert;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfHaste;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfMight;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfTenacity;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Flail;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.journal.Notes;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.Chasm;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
-import com.fushiginopixel.fushiginopixeldungeon.plants.Earthroot;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.InterlevelScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.RankingsScene;
@@ -109,7 +96,6 @@ import com.fushiginopixel.fushiginopixeldungeon.sprites.HeroSprite;
 import com.fushiginopixel.fushiginopixeldungeon.ui.AttackIndicator;
 import com.fushiginopixel.fushiginopixeldungeon.ui.BuffIndicator;
 import com.fushiginopixel.fushiginopixeldungeon.ui.QuickSlotButton;
-import com.fushiginopixel.fushiginopixeldungeon.utils.BArray;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.fushiginopixel.fushiginopixeldungeon.windows.WndAlchemy;
 import com.fushiginopixel.fushiginopixeldungeon.windows.WndMessage;
@@ -205,7 +191,8 @@ public class Hero extends Char {
 	public int STR() {
 		int STR = this.STR;
 
-		STR = (buff(Weakness.class) != null) ? STR - 5 : STR;
+		Weakness weakness = buff(Weakness.class);
+		STR = (weakness != null) ? STR - (int)weakness.strength : STR;
 		if(STR < 0)
 			STR = 0;
 
@@ -217,7 +204,9 @@ public class Hero extends Char {
     public int STRMAX() {
         int STRMAX = this.STRMAX;
 
-		STRMAX = (buff(Weakness.class) != null) ? STRMAX - 5 : STRMAX;
+		Weakness weakness = buff(Weakness.class);
+		STRMAX = (weakness != null) ? STRMAX - (int)weakness.strength : STRMAX;
+		//STRMAX = (buff(Weakness.class) != null) ? STRMAX - 5 : STRMAX;
 		if(STRMAX < 0)
 			STRMAX = 0;
 
@@ -760,7 +749,7 @@ public class Hero extends Char {
 					} else {
 
 						boolean important =
-								((item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion) && ((Scroll)item).isKnown()) ||
+								((item instanceof ScrollOfSkyBless || item instanceof ScrollOfEarthBless) && ((Scroll)item).isKnown()) ||
 								((item instanceof PotionOfStrength || item instanceof PotionOfMight) && ((Potion)item).isKnown());
 						if (important) {
 							GLog.p( Messages.get(this, "you_now_have", item.name()) );

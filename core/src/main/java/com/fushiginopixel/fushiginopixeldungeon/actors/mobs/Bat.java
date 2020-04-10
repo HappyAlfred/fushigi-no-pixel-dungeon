@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Challenges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Invisibility;
@@ -54,7 +55,7 @@ public class Bat extends Mob {
 	}
 
 	{
-		immunities.add(new EffectType(Blindness.class) );
+		resistances.add(new EffectResistance(new EffectType(Blindness.class), 0) );
 	}
 
 	@Override

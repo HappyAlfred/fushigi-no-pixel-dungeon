@@ -138,8 +138,10 @@ public class Succubus extends Mob {
 	public int drRoll() {
 		return Random.NormalIntRange(2, 20);
 	}
-	
+
+	/*
 	{
 		immunities.add( new EffectType(Sleep.class) );
 	}
+	*/
 }

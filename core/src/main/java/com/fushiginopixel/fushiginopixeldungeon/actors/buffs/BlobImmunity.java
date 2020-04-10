@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ConfusionGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.CorrosiveGas;
@@ -58,17 +59,20 @@ public class BlobImmunity extends FlavourBuff {
 
 	{
 		//all harmful blobs
-		immunities.add( new EffectType(ConfusionGas.class) );
-		immunities.add( new EffectType(CorrosiveGas.class) );
-		immunities.add( new EffectType(Electricity.class) );
-		immunities.add( new EffectType(Fire.class) );
-		immunities.add( new EffectType(Freezing.class) );
-		immunities.add( new EffectType(ParalyticGas.class) );
-		immunities.add( new EffectType(Regrowth.class) );
-		immunities.add( new EffectType(StenchGas.class) );
-		immunities.add( new EffectType(ToxicGas.class) );
-		immunities.add( new EffectType(Web.class) );
-		immunities.add( new EffectType(TearGas.class) );
+        /*
+		resistances.add( new EffectResistance(new EffectType(ConfusionGas.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(CorrosiveGas.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Electricity.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Fire.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Freezing.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(ParalyticGas.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Regrowth.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(StenchGas.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(ToxicGas.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Web.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(TearGas.class), 0) );
+		*/
+        resistances.add( new EffectResistance(new EffectType(EffectType.BLOB, 0), 0) );
 	}
 
 	@Override

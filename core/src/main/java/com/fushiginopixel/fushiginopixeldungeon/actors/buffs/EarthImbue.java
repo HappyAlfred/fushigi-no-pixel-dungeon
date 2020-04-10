@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.EarthParticle;
@@ -59,8 +60,13 @@ public class EarthImbue extends FlavourBuff {
 	}
 
 	{
+		resistances.add( new EffectResistance(new EffectType(Paralysis.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Roots.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Slow.class), 0) );
+		/*
 		immunities.add( new EffectType(Paralysis.class) );
 		immunities.add( new EffectType(Roots.class) );
 		immunities.add( new EffectType(Slow.class) );
+		*/
 	}
 }

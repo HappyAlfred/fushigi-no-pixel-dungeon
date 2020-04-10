@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.GooWarn;
@@ -105,7 +106,7 @@ public class Devil extends Mob {
 
             int dmg = Random.Int( 10, 25 );
             ch.damage( dmg, this ,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
-            Buff.affect(ch, Blindness.class, 5);
+            Buff.affect(ch, Blindness.class, 5, new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
 
             if (!ch.isAlive() && ch == Dungeon.hero) {
                 Dungeon.fail( getClass() );
@@ -128,8 +129,10 @@ public class Devil extends Mob {
         return super.act();
     }
 
+    private static final int EXPLODE_RANGE = 7;
+
     protected boolean selfExplode() {
-        if (pumpedUp < 8 && pumpedUp > 0) {
+        if (pumpedUp < EXPLODE_RANGE && pumpedUp > 0) {
             PathFinder.buildDistanceMap( pos, BArray.not( Dungeon.level.solid, null ), pumpedUp );
             for (int i = 0; i < PathFinder.distance.length; i++) {
                 if (PathFinder.distance[i] < Integer.MAX_VALUE)
@@ -138,13 +141,13 @@ public class Devil extends Mob {
             pumpedUp++;
 
             spend( TICK );
-        } else if (pumpedUp == 8) {
+        } else if (pumpedUp == EXPLODE_RANGE) {
 
             PathFinder.buildDistanceMap( pos, BArray.not( Dungeon.level.solid, null ), pumpedUp );
             Sample.INSTANCE.play( Assets.SND_BLAST );
             for (int i = 0; i < PathFinder.distance.length; i++) {
                 if (PathFinder.distance[i] < Integer.MAX_VALUE){
-                    CellEmitter.get(i).burst(BlastParticle.FACTORY, (pumpedUp - PathFinder.distance[i] + 1) * 5);
+                    CellEmitter.get(i).burst(BlastParticle.FACTORY, (pumpedUp - PathFinder.distance[i] + 1) * 3);
                     Char ch = Actor.findChar( i );
                     if (ch != null && ch != this) {
                         int dmg = 1000;
@@ -352,8 +355,7 @@ public class Devil extends Mob {
     }
 
 	{
-		resistances.add( new EffectType(ToxicGas.class) );
-		immunities.add( new EffectType(Blindness.class) );
+        resistances.add( new EffectResistance(new EffectType(Blindness.class), 0) );
 	}
 
     @Override

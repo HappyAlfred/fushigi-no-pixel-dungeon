@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Light;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Terror;
@@ -85,7 +86,7 @@ public class DeathEye extends Mob {
 	public boolean beamCharged;
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 
 		if (beamCooldown == 0) {
 			Ballistica aim = new Ballistica(pos, enemy.pos, Ballistica.STOP_TERRAIN);
@@ -238,14 +239,11 @@ public class DeathEye extends Mob {
 		beamCharged = bundle.getBoolean(BEAM_CHARGED);
 	}
 
+	/*
 	{
-		resistances.add( new EffectType(0,EffectType.DARK) );
-		resistances.add( new EffectType(Grim.class) );
+		resistances.add( new EffectResistance(new EffectType(Terror.class), 0) );
 	}
-	
-	{
-		immunities.add( new EffectType(Terror.class) );
-	}
+	*/
 
 	private class Hunting extends Mob.Hunting{
 		@Override

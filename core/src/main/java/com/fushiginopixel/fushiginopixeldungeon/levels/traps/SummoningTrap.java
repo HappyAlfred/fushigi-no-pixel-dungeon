@@ -47,6 +47,7 @@ public class SummoningTrap extends Trap {
 			return;
 		}
 
+		/*
 		int nMobs = 1;
 		if (Random.Int( 2 ) == 0) {
 			nMobs++;
@@ -54,6 +55,8 @@ public class SummoningTrap extends Trap {
 				nMobs++;
 			}
 		}
+		*/
+		int nMobs = 4;
 
 		ArrayList<Integer> candidates = new ArrayList<>();
 

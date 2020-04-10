@@ -43,7 +43,8 @@ public class Sorrowmoss extends Plant {
 		Char ch = Actor.findChar(pos);
 		
 		if (ch != null) {
-			Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set( 4 + Dungeon.depth / 2 );
+			EffectType buffType = new EffectType(0,EffectType.POISON);
+			Buff.affect( ch, Poison.class, buffType).set( 4 + Dungeon.depth / 2, buffType );
 		}
 		
 		if (Dungeon.level.heroFOV[pos]) {

@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.KindOfWeapon;
@@ -145,7 +146,7 @@ public class Statue extends Mob {
 	}
 	
 	{
-		resistances.add(new EffectType(Grim.class));
+		resistances.add(new EffectResistance(new EffectType(Grim.class), 0.5f));
 	}
 	
 }

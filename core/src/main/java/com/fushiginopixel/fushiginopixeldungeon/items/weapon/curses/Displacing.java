@@ -39,7 +39,46 @@ public class Displacing extends Weapon.Enchantment {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public int priorityBeforeAttack(){
+		return 2;
+	}
+
+	@Override
+	public boolean procBeforeAttack(Weapon weapon, Char attacker, Char defender, boolean process, EffectType type ) {
+
+		if (Random.Int(12) == 0 && !defender.properties().contains(Char.Property.IMMOVABLE)){
+			int count = 10;
+			int newPos;
+			do {
+				newPos = Dungeon.level.randomRespawnCell();
+				if (count-- <= 0) {
+					break;
+				}
+			} while (newPos == -1);
+
+			if (newPos != -1 && !Dungeon.bossLevel()) {
+
+				if (Dungeon.level.heroFOV[defender.pos]) {
+					CellEmitter.get( defender.pos ).start( Speck.factory( Speck.LIGHT ), 0.2f, 3 );
+				}
+
+				defender.pos = newPos;
+				if (defender instanceof Mob && ((Mob) defender).state == ((Mob) defender).HUNTING){
+					((Mob) defender).state = ((Mob) defender).WANDERING;
+				}
+				defender.sprite.place( defender.pos );
+				defender.sprite.visible = Dungeon.level.heroFOV[defender.pos];
+
+				return false;
+
+			}
+		}
+
+		return true;
+	}
+	/*
+	@Override
+	public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 
 		if (Random.Int(12) == 0 && !defender.properties().contains(Char.Property.IMMOVABLE)){
 			int count = 10;
@@ -71,6 +110,7 @@ public class Displacing extends Weapon.Enchantment {
 
 		return 1;
 	}
+	*/
 
 	@Override
 	public ItemSprite.Glowing glowing() {

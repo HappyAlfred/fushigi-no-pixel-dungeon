@@ -37,7 +37,7 @@ public class Eldritch extends Weapon.Enchantment {
 	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x222222 );
 	
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		// lvl 0 - 20%
 		// lvl 1 - 33%
 		// lvl 2 - 43%

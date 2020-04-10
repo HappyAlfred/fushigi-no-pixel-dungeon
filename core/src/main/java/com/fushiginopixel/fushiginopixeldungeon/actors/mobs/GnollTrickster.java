@@ -69,7 +69,7 @@ public class GnollTrickster extends Gnoll {
 	*/
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
 		return !Dungeon.level.adjacent(pos, enemy.pos) && attack.collisionPos == enemy.pos;
 	}
@@ -89,10 +89,13 @@ public class GnollTrickster extends Gnoll {
 
 					if (Dungeon.level.flamable[enemy.pos])
 						GameScene.add(Blob.seed(enemy.pos, 4, Fire.class));
-					Buff.affect(enemy, Burning.class, new EffectType(type.attachType, EffectType.FIRE)).reignite(enemy);
+					EffectType buffType = new EffectType(type.attachType,EffectType.FIRE);
+					Buff.affect(enemy, Burning.class, buffType).reignite(buffType);
 
-				} else
-					Buff.affect(enemy, Poison.class, new EffectType(type.attachType, EffectType.POISON)).set((effect - 2));
+				} else {
+					EffectType buffType = new EffectType(type.attachType,EffectType.POISON);
+					Buff.affect(enemy, Poison.class, buffType).set((effect - 2), buffType);
+				}
 
 			}
 		}

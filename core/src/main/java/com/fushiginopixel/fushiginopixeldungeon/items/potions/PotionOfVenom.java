@@ -63,22 +63,25 @@ public class PotionOfVenom extends Potion {
 		}
 
 		Char ch = Actor.findChar( cell );
-		if (ch == Dungeon.hero){
-			if(((Hero)ch).STR >= 1){
-				ch.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
-				((Hero)ch).STR -= 1;
-			}
-			venom(ch);
-			Sample.INSTANCE.play( Assets.SND_CURSED );
-		}else if(ch != null){
+		if(ch != null){
 			venom(ch);
 		}
 	}
 
 	private void venom(Char ch){
-		Buff.affect( ch, Poison.class,new EffectType(0,EffectType.POISON)).set(3 + Dungeon.depth / 3);
+		EffectType buffType = new EffectType(0,EffectType.POISON);
+		Buff.affect( ch, Poison.class, buffType).set(3 + Dungeon.depth / 3, buffType);
 		Buff.prolong( ch, Slow.class, Slow.DURATION * 2,new EffectType(0,EffectType.POISON));
-		Buff.prolong( ch, Weakness.class, 20f,new EffectType(0,EffectType.POISON));
+		if (ch == Dungeon.hero){
+			if(((Hero)ch).STR >= 1){
+				ch.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
+				((Hero)ch).STR -= 1;
+			}
+			Sample.INSTANCE.play( Assets.SND_CURSED );
+		}else {
+			buffType = new EffectType(0, EffectType.POISON);
+			Buff.affect(ch, Weakness.class, buffType).addUp(5, buffType);
+		}
 	}
 	
 	@Override
@@ -86,12 +89,6 @@ public class PotionOfVenom extends Potion {
 		knownByUse();
 		CellEmitter.get(hero.pos).burst(ShadowParticle.UP, 5);
 
-		if(hero instanceof Hero) {
-			if (((Hero)hero).STR > 1) {
-				hero.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(WeakeningTrap.class, "msg_1", 1));
-				((Hero)hero).STR -= 1;
-			}
-		}
 		venom(hero);
 		Sample.INSTANCE.play( Assets.SND_CURSED );
 	}

@@ -65,6 +65,34 @@ public class ShopGuardianScout extends ShopGuardian {
 		}
 	}
 
+	@Override
+	protected boolean act() {
+
+		super.act(this);
+
+		boolean justAlerted = alerted;
+		alerted = false;
+
+		if (justAlerted){
+			sprite.showAlert();
+		} else {
+			sprite.hideAlert();
+			sprite.hideLost();
+		}
+
+		if (paralysed > 0) {
+			enemySeen = false;
+			spend( TICK );
+			return true;
+		}
+
+		enemy = chooseEnemy();
+
+		boolean enemyInFOV = enemy != null && enemy.isAlive() && fieldOfView[enemy.pos];
+
+		return state.act( enemyInFOV, justAlerted );
+	}
+
 	private class Wandering extends Mob.Wandering {
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {

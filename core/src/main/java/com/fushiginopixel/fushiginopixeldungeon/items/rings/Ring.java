@@ -196,9 +196,11 @@ public class Ring extends KindofMisc {
 		if (isUpgradable()){
 			super.upgrade();
 		}
+		/*
 		if (Random.Float() > Math.pow(0.8, level())) {
 			cursed = false;
 		}
+		*/
 		
 		return this;
 	}

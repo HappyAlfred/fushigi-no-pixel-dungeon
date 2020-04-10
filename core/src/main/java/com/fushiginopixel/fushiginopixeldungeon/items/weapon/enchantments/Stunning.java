@@ -36,7 +36,7 @@ public class Stunning extends Weapon.Enchantment {
 	private static ItemSprite.Glowing YELLOW = new ItemSprite.Glowing( 0xCCAA44 );
 	
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		// lvl 0 - 13%
 		// lvl 1 - 22%
 		// lvl 2 - 30%

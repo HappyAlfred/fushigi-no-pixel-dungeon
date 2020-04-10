@@ -299,7 +299,7 @@ public class ShopRoom extends SpecialRoom implements ShopInterface {
 		}
 
 		itemsToSpawn.add( new Ankh() );
-		itemsToSpawn.add( Random.Int(2) == 0 ? new StoneOfAugmentation() : new StoneOfEnchantment());
+		//itemsToSpawn.add( Random.Int(2) == 0 ? new StoneOfAugmentation() : new StoneOfEnchantment());
 
 		TimekeepersHourglass hourglass = Dungeon.hero.belongings.getItem(TimekeepersHourglass.class);
 		if (hourglass != null){

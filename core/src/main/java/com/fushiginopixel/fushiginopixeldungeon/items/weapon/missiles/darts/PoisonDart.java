@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSpriteSheet;
 
 public class PoisonDart extends TippedDart {
@@ -35,10 +36,13 @@ public class PoisonDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
-		
-		Buff.affect( defender, Poison.class, new EffectType(type.attachType,EffectType.POISON) ).set( 3 + Dungeon.depth / 3 );
-		
-		return super.proc(attacker, defender, damage, type);
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
+
+		EffectType buffType = new EffectType(type.attachType,EffectType.POISON);
+		Buff.affect( defender, Poison.class, buffType ).set( 3 + Dungeon.depth / 3, buffType );
+
+		buffType = new EffectType(type.attachType,EffectType.POISON);
+		Buff.affect( defender, Weakness.class, buffType ).addUp(1, buffType);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

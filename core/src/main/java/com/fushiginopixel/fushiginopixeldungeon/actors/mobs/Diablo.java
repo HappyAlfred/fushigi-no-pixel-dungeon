@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Fire;
@@ -255,7 +256,8 @@ public class Diablo extends Mob {
 			if (ch == null) continue;
 			if (ch != null) {
 				ch.damage(Random.Int(25, 50), this, new EffectType(EffectType.MAGICAL_BOLT, EffectType.FIRE));
-				Buff.affect(ch, Burning.class, new EffectType(EffectType.MAGICAL_BOLT, EffectType.FIRE)).reignite(ch);
+				EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE);
+				Buff.affect(ch, Burning.class, buffType).reignite(buffType);
 			}
 			if (!ch.isAlive() && ch == Dungeon.hero) {
 				Dungeon.fail(getClass());
@@ -409,8 +411,7 @@ public class Diablo extends Mob {
     }
 
 	{
-		resistances.add( new EffectType(ToxicGas.class) );
-		immunities.add( new EffectType(Blindness.class) );
+		resistances.add( new EffectResistance(new EffectType(Blindness.class), 0) );
 	}
 
     @Override

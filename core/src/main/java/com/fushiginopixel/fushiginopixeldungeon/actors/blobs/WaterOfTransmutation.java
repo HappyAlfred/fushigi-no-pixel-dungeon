@@ -35,12 +35,11 @@ import com.fushiginopixel.fushiginopixeldungeon.items.potions.Potion;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMight;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.Pot;
-import com.fushiginopixel.fushiginopixeldungeon.items.pots.PotOfRestructure;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.PotOfTransmutation;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.Ring;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MagesStaff;
@@ -235,13 +234,13 @@ public class WaterOfTransmutation extends WellWater {
 	}
 	
 	private Scroll changeScroll( Scroll s ) {
-		if (s instanceof ScrollOfUpgrade) {
+		if (s instanceof ScrollOfSkyBless) {
 			
-			return new ScrollOfMagicalInfusion();
+			return new ScrollOfEarthBless();
 			
-		} else if (s instanceof ScrollOfMagicalInfusion) {
+		} else if (s instanceof ScrollOfEarthBless) {
 			
-			return new ScrollOfUpgrade();
+			return new ScrollOfSkyBless();
 			
 		} else {
 			

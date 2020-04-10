@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Paralysis;
@@ -49,7 +50,8 @@ public class Senior extends Monk {
 	}
 
 	{
-		immunities.add( new EffectType(0,EffectType.SPIRIT) );
+		resistances.add(new EffectResistance(new EffectType(0, EffectType.SPIRIT), 0));
+		//immunities.add( new EffectType(0,EffectType.SPIRIT) );
 	}
 	
 }

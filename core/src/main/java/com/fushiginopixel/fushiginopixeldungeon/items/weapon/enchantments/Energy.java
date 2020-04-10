@@ -39,11 +39,6 @@ public class Energy extends Weapon.Enchantment {
 
 	public int charge = 0;
 	public boolean charged = false;
-	
-	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
-		return 1;
-	}
 
 	@Override
 	public boolean canCriticalAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {

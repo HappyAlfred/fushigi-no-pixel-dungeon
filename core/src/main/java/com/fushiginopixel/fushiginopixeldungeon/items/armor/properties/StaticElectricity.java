@@ -48,7 +48,7 @@ public class StaticElectricity extends Glyph {
 	private static Glowing WHITE = new Glowing( 0xFFFFFF, 0.6f );
 	
 	@Override
-	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
+	public float procSufferAttack( Armor armor, Object attacker, Char defender, int damage , EffectType type ) {
 
 		int level = Math.max( 0, armor.level() );
 
@@ -61,46 +61,44 @@ public class StaticElectricity extends Glyph {
 		}
 		*/
 
-		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
-			if ((Random.Int(level / 2 + 50) >= 40 || armor.hasProperty(getClass())) && type.isExistAttachType(EffectType.MELEE)) {
-				if(type.isExistAttachType(EffectType.MELEE)) {
-					Char at = (Char) attacker;
+		if ((Random.Int(level / 2 + 50) >= 40 || armor.hasProperty(getClass())) && type.isExistAttachType(EffectType.MELEE)) {
+			if(type.isExistAttachType(EffectType.MELEE)) {
+				Char at = (Char) attacker;
 
-					affected.clear();
-					//affected.add(defender);
+				affected.clear();
+				//affected.add(defender);
 
-					arcs.clear();
-					//arcs.add(new Lightning.Arc(attacker.sprite.center(), defender.sprite.center()));
-					//hit(at, Random.Int(1, level * 2 + 1), new EffectType(EffectType.MAGICAL_BOLT, EffectType.ELETRIC));
-					hit(at, defender);
-					onZap(at, level);
+				arcs.clear();
+				//arcs.add(new Lightning.Arc(attacker.sprite.center(), defender.sprite.center()));
+				//hit(at, Random.Int(1, level * 2 + 1), new EffectType(EffectType.MAGICAL_BOLT, EffectType.ELETRIC));
+				hit(at, defender);
+				onZap(at, level);
 
-					defender.sprite.parent.addToFront(new Lightning(arcs, null));
-				}else if (type.isExistAttachType(EffectType.MISSILE)){
-					affected.clear();
-					//affected.add(defender);
+				defender.sprite.parent.addToFront(new Lightning(arcs, null));
+			}else if (type.isExistAttachType(EffectType.MISSILE)){
+				affected.clear();
+				//affected.add(defender);
 
-					arcs.clear();
-					int dist;
-					if (Dungeon.level.water[defender.pos] && !defender.flying)
-						dist = 2;
-					else
-						dist = 1;
+				arcs.clear();
+				int dist;
+				if (Dungeon.level.water[defender.pos] && !defender.flying)
+					dist = 2;
+				else
+					dist = 1;
 
-					PathFinder.buildDistanceMap( defender.pos, BArray.not( Dungeon.level.solid, null ), dist );
-					for (int i = 0; i < PathFinder.distance.length; i++) {
-						if (PathFinder.distance[i] < Integer.MAX_VALUE){
-							Char n = Actor.findChar( i );
-							if (n != null && !affected.contains( n ) && n != defender) {
-								hit(n, defender);
-								onZap(n, level);
-								defender.sprite.parent.addToFront(new Lightning(arcs, null));
-							}
+				PathFinder.buildDistanceMap( defender.pos, BArray.not( Dungeon.level.solid, null ), dist );
+				for (int i = 0; i < PathFinder.distance.length; i++) {
+					if (PathFinder.distance[i] < Integer.MAX_VALUE){
+						Char n = Actor.findChar( i );
+						if (n != null && !affected.contains( n ) && n != defender) {
+							hit(n, defender);
+							onZap(n, level);
+							defender.sprite.parent.addToFront(new Lightning(arcs, null));
 						}
 					}
 				}
-
 			}
+
 		}
 		
 		return 1;
@@ -162,13 +160,13 @@ public class StaticElectricity extends Glyph {
 	private void onZap(Char at, int level){
 		float multipler = 0.4f + (0.6f/affected.size());
 		//if the main target is in water, all affected take full damage
-		if (Dungeon.level.water[at.pos]) multipler = 1f;
+		//if (Dungeon.level.water[at.pos]) multipler = 1f;
 
 		int min = 1;
 		int max = 1 + 2*level;
 
 		for (Char ch : affected){
-			ch.damage(Math.round(Random.NormalIntRange(min, max) * multipler), this, new EffectType(EffectType.MAGICAL_BOLT,EffectType.ELETRIC));
+			ch.damage(Math.round(Random.NormalIntRange(min, max) * multipler), this, new EffectType(EffectType.MAGICAL_BOLT + EffectType.REFLECT,EffectType.ELETRIC));
 
 			if (ch == Dungeon.hero) Camera.main.shake( 2, 0.3f );
 			ch.sprite.centerEmitter().burst( SparkParticle.FACTORY, 3 );

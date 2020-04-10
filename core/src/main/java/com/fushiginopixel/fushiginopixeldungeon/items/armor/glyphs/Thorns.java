@@ -34,7 +34,7 @@ public class Thorns extends Armor.Glyph {
 	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
 
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public void procAfterDamage(Armor armor, Object attacker, Char defender, int damage, EffectType type ) {
 
 		int level = Math.max(0, armor.level());
 
@@ -50,16 +50,14 @@ public class Thorns extends Armor.Glyph {
 		}
 		*/
 
-		if (event == Armor.EVENT_AFTER_DAMAGE && Random.Int(level / 2 + 50) >= 40 && damage > 0//chance
+		if (Random.Int(level / 2 + 50) >= 40 && damage > 0//chance
 				&& attacker instanceof Char && attacker != defender
 				&& type.isExistAttachType(EffectType.MELEE) //only reflect melee damage
 				&& (attacker.getClass() == null || !attacker.getClass().isAssignableFrom(getClass()))) {//avoid loop
 			Char at = (Char) attacker;
-			at.damage( Math.max(level, (int)(damage * 0.5f)), this);
+			at.damage( Math.max(level, (int)(damage * 0.5f)), this, new EffectType(type.attachType | EffectType.REFLECT, 0));
 
 		}
-
-		return 1;
 	}
 
 	@Override

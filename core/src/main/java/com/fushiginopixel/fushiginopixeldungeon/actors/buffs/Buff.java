@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 import com.fushiginopixel.fushiginopixeldungeon.Fushiginopixeldungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -44,17 +45,19 @@ public class Buff extends Actor {
 	public enum buffType {POSITIVE, NEGATIVE, NEUTRAL, SILENT};
 	public buffType type = buffType.SILENT;
 	
-	protected HashSet<EffectType> resistances = new HashSet<>();
+	protected HashSet<EffectResistance> resistances = new HashSet<>();
 	
-	public HashSet<EffectType> resistances() {
+	public HashSet<EffectResistance> resistances() {
 		return new HashSet<>(resistances);
 	}
-	
+
+	/*
 	protected HashSet<EffectType> immunities = new HashSet<>();
 	
 	public HashSet<EffectType> immunities() {
 		return new HashSet<>(immunities);
 	}
+	*/
 
 	public final boolean attachTo(Char target){
 		return attachTo(target,new EffectType(0,0));
@@ -62,7 +65,7 @@ public class Buff extends Actor {
 	
 	public boolean attachTo( Char target, EffectType type ) {
 
-		if (target.isImmune( getClass(),type ) || target.resist(getClass(),type) == 0) {
+		if (target.isImmune( getClass(),type ) || target.resist(getClass(),type) <= 0) {
 			return false;
 		}
 		
@@ -107,6 +110,12 @@ public class Buff extends Actor {
 		return "";
 	}
 
+	//using to modify buff's effect strength
+	public float modifyResist(float value, EffectType type) {
+		if(target == null) return 0;
+		else return value * target.resist(getClass(), type);
+	};
+
 	//to handle the common case of showing how many turns are remaining in a buff description.
 	protected String dispTurns(float input){
 		return new DecimalFormat("#.##").format(input);
@@ -130,7 +139,7 @@ public class Buff extends Actor {
 
 	public static<T extends FlavourBuff> T append( Char target, Class<T> buffClass, float duration,EffectType type ) {
 		T buff = append( target, buffClass,type );
-		buff.spend( duration * target.resist(buffClass,type) );
+		buff.spend( Math.max(duration * target.resist(buffClass,type), 0) );
 		return buff;
 	}
 
@@ -158,7 +167,7 @@ public class Buff extends Actor {
 
     public static<T extends FlavourBuff> T affect( Char target, Class<T> buffClass, float duration, EffectType type ) {
         T buff = affect( target, buffClass,type );
-        buff.spend( duration * target.resist(buffClass,type) );
+        buff.spend( Math.max(duration * target.resist(buffClass,type), 0) );
         return buff;
     }
 
@@ -169,7 +178,7 @@ public class Buff extends Actor {
 
 	public static<T extends FlavourBuff> T prolong( Char target, Class<T> buffClass, float duration, EffectType type ) {
 		T buff = affect( target, buffClass, type );
-		buff.postpone( duration * target.resist(buffClass,type) );
+		buff.postpone( Math.max(duration * target.resist(buffClass,type), 0) );
 		return buff;
 	}
 	

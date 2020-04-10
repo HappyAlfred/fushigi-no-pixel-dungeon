@@ -41,16 +41,14 @@ public class Corrosion extends Armor.Glyph {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type ) {
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			if (Random.Int(10) == 0) {
-				int pos = defender.pos;
-				for (int i : PathFinder.NEIGHBOURS9) {
-					Splash.at(pos + i, 0x000000, 5);
-					if (Actor.findChar(pos + i) != null)
-						Buff.affect(Actor.findChar(pos + i), Ooze.class, new EffectType(EffectType.BLOB, EffectType.CORRROSION));
-				}
+		if (Random.Int(10) == 0) {
+			int pos = defender.pos;
+			for (int i : PathFinder.NEIGHBOURS9) {
+				Splash.at(pos + i, 0x000000, 5);
+				if (Actor.findChar(pos + i) != null)
+					Buff.affect(Actor.findChar(pos + i), Ooze.class, new EffectType(EffectType.BLOB, EffectType.CORRROSION));
 			}
 		}
 		return 1;

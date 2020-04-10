@@ -37,14 +37,15 @@ public class Displacement extends Armor.Glyph {
 
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
+	public int prioritySufferAttack(){
+		return 0;
+	}
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event  ) {
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type  ) {
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			if (defender == Dungeon.hero && Random.Int(20) == 0) {
-				ScrollOfTeleportation.teleportHero(Dungeon.hero);
-				return 0;
-			}
+		if (defender == Dungeon.hero && Random.Int(20) == 0) {
+			ScrollOfTeleportation.teleportHero(Dungeon.hero);
+			return 0;
 		}
 		return 1;
 	}

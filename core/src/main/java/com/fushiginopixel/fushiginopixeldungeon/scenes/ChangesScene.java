@@ -134,9 +134,75 @@ public class ChangesScene extends PixelScene {
 		add( list );
 
 		//**********************
-		//       v1.4
+		//       v1.41
 		//**********************
-		ChangeInfo changes = new ChangeInfo("v1.4", true, "");
+
+		ChangeInfo changes = new ChangeInfo("v1.41", true, "");
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes = new ChangeInfo(Messages.get(this, "new"), false, null);
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.KAMAITACHI_BLADE, null), "装备变动",
+				"新增了武器\n"+
+						"_-_新增妖光之枪，是一种能够击穿一串敌人的武器\n"+
+						"_-_新增妖刀镰鼬，是一种能够同时攻击前方以及左右45度敌人的的武器\n"+
+						"_-_以上2种武器都是稀有度4的武器，生成概率较低\n"+
+						"_-_1~10层不会出现稀有度4的武器，且稀有度4的武器整体生成率降低\n"));
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER, null), "附魔与刻印",
+				"新增了特性，并修改了现有的一些附魔和刻印\n"+
+						"_-_新增穿透特性，属于妖光之枪，可以穿透怪物攻击，且可以同时攻击整列的怪物，几乎不能用于攻击范围1的武器\n"+
+						"_-_新增三叉特性，属于妖刀镰鼬，可以同时攻击前方3个方向\n"+
+						"_-_修改淬毒附魔，现在有概率以毒属性使敌人虚弱，必定追加6回合中毒效果，不随等级成长\n"+
+						"_-_修改冰霜附魔，必定造成7点冰冷伤害和追加3回合冻伤，冻伤效果达到9回合以上时必定冰冻\n"+
+						"_-_修改烈焰附魔，必定造成10点火焰伤害和引燃目标\n"+
+						"_-_修改电击附魔，必定造成1~25点电击伤害，可传导多个目标\n"+
+						"_-_修改炫目附魔，必定造成8点光明伤害，有概率使目标致盲，不随等级成长\n"+
+						"_-_附魔具有优先级，改变伤害的附魔的优先级最高，会优先结算\n"));
+
+		changes = new ChangeInfo(Messages.get(this, "changes"), false, null);
+		changes.hardlight( Window.TITLE_COLOR );
+		infos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.SOMETHING, null), "生物相关",
+				"生物相关的代码被大幅改动\n"+
+						"_-_抗性相关的代码变的更加完善，同时部分生物的抗性有所改动\n"+
+						"_-_同时发现敌人的怪物可能会更容易聚集在一起\n"+
+						"_-_装备相关的代码变的更加完善\n"+
+						"_-_魔鬼的吐息伤害削弱，迪亚波罗的陨石不再对自身造成伤害\n"+
+						"_-_蜘蛛的毒效果加强\n"+
+						"_-_虚弱buff不再具有持续时间。虚弱可以叠加，最多10层\n"+
+						"_-_每一层虚弱降低玩家1点力量或者怪物的10%攻击伤害。虚弱上限与抗性有关\n"+
+						"_-_怪物的初始生成数量稍微增加。\n"));
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.BACKPACK), "物品调整",
+				"关于物品的改动\n"+
+						"_-_巨斧的伤害成长调整为4\n"+
+						"_-_毒液飞镖会附加虚弱效果\n"+
+						"_-_法杖升级时不再增加能量\n"+
+						"_-_调整腐化法杖，降低了它附加定命、腐化的条件\n"+
+						"_-_万花筒法杖的战法效果改为每次攻击必定召唤一个镜像\n"+
+						"_-_吃食物只需要1回合，粽子需要3回合\n"+
+						"_-_即使包裹装满也可以捡包裹容纳的物品了\n"+
+						"_-_部分戒指强度调整，此外戒指的描述更详细了\n"+
+						"_-_元素戒指改为对火、冰、电、光、暗、风效果有抗性\n"+
+						"_-_韧性戒指的减伤效果移除，改为对近战、远程、爆炸效果以及残废、流血有抗性\n"+
+						"_-_升级卷轴与注魔捐赠移除，改为苍天恩惠卷轴和大地恩惠卷轴，附魔符石几乎不再出现\n"));
+
+		changes.addButton( new ChangeButton(Icons.get(Icons.DEPTH),  "楼层调整",
+				"关于楼层的改动\n"+
+						"_-_获得护符前，警报时间改为900、1100、1300、1500\n"+
+						"_-_获得护符后，警报时间改为4500、5500、6500、7500\n"+
+						"_-_减少了网状楼层的过道长度\n"));
+
+		changes.addButton( new ChangeButton(new Image(Assets.SPINNER,  144, 0, 16, 16), Messages.get(this, "bugfixes"),
+				"修复了bug\n"+
+						"_-_修复了无数的bug，我已经忘记我修复了什么了\n"));
+
+		changes = new ChangeInfo("v1.4", true, "");
 		changes.hardlight( Window.TITLE_COLOR );
 		infos.add(changes);
 

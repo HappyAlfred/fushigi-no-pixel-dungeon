@@ -77,7 +77,8 @@ public class GoldenScorpio extends Scorpio {
 					hero.STR = Math.min(hero.STR, hero.STRMAX);
 				}
 			}else{
-				Buff.prolong(enemy, Weakness.class,poisonStr * 40, new EffectType(type.attachType,EffectType.POISON));
+				EffectType buffType = new EffectType(type.attachType,EffectType.POISON);
+				Buff.affect(enemy, Weakness.class,buffType).addUp(poisonStr, buffType);
 			}
 		}
 	}

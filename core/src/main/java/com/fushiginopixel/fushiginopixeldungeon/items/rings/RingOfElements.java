@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.items.rings;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Electricity;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
@@ -52,7 +53,8 @@ public class RingOfElements extends Ring {
 	protected RingBuff buff( ) {
 		return new Resistance();
 	}
-	
+
+	/*
 	public static final HashSet<Class> RESISTS = new HashSet<>();
 	static {
 		RESISTS.add( Burning.class );
@@ -78,26 +80,44 @@ public class RingOfElements extends Ring {
 		RESISTS.add( Lich.class );
 		RESISTS.add( DeathEye.class );
 		RESISTS.add( Yog.BurningFist.class );
+	}*/
+	public static final HashSet<EffectType> RESISTS = new HashSet<>();
+	static {
+		RESISTS.add( new EffectType(0, EffectType.FIRE) );
+		RESISTS.add( new EffectType(0, EffectType.ICE) );
+		RESISTS.add( new EffectType(0, EffectType.ELETRIC) );
+		RESISTS.add( new EffectType(0, EffectType.LIGHT) );
+		RESISTS.add( new EffectType(0, EffectType.DARK) );
+		RESISTS.add( new EffectType(0, EffectType.AIR) );
 	}
 	
-	public static float resist( Char target, Class arcClass ){
+	public static float resist( Char target, EffectType effectType ){
 		if (getBonus(target, Resistance.class) == 0) return 1f;
-
-		if (getBonus(target, Resistance.class) > 5){
-			for (Class c : RESISTS){
-				if (c.isAssignableFrom(arcClass) && Buff.class.isAssignableFrom(arcClass)){
-					return 0;
-				}
+		/*
+		for (Class c : RESISTS){
+			if(c.isAssignableFrom(arcClass) && Buff.class.isAssignableFrom(arcClass)){
+				return resistMultiplier(target, true);
+			}else if (c.isAssignableFrom(arcClass)){
+				return resistMultiplier(target, false);
 			}
 		}
-		
-		for (Class c : RESISTS){
-			if (c.isAssignableFrom(arcClass)){
-				return (float)Math.pow(0.875, getBonus(target, Resistance.class));
+		*/
+		for (EffectType ef : RESISTS){
+			if(EffectType.isExistType(effectType, ef)){
+				boolean buff = Buff.class.isAssignableFrom(effectType.attachClass) || effectType.isExistAttachType(EffectType.BUFF);
+				return resistMultiplier(target, buff);
 			}
 		}
 		
 		return 1f;
+	}
+
+	public static float resistMultiplier( Char target, boolean buff ){
+		if (buff && getBonus(target, Resistance.class) > 5){
+			return 0;
+		}else if(getBonus(target, Resistance.class) > 5)
+			return 0.5f;
+		else return (float)Math.pow(0.9, getBonus(target, Resistance.class));
 	}
 	
 	public class Resistance extends RingBuff {

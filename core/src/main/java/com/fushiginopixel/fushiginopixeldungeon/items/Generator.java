@@ -90,7 +90,6 @@ import com.fushiginopixel.fushiginopixeldungeon.items.pots.PotOfTransmutation;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.Ring;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfAccuracy;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfElements;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfEnergy;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfEvasion;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfAlert;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfFuror;
@@ -107,7 +106,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfExsuction;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfOnigiri;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfPsionicBlast;
@@ -117,7 +116,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSelfDestruct;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfTerror;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.specialscrolls.ScrollOfEscape;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfBlastWave;
@@ -126,7 +125,6 @@ import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfCorruption;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfDisintegration;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfElements;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFireblast;
-import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfFrost;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfHoly;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfKaleidoscope;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfLightning;
@@ -134,7 +132,6 @@ import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagicMissile;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagician;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfNightmare;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfPrismaticLight;
-import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfTransfusion;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.BattleAxe;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Crossbow;
@@ -150,6 +147,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Greatshield;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Greatsword;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.HandAxe;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.InfernoFuhmaKatana;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.KamaitachiBlade;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Katana;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Knuckles;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Longsword;
@@ -157,6 +155,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Mace;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MagesStaff;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Mattock;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MonstrousLance;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Quarterstaff;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.RoundShield;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.RunicBlade;
@@ -273,13 +272,13 @@ public class Generator {
 					ScrollOfIdentify.class,
 					ScrollOfTeleportation.class,
 					ScrollOfRemoveCurse.class,
-					ScrollOfUpgrade.class,
+					ScrollOfSkyBless.class,
 					ScrollOfRecharging.class,
 					ScrollOfMagicMapping.class,
 					ScrollOfRage.class,
 					ScrollOfTerror.class,
 					ScrollOfLullaby.class,
-					ScrollOfMagicalInfusion.class,
+					ScrollOfEarthBless.class,
 					ScrollOfPsionicBlast.class,
 					ScrollOfMirrorImage.class,
 
@@ -290,7 +289,7 @@ public class Generator {
 					ScrollOfAffection.class,
 
 					ScrollOfEscape.class};
-			SCROLL.probs = new float[]{ 25, 10, 20, 30, 15, 15, 12, 8, 8, 0, 8, 10,  15, 8, 8, 8, 8  ,8 };
+			SCROLL.probs = new float[]{ 25, 10, 15, 20, 15, 15, 12, 8, 8, 20, 8, 10,  15, 8, 8, 8, 8  ,8 };
 			
 			POTION.classes = new Class<?>[]{
 					PotionOfHealing.class,
@@ -395,9 +394,11 @@ public class Generator {
 					Greataxe.class,
 					Greatshield.class,
 					Gauntlet.class,
-					FuhmaKatana.class
+					FuhmaKatana.class,
+					MonstrousLance.class,
+					KamaitachiBlade.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4 ,3};
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4 ,3, 2, 2};
 			
 			WEP_T5.classes = new Class<?>[]{
 					RunicBlade.class,
@@ -548,11 +549,11 @@ public class Generator {
 	}
 
 	private static final float[][] floorSetTierProbs = new float[][] {
-			{50, 30, 15, 5,  0},
-			{30, 40, 20, 10, 0},
-			{20, 35, 30, 15, 0},
-			{20,  25, 34, 20, 1},
-			{20,  20,  30, 25, 5}
+			{55, 30, 15, 0,  0},
+			{37, 40, 20, 3, 0},
+			{29, 35, 30, 6, 0},
+			{20,  35, 34, 10, 1},
+			{20,  30,  30, 15, 5}
 			/*{0, 70, 20,  8,  2},
 			{0, 25, 50, 20,  5},
 			{0, 10, 40, 40, 10},

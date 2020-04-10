@@ -365,6 +365,7 @@ public abstract class Mob extends Char {
 			boolean newPath = false;
 			//scrap the current path if it's empty, no longer connects to the current location
 			//or if it's extremely inefficient and checking again may result in a much better path
+			//不存在或者路径过长
 			if (path == null || path.isEmpty()
 					|| !Dungeon.level.adjacent(pos, path.getFirst())
 					|| path.size() > 2*Dungeon.level.distance(pos, target))
@@ -413,7 +414,14 @@ public abstract class Mob extends Char {
 				int lookAhead = (int)GameMath.gate(1, path.size()-1, 4);
 				for (int i = 0; i < lookAhead; i++) {
 					int cell = path.get(i);
+					//confirm mob's moving
+					/*
 					if (!(Dungeon.level.passable[cell] || (Dungeon.level.solid[target] && passWall)) || ( fieldOfView[cell] && Actor.findChar(cell) != null)) {
+						newPath = true;
+						break;
+					}
+					*/
+					if (!(Dungeon.level.passable[cell] || (Dungeon.level.solid[target] && passWall)) || ( Dungeon.level.adjacent(pos, cell) && Actor.findChar(cell) != null)) {
 						newPath = true;
 						break;
 					}
@@ -492,8 +500,9 @@ public abstract class Mob extends Char {
 	@Override
 	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
 		damage = super.attackProc( weapon, enemy, damage,type);
-		if (buff(Weakness.class) != null){
-			damage *= 0.67f;
+		Weakness weakness = buff(Weakness.class);
+		if (weakness != null){
+			damage *= weakness.weaknessMultiplier();
 		}
 		return damage;
 	}

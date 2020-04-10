@@ -306,6 +306,7 @@ public class WndTradeItem extends Window {
 			return;
 		}
 
+		int price = item.price();
 		item.detachAll( hero.belongings.backpack );
 		if (Dungeon.level instanceof RegularLevel && (((RegularLevel)Dungeon.level).room(hero.pos) != null)){
 			Room r = ((RegularLevel) Dungeon.level).room(hero.pos);
@@ -323,7 +324,7 @@ public class WndTradeItem extends Window {
 			}
 		}
 		
-		new Gold( item.price() ).doPickUp( hero );
+		new Gold( price ).doPickUp( hero );
 		
 		//selling items in the sell interface doesn't spend time
 		hero.spend(-hero.cooldown());

@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Amok;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
@@ -167,7 +168,7 @@ public class Bee extends Mob {
 	}
 	
 	{
-		immunities.add( new EffectType(0,EffectType.POISON) );
-		immunities.add( new EffectType(Amok.class) );
+		resistances.add( new EffectResistance(new EffectType(0,EffectType.POISON), 0) );
+		resistances.add( new EffectResistance(new EffectType(Amok.class), 0) );
 	}
 }

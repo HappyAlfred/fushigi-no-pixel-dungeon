@@ -111,12 +111,15 @@ public class CursedWand {
 							Char target = Actor.findChar(bolt.collisionPos);
 							switch (Random.Int(2)){
 								case 0:
-									if (target != null)
-										Buff.affect(target, Burning.class, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE)).reignite(target);
+									if (target != null) {
+										EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE);
+										Buff.affect(target, Burning.class, buffType).reignite(buffType);
+									}
 									Buff.affect(user, Frost.class, Frost.duration(user) * Random.Float(3f, 5f),new EffectType(EffectType.MAGICAL_BOLT,EffectType.ICE));
 									break;
 								case 1:
-									Buff.affect(user, Burning.class, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE)).reignite(user);
+									EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE);
+									Buff.affect(user, Burning.class, buffType).reignite(buffType);
 									if (target != null)
 										Buff.affect(target, Frost.class, Frost.duration(target) * Random.Float(3f, 5f), new EffectType(EffectType.MAGICAL_BOLT,EffectType.ICE));
 									break;

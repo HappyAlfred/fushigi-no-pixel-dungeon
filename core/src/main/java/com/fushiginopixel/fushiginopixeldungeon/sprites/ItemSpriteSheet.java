@@ -207,6 +207,8 @@ public class ItemSpriteSheet {
 	public static final int GREATSHIELD     = WEP_TIER4+4;
 	public static final int GAUNTLETS       = WEP_TIER4+5;
 	public static final int FUHMA_KATANA       = WEP_TIER4+6;
+	public static final int MONSTROUS_LANCE       = WEP_TIER4+7;
+	public static final int KAMAITACHI_BLADE       = WEP_TIER4+8;
 	static{
 		assignItemRect(BATTLE_AXE,      16, 16);
 		assignItemRect(WAR_HAMMER,  16, 16);
@@ -215,6 +217,8 @@ public class ItemSpriteSheet {
 		assignItemRect(GREATSHIELD, 12, 16);
 		assignItemRect(GAUNTLETS,   13, 15);
 		assignItemRect(FUHMA_KATANA,     15, 16);
+		assignItemRect(MONSTROUS_LANCE,     16, 16);
+		assignItemRect(KAMAITACHI_BLADE,     13, 15);
 	}
 
 	private static final int WEP_TIER5      =                               xy(1, 8);   //8 slots

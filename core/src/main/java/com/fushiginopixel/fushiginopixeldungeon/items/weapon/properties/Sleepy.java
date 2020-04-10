@@ -14,7 +14,7 @@ public class Sleepy extends Weapon.Enchantment {
 
     private ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xCCCCCC );
     @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+    public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
         // lvl 0 - 13%
         // lvl 1 - 22%
         // lvl 2 - 30%

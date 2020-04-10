@@ -46,9 +46,9 @@ public class Bolas extends MissileWeapon {
 	}
 	
 	@Override
-	public int proc( Char attacker, Char defender, int damage ,EffectType type ) {
+	public int procInAttack( Char attacker, Char defender, int damage ,EffectType type ) {
 		Buff.prolong( defender, Cripple.class, Cripple.DURATION, new EffectType(type.attachType,0));
-		return super.proc( attacker, defender, damage ,type);
+		return super.procInAttack( attacker, defender, damage ,type);
 	}
 
 	/*

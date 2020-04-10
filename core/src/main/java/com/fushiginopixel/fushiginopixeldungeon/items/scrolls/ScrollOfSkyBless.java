@@ -24,7 +24,6 @@ package com.fushiginopixel.fushiginopixeldungeon.items.scrolls;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
-import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
@@ -36,24 +35,27 @@ import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 import com.fushiginopixel.fushiginopixeldungeon.windows.WndBag;
 
-public class ScrollOfUpgrade extends InventoryScroll {
+public class ScrollOfSkyBless extends InventoryScroll {
 	
 	{
 		initials = 11;
-		mode = WndBag.Mode.UPGRADEABLE;
+		mode = WndBag.Mode.ALL;
 	}
 	
 	@Override
 	protected void onItemSelected( Item item ) {
 
+		/*
 		if(!item.isUpgradable()){
 			GLog.i(Messages.get(this, "nothing"));
 			return;
 		}
 		upgrade( curUser );
+		*/
 
 		//logic for telling the user when item properties change from upgrades
 		//...yes this is rather messy
+		/*
 		if (item instanceof Weapon){
 			Weapon w = (Weapon) item;
 			boolean wasCursed = w.cursed;
@@ -61,6 +63,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean hadGoodEnchant = w.hasGoodEnchant();
 
 			w.upgrade();
+
 
 			if (hadCursedEnchant && !w.hasCurseEnchant()){
 				removeCurse( Dungeon.hero );
@@ -100,8 +103,32 @@ public class ScrollOfUpgrade extends InventoryScroll {
 		} else {
 			item.upgrade();
 		}
-		
-		Badges.validateItemLevelAquired( item );
+		*/
+		if (item instanceof Weapon || item instanceof Armor){
+			boolean upgradable = item.isUpgradable();
+			boolean wasCursed = item.cursed;
+			if(!upgradable && !wasCursed){
+				GLog.i(Messages.get(this, "nothing"));
+				return;
+			}
+
+			if(upgradable) {
+				item.upgrade();
+				upgrade(curUser);
+			}
+			Badges.validateItemLevelAquired( item );
+
+			item.cursed = false;
+
+			if (wasCursed && !item.cursed){
+				weakenCurse( Dungeon.hero );
+			}
+
+		}/*else {
+			item.upgrade();
+		}
+		*/
+
 	}
 	
 	public static void upgrade( Char hero ) {
@@ -109,12 +136,12 @@ public class ScrollOfUpgrade extends InventoryScroll {
 	}
 
 	public static void weakenCurse( Char hero ){
-		GLog.p( Messages.get(ScrollOfUpgrade.class, "weaken_curse") );
+		GLog.p( Messages.get(ScrollOfSkyBless.class, "weaken_curse") );
 		hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 5 );
 	}
 
 	public static void removeCurse( Char hero ){
-		GLog.p( Messages.get(ScrollOfUpgrade.class, "remove_curse") );
+		GLog.p( Messages.get(ScrollOfSkyBless.class, "remove_curse") );
 		hero.sprite.emitter().start( ShadowParticle.UP, 0.05f, 10 );
 	}
 	

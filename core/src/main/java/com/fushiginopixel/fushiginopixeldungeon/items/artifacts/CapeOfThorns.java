@@ -90,12 +90,12 @@ public class CapeOfThorns extends Artifact {
 				}
 			}
 
-			if (cooldown != 0){
+			if (cooldown != 0 && !type.isExistAttachType(EffectType.REFLECT)){
 				int deflected = Random.NormalIntRange(0, damage);
 				damage -= deflected;
 
 				if (attacker != null && type.isExistAttachType(EffectType.MELEE)) {
-					attacker.damage(deflected, this);
+					attacker.damage(deflected, this, new EffectType(EffectType.MELEE + EffectType.REFLECT, 0));
 				}
 
 				exp+= deflected;

@@ -49,9 +49,9 @@ public class Unstable extends Weapon.Enchantment {
 	};
 
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		try {
-			return Random.oneOf(randomEnchants).newInstance().proc( weapon, attacker, defender, damage, type );
+			return Random.oneOf(randomEnchants).newInstance().procInAttack( weapon, attacker, defender, damage, type );
 		} catch (Exception e) {
 			Fushiginopixeldungeon.reportException(e);
 			return 1;

@@ -100,7 +100,8 @@ public class Fire extends Blob {
 	private void burn( int pos ) {
 		Char ch = Actor.findChar( pos );
 		if (ch != null && !ch.isImmune(this.getClass(), new EffectType(EffectType.BLOB,EffectType.FIRE))) {
-			Buff.affect( ch, Burning.class, new EffectType(EffectType.BLOB,EffectType.FIRE) ).reignite( ch );
+			EffectType buffType = new EffectType(EffectType.BLOB,EffectType.FIRE);
+			Buff.affect( ch, Burning.class, buffType ).reignite( buffType );
 		}
 		
 		Heap heap = Dungeon.level.heaps.get( pos );

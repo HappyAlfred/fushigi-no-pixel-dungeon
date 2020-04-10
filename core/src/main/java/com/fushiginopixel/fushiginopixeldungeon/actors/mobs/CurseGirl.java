@@ -82,7 +82,8 @@ public class CurseGirl extends Mob {
 		if(enemy instanceof Hero)
 			CursingTrap.curse((Hero)enemy , curseStr, false);
 		else{
-			Buff.affect(enemy , Weakness.class , curseStr * Random.NormalIntRange(5, 20), new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
+			EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK);
+			Buff.affect(enemy , Weakness.class, buffType).addUp(curseStr, buffType);
 		}
 	}
 	

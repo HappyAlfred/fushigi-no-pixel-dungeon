@@ -37,8 +37,6 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.properties.Combustab
 import com.fushiginopixel.fushiginopixeldungeon.items.food.ChargrilledMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
@@ -92,7 +90,8 @@ public class Burning extends Buff implements Hero.Doom {
 				Hero hero = (Hero)target;
 
 				if(hero.belongings.armor != null && hero.belongings.armor.hasGlyph(Combustable.class)){
-					Buff.affect(target, Burning.class, new EffectType(EffectType.BLOB,EffectType.FIRE)).reignite(target);
+					EffectType buffType = new EffectType(EffectType.BLOB,EffectType.FIRE);
+					Buff.affect(target, Burning.class, buffType).reignite(buffType);
 				}
 				
 				if (hero.belongings.armor != null && hero.belongings.armor.hasGlyph(Brimstone.class)){
@@ -110,7 +109,7 @@ public class Burning extends Buff implements Hero.Doom {
 						ArrayList<Item> burnable = new ArrayList<>();
 						//does not reach inside of containers
 						for (Item i : hero.belongings.backpack.items){
-							if ((i instanceof Scroll /*&& !(i instanceof ScrollOfUpgrade || i instanceof ScrollOfMagicalInfusion)*/)
+							if ((i instanceof Scroll /*&& !(i instanceof ScrollOfSkyBless || i instanceof ScrollOfEarthBless)*/)
 									|| i instanceof MysteryMeat){
 								burnable.add(i);
 							}
@@ -138,8 +137,7 @@ public class Burning extends Buff implements Hero.Doom {
 
 				Item item = ((Thief) target).item;
 
-				if (item instanceof Scroll &&
-						!(item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion)) {
+				if (item instanceof Scroll) {
 					target.sprite.emitter().burst( ElmoParticle.FACTORY, 6 );
 					((Thief)target).item = null;
 				} else if (item instanceof MysteryMeat) {
@@ -174,8 +172,8 @@ public class Burning extends Buff implements Hero.Doom {
 		return true;
 	}
 	
-	public void reignite( Char ch ) {
-		left = DURATION;
+	public void reignite( EffectType type ) {
+		left = modifyResist(DURATION, type );
 	}
 	
 	@Override

@@ -36,7 +36,7 @@ public class Blazing extends Weapon.Enchantment {
 	private static ItemSprite.Glowing ORANGE = new ItemSprite.Glowing( 0xFF4400 );
 	
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		/*
 		// lvl 0 - 33%
 		// lvl 1 - 50%
@@ -55,9 +55,11 @@ public class Blazing extends Weapon.Enchantment {
 		}
 		*/
 		//always ignite
-		defender.damage( 10, this, new EffectType(type.attachType,EffectType.FIRE));
+
+		defender.damage( 10, this, new EffectType(type.attachType, EffectType.FIRE));
 		defender.sprite.emitter().burst( FlameParticle.FACTORY, 3 );
-		Buff.affect( defender, Burning.class, new EffectType(type.attachType,EffectType.FIRE) ).reignite( defender );
+		EffectType buffType = new EffectType(type.attachType, EffectType.FIRE);
+		Buff.affect( defender, Burning.class, buffType ).reignite( buffType );
 
 		return 1;
 

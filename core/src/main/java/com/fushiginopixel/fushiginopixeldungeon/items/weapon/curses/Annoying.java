@@ -43,7 +43,7 @@ public class Annoying extends Weapon.Enchantment {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 
 		if (Random.Int(20) == 0) {
 			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {

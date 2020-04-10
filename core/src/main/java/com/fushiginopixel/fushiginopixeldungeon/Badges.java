@@ -412,7 +412,7 @@ public class Badges {
 		
 		// This method should be called:
 		// 1) When an item is obtained (Item.collect)
-		// 2) When an item is upgraded (ScrollOfUpgrade, ScrollOfWeaponUpgrade, ShortSword, WandOfMagicMissile)
+		// 2) When an item is upgraded (ScrollOfSkyBless, ScrollOfWeaponUpgrade, ShortSword, WandOfMagicMissile)
 		// 3) When an item is identified
 
 		// Note that artifacts should never trigger this badge as they are alternatively upgraded

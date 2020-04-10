@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.FlameParticle;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
@@ -77,8 +78,10 @@ public class FireImbue extends Buff {
 	}
 
 	public void proc(Char enemy){
-		if (Random.Int(2) == 0)
-			Buff.affect( enemy, Burning.class, new EffectType(EffectType.MELEE,EffectType.FIRE) ).reignite( enemy );
+		if (Random.Int(2) == 0) {
+			EffectType buffType = new EffectType(EffectType.MELEE,EffectType.FIRE);
+			Buff.affect(enemy, Burning.class, buffType).reignite(buffType);
+		}
 
 		enemy.sprite.emitter().burst( FlameParticle.FACTORY, 2 );
 	}
@@ -104,6 +107,7 @@ public class FireImbue extends Buff {
 	}
 
 	{
-		immunities.add( new EffectType(Burning.class) );
+		resistances.add( new EffectResistance(new EffectType(Burning.class), 0));
+		//immunities.add( new EffectType(Burning.class) );
 	}
 }

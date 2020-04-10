@@ -80,7 +80,8 @@ public class Elemental extends Mob {
 	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
 		damage = super.attackProc( weapon, enemy, damage, type );
 		if (Random.Int( 2 ) == 0) {
-			Buff.affect( enemy, Burning.class, new EffectType(type.attachType,EffectType.FIRE) ).reignite( enemy );
+			EffectType buffType = new EffectType(type.attachType,EffectType.FIRE);
+			Buff.affect( enemy, Burning.class, buffType ).reignite( buffType );
 		}
 		
 		return damage;

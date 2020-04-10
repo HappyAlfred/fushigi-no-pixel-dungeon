@@ -52,10 +52,11 @@ public class WeakeningTrap extends Trap{
 				ch.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(this, "msg_1", 1));
 				((Hero) ch).STR -= 1;
 			}
-			Buff.prolong( ch, Weakness.class, Weakness.DURATION*2f,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK) );
+			EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK);
+			Buff.affect( ch, Weakness.class, buffType ).addUp(1, buffType);
 		}else if(ch != null){
-			ch.damage( Math.max( ch.HP/2, 1), this,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK) );
-			Buff.prolong(ch, Weakness.class, Weakness.DURATION * 2f,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
+			EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK);
+			Buff.affect( ch, Weakness.class, buffType ).addUp(2, buffType);
 		}
 	}
 }

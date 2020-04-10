@@ -36,7 +36,7 @@ public class Vorpal extends Weapon.Enchantment {
 	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0xAA6666 );
 
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%

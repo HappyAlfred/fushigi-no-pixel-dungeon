@@ -81,8 +81,9 @@ public class PoisonDartTrap extends Trap {
 									if (finalTarget == Dungeon.hero && !finalTarget.isAlive()){
 										Dungeon.fail( trap.getClass() );
 									}
-									Buff.affect( finalTarget, Poison.class, new EffectType(EffectType.MISSILE,EffectType.POISON) )
-											.set( 4 + Dungeon.depth );
+									EffectType buffType = new EffectType(EffectType.MISSILE,EffectType.POISON);
+									Buff.affect( finalTarget, Poison.class, buffType )
+											.set( 4 + Dungeon.depth, buffType );
 									Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
 									finalTarget.sprite.bloodBurstA(finalTarget.sprite.center(), dmg);
 									finalTarget.sprite.flash();
@@ -95,8 +96,9 @@ public class PoisonDartTrap extends Trap {
 				});
 			} else {
 				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.totalDR(), trap, new EffectType(EffectType.MISSILE,0));
-				Buff.affect( finalTarget, Poison.class, new EffectType(EffectType.MISSILE,EffectType.POISON) )
-						.set( 4 + Dungeon.depth );
+				EffectType buffType = new EffectType(EffectType.MISSILE,EffectType.POISON);
+				Buff.affect( finalTarget, Poison.class, buffType )
+						.set( 4 + Dungeon.depth, buffType );
 			}
 		}
 	}

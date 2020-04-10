@@ -48,7 +48,7 @@ public class ToxicGas extends Blob implements Hero.Doom {
 			for (int j = area.top; j < area.bottom; j++){
 				cell = i + j*Dungeon.level.width();
 				if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
-					if (!ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB + EffectType.GAS,0))) {
+					if (!ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB + EffectType.GAS,EffectType.ASPHYXIA))) {
 
 						//float mul = 40;
 						float mul = 20 / (1 + Math.min(cur[cell] / 33.3f, 3f));
@@ -57,7 +57,7 @@ public class ToxicGas extends Blob implements Hero.Doom {
 							damage++;
 						}
 
-						ch.damage(damage, this, new EffectType(EffectType.BLOB + EffectType.GAS,0));
+						ch.damage(damage, this, new EffectType(EffectType.BLOB + EffectType.GAS,EffectType.ASPHYXIA));
 					}
 				}
 			}

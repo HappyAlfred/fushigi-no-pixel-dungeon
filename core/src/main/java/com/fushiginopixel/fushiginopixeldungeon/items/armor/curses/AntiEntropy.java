@@ -44,17 +44,18 @@ public class AntiEntropy extends Glyph {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
+	public float procSufferAttack( Armor armor, Object attacker, Char defender, int damage , EffectType type ) {
 
-		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK){
+		if (attacker != null && attacker instanceof Char){
 			if (Random.Int(8) == 0) {
 				Char at = (Char) attacker;
 				if (Dungeon.level.adjacent(at.pos, defender.pos)) {
-					Buff.prolong(at, Frost.class, Frost.duration(at) * Random.Float(0.5f, 1f), new EffectType(EffectType.MELEE, EffectType.ICE));
+					Buff.prolong(at, Frost.class, Frost.duration(at) * Random.Float(0.5f, 1f), new EffectType(type.attachType, EffectType.ICE));
 					CellEmitter.get(at.pos).start(SnowParticle.FACTORY, 0.2f, 6);
 				}
 
-				Buff.affect(defender, Burning.class, new EffectType(EffectType.MELEE, EffectType.FIRE)).reignite(defender);
+				EffectType buffType = new EffectType(type.attachType, EffectType.FIRE);
+				Buff.affect(defender, Burning.class, buffType).reignite(buffType);
 				defender.sprite.emitter().burst(FlameParticle.FACTORY, 5);
 
 			}

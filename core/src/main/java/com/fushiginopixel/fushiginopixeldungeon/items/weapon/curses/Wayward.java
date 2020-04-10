@@ -34,12 +34,6 @@ public class Wayward extends Weapon.Enchantment {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
-		//no proc effect, see weapon.accuracyFactor for effect
-		return 1;
-	}
-
-	@Override
 	public float accuracyAdapt( Weapon weapon, Char attacker ,Char target, float acc ) {
 		//no proc effect, see weapon.accuracyFactor for effect
 		return 0.5f;

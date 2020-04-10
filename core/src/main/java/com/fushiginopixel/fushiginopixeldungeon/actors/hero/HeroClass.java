@@ -25,35 +25,30 @@ import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Challenges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
-import com.fushiginopixel.fushiginopixeldungeon.items.Amulet;
 import com.fushiginopixel.fushiginopixeldungeon.items.BrokenSeal;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.TomeOfMastery;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.ClothArmor;
-import com.fushiginopixel.fushiginopixeldungeon.items.armor.GoldArmor;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.CloakOfShadows;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.PotionBandolier;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.ScrollHolder;
 import com.fushiginopixel.fushiginopixeldungeon.items.bags.VelvetPouch;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.Food;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.SpecialOnigiri;
-import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfExperience;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfHealing;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMindVision;
-import com.fushiginopixel.fushiginopixeldungeon.items.pots.PotOfFusion;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicMapping;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.fushiginopixel.fushiginopixeldungeon.items.stones.StoneOfEnchantment;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.WandOfMagicMissile;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Dagger;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Goldsword;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.KamaitachiBlade;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.Knuckles;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MagesStaff;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MonstrousLance;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.WornShortsword;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.Boomerang;
-import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.TestingShuriken;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -127,7 +122,7 @@ public enum HeroClass {
 		i = new GoldArmor();
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
-		i = new ScrollOfMagicalInfusion().quantity(20);
+		i = new ScrollOfEarthBless().quantity(20);
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		i = new PotOfFusion();
@@ -190,7 +185,7 @@ public enum HeroClass {
 
 		new ScrollHolder().collect();
 		Dungeon.LimitedDrops.SCROLL_HOLDER.drop();
-		new ScrollOfUpgrade().identify();
+		new ScrollOfSkyBless().identify();
 	}
 
 	private static void initRogue( Hero hero ) {

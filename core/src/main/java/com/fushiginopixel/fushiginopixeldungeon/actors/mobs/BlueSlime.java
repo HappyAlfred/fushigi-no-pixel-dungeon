@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
@@ -87,7 +88,7 @@ public class BlueSlime extends Slime {
 	}
 
 	{
-		immunities.add(new EffectType(0,0,Roots.class));
+		resistances.add(new EffectResistance(new EffectType(0,0,Roots.class), 0));
 	}
 
 	public void corrodeEnemy(Char enemy, int damage, EffectType type){
@@ -97,7 +98,8 @@ public class BlueSlime extends Slime {
 				corrodeEquip((Hero) enemy, corrodeStr, 1, true);
 			}else{
 				Buff.prolong(enemy, Cripple.class,corrodeStr * 5, new EffectType(type.attachType,EffectType.CORRROSION));
-				Buff.prolong(enemy, Weakness.class,corrodeStr * 5, new EffectType(type.attachType,EffectType.CORRROSION));
+				EffectType buffType = new EffectType(type.attachType,EffectType.CORRROSION);
+				Buff.affect(enemy, Weakness.class, buffType).addUp(corrodeStr, buffType);
 			}
 		}
 
@@ -108,10 +110,12 @@ public class BlueSlime extends Slime {
 		clone.generation = generation + 1;
 		clone.EXP = 0;
 		if (buff( Burning.class ) != null) {
-			Buff.affect( clone, Burning.class,new EffectType(0,EffectType.FIRE) ).reignite( clone );
+			EffectType buffType = new EffectType(0,EffectType.FIRE);
+			Buff.affect( clone, Burning.class,buffType ).reignite( buffType );
 		}
 		if (buff( Poison.class ) != null) {
-			Buff.affect( clone, Poison.class,new EffectType(0,EffectType.POISON) ).set(2);
+			EffectType buffType = new EffectType(0,EffectType.POISON);
+			Buff.affect( clone, Poison.class,buffType ).set(2, buffType);
 		}
 		if (buff(Corruption.class ) != null) {
 			Buff.affect( clone, Corruption.class,new EffectType(0,EffectType.CORRROSION));

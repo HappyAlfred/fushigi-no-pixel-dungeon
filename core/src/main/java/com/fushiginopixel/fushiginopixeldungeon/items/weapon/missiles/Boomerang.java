@@ -76,7 +76,7 @@ public class Boomerang extends MissileWeapon {
 
 	@Override
 	public boolean isUpgradable() {
-		return true;
+		return level() < 100;
 	}
 	
 	@Override

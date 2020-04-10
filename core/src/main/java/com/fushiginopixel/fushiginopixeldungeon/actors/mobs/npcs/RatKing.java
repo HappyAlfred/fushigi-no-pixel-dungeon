@@ -27,8 +27,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.quest.RatSceptre;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.stones.StoneOfEnchantment;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.PixelScene;
@@ -50,7 +49,7 @@ public class RatKing extends NPC {
 		state = SLEEPING;
 	}
 
-	//public static Item reward = new ScrollOfMagicalInfusion();
+	//public static Item reward = new ScrollOfEarthBless();
 
 	@Override
 	public int defenseSkill( Char enemy ) {
@@ -143,7 +142,7 @@ public class RatKing extends NPC {
 					}
 					tokens.detach( Dungeon.hero.belongings.backpack );
 
-					takeReward( ratKing, new ScrollOfMagicalInfusion() );
+					takeReward( ratKing, new ScrollOfEarthBless() );
 				}
 			};
 			btnReward.setRect( 0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT );

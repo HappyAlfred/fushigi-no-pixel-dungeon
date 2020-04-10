@@ -37,11 +37,11 @@ public class Affection extends Glyph {
 	private static ItemSprite.Glowing PINK = new ItemSprite.Glowing( 0xFF4488 );
 	
 	@Override
-	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
+	public float procSufferAttack( Armor armor, Object attacker, Char defender, int damage , EffectType type ) {
 
 		int level = Math.max(0, armor.level());
 
-		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
+		if (attacker != null && attacker instanceof Char) {
 			if (Random.Int(level / 2 + 100) >= 88) {
 
 				Char at = (Char) attacker;

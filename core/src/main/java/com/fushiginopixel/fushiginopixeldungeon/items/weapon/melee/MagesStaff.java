@@ -133,13 +133,14 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
+		damage = super.procInAttack(attacker, defender, damage, type);
 		if (wand != null && attacker instanceof Hero && ((Hero)attacker).subClass == HeroSubClass.BATTLEMAGE) {
 			if (wand.curCharges < 10) wand.partialCharge += 0.25f;
 			ScrollOfRecharging.charge(attacker);
 			wand.onHit(this, attacker, defender, damage, type);
 		}
-		return super.proc(attacker, defender, damage, type);
+		return damage;
 	}
 
 	@Override

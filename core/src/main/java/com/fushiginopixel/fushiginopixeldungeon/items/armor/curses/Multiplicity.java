@@ -51,61 +51,59 @@ public class Multiplicity extends Armor.Glyph {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type) {
 
-		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
-			if (Random.Int(20) == 0) {
-				Char at = (Char) attacker;
-				ArrayList<Integer> spawnPoints = new ArrayList<>();
+		if (Random.Int(20) == 0) {
+			Char at = (Char) attacker;
+			ArrayList<Integer> spawnPoints = new ArrayList<>();
 
-				for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
-					int p = defender.pos + PathFinder.NEIGHBOURS8[i];
-					if (Actor.findChar(p) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
-						spawnPoints.add(p);
-					}
+			for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
+				int p = defender.pos + PathFinder.NEIGHBOURS8[i];
+				if (Actor.findChar(p) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
+					spawnPoints.add(p);
 				}
+			}
 
-				if (spawnPoints.size() > 0) {
+			if (spawnPoints.size() > 0) {
 
-					Mob m = null;
-					if (Random.Int(2) == 0 && defender instanceof Hero) {
-						m = new MirrorImage();
-						((MirrorImage) m).duplicate((Hero) defender);
+				Mob m = null;
+				if (Random.Int(2) == 0 && defender instanceof Hero) {
+					m = new MirrorImage();
+					((MirrorImage) m).duplicate((Hero) defender);
 
+				} else {
+					//FIXME should probably have a mob property for this
+					if (at.properties().contains(Char.Property.BOSS) || at.properties().contains(Char.Property.MINIBOSS)
+							|| at instanceof Mimic || at instanceof Statue) {
+						m = Dungeon.level.createMob();
 					} else {
-						//FIXME should probably have a mob property for this
-						if (at.properties().contains(Char.Property.BOSS) || at.properties().contains(Char.Property.MINIBOSS)
-								|| at instanceof Mimic || at instanceof Statue) {
-							m = Dungeon.level.createMob();
-						} else {
-							try {
-								Actor.fixTime();
+						try {
+							Actor.fixTime();
 
-								m = (Mob) at.getClass().newInstance();
-								Bundle store = new Bundle();
-								at.storeInBundle(store);
-								m.restoreFromBundle(store);
-								m.HP = m.HT;
+							m = (Mob) at.getClass().newInstance();
+							Bundle store = new Bundle();
+							at.storeInBundle(store);
+							m.restoreFromBundle(store);
+							m.HP = m.HT;
 
-								//If a thief has stolen an item, that item is not duplicated.
-								if (m instanceof Thief) {
-									((Thief) m).item = null;
-								}
-
-							} catch (Exception e) {
-								Fushiginopixeldungeon.reportException(e);
-								m = null;
+							//If a thief has stolen an item, that item is not duplicated.
+							if (m instanceof Thief) {
+								((Thief) m).item = null;
 							}
+
+						} catch (Exception e) {
+							Fushiginopixeldungeon.reportException(e);
+							m = null;
 						}
-
-					}
-
-					if (m != null) {
-						GameScene.add(m);
-						ScrollOfTeleportation.appear(m, Random.element(spawnPoints));
 					}
 
 				}
+
+				if (m != null) {
+					GameScene.add(m);
+					ScrollOfTeleportation.appear(m, Random.element(spawnPoints));
+				}
+
 			}
 		}
 

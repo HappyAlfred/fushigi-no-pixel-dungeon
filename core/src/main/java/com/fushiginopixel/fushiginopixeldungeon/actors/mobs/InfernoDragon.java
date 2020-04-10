@@ -68,7 +68,7 @@ public class InfernoDragon extends Dragon {
 
 		properties.add(Property.FIERY);
 	}
-	
+
 	@Override
 	public int damageRoll() {
 		return Random.NormalIntRange( 60, 100 );
@@ -188,7 +188,8 @@ public class InfernoDragon extends Dragon {
 			if(ch == null) continue;
 			if (ch != null) {
 				ch.damage(Random.Int( 25, 50 ), this,new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE));
-				Buff.affect( ch, Burning.class, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE) ).reignite( ch );
+				EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT, EffectType.FIRE);
+				Buff.affect( ch, Burning.class, buffType ).reignite( buffType );
 			}
 			if (!ch.isAlive() && ch == Dungeon.hero) {
 				Dungeon.fail( getClass() );

@@ -366,9 +366,11 @@ public abstract class Wand extends Item {
 
 		super.upgrade();
 
+		/*
 		if (Random.Float() > Math.pow(0.8, level())) {
 			cursed = false;
 		}
+		*/
 
 		updateLevel();
 		//curCharges = Math.min( curCharges + 1, maxCharges );

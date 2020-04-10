@@ -25,6 +25,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.PoisonParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
@@ -37,17 +38,29 @@ public class Venomous extends Weapon.Enchantment {
 	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x4400AA );
 	
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+		/*
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
 		int level = Math.max( 0, weapon.level() );
 		
 		if (Random.Int( level + 3 ) >= 2) {
-			
-			Buff.affect( defender, Poison.class,new EffectType(type.attachType,EffectType.POISON) ).extend( ((level/2) + 1) );
-			CellEmitter.center(defender.pos).burst( PoisonParticle.SPLASH, 5 );
 
+			EffectType buffType = new EffectType(type.attachType, EffectType.POISON);
+			Buff.affect( defender, Poison.class, buffType ).extend( ((level/2) + 1), buffType );
+			CellEmitter.center(defender.pos).burst( PoisonParticle.SPLASH, 5 );
+			buffType = new EffectType(type.attachType, EffectType.POISON);
+			Buff.affect( defender, Weakness.class, buffType ).addUp( 1, buffType );
+
+		}
+		*/
+		EffectType buffType = new EffectType(type.attachType, EffectType.POISON);
+		Buff.affect( defender, Poison.class, buffType ).extend( 6, buffType );
+		CellEmitter.center(defender.pos).burst( PoisonParticle.SPLASH, 5 );
+		if(Random.Int(3) == 0) {
+			buffType = new EffectType(type.attachType, EffectType.POISON);
+			Buff.affect(defender, Weakness.class, buffType).addUp(1, buffType);
 		}
 
 		return 1;

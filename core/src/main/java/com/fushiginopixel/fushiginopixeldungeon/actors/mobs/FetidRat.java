@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.StenchGas;
@@ -91,6 +92,6 @@ public class FetidRat extends Rat {
 	}
 	
 	{
-		immunities.add( new EffectType(StenchGas.class) );
+		resistances.add( new EffectResistance(new EffectType(StenchGas.class),0) );
 	}
 }

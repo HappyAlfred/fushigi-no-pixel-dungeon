@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Amok;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
@@ -68,7 +69,7 @@ public class FallenAngel extends Mob {
 	public boolean cureInFOV = false;
 
     {
-        immunities.add(new EffectType(Corruption.class));
+        resistances.add(new EffectResistance(new EffectType(Corruption.class), 0));
     }
 
 	@Override

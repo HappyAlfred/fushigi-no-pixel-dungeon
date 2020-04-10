@@ -46,7 +46,7 @@ public class ShopGuardianRanger extends ShopGuardian {
 
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		Ballistica attack = new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE);
 		return attack.collisionPos == enemy.pos;
 	}

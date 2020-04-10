@@ -21,17 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
-import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
-import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Cripple;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
-import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
-import com.fushiginopixel.fushiginopixeldungeon.levels.traps.WeakeningTrap;
-import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
-import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.IronScorpioSprite;
-import com.fushiginopixel.fushiginopixeldungeon.sprites.ScorpioSprite;
 import com.watabou.utils.Random;
 
 public class IronScorpio extends Scorpio {

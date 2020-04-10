@@ -46,9 +46,10 @@ public class Tomahawk extends MissileWeapon {
 	}
 	
 	@Override
-	public int proc( Char attacker, Char defender, int damage,EffectType type ) {
+	public int procInAttack( Char attacker, Char defender, int damage,EffectType type ) {
+		damage = super.procInAttack( attacker, defender, damage, type );
 		Buff.affect( defender, Bleeding.class,new EffectType(type.attachType,0) ).set( damage );
-		return super.proc( attacker, defender, damage, type );
+		return damage;
 	}
 
 	/*

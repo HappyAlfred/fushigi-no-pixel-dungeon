@@ -301,7 +301,7 @@ public class Ghost extends NPC {
 						//weapon = (Weapon) Generator.wepTiers[wepTier - 1].classes[Random.chances(Generator.wepTiers[wepTier - 1].probs)].newInstance();
 						weapon = Generator.randomWeapon((Dungeon.depth / 10) + 2);
 						armor = Generator.randomArmor((Dungeon.depth / 10) + 2);
-					} while (!(weapon instanceof MeleeWeapon));
+					} while (!(weapon instanceof MeleeWeapon) || (((MeleeWeapon) weapon).cursed) || armor.cursed);
 				} catch (Exception e){
 					Fushiginopixeldungeon.reportException(e);
 					weapon = new Katana();

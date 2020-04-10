@@ -68,7 +68,8 @@ public class PoisonSpinner extends Spinner {
 	@Override
 	public void poisonAttack(Char enemy, int damage, EffectType type) {
 		if (Random.Int(2) == 0) {
-			Buff.affect(enemy, Poison.class,new EffectType(type.attachType,EffectType.POISON)).set(Random.Int(7, 11) );
+			EffectType buffType = new EffectType(type.attachType,EffectType.POISON);
+			Buff.affect(enemy, Poison.class, buffType).set(Random.Int(10, 14), buffType );
 			state = FLEEING;
 		}
 	}

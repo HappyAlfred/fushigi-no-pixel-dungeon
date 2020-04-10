@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
@@ -121,12 +122,20 @@ public class RotHeart extends Mob {
 	}
 	
 	{
+		resistances.add(new EffectResistance(new EffectType(Paralysis.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Amok.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Sleep.class), 0));
+		resistances.add(new EffectResistance(new EffectType(ToxicGas.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Terror.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Vertigo.class), 0));
+		/*
 		immunities.add( new EffectType(Paralysis.class) );
 		immunities.add( new EffectType(Amok.class) );
 		immunities.add( new EffectType(Sleep.class) );
 		immunities.add( new EffectType(ToxicGas.class) );
 		immunities.add( new EffectType(Terror.class) );
 		immunities.add( new EffectType(Vertigo.class) );
+		*/
 	}
 
 }

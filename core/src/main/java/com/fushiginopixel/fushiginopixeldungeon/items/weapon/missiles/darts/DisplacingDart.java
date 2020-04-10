@@ -40,7 +40,7 @@ public class DisplacingDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 		
 		if (!defender.properties().contains(Char.Property.IMMOVABLE)){
 			
@@ -82,6 +82,6 @@ public class DisplacingDart extends TippedDart {
 		
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

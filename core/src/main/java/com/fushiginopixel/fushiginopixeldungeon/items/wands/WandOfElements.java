@@ -92,7 +92,8 @@ public class WandOfElements extends DamageWand {
 				case (FIRE):
 					processSoulMark(ch, chargesPerCast());
 					ch.damage(damageRoll(), this, new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE));
-					Buff.affect( ch, Burning.class,new EffectType(EffectType.MAGICAL_BOLT,EffectType.FIRE) ).reignite( ch );
+					EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT, EffectType.FIRE);
+					Buff.affect( ch, Burning.class, buffType ).reignite( buffType );
 					break;
 				case(ICE):
 					if (ch.buff(Frost.class) != null) {
@@ -125,8 +126,8 @@ public class WandOfElements extends DamageWand {
 				case(WIND):
 					CellEmitter.get( ch.pos ).burst( Speck.factory( Speck.JET ), 5 );
 					processSoulMark(ch, chargesPerCast());
-					ch.damage(damage, this, new EffectType(EffectType.MAGICAL_BOLT, 0));
-					Buff.affect(ch, Vertigo.class, 5);
+					ch.damage(damage, this, new EffectType(EffectType.MAGICAL_BOLT, EffectType.AIR));
+					Buff.affect(ch, Vertigo.class, 5, new EffectType(EffectType.MAGICAL_BOLT, EffectType.AIR));
 					break;
 			}
 		} else {
@@ -161,9 +162,9 @@ public class WandOfElements extends DamageWand {
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage, EffectType type) {
 		switch (Random.Int(4)){
 			case(FIRE):
-				new Blazing().proc(staff, attacker, defender, damage, type);break;
+				new Blazing().procInAttack(staff, attacker, defender, damage, type);break;
 			case(ICE):
-				new Chilling().proc(staff, attacker, defender, damage, type);break;
+				new Chilling().procInAttack(staff, attacker, defender, damage, type);break;
 			case(EARTH): {
 				int level = Math.max(0, staff.level());
 
@@ -178,7 +179,7 @@ public class WandOfElements extends DamageWand {
 
 				if (Random.Int(level / 2 + 100) >= 88) {
 
-					Buff.prolong(defender, Vertigo.class, Random.Float(3f, 7f), new EffectType(type.attachType, 0));
+					Buff.prolong(defender, Vertigo.class, 5, new EffectType(type.attachType, EffectType.AIR));
 					CellEmitter.get( defender.pos ).burst( Speck.factory( Speck.JET ), 5 );
 
 				}break;

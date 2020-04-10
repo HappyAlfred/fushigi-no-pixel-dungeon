@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
@@ -117,7 +118,7 @@ public class King extends Mob {
 	}
 	
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		return canTryToSummon() ?
 			pos == ((CityBossLevel)Dungeon.level).pedestal( nextPedestal ) :
 			Dungeon.level.adjacent( pos, enemy.pos );
@@ -274,15 +275,21 @@ public class King extends Mob {
 	}
 	
 	{
-		resistances.add( new EffectType(0,EffectType.DARK) );
+		resistances.add( new EffectResistance(new EffectType(0,EffectType.DARK), 0.5f) );
+		resistances.add( new EffectResistance(new EffectType(Paralysis.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Vertigo.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Blindness.class), 0) );
+		resistances.add( new EffectResistance(new EffectType(Terror.class), 0) );
 	}
-	
+
+	/*
 	{
 		immunities.add( new EffectType(Paralysis.class) );
 		immunities.add( new EffectType(Vertigo.class) );
 		immunities.add( new EffectType(Blindness.class) );
 		immunities.add( new EffectType(Terror.class) );
 	}
+	*/
 	
 	public static class Undead extends Mob {
 		

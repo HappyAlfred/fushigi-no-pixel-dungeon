@@ -21,15 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
-import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
-import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
-import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfRemoveCurse;
-import com.fushiginopixel.fushiginopixeldungeon.levels.traps.CursingTrap;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CurseGirlSisterSprite;
-import com.fushiginopixel.fushiginopixeldungeon.sprites.CurseGirlSprite;
 import com.watabou.utils.Random;
 
 public class CurseGirlSister extends CurseGirl {

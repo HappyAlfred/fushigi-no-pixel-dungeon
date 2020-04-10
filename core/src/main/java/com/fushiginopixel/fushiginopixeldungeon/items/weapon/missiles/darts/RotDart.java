@@ -36,7 +36,7 @@ public class RotDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 		
 		if (defender.properties().contains(Char.Property.BOSS)
 				|| defender.properties().contains(Char.Property.MINIBOSS)){
@@ -45,7 +45,7 @@ public class RotDart extends TippedDart {
 			Buff.affect(defender, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(10f, Dungeon.depth);
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 	
 }

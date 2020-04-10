@@ -16,6 +16,8 @@ public class EffectType {
     public static final int MAGICAL_BOLT = 0b1000000;
     public static final int BEAM = 0b10000000;
     public static final int BUFF = 0b100000000;
+    public static final int REFLECT = 0b1000000000;
+    public static final int SPLIT = 0b10000000000;
 
     //effecttype
     public static final int ICE = 0b1;
@@ -26,6 +28,8 @@ public class EffectType {
     public static final int LIGHT = 0b100000;
     public static final int DARK = 0b1000000;
     public static final int SPIRIT = 0b10000000;
+    public static final int ASPHYXIA = 0b100000000;
+    public static final int AIR = 0b1000000000;
 
     //public static final int MAGICAL_AFFECT = MAGICAL_BOLT + BEAM;
     public static final ArrayList<EffectType> MAGICAL_AFFECTS = new ArrayList<>();
@@ -54,6 +58,12 @@ public class EffectType {
         this.attachType = attachType;
         this.effectType = effectType;
         this.attachClass = attachClass;
+    }
+
+    public EffectType(EffectType type){
+        this.attachType = type.attachType;
+        this.effectType = type.effectType;
+        this.attachClass = type.attachClass;
     }
 
     public boolean isExistAttachType(int type){

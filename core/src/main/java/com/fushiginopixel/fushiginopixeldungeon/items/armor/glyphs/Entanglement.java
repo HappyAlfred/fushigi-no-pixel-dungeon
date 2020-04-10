@@ -42,42 +42,39 @@ public class Entanglement extends Glyph {
 	private static ItemSprite.Glowing BROWN = new ItemSprite.Glowing( 0x663300 );
 	
 	@Override
-	public float proc(Armor armor, Object attacker, final Char defender, final int damage , EffectType type, int event ) {
+	public float procSufferAttack(Armor armor, Object attacker, final Char defender, final int damage , EffectType type) {
 
 		final int level = Math.max( 0, armor.level() );
 		
 		final int pos = defender.pos;
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			if (Random.Int(4) == 0) {
+		if (Random.Int(4) == 0) {
 
-				Actor delay = new Actor() {
+			Actor delay = new Actor() {
 
-					{
-						actPriority = HERO_PRIO + 1;
+				{
+					actPriority = HERO_PRIO + 1;
+				}
+
+				@Override
+				protected boolean act() {
+
+					Buff.affect(defender, Earthroot.Armor.class).level(4 * (level + 1));
+					CellEmitter.bottom(defender.pos).start(EarthParticle.FACTORY, 0.05f, 8);
+					Camera.main.shake(1, 0.4f);
+
+					if (defender.buff(Roots.class) != null) {
+						Buff.prolong(defender, Roots.class, 5, new EffectType(EffectType.BLOB, 0));
+					} else {
+						DelayedRoot root = Buff.append(defender, DelayedRoot.class, new EffectType(EffectType.BLOB, 0));
+						root.setup(pos);
 					}
 
-					@Override
-					protected boolean act() {
-
-						Buff.affect(defender, Earthroot.Armor.class).level(4 * (level + 1));
-						CellEmitter.bottom(defender.pos).start(EarthParticle.FACTORY, 0.05f, 8);
-						Camera.main.shake(1, 0.4f);
-
-						if (defender.buff(Roots.class) != null) {
-							Buff.prolong(defender, Roots.class, 5, new EffectType(EffectType.BLOB, 0));
-						} else {
-							DelayedRoot root = Buff.append(defender, DelayedRoot.class, new EffectType(EffectType.BLOB, 0));
-							root.setup(pos);
-						}
-
-						Actor.remove(this);
-						return true;
-					}
-				};
-				Actor.addDelayed(delay, defender.cooldown());
-
-			}
+					Actor.remove(this);
+					return true;
+				}
+			};
+			Actor.addDelayed(delay, defender.cooldown());
 		}
 
 		return 1;

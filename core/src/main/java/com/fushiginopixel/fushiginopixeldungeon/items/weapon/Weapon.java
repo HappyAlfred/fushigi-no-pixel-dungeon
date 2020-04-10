@@ -51,9 +51,11 @@ import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Shocki
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Stunning;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Vampiric;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.enchantments.Venomous;
+import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Penetrate;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Vorpal;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.Assassination;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.BalanceAttack;
+import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.scenes.GameScene;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
@@ -66,6 +68,8 @@ import com.watabou.utils.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 abstract public class Weapon extends KindOfWeapon {
 
@@ -227,18 +231,53 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	@Override
-	public int proc( Char attacker, Char defender, int damage, EffectType type ) {
+	public boolean procBeforeAttack( Char attacker, Char defender, boolean attackProcess, EffectType type ) {
 
+		ArrayList<Enchantment> allEn = new ArrayList();
+		allEn.addAll(properties);
+		allEn.addAll(enchantment);
+		Collections.sort(allEn, new Comparator<Enchantment>(){
+					@Override
+					public int compare( Enchantment lhs, Enchantment rhs ) {
+						return lhs.priorityBeforeAttack() - rhs.priorityBeforeAttack();
+					}
+				}
+		);
+		for(Enchantment e : allEn){
+			attackProcess &= e.procBeforeAttack(this, attacker, defender, attackProcess, type);
+		}
+
+		return attackProcess;
+	}
+
+	@Override
+	public int procInAttack( Char attacker, Char defender, int damage, EffectType type ) {
+
+		/*
 		if (!properties.isEmpty()) {
 			for(Enchantment e : properties){
-				damage *= e.proc(this, attacker, defender, damage, type);
+				damage *= e.procInAttack(this, attacker, defender, damage, type);
 			}
 		}
 
 		if (enchantmentCount() != 0) {
 			for(Enchantment e : enchantment){
-				damage *= e.proc(this, attacker, defender, damage, type);
+				damage *= e.procInAttack(this, attacker, defender, damage, type);
 			}
+		}
+		*/
+		ArrayList<Enchantment> allEn = new ArrayList();
+		allEn.addAll(properties);
+		allEn.addAll(enchantment);
+		Collections.sort(allEn, new Comparator<Enchantment>(){
+			@Override
+			public int compare( Enchantment lhs, Enchantment rhs ) {
+				return lhs.priorityInAttack() - rhs.priorityInAttack();
+			}
+		}
+		);
+		for(Enchantment e : allEn){
+			damage *= e.procInAttack(this, attacker, defender, damage, type);
 		}
 
 		//Evan's code is SHIT
@@ -381,6 +420,14 @@ abstract public class Weapon extends KindOfWeapon {
                 return true;
             }
         }
+		if(hasEnchant(Penetrate.class)){
+			if (Dungeon.level.distance( attacker.pos, defender.pos ) <= reachFactor(attacker)) {
+				Ballistica atk = new Ballistica(attacker.pos, defender.pos, Ballistica.STOP_TERRAIN);
+				if (atk.subPath(1, atk.dist).contains(defender.pos)) {
+					return true;
+				}
+			}
+		}
         /*
         if (Dungeon.level.distance( attacker.pos, defender.pos ) <= reachFactor(attacker)){
 
@@ -416,7 +463,7 @@ abstract public class Weapon extends KindOfWeapon {
 			enchant();
 		}
 		
-		cursed = false;
+		//cursed = false;
 		
 		return super.upgrade();
 	}
@@ -468,6 +515,7 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 	
 	public Weapon enchant( Enchantment ench ) {
+		/*
 		if (!canEnchant(null)) {
 			GLog.i(Messages.get(this, "full_enchantment"));
 		}
@@ -475,6 +523,10 @@ abstract public class Weapon extends KindOfWeapon {
 			GLog.i(Messages.get(this, "has_enchantment"));
 		}
 		else{
+			enchantment.add(ench);
+		}
+		*/
+		if (canEnchant(ench.getClass())) {
 			enchantment.add(ench);
 		}
 		return this;
@@ -640,8 +692,28 @@ abstract public class Weapon extends KindOfWeapon {
 		public boolean canCriticalAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type){
 			return false;
 		}
+
+		/*
+		attack-prevent-type enchantments first:0
+		 */
+		public int priorityBeforeAttack(){
+			return 1;
+		}
+
+		public boolean procBeforeAttack( Weapon weapon, Char attacker, Char defender, boolean process, EffectType type ){
+			return true;
+		}
+
+		/*
+		damage-modify-type enchantments first:0
+		 */
+		public int priorityInAttack(){
+			return 1;
+		}
 			
-		public abstract float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type );
+		public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ){
+			return 1f;
+		}
 
 		public String name() {
 			if (!curse())
@@ -703,7 +775,9 @@ abstract public class Weapon extends KindOfWeapon {
 			curse = bundle.getBoolean(CURSE);
 		}
 		
-		public abstract ItemSprite.Glowing glowing();
+		public ItemSprite.Glowing glowing(){
+			return new ItemSprite.Glowing( 0x111111);
+		}
 		
 		@SuppressWarnings("unchecked")
 		public static Enchantment random() {

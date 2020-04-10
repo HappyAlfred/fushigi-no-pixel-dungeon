@@ -27,7 +27,8 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.SparkParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.mechanics.Ballistica;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.CharSprite;
@@ -73,7 +74,7 @@ public class Shaman extends Mob implements Callback {
 	}
 	
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
 	}
 	
@@ -94,10 +95,12 @@ public class Shaman extends Mob implements Callback {
 			spend( TIME_TO_ZAP );
 			
 			if (hit( this, null, enemy, true )) {
-				int dmg = Random.NormalIntRange(1, 60);
+				int dmg = Random.NormalIntRange(1, 50);
+				/*
 				if (Dungeon.level.water[enemy.pos] && !enemy.flying) {
 					dmg *= 1.5f;
 				}
+				*/
 				enemy.damage( dmg, this ,new EffectType(EffectType.MAGICAL_BOLT,EffectType.ELETRIC));
 				
 				enemy.sprite.centerEmitter().burst( SparkParticle.FACTORY, 3 );
@@ -124,7 +127,7 @@ public class Shaman extends Mob implements Callback {
 	public Item createLoot(){
 		Item loot = super.createLoot();
 
-		if (loot instanceof ScrollOfUpgrade){
+		if (loot instanceof ScrollOfSkyBless || loot instanceof ScrollOfEarthBless){
 
 			return null;
 

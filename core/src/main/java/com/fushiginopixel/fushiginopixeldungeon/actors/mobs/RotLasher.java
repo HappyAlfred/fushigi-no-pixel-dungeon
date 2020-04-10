@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
@@ -111,7 +112,8 @@ public class RotLasher extends Mob {
 	}
 	
 	{
-		immunities.add( new EffectType(EffectType.GAS,0) );
+		resistances.add(new EffectResistance(new EffectType(EffectType.GAS, 0), 0));
+		//immunities.add( new EffectType(EffectType.GAS,0) );
 	}
 
 	private class Waiting extends Mob.Wandering{}

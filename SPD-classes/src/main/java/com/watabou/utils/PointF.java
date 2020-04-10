@@ -54,7 +54,7 @@ public class PointF {
 	public PointF clone() {
 		return new PointF( this );
 	}
-	
+	//caution: should be used with new PointF
 	public PointF scale( float f ) {
 		this.x *= f;
 		this.y *= f;

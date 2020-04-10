@@ -23,13 +23,8 @@ package com.fushiginopixel.fushiginopixeldungeon.items.potions;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Bleeding;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Cripple;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Healing;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Poison;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
-import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.utils.GLog;
 

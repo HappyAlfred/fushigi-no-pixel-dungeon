@@ -11,11 +11,6 @@ import com.watabou.utils.Random;
 public class Critical extends Weapon.Enchantment {
 
     private ItemSprite.Glowing RED = new ItemSprite.Glowing( 0xAA0000 );
-    @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
-
-        return 1f;
-    }
 
     @Override
     public boolean canCriticalAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {

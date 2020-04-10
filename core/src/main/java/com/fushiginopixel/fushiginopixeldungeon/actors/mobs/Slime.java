@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
@@ -111,7 +112,7 @@ public class Slime extends Mob {
 	}
 
 	{
-		immunities.add(new EffectType(0,0,Roots.class));
+		resistances.add(new EffectResistance(new EffectType(0,0,Roots.class), 0));
 	}
 
 	private float partialRec = 0;
@@ -145,13 +146,14 @@ public class Slime extends Mob {
 	}
 
 	public void corrodeEnemy(Char enemy, int damage, EffectType type){
-		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f, 2);
+		Buff.affect(enemy, Corrosion.class, new EffectType(type.attachType,EffectType.CORRROSION)).set(2f, corrodeStr * 2);
 		if(Random.Int(3) == 0){
 			if(enemy instanceof Hero) {
 				corrodeEquip((Hero) enemy, corrodeStr, 1, false);
 			}else{
 				Buff.prolong(enemy, Cripple.class,corrodeStr * 5, new EffectType(type.attachType,EffectType.CORRROSION));
-				Buff.prolong(enemy, Weakness.class,corrodeStr * 5, new EffectType(type.attachType,EffectType.CORRROSION));
+				EffectType buffType = new EffectType(type.attachType,EffectType.CORRROSION);
+				Buff.affect(enemy, Weakness.class,buffType).addUp(corrodeStr, buffType);
 			}
 		}
 
@@ -336,10 +338,12 @@ public class Slime extends Mob {
 		clone.generation = generation + 1;
 		clone.EXP = 0;
 		if (buff( Burning.class ) != null) {
-			Buff.affect( clone, Burning.class,new EffectType(0,EffectType.FIRE) ).reignite( clone );
+			EffectType buffType = new EffectType(0, EffectType.FIRE);
+			Buff.affect( clone, Burning.class, buffType ).reignite( buffType );
 		}
 		if (buff( Poison.class ) != null) {
-			Buff.affect( clone, Poison.class,new EffectType(0,EffectType.POISON) ).set(2);
+			EffectType buffType = new EffectType(0, EffectType.POISON);
+			Buff.affect( clone, Poison.class, buffType).set(2, buffType);
 		}
 		if (buff(Corruption.class ) != null) {
 			Buff.affect( clone, Corruption.class,new EffectType(0,EffectType.CORRROSION));

@@ -44,8 +44,8 @@ public class ConfusionGas extends Blob {
 			for (int j = area.top; j < area.bottom; j++){
 				cell = i + j*Dungeon.level.width();
 				if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
-					if (!ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB,0))) {
-						Buff.prolong(ch, Vertigo.class, 2,new EffectType(EffectType.BLOB,0));
+					if (!ch.isImmune(this.getClass(),new EffectType(EffectType.BLOB,EffectType.AIR))) {
+						Buff.prolong(ch, Vertigo.class, 2,new EffectType(EffectType.BLOB,EffectType.AIR));
 					}
 				}
 			}

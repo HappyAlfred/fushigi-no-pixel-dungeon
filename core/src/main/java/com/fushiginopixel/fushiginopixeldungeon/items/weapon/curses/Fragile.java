@@ -36,7 +36,7 @@ public class Fragile extends Weapon.Enchantment {
 	private int hits = -1;
 
 	@Override
-	public float proc( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack( Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		//degrades from 100% to 25% damage over 150 hits
 		if (hits < 150) hits++;
 		return (1f - hits*0.005f);

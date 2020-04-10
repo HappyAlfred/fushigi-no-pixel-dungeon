@@ -23,18 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Charm;
-import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Dragon;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.DeathEye;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.FallenAngel;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Lich;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Shaman;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Warlock;
-import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Yog;
 import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
-import com.fushiginopixel.fushiginopixeldungeon.levels.traps.DisintegrationTrap;
-import com.fushiginopixel.fushiginopixeldungeon.levels.traps.GrimTrap;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
 
 import java.util.HashSet;
@@ -66,11 +55,9 @@ public class AntiMagic extends Armor.Glyph {
 	}
 	
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
-		if(event == Armor.EVENT_BEFORE_DAMAGE){
-			if(EffectType.isExistType(type, RESISTSTYPE)){
-				return 0.5f;
-			}
+	public float procBeforeDamage(Armor armor, Object attacker, Char defender, int damage, EffectType type ) {
+		if(EffectType.isExistType(type, RESISTSTYPE)){
+			return 0.5f;
 		}
 		return 1;
 	}

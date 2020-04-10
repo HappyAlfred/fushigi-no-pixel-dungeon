@@ -90,7 +90,7 @@ public class RatMinister extends Rat {
 	*/
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		if (canTryToSummon())
 				return true;
 		else{

@@ -34,7 +34,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.Armor;
 import com.fushiginopixel.fushiginopixeldungeon.items.quest.DarkGold;
 import com.fushiginopixel.fushiginopixeldungeon.items.quest.Pickaxe;
 import com.fushiginopixel.fushiginopixeldungeon.items.rings.Ring;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -76,7 +76,7 @@ public class Blacksmith extends NPC {
 		if (!Quest.given) {
 			
 			GameScene.show( new WndQuest( this,
-				Quest.alternative ? Messages.get(this, "blood_1") : Messages.get(this, "gold_1") ) {
+				Quest.alternative && Dungeon.depth < 24 ? Messages.get(this, "blood_1") : Messages.get(this, "gold_1") ) {
 				
 				@Override
 				public void onBackPressed() {
@@ -240,7 +240,7 @@ public class Blacksmith extends NPC {
 		//}
 
 		Sample.INSTANCE.play( Assets.SND_EVOKE );
-		ScrollOfUpgrade.upgrade( Dungeon.hero );
+		ScrollOfSkyBless.upgrade( Dungeon.hero );
 		Item.evoke( Dungeon.hero );
 		
 		if (first.isEquipped( Dungeon.hero )) {

@@ -49,6 +49,7 @@ public class ShopGuardian extends Mob {
 
 		EXP = 0;
 		state = WANDERING;
+		properties.add(Property.INORGANIC);
 
 	}
 

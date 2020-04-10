@@ -36,7 +36,7 @@ public class Dazzling extends Weapon.Enchantment {
 	private static ItemSprite.Glowing YELLOW = new ItemSprite.Glowing( 0xFFFF00 );
 
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 		// lvl 0 - 20%
 		// lvl 1 - 33%
 		// lvl 2 - 43%

@@ -75,7 +75,7 @@ public class Warlock extends Mob implements Callback {
 	}
 	
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
 	}
 	
@@ -103,7 +103,8 @@ public class Warlock extends Mob implements Callback {
 		
 		if (hit( this, null, enemy, true )) {
 			if (enemy == Dungeon.hero && Random.Int( 2 ) == 0) {
-				Buff.prolong( enemy, Weakness.class, Weakness.DURATION );
+				EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK);
+				Buff.affect( enemy, Weakness.class, buffType ).addUp(1, buffType);
 			}
 			
 			int dmg = Random.Int( 25, 45 );
@@ -139,9 +140,5 @@ public class Warlock extends Mob implements Callback {
 		}
 
 		return loot;
-	}
-
-	{
-		resistances.add( new EffectType(Grim.class) );
 	}
 }

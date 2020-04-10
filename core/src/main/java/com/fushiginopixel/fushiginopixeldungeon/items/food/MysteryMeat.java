@@ -59,18 +59,22 @@ public class MysteryMeat extends Food {
 
 	public static void effect(Char hero){
 		switch (Random.Int( 5 )) {
-			case 0:
-				GLog.w( Messages.get(MysteryMeat.class, "hot") );
-				Buff.affect( hero, Burning.class,new EffectType(EffectType.INSIDE,EffectType.FIRE) ).reignite( hero );
+			case 0: {
+				GLog.w(Messages.get(MysteryMeat.class, "hot"));
+				EffectType buffType = new EffectType(EffectType.INSIDE, EffectType.FIRE);
+				Buff.affect(hero, Burning.class, buffType).reignite(buffType);
 				break;
+			}
 			case 1:
 				GLog.w( Messages.get(MysteryMeat.class, "legs") );
 				Buff.prolong( hero, Roots.class, Paralysis.DURATION, new EffectType(EffectType.INSIDE,0) );
 				break;
-			case 2:
-				GLog.w( Messages.get(MysteryMeat.class, "not_well") );
-				Buff.affect( hero, Poison.class,new EffectType(EffectType.INSIDE,EffectType.POISON) ).set( hero.HT / 5 );
+			case 2: {
+				GLog.w(Messages.get(MysteryMeat.class, "not_well"));
+				EffectType buffType = new EffectType(EffectType.INSIDE, EffectType.POISON);
+				Buff.affect(hero, Poison.class, buffType).set(hero.HT / 5, buffType);
 				break;
+			}
 			case 3:
 				GLog.w( Messages.get(MysteryMeat.class, "stuffed") );
 				Buff.prolong( hero, Slow.class, Slow.DURATION, new EffectType(EffectType.INSIDE,0) );

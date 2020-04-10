@@ -40,33 +40,34 @@ import com.watabou.utils.Random;
 public class Viscosity extends Glyph {
 	
 	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x8844CC );
+
+	public int prioritySufferAttack(){
+		return 0;
+	}
 	
 	@Override
-	public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ) {
+	public float procSufferAttack( Armor armor, Object attacker, Char defender, int damage , EffectType type ) {
 
 		//FIXME this glyph should really just proc after DR is accounted for.
 		//should build in functionality for that, but this works for now
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			int realDamage = damage - Random.NormalIntRange(armor.min(), armor.max());
+		int realDamage = damage - Random.NormalIntRange(armor.min(), armor.max());
 
-			if (realDamage <= 0) {
-				return 0;
-			}
-
-			int level = Math.max(0, armor.level());
-
-			float percent = (level + 1) / (float) (level + 6);
-			int amount = (int) Math.ceil(realDamage * percent);
-
-			DeferedDamage deferred = Buff.affect(defender, DeferedDamage.class);
-			deferred.prolong(amount);
-
-			defender.sprite.showStatus(CharSprite.WARNING, Messages.get(this, "deferred", amount));
-
-			return ((float) (damage - amount)) / damage;
+		if (realDamage <= 0) {
+			return 0;
 		}
-		return 1f;
+
+		int level = Math.max(0, armor.level());
+
+		float percent = (level + 1) / (float) (level + 6);
+		int amount = (int) Math.ceil(realDamage * percent);
+
+		DeferedDamage deferred = Buff.affect(defender, DeferedDamage.class);
+		deferred.prolong(amount);
+
+		defender.sprite.showStatus(CharSprite.WARNING, Messages.get(this, "deferred", amount));
+
+		return ((float) (damage - amount)) / damage;
 	}
 
 	@Override

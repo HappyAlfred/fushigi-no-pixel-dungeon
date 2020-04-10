@@ -42,22 +42,20 @@ public class Overgrowth extends Armor.Glyph {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 	
 	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type) {
 
-		if (event == Armor.EVENT_SUFFER_ATTACK) {
-			if (Random.Int(20) == 0) {
+		if (Random.Int(20) == 0) {
 
-				Plant.Seed s;
-				do {
-					s = (Plant.Seed) Generator.random(Generator.Category.SEED);
-				} while (s instanceof BlandfruitBush.Seed || s instanceof Starflower.Seed);
+			Plant.Seed s;
+			do {
+				s = (Plant.Seed) Generator.random(Generator.Category.SEED);
+			} while (s instanceof BlandfruitBush.Seed || s instanceof Starflower.Seed);
 
-				Plant p = s.couch(defender.pos, null);
+			Plant p = s.couch(defender.pos, null);
 
-				p.activate();
-				CellEmitter.get(defender.pos).burst(LeafParticle.LEVEL_SPECIFIC, 10);
+			p.activate();
+			CellEmitter.get(defender.pos).burst(LeafParticle.LEVEL_SPECIFIC, 10);
 
-			}
 		}
 		
 		return 1;

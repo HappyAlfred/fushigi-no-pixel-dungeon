@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.plants;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfLevitation;
@@ -39,7 +40,7 @@ public class Stormvine extends Plant {
 		Char ch = Actor.findChar(pos);
 
 		if (ch != null) {
-			Buff.affect(ch, Vertigo.class, Vertigo.DURATION );
+			Buff.affect(ch, Vertigo.class, Vertigo.DURATION, new EffectType(0, EffectType.AIR) );
 		}
 	}
 

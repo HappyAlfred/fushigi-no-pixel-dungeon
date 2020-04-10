@@ -22,11 +22,14 @@
 package com.fushiginopixel.fushiginopixeldungeon.levels.rooms.secret;
 
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfEarthBless;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.stones.StoneOfEnchantment;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Level;
 import com.fushiginopixel.fushiginopixeldungeon.levels.Terrain;
 import com.fushiginopixel.fushiginopixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 
 public class SecretRunestoneRoom extends SecretRoom {
 	
@@ -66,7 +69,12 @@ public class SecretRunestoneRoom extends SecretRoom {
 		do{
 			dropPos = level.pointToCell(random());
 		} while (level.map[dropPos] != Terrain.EMPTY_SP);
-		level.drop( new StoneOfEnchantment(), dropPos);
+		if(Random.Int(2) == 0) {
+			level.drop(new ScrollOfSkyBless(), dropPos);
+		}else{
+			level.drop(new ScrollOfEarthBless(), dropPos);
+		}
+		Painter.set(level, dropPos, Terrain.EMPTY_DECO);
 		
 		entrance.set(Door.Type.HIDDEN);
 	}

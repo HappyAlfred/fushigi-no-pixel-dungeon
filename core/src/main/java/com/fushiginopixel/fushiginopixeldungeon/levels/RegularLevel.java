@@ -198,11 +198,11 @@ public abstract class RegularLevel extends Level {
 		switch(Dungeon.depth) {
 			case 1:
 				//mobs are not randomly spawned on floor 1.
-				return 0;
+				return 5  + Random.Int(5);
 			default:
 				//more deeper ,more monster!
 				//return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(Dungeon.depth % 10) + Random.Int(5);
-				return 2 + Random.Int(Dungeon.depth / 10) + Random.Int(5);
+				return 5 + Random.Int(Dungeon.depth / 10) + Random.Int(5);
 		}
 	}
 	

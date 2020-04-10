@@ -310,7 +310,8 @@ public class Dungeon {
         */
 		level = mode.newLevel(depth);
 
-        level.create();
+        level.
+				create();
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
 		

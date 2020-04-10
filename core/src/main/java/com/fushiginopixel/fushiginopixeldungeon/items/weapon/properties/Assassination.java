@@ -12,12 +12,6 @@ public class Assassination extends Weapon.Enchantment{
     private ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x111111 );
 
     @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type) {
-
-        return 1;
-    }
-
-    @Override
     public String desc(Weapon weapon) {
         int factor = Math.round(minFactor(weapon) * 100);
         return Messages.get(this, "desc" , factor);

@@ -61,9 +61,11 @@ public class ScrollOfOnigiri extends InventoryScroll {
 			if (!((EquipableItem) item).doUnequip(Dungeon.hero, false))
 				return;
 			*/
-			((EquipableItem) item).unEquip(Dungeon.hero);
+			item.cursed = false;
+			((EquipableItem) item).doUnequip(Dungeon.hero, false);
+		}else{
+			item.detachAll(curUser.belongings.backpack);
 		}
-		item.detachAll(curUser.belongings.backpack);
 
 		Item onigiri = new Item();
 		if(Random.Int(100) < 12){

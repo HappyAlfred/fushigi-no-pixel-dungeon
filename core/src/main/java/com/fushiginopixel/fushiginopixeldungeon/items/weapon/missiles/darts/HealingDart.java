@@ -37,7 +37,7 @@ public class HealingDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 		
 		//heals 30 hp at base, scaling with enemy HT
 		Buff.affect( defender, Healing.class, new EffectType(type.attachType,0) ).setHeal((int)(0.5f*defender.HT + 30), 0.333f, 0);
@@ -46,7 +46,7 @@ public class HealingDart extends TippedDart {
 			return 0;
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 	
 }

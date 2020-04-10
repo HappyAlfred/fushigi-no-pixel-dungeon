@@ -68,7 +68,7 @@ public class WandOfLightning extends DamageWand {
 		//lightning deals less damage per-target, the more targets that are hit.
 		float multipler = 0.4f + (0.6f/affected.size());
 		//if the main target is in water, all affected take full damage
-		if (Dungeon.level.water[bolt.collisionPos]) multipler = 1f;
+		//if (Dungeon.level.water[bolt.collisionPos]) multipler = 1f;
 
 		int min = 5 + level();
 		int max = 10 + 6*level();
@@ -92,7 +92,7 @@ public class WandOfLightning extends DamageWand {
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage, EffectType type) {
 		//acts like shocking enchantment
-		new Shocking().proc(staff, attacker, defender, damage, type);
+		new Shocking().procInAttack(staff, attacker, defender, damage, type);
 	}
 
 	private void arc( Char ch ) {

@@ -28,7 +28,7 @@ import com.fushiginopixel.fushiginopixeldungeon.items.armor.glyphs.Balance;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.Blandfruit;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfPurity;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfSkyBless;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.Weapon;
 import com.fushiginopixel.fushiginopixeldungeon.items.weapon.properties.BalanceAttack;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
@@ -61,7 +61,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		weapon.augment = augment;
 		useAnimation();
-		ScrollOfUpgrade.upgrade(curUser);
+		ScrollOfSkyBless.upgrade(curUser);
 		
 	}
 	
@@ -69,7 +69,7 @@ public class StoneOfAugmentation extends InventoryStone {
 		
 		armor.augment = augment;
 		useAnimation();
-		ScrollOfUpgrade.upgrade(curUser);
+		ScrollOfSkyBless.upgrade(curUser);
 	}*/
 	
 	@Override

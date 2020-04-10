@@ -127,10 +127,12 @@ public class Swarm extends Mob {
 		clone.generation = generation + 1;
 		clone.EXP = 0;
 		if (buff( Burning.class ) != null) {
-			Buff.affect( clone, Burning.class,new EffectType(0,EffectType.FIRE) ).reignite( clone );
+			EffectType buffType = new EffectType(0, EffectType.FIRE);
+			Buff.affect( clone, Burning.class, buffType ).reignite( buffType );
 		}
 		if (buff( Poison.class ) != null) {
-			Buff.affect( clone, Poison.class,new EffectType(0,EffectType.POISON) ).set(2);
+			EffectType buffType = new EffectType(0, EffectType.POISON);
+			Buff.affect( clone, Poison.class, buffType ).set(2, buffType);
 		}
 		if (buff(Corruption.class ) != null) {
 			Buff.affect( clone, Corruption.class,new EffectType(0,EffectType.CORRROSION));

@@ -57,12 +57,12 @@ public class Poison extends Buff implements Hero.Doom {
 		left = bundle.getFloat( LEFT );
 	}
 	
-	public void set( float duration ) {
-		this.left = Math.max(duration, left);
+	public void set( float duration, EffectType type ) {
+		this.left = Math.max(modifyResist(duration, type), left);
 	}
 
-	public void extend( float duration ) {
-		this.left += duration;
+	public void extend( float duration, EffectType type ) {
+		this.left += modifyResist(duration, type);
 	}
 	
 	@Override

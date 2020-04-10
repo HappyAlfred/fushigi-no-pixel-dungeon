@@ -11,12 +11,6 @@ public class FirstStrike extends Weapon.Enchantment{
 
     private ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x111111 );
 
-    @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
-
-        return 1;
-    }
-
 
     @Override
     public float accuracyAdapt( Weapon weapon, Char attacker ,Char target, float acc ) {
@@ -40,10 +34,6 @@ public class FirstStrike extends Weapon.Enchantment{
     @Override
     public ItemSprite.Glowing glowing() {
         return BLACK;
-    }
-
-    public static float strikeFactor(Weapon weapon){
-        return 1.5f;
     }
 
 

@@ -24,6 +24,7 @@ package com.fushiginopixel.fushiginopixeldungeon.items.armor;
 import com.fushiginopixel.fushiginopixeldungeon.Assets;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Burning;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Roots;
@@ -43,7 +44,8 @@ public class MageArmor extends ClassArmor {
 		
 		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
 			if (Dungeon.level.heroFOV[mob.pos]) {
-				Buff.affect( mob, Burning.class ).reignite( mob );
+				EffectType buffType = new EffectType(0, EffectType.FIRE);
+				Buff.affect( mob, Burning.class, buffType ).reignite(buffType );
 				Buff.prolong( mob, Roots.class, 3 );
 			}
 		}

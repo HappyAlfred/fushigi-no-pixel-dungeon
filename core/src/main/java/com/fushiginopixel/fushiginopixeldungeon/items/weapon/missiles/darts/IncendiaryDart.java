@@ -50,9 +50,10 @@ public class IncendiaryDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc( Char attacker, Char defender, int damage,EffectType type ) {
-		Buff.affect( defender, Burning.class, new EffectType(type.attachType,EffectType.FIRE) ).reignite( defender );
-		return super.proc( attacker, defender, damage, type );
+	public int procInAttack( Char attacker, Char defender, int damage,EffectType type ) {
+		EffectType buffType = new EffectType(type.attachType, EffectType.FIRE);
+		Buff.affect( defender, Burning.class, buffType ).reignite( buffType );
+		return super.procInAttack( attacker, defender, damage, type );
 	}
 	
 }

@@ -40,14 +40,16 @@ public class ShockingDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 
-		int shockingDamage;
+		int shockingDamage = Random.NormalIntRange(1, 30);
+		/*
 		if (Dungeon.level.map[defender.pos] == Terrain.WATER) {
 			shockingDamage = Random.NormalIntRange(1, 60);
 		}else{
 			shockingDamage = Random.NormalIntRange(1, 20);
 		}
+		*/
 		defender.damage(shockingDamage, this, new EffectType(type.attachType, EffectType.ELETRIC));
 		//defender.damage(Random.NormalIntRange(8, 12), this, new EffectType(type.attachType,EffectType.ELETRIC));
 		
@@ -59,6 +61,6 @@ public class ShockingDart extends TippedDart {
 			s.parent.add(new Lightning(arcs, null));
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

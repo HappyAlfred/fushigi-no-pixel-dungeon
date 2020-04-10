@@ -546,7 +546,7 @@ public class DriedRose extends Artifact {
 		}
 		
 		@Override
-		protected boolean canAttack(Char enemy) {
+		public boolean canAttack(Char enemy) {
 			if (rose != null && rose.weapon != null) {
 				return Dungeon.level.distance(pos, enemy.pos) <= rose.weapon.reachFactor(this);
 			} else {
@@ -584,7 +584,7 @@ public class DriedRose extends Artifact {
 		@Override
 		public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type) {
 			if (rose != null && rose.weapon != null) {
-				damage = rose.weapon.proc( this, enemy, damage ,type );
+				damage = rose.weapon.procInAttack( this, enemy, damage ,type );
 			}
 			damage = super.attackProc( weapon, enemy, damage, type);
 			return damage;
@@ -593,7 +593,7 @@ public class DriedRose extends Artifact {
 		@Override
 		public int defenseProc(Char enemy, int damage, EffectType type ) {
 			if (rose != null && rose.armor != null) {
-				return rose.armor.proc( enemy, this, damage ,type, Armor.EVENT_SUFFER_ATTACK);
+				return rose.armor.procSufferAttack( enemy, this, damage ,type);
 			} else {
 				return super.defenseProc(enemy, damage, type);
 			}
@@ -617,13 +617,13 @@ public class DriedRose extends Artifact {
 			}
 			*/
 			if (rose != null && rose.armor != null && isAlive()) {
-				dmg = rose.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
+				dmg = rose.armor.procBeforeDamage( src, this, dmg, type );
 			}
 
 			int damage = super.damage( dmg, src ,type);
 
 			if (rose != null && rose.armor != null && isAlive()) {
-				rose.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
+				rose.armor.procAfterDamage( src, this, dmg, type );
 			}
 			return damage;
 		}
@@ -731,9 +731,9 @@ public class DriedRose extends Artifact {
 			//immunities.add( ToxicGas.class );
 			//immunities.add( CorrosiveGas.class );
 			//immunities.add( Burning.class );
-			immunities.add( new EffectType(ScrollOfPsionicBlast.class) );
-			immunities.add( new EffectType(ScrollOfSelfDestruct.class) );
-			immunities.add( new EffectType(Corruption.class) );
+			//immunities.add( new EffectType(ScrollOfPsionicBlast.class) );
+			//immunities.add( new EffectType(ScrollOfSelfDestruct.class) );
+			//immunities.add( new EffectType(Corruption.class) );
 		}
 		
 		private class Wandering extends Mob.Wandering {

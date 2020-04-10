@@ -23,6 +23,7 @@ package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Blindness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Buff;
@@ -76,8 +77,9 @@ public class Lich extends Skeleton {
 	}*/
 
 	{
+		resistances.add(new EffectResistance(new EffectType(Corruption.class), 0));
 		//immunities.add(new EffectType(Corruption.class));
-		immunities.add(new EffectType(0,EffectType.DARK));
+		//immunities.add(new EffectType(0,EffectType.DARK));
 	}
 
 	@Override
@@ -99,7 +101,7 @@ public class Lich extends Skeleton {
 
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		return new Ballistica( pos, enemy.pos, Ballistica.MAGIC_BOLT).collisionPos == enemy.pos;
 	}
 
@@ -131,7 +133,11 @@ public class Lich extends Skeleton {
 			switch (flag) {
 				case(0) :Buff.prolong(enemy, Blindness.class, 10f,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));break;
 				case(1) :Buff.prolong(enemy, Slow.class, 10f,new EffectType(EffectType.MAGICAL_BOLT,EffectType.SPIRIT));break;
-				case(2) :Buff.prolong(enemy, Weakness.class, 10f,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));break;
+				case(2) : {
+					EffectType buffType = new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK);
+					Buff.affect(enemy, Weakness.class, buffType).addUp(1, buffType);
+					break;
+				}
 				case(3) :{new FlavourBuff(){
 								{actPriority = VFX_PRIO;}
 								public boolean act() {

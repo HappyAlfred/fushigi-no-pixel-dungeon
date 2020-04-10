@@ -169,8 +169,12 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public int defenseFactor( Char owner ) {
 		return 0;
 	}
+
+	public boolean procBeforeAttack( Char attacker, Char defender, boolean attackProcess, EffectType type ) {
+		return attackProcess;
+	}
 	
-	public int proc( Char attacker, Char defender, int damage, EffectType type ) {
+	public int procInAttack( Char attacker, Char defender, int damage, EffectType type ) {
 		return damage;
 	}
 

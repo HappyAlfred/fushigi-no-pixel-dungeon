@@ -26,6 +26,7 @@ import com.fushiginopixel.fushiginopixeldungeon.Badges;
 import com.fushiginopixel.fushiginopixeldungeon.Dungeon;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Actor;
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
@@ -163,7 +164,7 @@ public class Tengu extends Mob {
 	}
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	public boolean canAttack( Char enemy ) {
 		return new Ballistica( pos, enemy.pos, Ballistica.PROJECTILE).collisionPos == enemy.pos;
 	}
 
@@ -284,8 +285,7 @@ public class Tengu extends Mob {
 	
 	{
 		//resistances.add( ToxicGas.class );
-		resistances.add( new EffectType(EffectType.GAS,0) );
-		resistances.add( new EffectType(0,EffectType.POISON) );
+		resistances.add( new EffectResistance(new EffectType(0,EffectType.POISON), 0.5f));
 	}
 
 	private final String PROGRESS = "progress";

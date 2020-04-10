@@ -12,8 +12,12 @@ public class Thumping extends Weapon.Enchantment {
 
     private ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x111111 );
 
+    public int priorityInAttack(){
+        return 0;
+    }
+
     @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+    public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
         if(defender instanceof Mob){
             if(defender.properties().contains(Char.Property.INORGANIC)){

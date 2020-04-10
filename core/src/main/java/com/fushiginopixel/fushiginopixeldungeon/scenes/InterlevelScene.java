@@ -431,6 +431,12 @@ public class InterlevelScene extends PixelScene {
 		Dungeon.switchLevel( level, level.entrance );
 	}
 
+	public static void switchLevel(){
+
+		Game.switchScene( InterlevelScene.class );
+
+	}
+
 	protected void beforeSwitch(){
 		switch (mode) {
 			case DESCEND:

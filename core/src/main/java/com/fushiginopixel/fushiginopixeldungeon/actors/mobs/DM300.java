@@ -103,12 +103,14 @@ public class DM300 extends Mob {
 	@Override
 	public int attackProc(KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
 		damage = super.attackProc( weapon, enemy, damage, type );
-		int lDamage;
+		int lDamage = Random.NormalIntRange(1, 30);
+		/*
 		if (Dungeon.level.map[enemy.pos] == Terrain.WATER) {
 			lDamage = Random.NormalIntRange(1, 90);
 		}else{
 			lDamage = Random.NormalIntRange(1, 30);
 		}
+		*/
 		enemy.damage(lDamage, this, new EffectType(type.attachType, EffectType.ELETRIC));
 
 		ArrayList<Lightning.Arc> arcs = new ArrayList<>();

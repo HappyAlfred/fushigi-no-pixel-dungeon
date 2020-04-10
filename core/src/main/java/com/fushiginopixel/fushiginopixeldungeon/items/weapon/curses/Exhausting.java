@@ -38,10 +38,11 @@ public class Exhausting extends Weapon.Enchantment {
 	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
 
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
+	public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
 
 		if (attacker == Dungeon.hero && Random.Int(15) == 0) {
-			Buff.affect(attacker, Weakness.class, Random.NormalIntRange(5, 20), new EffectType(0,EffectType.DARK));
+			EffectType buffType = new EffectType(0, 0);
+			Buff.affect(attacker, Weakness.class, buffType).addUp(1, buffType);
 		}
 
 		return 1;

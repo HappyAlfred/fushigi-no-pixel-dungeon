@@ -22,6 +22,7 @@
 package com.fushiginopixel.fushiginopixeldungeon.actors.mobs;
 
 import com.fushiginopixel.fushiginopixeldungeon.actors.Char;
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Web;
@@ -80,7 +81,8 @@ public class Spinner extends Mob {
 
 	public void poisonAttack(Char enemy, int damage, EffectType type) {
 		if (Random.Int(2) == 0) {
-			Buff.affect(enemy, Poison.class,new EffectType(type.attachType,EffectType.POISON)).set(Random.Int(2, 4) );
+			EffectType buffType = new EffectType(type.attachType, EffectType.POISON);
+			Buff.affect(enemy, Poison.class, buffType).set(Random.Int(7, 11), buffType );
 			state = FLEEING;
 		}
 	}
@@ -103,11 +105,8 @@ public class Spinner extends Mob {
 	}
 
 	{
-		resistances.add(new EffectType(0,EffectType.POISON));
-	}
-	
-	{
-		immunities.add(new EffectType(Web.class));
+		resistances.add(new EffectResistance(new EffectType(0,EffectType.POISON), 0.5f));
+		resistances.add(new EffectResistance(new EffectType(Web.class), 0));
 	}
 
 	private class Fleeing extends Mob.Fleeing {

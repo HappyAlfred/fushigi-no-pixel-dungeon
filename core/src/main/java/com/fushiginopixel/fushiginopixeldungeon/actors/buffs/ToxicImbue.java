@@ -21,6 +21,7 @@
 
 package com.fushiginopixel.fushiginopixeldungeon.actors.buffs;
 
+import com.fushiginopixel.fushiginopixeldungeon.actors.EffectResistance;
 import com.fushiginopixel.fushiginopixeldungeon.actors.EffectType;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.Blob;
 import com.fushiginopixel.fushiginopixeldungeon.actors.blobs.ToxicGas;
@@ -92,7 +93,7 @@ public class ToxicImbue extends Buff {
 	}
 
 	{
-		immunities.add( new EffectType(ToxicGas.class) );
-		immunities.add( new EffectType(Poison.class) );
+		resistances.add(new EffectResistance(new EffectType(ToxicGas.class), 0));
+		resistances.add(new EffectResistance(new EffectType(Poison.class), 0));
 	}
 }

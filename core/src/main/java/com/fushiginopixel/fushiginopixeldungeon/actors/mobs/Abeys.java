@@ -97,7 +97,7 @@ public class Abeys extends Mob {
 
             int dmg = Random.Int( 10, 50 );
             ch.damage( dmg, this ,new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
-            Buff.affect(ch, Blindness.class, 5);
+            Buff.affect(ch, Blindness.class, 5, new EffectType(EffectType.MAGICAL_BOLT,EffectType.DARK));
 
             if (!ch.isAlive() && ch == Dungeon.hero) {
                 Dungeon.fail( getClass() );

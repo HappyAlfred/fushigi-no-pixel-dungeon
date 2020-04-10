@@ -31,28 +31,20 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mimic;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Wraith;
 import com.fushiginopixel.fushiginopixeldungeon.effects.CellEmitter;
-import com.fushiginopixel.fushiginopixeldungeon.effects.Flare;
 import com.fushiginopixel.fushiginopixeldungeon.effects.Speck;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ElmoParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.FlameParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.ShadowParticle;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.Artifact;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.DriedRose;
-import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bomb;
 import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Bombs;
-import com.fushiginopixel.fushiginopixeldungeon.items.bombs.Firework;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.ChargrilledMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.FrozenCarpaccio;
 import com.fushiginopixel.fushiginopixeldungeon.items.food.MysteryMeat;
 import com.fushiginopixel.fushiginopixeldungeon.items.journal.DocumentPage;
 import com.fushiginopixel.fushiginopixeldungeon.items.potions.Potion;
-import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfMight;
-import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
 import com.fushiginopixel.fushiginopixeldungeon.items.pots.Pot;
-import com.fushiginopixel.fushiginopixeldungeon.items.rings.RingOfWealth;
 import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.Scroll;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.fushiginopixel.fushiginopixeldungeon.items.wands.Wand;
 import com.fushiginopixel.fushiginopixeldungeon.messages.Messages;
 import com.fushiginopixel.fushiginopixeldungeon.sprites.ItemSprite;
@@ -63,7 +55,6 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -228,7 +219,8 @@ public class Heap implements Bundlable {
 		if (type == Type.MIMIC) {
 			Mimic m = Mimic.spawnAt( pos, items );
 			if (m != null) {
-				Buff.affect( m, Burning.class, new EffectType(EffectType.BLOB,EffectType.FIRE) ).reignite( m );
+				EffectType buffType = new EffectType(EffectType.BLOB, EffectType.FIRE);
+				Buff.affect( m, Burning.class, buffType ).reignite( buffType );
 				m.sprite.emitter().burst( FlameParticle.FACTORY, 5 );
 				destroy();
 			}
@@ -243,7 +235,7 @@ public class Heap implements Bundlable {
 		
 		for (Item item : items.toArray( new Item[0] )) {
 			if (item instanceof Scroll
-					/*&& !(item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion)*/) {
+					/*&& !(item instanceof ScrollOfSkyBless || item instanceof ScrollOfEarthBless)*/) {
 				items.remove( item );
 				burnt = true;
 			} else if (item instanceof Dewdrop) {

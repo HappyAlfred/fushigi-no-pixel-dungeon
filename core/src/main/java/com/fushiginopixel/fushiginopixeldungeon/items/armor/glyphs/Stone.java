@@ -30,10 +30,14 @@ public class Stone extends Armor.Glyph {
 
 	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x222222 );
 
-	@Override
-	public float proc(Armor armor, Object attacker, Char defender, int damage, EffectType type, int event ) {
+	public int prioritySufferAttack(){
+		return 0;
+	}
 
-		if (attacker != null && attacker instanceof Char && event == Armor.EVENT_SUFFER_ATTACK) {
+	@Override
+	public float procSufferAttack(Armor armor, Object attacker, Char defender, int damage, EffectType type ) {
+
+		if (attacker != null && attacker instanceof Char) {
 			Char at = (Char) attacker;
 			testing = true;
 			float evasion = defender.totalDefenseSkill(at);

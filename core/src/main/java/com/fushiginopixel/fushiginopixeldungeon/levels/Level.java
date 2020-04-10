@@ -41,16 +41,12 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroClass;
 import com.fushiginopixel.fushiginopixeldungeon.actors.mobs.Mob;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.FlowParticle;
 import com.fushiginopixel.fushiginopixeldungeon.effects.particles.WindParticle;
-import com.fushiginopixel.fushiginopixeldungeon.items.Generator;
 import com.fushiginopixel.fushiginopixeldungeon.items.Heap;
 import com.fushiginopixel.fushiginopixeldungeon.items.Item;
 import com.fushiginopixel.fushiginopixeldungeon.items.Stylus;
 import com.fushiginopixel.fushiginopixeldungeon.items.Torch;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.DriedRose;
 import com.fushiginopixel.fushiginopixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.fushiginopixel.fushiginopixeldungeon.items.food.SpecialOnigiri;
-import com.fushiginopixel.fushiginopixeldungeon.items.potions.PotionOfStrength;
-import com.fushiginopixel.fushiginopixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.Chasm;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.Door;
 import com.fushiginopixel.fushiginopixeldungeon.levels.features.HighGrass;
@@ -181,7 +177,7 @@ public abstract class Level implements Bundlable {
 			}
 
 			/*if (Dungeon.souNeeded()) {
-				addItemToSpawn( new ScrollOfUpgrade() );
+				addItemToSpawn( new ScrollOfSkyBless() );
 				Dungeon.LimitedDrops.UPGRADE_SCROLLS.count++;
 			}*/
 			if (Dungeon.asNeeded()) {
@@ -608,6 +604,7 @@ public abstract class Level implements Bundlable {
 		cleanWalls();
 	}
 
+	//return non-closed field, which cannot enter
 	protected void cleanWalls() {
 		discoverable = new boolean[length()];
 
@@ -841,7 +838,8 @@ public abstract class Level implements Bundlable {
 			plant.trigger();
 		}
 	}
-	
+
+	//update somebody's sight
 	public void updateFieldOfView( Char c, boolean[] fieldOfView ) {
 
 		int cx = c.pos % width();
@@ -973,7 +971,7 @@ public abstract class Level implements Bundlable {
 
 	//Pointf used for dungeonTilemap
 	public int pointFToCell( PointF p ){
-		PointF p1 = p.invScale(DungeonTilemap.SIZE);
+		PointF p1 = new PointF(p).invScale(DungeonTilemap.SIZE);
 		Point point = new Point((int)p1.x,(int) p1.y);
 		return pointToCell(point );
 	}

@@ -42,7 +42,9 @@ public class RingOfWealth extends Ring {
 	}
 	
 	public static float dropChanceMultiplier( Char target ){
-		return (float)Math.pow(1.15, getBonus(target, Wealth.class));
+		if(getBonus(target, Wealth.class) < 6) {
+			return (float) Math.pow(1.15, getBonus(target, Wealth.class));
+		}else return 2.5f;
 	}
 	
 	public static ArrayList<Item> tryRareDrop(Char target, int tries ){

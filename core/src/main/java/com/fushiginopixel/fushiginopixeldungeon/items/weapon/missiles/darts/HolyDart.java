@@ -34,7 +34,7 @@ public class HolyDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc(Char attacker, Char defender, int damage, EffectType type) {
+	public int procInAttack(Char attacker, Char defender, int damage, EffectType type) {
 		
 		Buff.affect(defender, Bless.class, 20f, new EffectType(type.attachType,0));
 		
@@ -42,6 +42,6 @@ public class HolyDart extends TippedDart {
 			return 0;
 		}
 		
-		return super.proc(attacker, defender, damage, type);
+		return super.procInAttack(attacker, defender, damage, type);
 	}
 }

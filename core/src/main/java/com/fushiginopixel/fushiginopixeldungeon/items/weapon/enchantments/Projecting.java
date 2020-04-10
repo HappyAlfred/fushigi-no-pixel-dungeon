@@ -31,13 +31,6 @@ public class Projecting extends Weapon.Enchantment {
 	private static ItemSprite.Glowing GREY = new ItemSprite.Glowing( 0x888888 );
 
 	@Override
-	public float proc(Weapon weapon, Char attacker, Char defender, int damage , EffectType type ) {
-		//Does nothing as a proc, instead increases weapon range.
-		//See weapon.reachFactor, and MissileWeapon.throwPos;
-		return 1;
-	}
-
-	@Override
 	public ItemSprite.Glowing glowing() {
 		return GREY;
 	}

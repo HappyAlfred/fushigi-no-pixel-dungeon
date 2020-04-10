@@ -53,6 +53,7 @@ import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Preparation;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Slow;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Speed;
 import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Vertigo;
+import com.fushiginopixel.fushiginopixeldungeon.actors.buffs.Weakness;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Belongings;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.Hero;
 import com.fushiginopixel.fushiginopixeldungeon.actors.hero.HeroSubClass;
@@ -98,6 +99,7 @@ import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -249,6 +251,7 @@ public abstract class Char extends Actor {
 		if(attackWithItem && item != null && item instanceof KindOfWeapon){
             weapon = (KindOfWeapon) item;
         }
+		if (!beforeAttack(weapon, enemy, type)) return false;
 		
 		if (hit( this, weapon, enemy, false )) {
 			
@@ -336,6 +339,12 @@ public abstract class Char extends Actor {
 			return false;
 			
 		}
+	}
+
+	public boolean beforeAttack(KindOfWeapon weapon, Char enemy, EffectType type){
+		if(weapon != null) {
+			return weapon.procBeforeAttack(this, enemy, true, type);
+		}else return true;
 	}
 
 	public boolean canCriticalAttack(KindOfWeapon weapon, Char enemy, int damage, EffectType type){
@@ -469,13 +478,13 @@ public abstract class Char extends Actor {
 	public int attackProc( KindOfWeapon weapon, Char enemy, int damage, EffectType type ) {
 		//KindOfWeapon wep = belongings.weapon;
 
-		if (weapon != null) damage = weapon.proc( this, enemy, damage ,type );
+		if (weapon != null) damage = weapon.procInAttack( this, enemy, damage ,type );
 		return damage;
 	}
 	
 	public int defenseProc( Char enemy, int damage, EffectType type  ) {
 		if (belongings.armor != null) {
-			damage = belongings.armor.proc( enemy, this, damage, type, Armor.EVENT_SUFFER_ATTACK );
+			damage = belongings.armor.procSufferAttack( enemy, this, damage, type );
 		}
 
 		Earthroot.Armor armor = buff( Earthroot.Armor.class );
@@ -509,10 +518,10 @@ public abstract class Char extends Actor {
 			dmg = thorns.proc(dmg, (src instanceof Char ? (Char)src : null),  this, type);
 		}
 
-		dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
+		//dmg = (int)Math.ceil(dmg * RingOfTenacity.damageMultiplier( this ));
 
 		if (belongings.armor != null && isAlive()) {
-			dmg = belongings.armor.proc( src, this, dmg, type, Armor.EVENT_BEFORE_DAMAGE );
+			dmg = belongings.armor.procBeforeDamage( src, this, dmg, type);
 		}
 
 		if (!isAlive() || dmg < 0) {
@@ -529,10 +538,12 @@ public abstract class Char extends Actor {
 		}
 		
 		Class<?> srcClass = src.getClass();
+		float res = 1f;
 		if (isImmune( srcClass,type )) {
 			dmg = 0;
 		} else {
-			dmg = Math.round( dmg * resist( srcClass,type ));
+            res = resist( srcClass,type );
+			dmg = Math.round( dmg * res);
 		}
 		
 		if (buff( Paralysis.class ) != null) {
@@ -549,7 +560,7 @@ public abstract class Char extends Actor {
 			SHLD = 0;
 		}
 		
-		sprite.showStatus( HP > HT / 2 ?
+		sprite.showStatus( HP > HT / 2 || res > 1 ?
 			CharSprite.WARNING :
 			CharSprite.NEGATIVE,
 			Integer.toString( dmg ) );
@@ -557,7 +568,7 @@ public abstract class Char extends Actor {
 		if (HP < 0) HP = 0;
 
 		if (belongings.armor != null && isAlive()) {
-			belongings.armor.proc( src, this, dmg, type, Armor.EVENT_AFTER_DAMAGE );
+			belongings.armor.procAfterDamage( src, this, dmg, type );
 		}
 
 		if (!isAlive()) {
@@ -632,7 +643,7 @@ public abstract class Char extends Actor {
 		return false;
 	}
 
-	protected boolean canAttack(Char enemy){
+	public boolean canAttack(Char enemy){
 		if (enemy == null || pos == enemy.pos)
 			return false;
 
@@ -803,11 +814,12 @@ public abstract class Char extends Actor {
 		next();
 	}
 	
-	protected final HashSet<EffectType> resistances = new HashSet<>();
+	protected final ArrayList<EffectResistance> resistances = new ArrayList<>();
 	
 	//returns percent effectiveness after resistances
 	//TODO currently resistances reduce effectiveness by a static 50%, and do not stack.
 	public float resist( Class srcClass,EffectType effect ){
+		/*
 		HashSet<EffectType> resists = new HashSet<>(resistances);
 
 		effect.attachClass = srcClass;
@@ -817,28 +829,45 @@ public abstract class Char extends Actor {
 		for (Buff b : buffs()){
 			resists.addAll(b.resistances());
 		}
-		
+
 		float result = 1f;
 
 		if(EffectType.isExistType(effect,resists)){
 			result *= 0.5f;
 		}
-		/*
-		for (Class c : resists){
-			if (c.isAssignableFrom(effect)){
-				result *= 0.5f;
-			}
-		}*/
 
 		result *= RingOfElements.resist(this, srcClass) * RingOfTenacity.resist(this,srcClass);
+		*/
+		ArrayList<EffectResistance> resists = new ArrayList<>(resistances);
+		effect.attachClass = srcClass;
+		float result = 1f;
+
+		for (Property p : properties()){
+			resists.addAll(p.resistances());
+		}
+
+		for (Buff b : buffs()){
+			resists.addAll(b.resistances());
+		}
+
+		for(EffectResistance ef : resists){
+			if(EffectType.isExistType(effect, ef.effect))
+				result *= ef.multiplier;
+		}
+
+		if(effect.isExistEffectType(EffectType.ELETRIC) && !flying && Dungeon.level.water[pos]){
+		    result *= 2f;
+        }
+		result *= RingOfElements.resist(this, effect) * RingOfTenacity.resist(this,effect);
 
 		return result;
 	}
 	
-	protected final HashSet<EffectType> immunities = new HashSet<>();
+	//protected final HashSet<EffectType> immunities = new HashSet<>();
 	
 	public boolean isImmune(Class srcClass,EffectType effect ){
 
+		/*
 		effect.attachClass = srcClass;
 		HashSet<EffectType> immunes = new HashSet<>(immunities);
 		for (Property p : properties()){
@@ -850,12 +879,9 @@ public abstract class Char extends Actor {
 		if(EffectType.isExistType(effect,immunes)){
 			return true;
 		}
-		/*for (Class c : immunes){
-			if (c.isAssignableFrom(effect)){
-				return true;
-			}
-		}*/
 		return false;
+		*/
+		return resist(srcClass, effect) <= 0;
 	}
 
 	protected HashSet<Property> properties = new HashSet<>();
@@ -865,46 +891,61 @@ public abstract class Char extends Actor {
 	}
 
 	public enum Property{
-		BOSS ( new HashSet<EffectType>( Arrays.asList(new EffectType(Grim.class),new EffectType(ScrollOfSelfDestruct.class))),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(Corruption.class) ))),
-		MINIBOSS ( new HashSet<EffectType>(),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(Corruption.class) ))),
-		UNDEAD (new HashSet<EffectType>(), new HashSet<EffectType>(Arrays.asList(new EffectType(Grim.class),new EffectType(EffectType.BEAM,0,DeathEye.class),new EffectType(GrimTrap.class)))),
-		DEMONIC,
-		INORGANIC ( new HashSet<EffectType>(),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(Bleeding.class), new EffectType(EffectType.GAS,0), new EffectType(0,EffectType.POISON)) )),
-		BLOB_IMMUNE ( new HashSet<EffectType>(),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(EffectType.BLOB,0) ))),
-		FIERY ( new HashSet<EffectType>( Arrays.asList(new EffectType(EffectType.FIRE,0))),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(Burning.class)))),
-		ACIDIC ( new HashSet<EffectType>(),
-				new HashSet<EffectType>( Arrays.asList(new EffectType(0,EffectType.CORRROSION)))),
-		ELECTRIC ( new HashSet<EffectType>( Arrays.asList(new EffectType(0,EffectType.ELETRIC))),
-				new HashSet<EffectType>()),
-		MACHANIC ( new HashSet<EffectType>(Arrays.asList(new EffectType(EffectType.BURST,0))),
-				new HashSet<EffectType>(Arrays.asList(new EffectType(0,EffectType.SPIRIT)))),
-		ANGEL ( new HashSet<EffectType>( Arrays.asList(new EffectType(0,EffectType.LIGHT))),
-				new HashSet<EffectType>()),
+		BOSS ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(Grim.class), 0.25f),
+				new EffectResistance(new EffectType(ScrollOfSelfDestruct.class), 0.25f),
+                new EffectResistance(new EffectType(Weakness.class), 0.5f),
+				new EffectResistance(new EffectType(0,EffectType.ASPHYXIA), 0.25f),
+				new EffectResistance(new EffectType(Corruption.class), 0)))),
+		MINIBOSS ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(Corruption.class), 0)))),
+		UNDEAD (new HashSet<>(Arrays.asList(
+				new EffectResistance(new EffectType(Grim.class), 0),
+				new EffectResistance(new EffectType(EffectType.BEAM,0,DeathEye.class), 0),
+				new EffectResistance(new EffectType(GrimTrap.class), 0),
+				new EffectResistance(new EffectType(0,EffectType.ASPHYXIA), 0),
+				new EffectResistance(new EffectType(0, EffectType.LIGHT), 1.333f)))),
+		DEMONIC(new HashSet<>(Arrays.asList(
+				new EffectResistance(new EffectType(0, EffectType.DARK), 0.5f),
+				new EffectResistance(new EffectType(0, EffectType.LIGHT), 1.333f)))),
+		INORGANIC ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(Bleeding.class), 0),
+				new EffectResistance(new EffectType(EffectType.GAS,0), 0),
+				new EffectResistance(new EffectType(0,EffectType.POISON), 0)))),
+		BLOB_IMMUNE ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(EffectType.BLOB,0), 0)))),
+		FIERY ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(EffectType.FIRE,0), 0.5f),
+				new EffectResistance(new EffectType(Burning.class), 0)))),
+		ACIDIC ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(0,EffectType.CORRROSION), 0)))),
+		ELECTRIC ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(0,EffectType.ELETRIC), 0)))),
+		MACHANIC ( new HashSet<>(Arrays.asList(
+				new EffectResistance(new EffectType(0,EffectType.SPIRIT), 0)))),
+		ANGEL ( new HashSet<>( Arrays.asList(
+				new EffectResistance(new EffectType(0,EffectType.LIGHT), 0.5f)))),
 		IMMOVABLE;
 
-		private HashSet<EffectType> resistances;
-		private HashSet<EffectType> immunities;
+		private HashSet<EffectResistance> resistances;
+		//private HashSet<EffectType> immunities;
 		
 		Property(){
-			this(new HashSet<EffectType>(), new HashSet<EffectType>());
+			this(new HashSet<EffectResistance>());
 		}
 		
-		Property( HashSet<EffectType> resistances, HashSet<EffectType> immunities){
+		Property( HashSet<EffectResistance> resistances){
 			this.resistances = resistances;
-			this.immunities = immunities;
+			//this.immunities = immunities;
 		}
 		
-		public HashSet<EffectType> resistances(){
+		public HashSet<EffectResistance> resistances(){
 			return new HashSet<>(resistances);
 		}
-		
+		/*
 		public HashSet<EffectType> immunities(){
 			return new HashSet<>(immunities);
 		}
+		*/
 	}
 }

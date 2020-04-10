@@ -34,9 +34,9 @@ public class ParalyticDart extends TippedDart {
 	}
 	
 	@Override
-	public int proc( Char attacker, Char defender, int damage ,EffectType type) {
+	public int procInAttack( Char attacker, Char defender, int damage ,EffectType type) {
 		Buff.prolong( defender, Paralysis.class, 5f,new EffectType(type.attachType,EffectType.POISON) );
-		return super.proc( attacker, defender, damage ,type );
+		return super.procInAttack( attacker, defender, damage ,type );
 	}
 	
 }

@@ -71,6 +71,8 @@ import com.watabou.utils.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Armor extends EquipableItem {
 
@@ -439,7 +441,7 @@ public class Armor extends EquipableItem {
 			inscribe();
 		}
 
-		cursed = false;
+		//cursed = false;
 
 		if (seal != null && seal.level() == 0)
 			seal.upgrade();
@@ -452,16 +454,40 @@ public class Armor extends EquipableItem {
 	public static final int EVENT_AFTER_DAMAGE = 2;
 	public static final int EVENT_DEATH = 3;
 	
-	public int proc(Object attacker, Char defender, int damage, EffectType type, int event) {
+	public int procSufferAttack(Object attacker, Char defender, int damage, EffectType type) {
 
+		/*
 		for(Glyph e : properties){
-			damage *= e.proc(this, attacker, defender, damage, type, event);
+			damage *= e.procSufferAttack(this, attacker, defender, damage, type);
 		}
 		for(Glyph e : glyph){
-			damage *= e.proc(this, attacker, defender, damage, type, event);
+			damage *= e.procSufferAttack(this, attacker, defender, damage, type);
 		}
 		
-		if (event == EVENT_SUFFER_ATTACK && !levelKnown) {
+		if (!levelKnown) {
+			if (--hitsToKnow <= 0) {
+				identify();
+				GLog.w( Messages.get(Armor.class, "identify") );
+				Badges.validateItemLevelAquired( this );
+			}
+		}
+		*/
+
+		ArrayList<Glyph> allEn = new ArrayList();
+		allEn.addAll(properties);
+		allEn.addAll(glyph);
+		Collections.sort(allEn, new Comparator<Glyph>(){
+					@Override
+					public int compare( Glyph lhs, Glyph rhs ) {
+						return lhs.prioritySufferAttack() - rhs.prioritySufferAttack();
+					}
+				}
+		);
+		for(Glyph e : allEn){
+			damage *= e.procSufferAttack(this, attacker, defender, damage, type);
+		}
+
+		if (!levelKnown) {
 			if (--hitsToKnow <= 0) {
 				identify();
 				GLog.w( Messages.get(Armor.class, "identify") );
@@ -469,6 +495,30 @@ public class Armor extends EquipableItem {
 			}
 		}
 		
+		return damage;
+	}
+
+	public int procBeforeDamage(Object attacker, Char defender, int damage, EffectType type) {
+
+		for(Glyph e : properties){
+			damage *= e.procBeforeDamage(this, attacker, defender, damage, type);
+		}
+		for(Glyph e : glyph){
+			damage *= e.procBeforeDamage(this, attacker, defender, damage, type);
+		}
+
+		return damage;
+	}
+
+	public int procAfterDamage(Object attacker, Char defender, int damage, EffectType type) {
+
+		for(Glyph e : properties){
+			e.procAfterDamage(this, attacker, defender, damage, type);
+		}
+		for(Glyph e : glyph){
+			e.procAfterDamage(this, attacker, defender, damage, type);
+		}
+
 		return damage;
 	}
 
@@ -784,9 +834,23 @@ public class Armor extends EquipableItem {
 				AntiEntropy.class, Corrosion.class, Displacement.class, Metabolism.class,
 				Multiplicity.class, Stench.class, Overgrowth.class, Bulk.class
 		};
+
+		/*
+		damage-modify-type glyph first:0
+		 */
+		public int prioritySufferAttack(){
+			return 1;
+		}
 			
-		public float proc( Armor armor, Object attacker, Char defender, int damage , EffectType type, int event ){
+		public float procSufferAttack( Armor armor, Object attacker, Char defender, int damage , EffectType type ){
 			return 1f;
+		};
+
+		public float procBeforeDamage( Armor armor, Object attacker, Char defender, int damage , EffectType type ){
+			return 1f;
+		};
+
+		public void procAfterDamage( Armor armor, Object attacker, Char defender, int damage , EffectType type ){
 		};
 
         public float evasionFactor( Armor armor, Char attacker, Char defender, float evasion){
@@ -844,7 +908,9 @@ public class Armor extends EquipableItem {
 			curse = bundle.getBoolean(CURSE);
 		}
 		
-		public abstract ItemSprite.Glowing glowing();
+		public ItemSprite.Glowing glowing(){
+			return new ItemSprite.Glowing( 0x111111 );
+		}
 
 		@SuppressWarnings("unchecked")
 		public static Glyph random() {

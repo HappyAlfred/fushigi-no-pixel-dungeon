@@ -10,7 +10,7 @@ public class Beheading extends Weapon.Enchantment {
 
     private ItemSprite.Glowing RED = new ItemSprite.Glowing( 0xAA0000 );
     @Override
-    public float proc(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
+    public float procInAttack(Weapon weapon, Char attacker, Char defender, int damage, EffectType type ) {
 
         if(((float)defender.HP / defender.HT) <= 0.2f && damage > 0) {
             float damFactor = Math.max(damage, defender.HT);
