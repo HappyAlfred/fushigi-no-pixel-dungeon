@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.fushiginopixel.fushiginopixeldungeon"
 	android:versionCode="276"
-	android:versionName="1.41"
+	android:versionName="1.4.1"
 	android:installLocation="auto">
 
 	<uses-sdk
